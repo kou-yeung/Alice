@@ -37,7 +37,7 @@ public class Sample : MonoBehaviour
     {
         public override void Begin(Sample owner)
         {
-            owner.Para(
+            owner.Parallel(
                 () => owner.OnPlaybackEnd(),
                 (cb) => owner._Task(5, cb),
                 (cb) => owner._Task(4, cb),
@@ -69,37 +69,23 @@ public class Sample : MonoBehaviour
         machine.AddState(State.Command, new CommandState());
         machine.AddState(State.Playback, new PlaybackState());
         machine.AddState(State.TurnEnd, new TurnEndState());
-        machine.ChangeState(State.Command);
+        //machine.ChangeState(State.Command);
 
         // 並列
-        //Para(
-        //    ()=> Debug.Log("End!!"),
-        //    (cb) => _Task(5, cb),
-        //    (cb) => _Task(4, cb),
-        //    (cb) => _Task(2, cb),
-        //    (cb) => _Task(3, cb)
-        //    );
+        Parallel(
+            () => Debug.Log("Parallel End!!"),
+            (cb) => _Task(5, cb),
+            (cb) => _Task(4, cb),
+            (cb) => _Task(2, cb),
+            (cb) => _Task(3, cb));
 
-        WF(
-            () => Debug.Log("End!!"),
+        Waterflow(
+            () => Debug.Log("Waterflow End!!"),
             (cb) => _Task(1, cb),
             (cb) => _Task(4, cb),
             (cb) => _Task(2, cb),
             (cb) => _Task(3, cb));
-        //Observable
-        //    .WhenAll
-        //    (
-        //        Observable.FromCoroutine(() => Task(3)),
-        //        Observable.FromCoroutine(() => Task(2)),
-        //        Observable.FromCoroutine(() => Task(4))
-        //    ).Subscribe(_ => Debug.Log("End"));
 
-        //// 直列
-        //Observable
-        //    .FromCoroutine(() => Task(3))
-        //    .SelectMany(() => Task(2))
-        //    .SelectMany(() => Task(4))
-        //    .Subscribe(_ => Debug.Log("End"));
     }
 
     // Update is called once per frame
@@ -141,44 +127,36 @@ public class Sample : MonoBehaviour
         o.OnCompleted();
     }
 
-    void Para(Action end, params Action<Action>[] tasks)
+
+
+    // 並列
+    void Parallel(Action end, params Action<Action>[] tasks)
     {
-        // 並列
-        List<IObservable<Unit>> array = new List<IObservable<Unit>>();
-        for (int i = 0; i < tasks.Length; i++)
-        {
-            var task = tasks[i];
-            array.Add(Observable.FromCoroutine<Unit>((o) => Exec(task, () => OnCompleted(o))));
-        }
-        Observable.WhenAll(array).Subscribe(_ => end?.Invoke());
+        var function = Passivity(end, tasks.Length);
+        foreach (var task in tasks) task(function);
     }
 
-    void WF(Action end, params Action<Action>[] tasks)
+    // 直列
+    void Waterflow(Action end, params Action<Action>[] tasks)
     {
-        //IObservable<Unit> observable = null;
+        List<Action<Action>> actions = new List<Action<Action>>(tasks);
+        var subject = new Subject<int>();
+        subject
+            .Take(tasks.Length + 1)
+            .Subscribe(x =>
+            {
+                if (x < tasks.Length) tasks[x](() => subject.OnNext(x + 1));
+                else subject.OnCompleted();
+            }, () => end?.Invoke());
+        subject.OnNext(0);
+    }
 
-        //for (int i = 0; i < tasks.Length; i++)
-        //{
-        //    var task = tasks[i];
-        //    if(observable == null)
-        //    {
-        //        observable = Observable.FromCoroutine<Unit>((o) => Exec(task, () => OnCompleted(o)));
-        //    }
-        //    else
-        //    {
-        //        observable = observable.SelectMany(Observable.FromCoroutine<Unit>((o) => Exec(task, () => OnCompleted(o))));
-        //    }
-        //}
-        //observable.Subscribe(_ => end?.Invoke());
-
-        /*
-        // 直列
-        Observable
-            .FromCoroutine(() => tasks)
-            .SelectMany(() => Task(2))
-            .SelectMany(() => Task(4))
-            .Subscribe(_ => Debug.Log("End"));
-            */
+    // 被動的
+    Action Passivity(Action end, int count)
+    {
+        var subject = new Subject<Unit>();
+        subject.Take(count).Subscribe(_ => { }, () => end?.Invoke());
+        return new Action(() => subject.OnNext(Unit.Default));
     }
 
     IEnumerator Exec(Action<Action> action, Action cb)
