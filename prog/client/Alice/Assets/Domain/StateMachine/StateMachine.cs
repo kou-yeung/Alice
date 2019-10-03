@@ -1,30 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
+using System;
 
-namespace Zoo.State
+namespace Zoo.StateMachine
 {
-
-    //public class StateSystem : MonoBehaviour
-    //{
-    //    static StateSystem instance;
-    //    static List<StateMachine> machines = new List<StateMachine>();
-
-    //    static StateSystem()
-    //    {
-    //        var go = new GameObject("StateSystem");
-    //        instance = go.AddComponent<StateSystem>();
-    //        DontDestroyOnLoad(go);
-    //    }
-
-    //    public static StateMachine Gen()
-    //    {
-    //        var res = new StateMachine();
-    //        machines.Add(res);
-    //        return res;
-    //    }
-    //}
-
+    /// <summary>
+    /// ステート
+    /// </summary>
+    /// <typeparam name="Owner"></typeparam>
     public class IState<Owner>
     {
         public virtual void Begin(Owner owner) { }
@@ -32,38 +16,69 @@ namespace Zoo.State
         public virtual void End(Owner owner) { }
     }
 
-    public class StateMachine<Owner>
+    /// <summary>
+    /// ステートマシンの振る舞い管理する
+    /// </summary>
+    /// <typeparam name="Owner"></typeparam>
+    public class StateBehaviour<Owner, Key> : IDisposable
     {
-        Dictionary<object, IState<Owner>> stateDic = new Dictionary<object, IState<Owner>>();
+        Dictionary<Key, IState<Owner>> stateDic = new Dictionary<Key, IState<Owner>>();
         IState<Owner> currentState;
         Owner owner;
+        IDisposable task;
 
-        public StateMachine(Owner owner)
+        public StateBehaviour(Owner owner)
         {
             this.owner = owner;
+            this.task = Observable.EveryUpdate().Subscribe(_ => Update(Time.deltaTime));
         }
 
-        public void Update(float deltaTime)
+        void Update(float deltaTime)
         {
             if (currentState != null) currentState.Update(owner, deltaTime);
         }
 
-        public void AddState<Key>(Key key, IState<Owner> state)
+        /// <summary>
+        /// ステートを追加する
+        /// </summary>
+        /// <typeparam name="Key"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="state"></param>
+        public void AddState(Key key, IState<Owner> state)
         {
             stateDic.Add(key, state);
         }
-        public void RemoveState<Key>(Key key)
+
+        /// <summary>
+        /// ステートを削除する
+        /// </summary>
+        /// <typeparam name="Key"></typeparam>
+        /// <param name="key"></param>
+        public void RemoveState(Key key)
         {
             stateDic.Remove(key);
         }
 
-        public void ChangeState<Key>(Key key)
+        /// <summary>
+        /// ステート変更
+        /// </summary>
+        /// <typeparam name="Key"></typeparam>
+        /// <param name="key"></param>
+        public void ChangeState(Key key)
         {
             if (currentState != null) currentState.End(owner);
             currentState = stateDic[key];
             currentState.Begin(owner);
         }
 
+        /// <summary>
+        /// 破棄
+        /// </summary>
+        public void Dispose()
+        {
+            stateDic.Clear();
+            task?.Dispose();
+        }
     }
 }
 
