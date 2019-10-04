@@ -4,14 +4,31 @@ using UnityEngine;
 using UniRx;
 using System;
 using System.Linq;
-using Zoo;
+using Zoo.Communication;
 
 public class Sample : MonoBehaviour
 {
+    /// <summary>
+    /// ローカルサーバー
+    /// </summary>
+    class LocalServer : ICommunication
+    {
+        public void Request(string proto, string data, Action<string> complete = null, Action<string> error = null)
+        {
+            switch(proto)
+            {
+                case "GetTime":
+                    complete?.Invoke(DateTime.Now.ToString());
+                    break;
+            }
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        CommunicationService.SetLocator(new LocalServer());
+        CommunicationService.Instance.Request("GetTime", "", (res) => Debug.Log(res));
     }
 
     // Update is called once per frame
