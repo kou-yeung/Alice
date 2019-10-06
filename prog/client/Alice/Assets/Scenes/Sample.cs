@@ -29,9 +29,14 @@ public class Sample : MonoBehaviour
     void Start()
     {
         AuthService.SetLocator(new AuthFirebase());
+        CommunicationService.SetLocator(new CommunicationFirebase("alice-321c1"));
+
         AuthService.Instance.SignInAnonymously(() =>
         {
-            Debug.Log("成功!!");
+            // 成功
+            Debug.Log("成功");
+            //CommunicationService.Instance.Request("ping", "from unity!!", (res) => Debug.Log(res), error => Debug.LogError(error));
+            CommunicationService.Instance.Request("getItems", "from unity!!", (res) => Debug.Log(res), error => Debug.LogError(error));
         },
         (error) =>
         {
@@ -39,12 +44,16 @@ public class Sample : MonoBehaviour
         });
 
 
-        CommunicationService.SetLocator(new LocalServer());
-        CommunicationService.Instance.Request("GetTime", "", (res) => Debug.Log(res));
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void OnButton()
+    {
+        CommunicationService.Instance.Request("getItems", "from unity!!", (res) => Debug.Log(res), error => Debug.LogError(error));
+
     }
 }

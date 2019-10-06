@@ -12,18 +12,15 @@ namespace Zoo.Auth
             auth.SignInAnonymouslyAsync().ContinueWith(task =>
             {
                 // エラー処理
-                if (error != null)
+                if (task.IsCanceled)
                 {
-                    if (task.IsCanceled)
-                    {
-                        error("SignInAnonymously was Canceled!!");
-                        return;
-                    }
-                    if(task.IsFaulted)
-                    {
-                        error($"SignInAnonymously was Faulted!! {task.Exception}");
-                        return;
-                    }
+                    error?.Invoke("SignInAnonymously was Canceled!!");
+                    return;
+                }
+                if(task.IsFaulted)
+                {
+                    error?.Invoke($"SignInAnonymously was Faulted!! {task.Exception}");
+                    return;
                 }
 
                 // 成功処理
