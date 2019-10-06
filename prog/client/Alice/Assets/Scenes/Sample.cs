@@ -4,8 +4,8 @@ using UnityEngine;
 using UniRx;
 using System;
 using System.Linq;
-using Zoo.StateMachine;
-using Zoo.Async;
+using Zoo.Auth;
+using Zoo.Communication;
 
 public class Sample : MonoBehaviour
 {
@@ -17,5 +17,11 @@ public class Sample : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void OnButton()
+    {
+        CommunicationService.Instance.Request("getItems", "from unity!!", (res) => Debug.Log(res), error => Debug.LogError(error));
+
     }
 }
