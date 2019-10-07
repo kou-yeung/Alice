@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "449309459451",
+    "firebase_url": "https://alice-321c1.firebaseio.com",
+    "project_id": "alice-321c1",
+    "storage_bucket": "alice-321c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449309459451:android:f9064c4a744e4f7ed1415e",
+        "android_client_info": {
+          "package_name": "com.zoo.alice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449309459451-1rrvoennj6alaj84j72ulu26beu8edb3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPcqQKHwqPKz6t_4FCVGBvxkHT3XSZ96Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449309459451-1rrvoennj6alaj84j72ulu26beu8edb3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
