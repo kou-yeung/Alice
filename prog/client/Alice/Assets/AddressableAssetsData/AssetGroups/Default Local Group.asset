@@ -16,7 +16,11 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 8645b180bb250ba4a896697221b75522
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: d0112a8cd7cc39c40aed840aa414dcb6
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv001.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f0296a71c93351f46b29f49ae820e40b, type: 2}
   m_SchemaSet:

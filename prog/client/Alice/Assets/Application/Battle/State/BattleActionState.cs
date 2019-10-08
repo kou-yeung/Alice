@@ -10,7 +10,6 @@ namespace Alice
         public override void Begin(Battle owner)
         {
             Debug.Log("BattleActionState : Begin");
-            //owner.ChangeState(BattleConst.State.Playback);
             owner.EnableAction(true);
         }
 

@@ -19,7 +19,7 @@ namespace Alice
             },
             ()=>
             {
-                owner.ChangeState(BattleConst.State.Timeline);
+                owner.controller.ChangeState(BattleConst.State.Timeline);
             });
         }
 
