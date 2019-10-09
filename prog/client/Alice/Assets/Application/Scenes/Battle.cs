@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Zoo.StateMachine;
+using Zoo.IO;
 
 namespace Alice
 {
@@ -14,7 +14,20 @@ namespace Alice
         void Start()
         {
             controller = new BattleController(this);
-            controller.ChangeState(BattleConst.State.Start);
+
+            List<string> resourcePaths = new List<string>();
+            resourcePaths.Add("Character/$yuhinamv001.png");
+            resourcePaths.Add("Character.prefab");
+
+            LoaderService.Instance.Preload(resourcePaths.ToArray(), ()=>
+            {
+                foreach(var path in resourcePaths)
+                {
+                    var o = LoaderService.Instance.Load<object>(path);
+                    Debug.Log($"{path}:{o.ToString()}");
+                }
+                controller.ChangeState(BattleConst.State.Init);
+            });
         }
 
         void OnDestroy()
@@ -25,7 +38,6 @@ namespace Alice
         public void OnAction()
         {
             controller.DoAction();
-            //ChangeState(BattleConst.State.Playback);
         }
 
         public void EnableAction(bool enable)

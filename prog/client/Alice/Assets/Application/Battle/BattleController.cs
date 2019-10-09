@@ -15,6 +15,7 @@ namespace Alice
         public BattleController(Battle owner)
         {
             stateBehaviour = new StateBehaviour<Battle, BattleConst.State>(owner);
+            stateBehaviour.AddState(BattleConst.State.Init, new BattleInitState());
             stateBehaviour.AddState(BattleConst.State.Start, new BattleStartState());
             stateBehaviour.AddState(BattleConst.State.Action, new BattleActionState());
             stateBehaviour.AddState(BattleConst.State.Playback, new BattlePlaybackState());
@@ -44,6 +45,11 @@ namespace Alice
         {
             var uniq = Guid.NewGuid().ToString();
             units.Add(uniq, new BattleUnit(uniq));
+        }
+
+        public void CreateUnit(string uniq)
+        {
+            units[uniq] = new BattleUnit(uniq);
         }
     }
 }

@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv001.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: da2b887f675f18e4a939a2d413eccf93
+    m_Address: Assets/AddressableAssets/Character.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f0296a71c93351f46b29f49ae820e40b, type: 2}
   m_SchemaSet:

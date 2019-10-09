@@ -8,6 +8,7 @@ namespace Alice
     {
         public enum State
         {
+            Init,       // 初期化
             Start,      // バトル開始
             Timeline,   // タイムライン更新
             Action,     // アクション選択
