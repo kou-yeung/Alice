@@ -16,7 +16,7 @@ namespace Alice
             controller = new BattleController(this);
 
             List<string> resourcePaths = new List<string>();
-            resourcePaths.Add("Character/$yuhinamv001.png");
+            resourcePaths.Add("Character/$yuhinamv001.asset");
             resourcePaths.Add("Character.prefab");
 
             LoaderService.Instance.Preload(resourcePaths.ToArray(), ()=>

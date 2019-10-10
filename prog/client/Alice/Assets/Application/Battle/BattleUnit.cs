@@ -7,15 +7,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zoo.IO;
+using Zoo.Assets;
 
 namespace Alice
 {
     public class BattleUnit
     {
-        public Image image;
+        public GameObject gameObject { get; private set; }
+        public Image image { get; private set; }
+        public Sprites sprites { get; private set; }
         public BattleUnit(string uniq)
         {
-            Debug.Log(LoaderService.Instance.Load<IList<Sprite>>("Character/$yuhinamv001.png"));
+            var prefab = LoaderService.Instance.Load<GameObject>("Character.prefab");
+            gameObject = GameObject.Instantiate(prefab);
+            sprites = LoaderService.Instance.Load<Sprites>("Character/$yuhinamv001.asset");
+
+            image = gameObject.GetComponent<Image>();
+            image.sprite = sprites[2];
         }
     }
 }

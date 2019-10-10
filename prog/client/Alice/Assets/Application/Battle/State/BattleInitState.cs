@@ -11,7 +11,8 @@ namespace Alice
         public override void Begin(Battle owner)
         {
             Debug.Log("BattleInitState : Begin");
-            owner.controller.CreateUnit(Guid.NewGuid().ToString());
+            var unit = owner.controller.CreateUnit(Guid.NewGuid().ToString());
+            unit.gameObject.transform.SetParent(owner.transform, false);
             owner.controller.ChangeState(BattleConst.State.Start);
         }
     }

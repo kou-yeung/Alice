@@ -47,9 +47,11 @@ namespace Alice
             units.Add(uniq, new BattleUnit(uniq));
         }
 
-        public void CreateUnit(string uniq)
+        public BattleUnit CreateUnit(string uniq)
         {
-            units[uniq] = new BattleUnit(uniq);
+            var res = new BattleUnit(uniq);
+            units[uniq] = res;
+            return res;
         }
     }
 }
