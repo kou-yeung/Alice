@@ -57,8 +57,8 @@ namespace Zoo.Assets
                 s.Add(v as Sprite);
             }
             asset.UpdateSpriteList(s.ToArray());
+            EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
         }
         Sprites GetOrCreateSprites(string path)
         {
