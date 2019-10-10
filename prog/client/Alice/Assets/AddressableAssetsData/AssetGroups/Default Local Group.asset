@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 8645b180bb250ba4a896697221b75522
+  m_GUID: 172e0799de4820f4697b4b62b82a05a2
   m_SerializeEntries:
   - m_GUID: 3134a7b79c0108846a3a6f1ffc99e208
     m_Address: Assets/AddressableAssets/Character/$yuhinamv001.asset
@@ -29,5 +29,4 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: f0296a71c93351f46b29f49ae820e40b, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f0b2328c886ef2b44b0f59082c52e6f9, type: 2}
-    - {fileID: 11400000, guid: 14918f04d6068d946ba3bc59600a6622, type: 2}
+    - {fileID: 11400000, guid: 097fca628f6064e4ba0bc8cbef04b40e, type: 2}

@@ -13,7 +13,7 @@ namespace Zoo.Assets
     public class Sprites : ScriptableObject
     {
         [SerializeField]
-        List<Sprite> sprites = new List<Sprite>();
+        Sprite[] sprites;
 
         public Sprite this[string name]
         {
@@ -30,15 +30,14 @@ namespace Zoo.Assets
         {
             get
             {
-                if (index < sprites.Count) return sprites[index];
+                if (index < sprites.Length) return sprites[index];
                 return null;
             }
         }
 #if UNITY_EDITOR
         public void UpdateSpriteList(Sprite[] sprites)
         {
-            this.sprites.Clear();
-            this.sprites.AddRange(sprites);
+            this.sprites = sprites;
         }
 #endif
     }
