@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 8645b180bb250ba4a896697221b75522
   m_SerializeEntries:
-  - m_GUID: d0112a8cd7cc39c40aed840aa414dcb6
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv001.png
+  - m_GUID: 3134a7b79c0108846a3a6f1ffc99e208
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv001.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: da2b887f675f18e4a939a2d413eccf93
