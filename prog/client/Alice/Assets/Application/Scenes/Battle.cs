@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zoo.IO;
-using CsvHelper;
-using System.IO;
-using System.Linq;
-using Alice.Entities;
 
 namespace Alice
 {
@@ -19,7 +15,10 @@ namespace Alice
         {
             controller = new BattleController(this);
             List<string> resourcePaths = new List<string>();
-            resourcePaths.Add("Character/$yuhinamv010.asset");
+            for (int i = 1; i <= 10; i++)
+            {
+                resourcePaths.Add(string.Format("Character/$yuhinamv{0:D3}.asset", i));
+            }
             resourcePaths.Add("Character.prefab");
             resourcePaths.Add("MasterData/Character.csv");
 
@@ -29,6 +28,10 @@ namespace Alice
                 //{
                 //    var o = LoaderService.Instance.Load<object>(path);
                 //}
+                // ユニット初期化
+                controller.CreatePlayerUnit();
+                controller.CreateEnemyUnit();
+                // ステート開始
                 controller.ChangeState(BattleConst.State.Init);
             });
         }
