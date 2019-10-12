@@ -24,7 +24,9 @@ namespace Zoo.IO
             {
                 return o as T;
             }
-            throw new Exception($"not preloaded asset!! [{path}]");
+
+            Debug.LogError(($"not preloaded asset!! [{path}]"));
+            return null;
         }
 
         public void LoadAsync<T>(string path, Action<T> onloaded) where T : class

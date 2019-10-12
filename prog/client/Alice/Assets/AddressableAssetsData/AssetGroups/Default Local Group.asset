@@ -17,12 +17,92 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 172e0799de4820f4697b4b62b82a05a2
   m_SerializeEntries:
+  - m_GUID: 088f3544d755492499ecd8414e63f01a
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv002.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 08ed52a1018c59c40b0a6bd182f3367d
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv008.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 187999b8984f565449f4ba188cefb097
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv008.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2785d40931a99ea49aff601f488cb2d4
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv005.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 3134a7b79c0108846a3a6f1ffc99e208
     m_Address: Assets/AddressableAssets/Character/$yuhinamv001.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3abc42fd5937cce40b033020c7416e7b
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv005.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3c22793e23a419647ba0b8c5a3a3feae
+    m_Address: Assets/AddressableAssets/MasterData/Character.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 53d4fa42b4b51c544af43e408a48fef5
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv003.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5ced619b3e664154e803bd0fe126561c
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv009.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 82ee3483de931f14c813b20afc16b8ae
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv010.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 84e91976913f423428670574245dc004
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv007.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 971684dc482a369458d775e181ab038e
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv006.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9e3a80d28f1444242b3a9565306d3a85
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv002.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a942c54fc6bac8a44a00e7126cfd2c15
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv004.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b884c78fe2a6c094d810d9b17b1c5a8a
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv004.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b8fc48e8cac93ed41b602f3f93fa8061
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv003.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b93ef10775d41a749992b20bd863a130
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv006.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ca93d6e520982284db8e8bd2612222e4
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv009.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d0112a8cd7cc39c40aed840aa414dcb6
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv001.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: da2b887f675f18e4a939a2d413eccf93
     m_Address: Assets/AddressableAssets/Character.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e2284e4b9de31414795a1fbff3dc1958
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv007.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e4a7b9833a52e264b94dd9b581290d32
+    m_Address: Assets/AddressableAssets/Character/$yuhinamv010.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

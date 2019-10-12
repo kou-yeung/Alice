@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System.Reflection;
-
+using UniRx;
+using System.Text.RegularExpressions;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
@@ -49,38 +50,43 @@ namespace Zoo.Assets
     /// </summary>
     public class MultipleSpriteToSprite : AssetPostprocessor
     {
-        void OnPostprocessSprites(Texture2D texture, Sprite[] sprites)
-        {
-            var asset = GetOrCreateSprites(assetPath);
-            List<Sprite> s = new List<Sprite>();
-            foreach(var v in AssetDatabase.LoadAllAssetsAtPath(assetPath).Where(v => v is Sprite))
-            {
-                s.Add(v as Sprite);
-            }
-            asset.UpdateSpriteList(s.ToArray());
-            EditorUtility.SetDirty(asset);
-            AssetDatabase.SaveAssets();
-        }
         Sprites GetOrCreateSprites(string path)
         {
             path = Path.ChangeExtension(path, ".asset");
             Sprites res = AssetDatabase.LoadAssetAtPath<Sprites>(path);
             if(res == null)
             {
-                AssetDatabase.Refresh();
                 res = ScriptableObject.CreateInstance<Sprites>();
                 AssetDatabase.CreateAsset(res, path);
+                AssetDatabase.SaveAssets();
             }
             return res;
         }
 
+        /// <summary>
+        /// パスを指定してSpritesを生成する
+        /// </summary>
+        /// <param name="assetPath"></param>
+        void GenSprites(string assetPath)
+        {
+            var asset = GetOrCreateSprites(assetPath);
+
+            List<Sprite> s = new List<Sprite>();
+            foreach (var v in AssetDatabase.LoadAllAssetsAtPath(assetPath).Where(v => v is Sprite))
+            {
+                s.Add(v as Sprite);
+            }
+            asset.UpdateSpriteList(s.ToArray());
+            AssetDatabase.SaveAssets();
+            EditorUtility.SetDirty(asset);
+        }
 
         /// <summary>
         /// 
         /// </summary>
         void OnPreprocessTexture()
         {
-            if(assetPath.Contains("AddressableAssets/Character"))
+            if (assetPath.Contains("AddressableAssets/Character"))
             {
                 TextureImporter textureImporter = (TextureImporter)assetImporter;
 
@@ -103,14 +109,35 @@ namespace Zoo.Assets
                     {
                         var meta = new SpriteMetaData();
                         meta.pivot = new Vector2(.5f, .5f);
-                        meta.name = $"{Path.GetFileNameWithoutExtension(assetPath)}_{11- (y * 3 + x)}";
+                        meta.name = $"{Path.GetFileNameWithoutExtension(assetPath)}_{11 - (y * 3 + x)}";
 
                         meta.rect = new Rect(sliceWidth * x, sliceHeight * y, sliceWidth, sliceHeight);
                         metas.Add(meta);
                     }
                 }
                 textureImporter.spritesheet = metas.ToArray();
+
+                // 次のフレームにSpriteを生成(更新)します
+                Observable.NextFrame().Subscribe(
+                    _ => { },
+                    () => GenSprites(assetPath));
             }
+        }
+
+        [MenuItem("Character/Copy")]
+        static void CopyCharacter()
+        {
+            var from = @"D:\Image\素材\ゆうひな素材\歩行ドットMV";
+            var to = @"D:\GitHub\Alice\prog\client\Alice\Assets\AddressableAssets\Character";
+
+            foreach(var path in Directory.GetFiles(from, "*.png"))
+            {
+                var fn = Path.GetFileName(path);
+                if (!Regex.IsMatch(fn, @"\$yuhinamv(.*)")) continue;
+                File.Copy(path, Path.Combine(to, fn.Replace("$yuhinamv", "")), true);
+            }
+
+            AssetDatabase.Refresh();
         }
     }
 #endif

@@ -20,7 +20,7 @@ namespace Alice
         {
             var prefab = LoaderService.Instance.Load<GameObject>("Character.prefab");
             gameObject = GameObject.Instantiate(prefab);
-            sprites = LoaderService.Instance.Load<Sprites>("Character/$yuhinamv001.asset");
+            sprites = LoaderService.Instance.Load<Sprites>("Character/$yuhinamv010.asset");
 
             image = gameObject.GetComponent<Image>();
             image.sprite = sprites[2];

@@ -1,43 +1,43 @@
 fileFormatVersion: 2
-guid: d0112a8cd7cc39c40aed840aa414dcb6
+guid: 82ee3483de931f14c813b20afc16b8ae
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1837029300544303179
-    second: $yuhinamv001_11
+      213: -1005479346350696572
+    second: $yuhinamv010_11
   - first:
-      213: -7154278896430143482
-    second: $yuhinamv001_10
+      213: -309358040321934493
+    second: $yuhinamv010_10
   - first:
-      213: 8710721586056302317
-    second: $yuhinamv001_9
+      213: -609416343262843025
+    second: $yuhinamv010_9
   - first:
-      213: 2530441706870655365
-    second: $yuhinamv001_8
+      213: 354143905866696884
+    second: $yuhinamv010_8
   - first:
-      213: 7735697193342468712
-    second: $yuhinamv001_7
+      213: 5028217325123277908
+    second: $yuhinamv010_7
   - first:
-      213: -5520781994799800790
-    second: $yuhinamv001_6
+      213: -7477067753567762152
+    second: $yuhinamv010_6
   - first:
-      213: -1936111115237217709
-    second: $yuhinamv001_5
+      213: -2456033154652941382
+    second: $yuhinamv010_5
   - first:
-      213: -8242948154072046144
-    second: $yuhinamv001_4
+      213: -5356425774717581568
+    second: $yuhinamv010_4
   - first:
-      213: 2649144730613370812
-    second: $yuhinamv001_3
+      213: -9192319471535308914
+    second: $yuhinamv010_3
   - first:
-      213: 1207927929953712309
-    second: $yuhinamv001_2
+      213: 8182647195840647124
+    second: $yuhinamv010_2
   - first:
-      213: 7279705519135511510
-    second: $yuhinamv001_1
+      213: -2913506770821292638
+    second: $yuhinamv010_1
   - first:
-      213: 4259623740553059619
-    second: $yuhinamv001_0
+      213: 8985075154047241629
+    second: $yuhinamv010_0
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: $yuhinamv001_11
+      name: $yuhinamv010_11
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b407de47a607e7910800000000000000
-      internalID: 1837029300544303179
+      spriteID: 48756cb9cd1db02f0800000000000000
+      internalID: -1005479346350696572
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_10
+      name: $yuhinamv010_10
       rect:
         serializedVersion: 2
         x: 45
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 608253aaf35e6bc90800000000000000
-      internalID: -7154278896430143482
+      spriteID: 36b333a5080f4bbf0800000000000000
+      internalID: -309358040321934493
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_9
+      name: $yuhinamv010_9
       rect:
         serializedVersion: 2
         x: 90
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dee86329123b2e870800000000000000
-      internalID: 8710721586056302317
+      spriteID: f6f208b801bea87f0800000000000000
+      internalID: -609416343262843025
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_8
+      name: $yuhinamv010_8
       rect:
         serializedVersion: 2
         x: 0
@@ -187,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 589cbd6535fed1320800000000000000
-      internalID: 2530441706870655365
+      spriteID: 4b8cd8c810c2ae400800000000000000
+      internalID: 354143905866696884
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_7
+      name: $yuhinamv010_7
       rect:
         serializedVersion: 2
         x: 45
@@ -208,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8620a23ac97ba5b60800000000000000
-      internalID: 7735697193342468712
+      spriteID: 454107d3401d7c540800000000000000
+      internalID: 5028217325123277908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_6
+      name: $yuhinamv010_6
       rect:
         serializedVersion: 2
         x: 90
@@ -229,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a2ed59da60e3263b0800000000000000
-      internalID: -5520781994799800790
+      spriteID: 819c01b4e7e1c3890800000000000000
+      internalID: -7477067753567762152
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_5
+      name: $yuhinamv010_5
       rect:
         serializedVersion: 2
         x: 0
@@ -250,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 35aa99ad23d8125e0800000000000000
-      internalID: -1936111115237217709
+      spriteID: ab35454cbda6aedd0800000000000000
+      internalID: -2456033154652941382
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_4
+      name: $yuhinamv010_4
       rect:
         serializedVersion: 2
         x: 45
@@ -271,14 +271,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0c5e29ea35a2b9d80800000000000000
-      internalID: -8242948154072046144
+      spriteID: 007463033272aa5b0800000000000000
+      internalID: -5356425774717581568
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_3
+      name: $yuhinamv010_3
       rect:
         serializedVersion: 2
         x: 90
@@ -292,14 +292,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cbfcec2c817a3c420800000000000000
-      internalID: 2649144730613370812
+      spriteID: e8f3b35c4225e6080800000000000000
+      internalID: -9192319471535308914
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_2
+      name: $yuhinamv010_2
       rect:
         serializedVersion: 2
         x: 0
@@ -313,14 +313,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5b8f92b6d0c63c010800000000000000
-      internalID: 1207927929953712309
+      spriteID: 4df8d66654a9e8170800000000000000
+      internalID: 8182647195840647124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_1
+      name: $yuhinamv010_1
       rect:
         serializedVersion: 2
         x: 45
@@ -334,14 +334,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6d3d581a995b60560800000000000000
-      internalID: 7279705519135511510
+      spriteID: 2ad508247052197d0800000000000000
+      internalID: -2913506770821292638
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: $yuhinamv001_0
+      name: $yuhinamv010_0
       rect:
         serializedVersion: 2
         x: 90
@@ -355,8 +355,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 32d5c7c39393d1b30800000000000000
-      internalID: 4259623740553059619
+      spriteID: d9d8c256f3661bc70800000000000000
+      internalID: 8985075154047241629
       vertices: []
       indices: 
       edges: []
