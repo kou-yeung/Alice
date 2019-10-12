@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration;
 
-namespace Alice.MasterData
+namespace Alice.Entities
 {
     public class Character
     {

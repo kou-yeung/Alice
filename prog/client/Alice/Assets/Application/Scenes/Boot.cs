@@ -5,14 +5,17 @@ using UnityEngine.SceneManagement;
 using Zoo.Auth;
 using Zoo.Communication;
 using Zoo.IO;
-
+using Alice.Entities;
+using Zoo;
 public class Boot : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public string nextScene;
+
     void Start()
     {
-        // タイトルへ
-        SceneManager.LoadSceneAsync("Title");
+        Async.Parallel(() => SceneManager.LoadSceneAsync(nextScene),
+            (end) => MasterData.Initialize(end)
+        );
     }
 
     // サービスロケータの初期化

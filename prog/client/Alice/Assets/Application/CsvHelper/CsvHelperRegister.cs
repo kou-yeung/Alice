@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Alice.MasterData;
+using Alice.Entities;
 
 namespace CsvHelper
 {
