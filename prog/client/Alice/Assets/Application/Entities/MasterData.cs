@@ -18,10 +18,12 @@ namespace Alice.Entities
         public static void Initialize(Action cb)
         {
             Async.Parallel( cb,
-                (end) => Load<Character>("MasterData/Character.csv", res => characters = res, end)
+                (end) => Load<Character>("Entities/Character.csv", (res) =>
+                {
+                    characters = res;
+                }, end)
             );
         }
-
         static void Load<T>(string path, Action<T[]> cb, Action end)
         {
             LoaderService.Instance.Preload(new[] { path }, ()=>

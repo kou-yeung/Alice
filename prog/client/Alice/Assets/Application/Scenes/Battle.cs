@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zoo.IO;
+using Zoo.Communication;
 
 namespace Alice
 {
@@ -14,25 +15,25 @@ namespace Alice
         void Start()
         {
             controller = new BattleController(this);
-            List<string> resourcePaths = new List<string>();
-            for (int i = 1; i <= 10; i++)
-            {
-                resourcePaths.Add(string.Format("Character/$yuhinamv{0:D3}.asset", i));
-            }
-            resourcePaths.Add("Character.prefab");
-            resourcePaths.Add("MasterData/Character.csv");
 
-            LoaderService.Instance.Preload(resourcePaths.ToArray(), ()=>
+            // バトル情報を取得する
+            CommunicationService.Instance.Request("Battle", "", (res) =>
             {
-                //foreach(var path in resourcePaths)
-                //{
-                //    var o = LoaderService.Instance.Load<object>(path);
-                //}
-                // ユニット初期化
-                controller.CreatePlayerUnit();
-                controller.CreateEnemyUnit();
-                // ステート開始
-                controller.ChangeState(BattleConst.State.Init);
+                Debug.Log(res);
+                // 必要なリソースをプリロード
+                List<string> resourcePaths = new List<string>();
+                for (int i = 1; i <= 10; i++)
+                {
+                    resourcePaths.Add(string.Format("Character/$yuhinamv{0:D3}.asset", i));
+                }
+                resourcePaths.Add("Character.prefab");
+                LoaderService.Instance.Preload(resourcePaths.ToArray(), () =>
+                {
+                    // コントローラ初期化
+                    controller.Setup(JsonUtility.FromJson<BattleStartRecv>(res));
+                    // ステート開始
+                    controller.ChangeState(BattleConst.State.Init);
+                });
             });
         }
 

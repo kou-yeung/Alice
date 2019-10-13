@@ -12,6 +12,7 @@ namespace Alice
         Battle owner;
         StateBehaviour<Battle, BattleConst.State> stateBehaviour;
         Dictionary<string, BattleUnit> units = new Dictionary<string, BattleUnit>();
+        BattleStartRecv recv;
 
         public BattleController(Battle owner)
         {
@@ -43,28 +44,24 @@ namespace Alice
             stateBehaviour.ChangeState(state);
         }
 
-        //public void Setup()
-        //{
-        //    var uniq = Guid.NewGuid().ToString();
-        //    units.Add(uniq, new BattleUnit(uniq));
-        //}
-
-        //public BattleUnit CreateUnit(string uniq)
-        //{
-        //    var res = new BattleUnit(uniq);
-        //    units[uniq] = res;
-        //    return res;
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Setup(BattleStartRecv recv)
+        {
+            this.recv = recv;
+            CreatePlayerUnit(recv.player);
+            CreateEnemyUnit(recv.enemy);
+        }
         /// <summary>
         /// プレイヤーユニット生成
         /// </summary>
-        public void CreatePlayerUnit()
+        void CreatePlayerUnit(string[] ids)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < ids.Length; i++)
             {
                 var uniq = Guid.NewGuid().ToString();
-                var unit = new BattleUnit(uniq, i + 1, BattleConst.Side.Player);
+                var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Player);
                 units.Add(uniq, unit);
 
                 var transform = unit.image.transform;
@@ -75,12 +72,12 @@ namespace Alice
         /// <summary>
         /// エネミーユニット生成
         /// </summary>
-        public void CreateEnemyUnit()
+        void CreateEnemyUnit(string[] ids)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < ids.Length; i++)
             {
                 var uniq = Guid.NewGuid().ToString();
-                var unit = new BattleUnit(uniq, i + 5, BattleConst.Side.Enemy);
+                var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Enemy);
                 units.Add(uniq, unit);
 
                 var transform = unit.image.transform;

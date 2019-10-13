@@ -8,6 +8,6 @@ REM SET crypt_key=FYxcgJgSVVrO5hMGd+zehpM8FI/y8e0+eAJ+KQKsmZg=
 REM à√çÜâªÇµÇ»Ç¢
 REM CALL DataDownloader.exe sheetid=%sheetid% apikey=%apikey% sheetname=%sheetname% flagLine=2 dataStart=%dataStart% output="./../../app/client/Contrib.Gate/Assets/Resources/Entities/" crypt_iv=%crypt_iv% crypt_key=%crypt_key%
 
-CALL DataDownloader.exe sheetid=%sheetid% apikey=%apikey% sheetname=%sheetname% flagLine=2 dataStart=%dataStart% output="./../../prog/client/Alice/Assets/\AddressableAssets/MasterData/"
+CALL DataDownloader.exe sheetid=%sheetid% apikey=%apikey% sheetname=%sheetname% flagLine=2 dataStart=%dataStart% output="./../../prog/client/Alice/Assets/AddressableAssets/Entities/"
 CALL DataDownloader.exe sheetid=%sheetid% apikey=%apikey% sheetname=%sheetname% flagLine=2 dataStart=%dataStart% output="./../../resources/masterdata/cl/"
 CALL DataDownloader.exe sheetid=%sheetid% apikey=%apikey% sheetname=%sheetname% flagLine=1 dataStart=%dataStart% output="./../../resources/masterdata/sv/"

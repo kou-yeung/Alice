@@ -24,7 +24,7 @@ public class Boot : MonoBehaviour
     {
         Debug.Log("サービスロケータの初期化");
         AuthService.SetLocator(new AuthLocal());    // 認証
-        CommunicationService.SetLocator(new CommunicationLocal(new AliceServer()));    // 通信
+        CommunicationService.SetLocator(new CommunicationLocal(new Alice.AliceServer()));    // 通信
         LoaderService.SetLocator(new LoaderAddressableAssets("Assets/AddressableAssets/"));    // ローダー
     }
 }
