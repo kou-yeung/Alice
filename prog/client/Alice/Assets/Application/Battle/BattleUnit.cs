@@ -15,15 +15,32 @@ namespace Alice
 {
     public class BattleUnit
     {
+        /// <summary>
+        /// 参照情報
+        /// </summary>
+        public class Current
+        {
+            public int HP;
+            public int Wait;
+
+            public Current(Character data)
+            {
+                this.Wait = data.Wait;
+            }
+        }
+
+
         public BattleConst.Side side { get; private set; }
         public GameObject gameObject { get; private set; }
         public Image image { get; private set; }
         public Sprites sprites { get; private set; }
         public Character characterData { get; private set; }
+        public Current current { get; private set; }
 
         public BattleUnit(string uniq, string id, BattleConst.Side side)
         {
             this.characterData = MasterData.characters.First(v => v.ID == id);
+            this.current = new Current(this.characterData);
 
             this.side = side;
             var prefab = LoaderService.Instance.Load<GameObject>("Character.prefab");

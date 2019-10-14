@@ -11,8 +11,12 @@ namespace Alice
     {
         Battle owner;
         StateBehaviour<Battle, BattleConst.State> stateBehaviour;
-        Dictionary<string, BattleUnit> units = new Dictionary<string, BattleUnit>();
         BattleStartRecv recv;
+        string[] sortedUniqs { get; set; }
+
+        public Dictionary<string, BattleUnit> units { get; private set; } = new Dictionary<string, BattleUnit>();
+        public string currentActionUniq { get { return sortedUniqs[0]; } }
+        public BattleAction currentAction { get; private set; }
 
         public BattleController(Battle owner)
         {
@@ -53,6 +57,25 @@ namespace Alice
             CreatePlayerUnit(recv.player);
             CreateEnemyUnit(recv.enemy);
         }
+
+        /// <summary>
+        /// ソート済みのUniq配列更新
+        /// </summary>
+        /// <param name="uniqs"></param>
+        public void UpdateSortedUniqs(string[] sortedUniqs)
+        {
+            this.sortedUniqs = sortedUniqs;
+        }
+
+        /// <summary>
+        /// 行動を保持する
+        /// </summary>
+        /// <param name="action"></param>
+        public void CurrentAction(BattleAction action)
+        {
+            this.currentAction = action;
+        }
+
         /// <summary>
         /// プレイヤーユニット生成
         /// </summary>

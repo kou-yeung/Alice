@@ -9,13 +9,16 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
-            Debug.Log("BattleActionState : Begin");
-            owner.EnableAction(true);
-        }
-
-        public override void End(Battle owner)
-        {
-            owner.EnableAction(false);
+            var uniq = owner.controller.currentActionUniq;
+            var behaviour = owner.controller.units[uniq];
+            // 行動選択
+            var skill = BattleAI.Instance.Exec(owner.controller.units[uniq]);
+            // 行動による効果計算
+            var action = BattleLogic.Instance.Exec(new BattleAction(behaviour, skill));
+            // 行動保持する
+            owner.controller.CurrentAction(action);
+            // 行動再生
+            owner.controller.ChangeState(BattleConst.State.Playback);
         }
     }
 }

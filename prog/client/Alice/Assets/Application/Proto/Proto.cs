@@ -16,6 +16,7 @@ namespace Alice
     /// </summary>
     public class BattleStartRecv
     {
+        public int seed;
         public string[] player;
         public string[] enemy;
     }

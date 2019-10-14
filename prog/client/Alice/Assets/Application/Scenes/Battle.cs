@@ -9,17 +9,23 @@ namespace Alice
 {
     public class Battle : MonoBehaviour
     {
+        public static Battle Instance { get; private set; }
+        // ロジック抽選用乱数
+        public System.Random random { get; private set; }
         public Button buttonAction;
         public BattleController controller { get; private set; }
 
         void Start()
         {
+            Instance = this;
             controller = new BattleController(this);
 
             // バトル情報を取得する
             CommunicationService.Instance.Request("Battle", "", (res) =>
             {
                 Debug.Log(res);
+                this.random = new System.Random();
+
                 // 必要なリソースをプリロード
                 List<string> resourcePaths = new List<string>();
                 for (int i = 1; i <= 10; i++)
@@ -40,16 +46,6 @@ namespace Alice
         void OnDestroy()
         {
             controller?.Dispose();
-        }
-
-        public void OnAction()
-        {
-            controller.DoAction();
-        }
-
-        public void EnableAction(bool enable)
-        {
-            buttonAction.interactable = enable;
         }
     }
 }

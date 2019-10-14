@@ -30,6 +30,7 @@ namespace Alice
         string Battle(string data)
         {
             var recv = new BattleStartRecv();
+            recv.seed = 9527;
             recv.player = new[]
             {
                 "Character_001_002",

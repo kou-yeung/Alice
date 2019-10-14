@@ -6,6 +6,9 @@ namespace Alice
 {
     public class BattleLogic
     {
+        public static BattleLogic Instance { get; private set; }
+        static BattleLogic() { Instance = new BattleLogic(); }
+
         // ロジックの共通インタフェース定義
         delegate int Logic();
         // ロジックカタログ
@@ -15,16 +18,33 @@ namespace Alice
         {
             Register("通常ダメージ", Damage);
             Register("スキルダメージ", Skill);
+            Register("回復", Recovery);
+            Register("バフ", Buff);
         }
 
         /// <summary>
         /// ロジックに沿って効果を返す
         /// </summary>
-        /// <param name="type"></param>
         /// <returns></returns>
-        public int Exec(string type)
+        public BattleAction Exec(BattleAction action)
         {
-            return logics[type]();
+            if(action.skill != null)
+            {
+                switch(action.skill)
+                {
+                    case "SKILL_002_001":
+                        action.effects.Add(new BattleEffect(null, 2, logics["回復"]()));
+                        action.effects.Add(new BattleEffect(null, 2, logics["回復"]()));
+                        break;
+                    case "SKILL_001_001":
+                        action.effects.Add(new BattleEffect(null, 3, logics["バフ"]()));
+                        break;
+                }
+            } else
+            {
+                action.effects.Add(new BattleEffect(null, 1, logics["通常ダメージ"]()));
+            }
+            return action;
         }
 
         /// <summary>
@@ -40,7 +60,6 @@ namespace Alice
         /// <summary>
         /// ダメージ
         /// </summary>
-        /// <returns></returns>
         int Damage()
         {
             return 10;
@@ -49,10 +68,25 @@ namespace Alice
         /// <summary>
         /// スキル
         /// </summary>
-        /// <returns></returns>
         int Skill()
         {
             return 20;
+        }
+
+        /// <summary>
+        /// 回復
+        /// </summary>
+        int Recovery()
+        {
+            return 10;
+        }
+
+        /// <summary>
+        /// バフ
+        /// </summary>
+        int Buff()
+        {
+            return 5;
         }
     }
 }

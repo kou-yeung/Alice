@@ -42,7 +42,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 3c22793e23a419647ba0b8c5a3a3feae
-    m_Address: Assets/AddressableAssets/MasterData/Character.csv
+    m_Address: Assets/AddressableAssets/Entities/Character.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 53d4fa42b4b51c544af43e408a48fef5
@@ -71,10 +71,6 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: a942c54fc6bac8a44a00e7126cfd2c15
     m_Address: Assets/AddressableAssets/Character/$yuhinamv004.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: acbd0ad8703f2c34683269a314041944
-    m_Address: Assets/AddressableAssets/MasterData/Character.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: b884c78fe2a6c094d810d9b17b1c5a8a

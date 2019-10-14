@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Zoo.StateMachine;
+using System.Linq;
 
 namespace Alice
 {
@@ -9,7 +10,9 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
-            Debug.Log("BattleTimelineState : Begin");
+            var units = owner.controller.units;
+            var sortedUnits = units.Keys.OrderBy(uniq => units[uniq].current.Wait).ToArray();
+            owner.controller.UpdateSortedUniqs(sortedUnits);
             owner.controller.ChangeState(BattleConst.State.Action);
         }
     }
