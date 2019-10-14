@@ -36,11 +36,18 @@ namespace Alice
         public Sprites sprites { get; private set; }
         public Character characterData { get; private set; }
         public Current current { get; private set; }
+        public List<Skill> skills { get; private set; } = new List<Skill>();
 
         public BattleUnit(string uniq, string id, BattleConst.Side side)
         {
             this.characterData = MasterData.characters.First(v => v.ID == id);
             this.current = new Current(this.characterData);
+
+            // スキルID -> スキルデータ
+            foreach (var skill in new[] { "Skill_001_001" })
+            {
+                this.skills.Add(MasterData.skills.First(v => v.ID == skill));
+            }
 
             this.side = side;
             var prefab = LoaderService.Instance.Load<GameObject>("Character.prefab");

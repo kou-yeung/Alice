@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Alice.Entities;
 
 namespace Alice
 {
@@ -14,7 +15,7 @@ namespace Alice
         static BattleAI() { Instance = new BattleAI(); }
 
         // AIの共通インタフェース定義
-        delegate string AI(BattleUnit behaviour);
+        delegate Skill AI(BattleUnit behaviour);
         // ロジックカタログ
         Dictionary<string, AI> ais = new Dictionary<string, AI>();
         // 数字からAI登録名に変換用マップ
@@ -35,7 +36,7 @@ namespace Alice
         /// return : スキルID(string) 通常攻撃(null)
         /// </summary>
         /// <returns></returns>
-        public string Exec(BattleUnit behaviour)
+        public Skill Exec(BattleUnit behaviour)
         {
             // 実行順によって抽選する
             var ids = new[] { 2, 1 };
@@ -71,9 +72,16 @@ namespace Alice
         /// 回復スキルの使用抽選
         /// </summary>
         /// <returns></returns>
-        string Recovery(BattleUnit behaviour)
+        Skill Recovery(BattleUnit behaviour)
         {
-            return this.Lots(30) ? "SKILL_002_001" : null;
+            var types = new[] { BattleConst.Effect.Recovery, BattleConst.Effect.RecoveryRatio };
+            var skills = behaviour.skills.Where(v => v.HasEffect(types));
+            foreach (var skill in skills)
+            {
+                // 将来は一回のみ抽選するようにします
+                if (this.Lots(30)) return skill;
+            }
+            return null;
         }
 
         /// <summary>
@@ -81,9 +89,23 @@ namespace Alice
         /// </summary>
         /// <param name="behaviour"></param>
         /// <returns></returns>
-        string Buff(BattleUnit behaviour)
+        Skill Buff(BattleUnit behaviour)
         {
-            return this.Lots(30) ? "SKILL_001_001" : null;
+            var types = new[]
+            {
+                BattleConst.Effect.Buff_All,
+                BattleConst.Effect.Buff_Atk,
+                BattleConst.Effect.Buff_Def,
+                BattleConst.Effect.Buff_MAtk,
+                BattleConst.Effect.Buff_MDef,
+            };
+            var skills = behaviour.skills.Where(v => v.HasEffect(types));
+            foreach (var skill in skills)
+            {
+                // 将来は一回のみ抽選するようにします
+                if (this.Lots(30)) return skill;
+            }
+            return null;
         }
     }
 }

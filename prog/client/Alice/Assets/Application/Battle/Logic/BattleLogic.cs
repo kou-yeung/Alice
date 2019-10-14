@@ -17,9 +17,10 @@ namespace Alice
         public BattleLogic()
         {
             Register("通常ダメージ", Damage);
-            Register("スキルダメージ", Skill);
-            Register("回復", Recovery);
-            Register("バフ", Buff);
+            Register("割合ダメージ", DamageRatio);
+            Register("通常回復", Recovery);
+            Register("割合回復", RecoveryRatio);
+            Register("補正値", Correction);
         }
 
         /// <summary>
@@ -30,15 +31,35 @@ namespace Alice
         {
             if(action.skill != null)
             {
-                switch(action.skill)
+                foreach(var effect in action.skill.EffectsRef)
                 {
-                    case "SKILL_002_001":
-                        action.effects.Add(new BattleEffect(null, BattleConst.Effect.Recovery, logics["回復"]()));
-                        action.effects.Add(new BattleEffect(null, BattleConst.Effect.Recovery, logics["回復"]()));
-                        break;
-                    case "SKILL_001_001":
-                        action.effects.Add(new BattleEffect(null, BattleConst.Effect.Buff_All, logics["バフ"]()));
-                        break;
+                    switch(effect.Type)
+                    {
+                        case BattleConst.Effect.Damage:
+                            action.effects.Add(new BattleEffect(null, effect.Type, logics["通常ダメージ"]()));
+                            break;
+                        case BattleConst.Effect.DamageRatio:
+                            action.effects.Add(new BattleEffect(null, effect.Type, logics["割合ダメージ"]()));
+                            break;
+                        case BattleConst.Effect.Recovery:
+                            action.effects.Add(new BattleEffect(null, effect.Type, logics["通常回復"]()));
+                            break;
+                        case BattleConst.Effect.RecoveryRatio:
+                            action.effects.Add(new BattleEffect(null, effect.Type, logics["割合回復"]()));
+                            break;
+                        case BattleConst.Effect.Buff_All:
+                        case BattleConst.Effect.Buff_Atk:
+                        case BattleConst.Effect.Buff_Def:
+                        case BattleConst.Effect.Buff_MAtk:
+                        case BattleConst.Effect.Buff_MDef:
+                        case BattleConst.Effect.Debuff_All:
+                        case BattleConst.Effect.Debuff_Atk:
+                        case BattleConst.Effect.Debuff_Def:
+                        case BattleConst.Effect.Debuff_MAtk:
+                        case BattleConst.Effect.Debuff_MDef:
+                            action.effects.Add(new BattleEffect(null, effect.Type, logics["補正値"]()));
+                            break;
+                    }
                 }
             } else
             {
@@ -58,7 +79,7 @@ namespace Alice
         }
 
         /// <summary>
-        /// ダメージ
+        /// 通常ダメージ
         /// </summary>
         int Damage()
         {
@@ -66,15 +87,15 @@ namespace Alice
         }
 
         /// <summary>
-        /// スキル
+        /// 割合ダメージ
         /// </summary>
-        int Skill()
+        int DamageRatio()
         {
-            return 20;
+            return 10;
         }
 
         /// <summary>
-        /// 回復
+        /// 通常回復
         /// </summary>
         int Recovery()
         {
@@ -82,9 +103,17 @@ namespace Alice
         }
 
         /// <summary>
-        /// バフ
+        /// 割合回復
         /// </summary>
-        int Buff()
+        int RecoveryRatio()
+        {
+            return 10;
+        }
+
+        /// <summary>
+        /// 補正値
+        /// </summary>
+        int Correction()
         {
             return 5;
         }

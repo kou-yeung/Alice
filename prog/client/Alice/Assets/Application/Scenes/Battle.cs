@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zoo.IO;
 using Zoo.Communication;
+using Alice.Entities;
 
 namespace Alice
 {

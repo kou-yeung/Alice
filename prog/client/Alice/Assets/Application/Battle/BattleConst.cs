@@ -51,8 +51,10 @@ namespace Alice
         public enum Effect
         {
             // 即座効果
-            Damage = 1,
-            Recovery,
+            Damage = 101,               // 通常ダメージ
+            DamageRatio,                // 割合ダメージ
+            Recovery,                   // 通常回復
+            RecoveryRatio,              // 割合回復
 
             // バフ
             Buff_Base = 200,            // 計算に使用する
@@ -70,7 +72,17 @@ namespace Alice
             Debuff_MAtk,           // デバフ:MAtk
             Debuff_MDef,           // デバフ:MDef
         }
+
+        /// <summary>
+        /// 対象範囲
+        /// </summary>
+        public enum Target
+        {
+            Self,       // 自分
+            Friend,     // 味方
+            Enemy,      // 敵
+            Accession,  // 継承：前の効果設定に依存する
+        }
     }
 }
-
 

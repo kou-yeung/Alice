@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Alice;
 using Alice.Entities;
 
 namespace CsvHelper
@@ -21,7 +22,8 @@ namespace CsvHelper
         static void AddConverter()
         {
             //configuration.TypeConverterCache.AddConverter<Identify>(new IdentifyTypeConverter());
-            //configuration.TypeConverterCache.AddConverter<Race>(new EnumTypeConverter<Race>());
+            configuration.TypeConverterCache.AddConverter<BattleConst.Effect>(new EnumTypeConverter<BattleConst.Effect>());
+            configuration.TypeConverterCache.AddConverter<BattleConst.Target>(new EnumTypeConverter<BattleConst.Target>());
             //configuration.TypeConverterCache.AddConverter<Vector2Int>(new Vector2IntTypeConverter());
             //configuration.TypeConverterCache.AddConverter<SkillType>(new EnumTypeConverter<SkillType>());
             //configuration.TypeConverterCache.AddConverter<SkiiTarget>(new EnumTypeConverter<SkiiTarget>());
@@ -33,7 +35,8 @@ namespace CsvHelper
         static void RegisterClassMap()
         {
             configuration.RegisterClassMap<CharacterMap>();
-            //configuration.RegisterClassMap<MaterialMap>();
+            configuration.RegisterClassMap<SkillMap>();
+            configuration.RegisterClassMap<EffectMap>();
             //configuration.RegisterClassMap<VendingMap>();
             //configuration.RegisterClassMap<RecipeMap>();
             //configuration.RegisterClassMap<ItemMap>();

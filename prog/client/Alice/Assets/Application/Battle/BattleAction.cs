@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Alice.Entities;
 
 namespace Alice
 {
@@ -10,10 +11,10 @@ namespace Alice
     public class BattleAction
     {
         public BattleUnit behavioure { get; set; }
-        public string skill { get; set; }
+        public Skill skill { get; set; }
         public List<BattleEffect> effects { get; set; } = new List<BattleEffect>();
 
-        public BattleAction(BattleUnit behavioure, string skill)
+        public BattleAction(BattleUnit behavioure, Skill skill)
         {
             this.behavioure = behavioure;
             this.skill = skill;
