@@ -33,16 +33,16 @@ namespace Alice
                 switch(action.skill)
                 {
                     case "SKILL_002_001":
-                        action.effects.Add(new BattleEffect(null, 2, logics["回復"]()));
-                        action.effects.Add(new BattleEffect(null, 2, logics["回復"]()));
+                        action.effects.Add(new BattleEffect(null, BattleConst.Effect.Recovery, logics["回復"]()));
+                        action.effects.Add(new BattleEffect(null, BattleConst.Effect.Recovery, logics["回復"]()));
                         break;
                     case "SKILL_001_001":
-                        action.effects.Add(new BattleEffect(null, 3, logics["バフ"]()));
+                        action.effects.Add(new BattleEffect(null, BattleConst.Effect.Buff_All, logics["バフ"]()));
                         break;
                 }
             } else
             {
-                action.effects.Add(new BattleEffect(null, 1, logics["通常ダメージ"]()));
+                action.effects.Add(new BattleEffect(null, BattleConst.Effect.Damage, logics["通常ダメージ"]()));
             }
             return action;
         }
