@@ -33,6 +33,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv005.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 287c7c06ae25159438e054f3d3d9360d
+    m_Address: Assets/AddressableAssets/Entities/Skill.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 3134a7b79c0108846a3a6f1ffc99e208
     m_Address: Assets/AddressableAssets/Character/$yuhinamv001.asset
     m_ReadOnly: 0
@@ -83,6 +87,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: b93ef10775d41a749992b20bd863a130
     m_Address: Assets/AddressableAssets/Character/$yuhinamv006.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: be0010635a413b74ab622702bdf6e5eb
+    m_Address: Assets/AddressableAssets/Entities/Effect.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: ca93d6e520982284db8e8bd2612222e4

@@ -30,6 +30,7 @@ namespace Alice
         }
 
 
+        public string uniq { get; private set; }
         public BattleConst.Side side { get; private set; }
         public GameObject gameObject { get; private set; }
         public Image image { get; private set; }
@@ -40,6 +41,7 @@ namespace Alice
 
         public BattleUnit(string uniq, string id, BattleConst.Side side)
         {
+            this.uniq = uniq;
             this.characterData = MasterData.characters.First(v => v.ID == id);
             this.current = new Current(this.characterData);
 

@@ -15,7 +15,7 @@ namespace Alice
 
             foreach(var effect in owner.controller.currentAction.effects)
             {
-                Debug.Log($"Action : {effect.type} : {effect.value}");
+                Debug.Log($"Action : {effect.target.uniq} ({effect.target.side}) : {effect.type} : {effect.value}");
             }
 
             Observable.FromCoroutine<Unit>(o => Playback(o)).Subscribe((_)=>

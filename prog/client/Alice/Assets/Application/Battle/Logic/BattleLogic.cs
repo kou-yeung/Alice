@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Alice.Entities;
+using System.Linq;
+using System;
+using UnityEngine.Assertions;
 
 namespace Alice
 {
@@ -10,7 +14,7 @@ namespace Alice
         static BattleLogic() { Instance = new BattleLogic(); }
 
         // ロジックの共通インタフェース定義
-        delegate int Logic();
+        delegate int Logic(BattleUnit behavioure, BattleUnit target, Effect effect);
         // ロジックカタログ
         Dictionary<string, Logic> logics = new Dictionary<string, Logic>();
 
@@ -24,28 +28,86 @@ namespace Alice
         }
 
         /// <summary>
+        /// エフェクトの対象取得(人数は関係なく
+        /// </summary>
+        /// <param name="behavioure"></param>
+        /// <param name="effect"></param>
+        /// <returns></returns>
+        List<BattleUnit> EffectTargets(BattleUnit behavioure, Effect effect)
+        {
+            BattleConst.Target target = (effect != null) ? effect.Target : BattleConst.Target.Enemy;
+
+            List<BattleUnit> res = new List<BattleUnit>();
+            var units = Battle.Instance.controller.units;
+            switch (target)
+            {
+                case BattleConst.Target.Self:
+                    res.Add(behavioure);
+                    break;
+                case BattleConst.Target.Friend:
+                    res.AddRange(units.Values.Where(v => v.side == behavioure.side));
+                    break;
+                case BattleConst.Target.Enemy:
+                    res.AddRange(units.Values.Where(v => v.side != behavioure.side));
+                    break;
+            }
+            return res;
+        }
+        
+        /// <summary>
+        /// 対象をランダム抽選する
+        /// </summary>
+        /// <param name="units"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        List<BattleUnit> LotsTargets(List<BattleUnit> units, int count)
+        {
+            Assert.IsTrue(units != null, "効果対象が設定してください");
+            Assert.IsTrue(units.Count != 0, "効果対象がない");
+            Assert.IsTrue(count != 0, "効果対象数が0になっています");
+            return units.OrderBy(v => Guid.NewGuid()).Take(count).ToList();
+        }
+
+        /// <summary>
         /// ロジックに沿って効果を返す
         /// </summary>
         /// <returns></returns>
         public BattleAction Exec(BattleAction action)
         {
-            if(action.skill != null)
+            List<BattleUnit> cacheTargets = null;
+
+            if (action.skill != null)
             {
-                foreach(var effect in action.skill.EffectsRef)
+                foreach (var effect in action.skill.EffectsRef)
                 {
-                    switch(effect.Type)
+                    if(effect.Target == BattleConst.Target.Accession)
+                    {
+                        // 継承の場合、継承から抽選する
+                        cacheTargets = LotsTargets(cacheTargets, effect.Count);
+                    }
+                    else
+                    {
+                        // 効果の対象一覧取得
+                        cacheTargets = EffectTargets(action.behavioure, effect);
+                        // 対象数を抽選する
+                        cacheTargets = LotsTargets(cacheTargets, effect.Count);
+                    }
+
+                    // 計算ロジック取得
+                    Logic logic = null;
+                    switch (effect.Type)
                     {
                         case BattleConst.Effect.Damage:
-                            action.effects.Add(new BattleEffect(null, effect.Type, logics["通常ダメージ"]()));
+                            logic = logics["通常ダメージ"];
                             break;
                         case BattleConst.Effect.DamageRatio:
-                            action.effects.Add(new BattleEffect(null, effect.Type, logics["割合ダメージ"]()));
+                            logic = logics["割合ダメージ"];
                             break;
                         case BattleConst.Effect.Recovery:
-                            action.effects.Add(new BattleEffect(null, effect.Type, logics["通常回復"]()));
+                            logic = logics["通常回復"];
                             break;
                         case BattleConst.Effect.RecoveryRatio:
-                            action.effects.Add(new BattleEffect(null, effect.Type, logics["割合回復"]()));
+                            logic = logics["割合回復"];
                             break;
                         case BattleConst.Effect.Buff_All:
                         case BattleConst.Effect.Buff_Atk:
@@ -57,13 +119,34 @@ namespace Alice
                         case BattleConst.Effect.Debuff_Def:
                         case BattleConst.Effect.Debuff_MAtk:
                         case BattleConst.Effect.Debuff_MDef:
-                            action.effects.Add(new BattleEffect(null, effect.Type, logics["補正値"]()));
+                            logic = logics["補正値"];
                             break;
                     }
+
+                    Assert.IsTrue(logic != null, "ロジックがnullになっています");
+                    // 対象に効果を与える
+                    foreach (var target in cacheTargets)
+                    {
+                        // 効果値を計算
+                        var value = logic(action.behavioure, target, effect);
+                        action.effects.Add(new BattleEffect(target, effect.Type, value));
+                    }
+
                 }
             } else
             {
-                action.effects.Add(new BattleEffect(null, BattleConst.Effect.Damage, logics["通常ダメージ"]()));
+                // 効果の対象一覧取得
+                cacheTargets = EffectTargets(action.behavioure, null);
+                // 対象数を抽選する:必ず単体攻撃
+                cacheTargets = LotsTargets(cacheTargets, 1);
+                Logic logic = logics["通常ダメージ"];
+                // 対象に効果を与える
+                foreach (var target in cacheTargets)
+                {
+                    // 効果値を計算
+                    var value = logic(action.behavioure, target, null);
+                    action.effects.Add(new BattleEffect(target, BattleConst.Effect.Damage, value));
+                }
             }
             return action;
         }
@@ -81,7 +164,7 @@ namespace Alice
         /// <summary>
         /// 通常ダメージ
         /// </summary>
-        int Damage()
+        int Damage(BattleUnit behavioure, BattleUnit target, Effect effect)
         {
             return 10;
         }
@@ -89,7 +172,7 @@ namespace Alice
         /// <summary>
         /// 割合ダメージ
         /// </summary>
-        int DamageRatio()
+        int DamageRatio(BattleUnit behavioure, BattleUnit target, Effect effect)
         {
             return 10;
         }
@@ -97,7 +180,7 @@ namespace Alice
         /// <summary>
         /// 通常回復
         /// </summary>
-        int Recovery()
+        int Recovery(BattleUnit behavioure, BattleUnit target, Effect effect)
         {
             return 10;
         }
@@ -105,7 +188,7 @@ namespace Alice
         /// <summary>
         /// 割合回復
         /// </summary>
-        int RecoveryRatio()
+        int RecoveryRatio(BattleUnit behavioure, BattleUnit target, Effect effect)
         {
             return 10;
         }
@@ -113,7 +196,7 @@ namespace Alice
         /// <summary>
         /// 補正値
         /// </summary>
-        int Correction()
+        int Correction(BattleUnit behavioure, BattleUnit target, Effect effect)
         {
             return 5;
         }
