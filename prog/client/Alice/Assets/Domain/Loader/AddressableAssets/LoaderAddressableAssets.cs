@@ -24,20 +24,16 @@ namespace Zoo.IO
             {
                 return o as T;
             }
-
-            Debug.LogError(($"not preloaded asset!! [{path}]"));
-            return null;
+            throw new Exception($"not preloaded asset!! [{path}]");
         }
 
         public void LoadAsync<T>(string path, Action<T> onloaded) where T : class
         {
-            Observable
-                .FromCoroutine<object>(o => _Preload(o, path))
-                .Subscribe(o =>
-                {
-                    caches[path] = o;
-                    onloaded?.Invoke(o as T);
-                });
+            Observable.FromCoroutine(()=>_Preload<T>(path, (res) =>
+            {
+                caches[path] = res;
+                onloaded(res as T);
+            })).Subscribe();
         }
 
         public void Preload(string[] paths, Action onloaded)
@@ -48,13 +44,11 @@ namespace Zoo.IO
                 LoadAsync<object>(path, (_) => function());
             }
         }
-
-        IEnumerator _Preload(IObserver<object> observer, string path)
+        IEnumerator _Preload<T>(string path, Action<T> cb) where T : class
         {
             var handle = Addressables.LoadAssetAsync<object>(rootPath + path);
             yield return handle;
-            observer.OnNext(handle.Result);
-            observer.OnCompleted();
+            cb(handle.Result as T);
         }
     }
 }
