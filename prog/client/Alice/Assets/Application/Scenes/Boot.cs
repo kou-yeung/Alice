@@ -4,18 +4,27 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zoo.Auth;
 using Zoo.Communication;
-
+using Zoo.IO;
+using Alice.Entities;
+using Zoo;
 public class Boot : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public string nextScene;
+
     void Start()
     {
-        // サービスロケータの初期化
+        Async.Parallel(() => SceneManager.LoadSceneAsync(nextScene),
+            (end) => MasterData.Initialize(end)
+        );
+    }
+
+    // サービスロケータの初期化
+    [RuntimeInitializeOnLoadMethod]
+    static void InitializeServiceLocator()
+    {
+        Debug.Log("サービスロケータの初期化");
         AuthService.SetLocator(new AuthLocal());    // 認証
-        CommunicationService.SetLocator(new CommunicationLocal(new AliceServer()));    // 通信
-
-
-        // タイトルへ
-        SceneManager.LoadSceneAsync("Title");
+        CommunicationService.SetLocator(new CommunicationLocal(new Alice.AliceServer()));    // 通信
+        LoaderService.SetLocator(new LoaderAddressableAssets("Assets/AddressableAssets/"));    // ローダー
     }
 }

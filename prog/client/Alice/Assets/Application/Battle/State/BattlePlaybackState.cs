@@ -13,13 +13,18 @@ namespace Alice
         {
             Debug.Log("BattlePlaybackState : Begin");
 
+            foreach(var effect in owner.controller.currentAction.effects)
+            {
+                Debug.Log($"Action : {effect.target.uniq} ({effect.target.side}) : {effect.type} : {effect.value}");
+            }
+
             Observable.FromCoroutine<Unit>(o => Playback(o)).Subscribe((_)=>
             {
                 Debug.Log("Playback Wait!!");
             },
             ()=>
             {
-                owner.ChangeState(BattleConst.State.Timeline);
+                owner.controller.ChangeState(BattleConst.State.Timeline);
             });
         }
 

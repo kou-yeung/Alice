@@ -46,18 +46,6 @@ namespace Zoo.Communication
                 }
                 complete?.Invoke(task.Result.Data as string);
             });
-
-
-            /*
-            var request = UnityWebRequest.Post(baseUrl + proto, data);
-            Observable.FromCoroutine<string>(o => Fetch(o, request)).Subscribe(res =>
-            {
-                complete?.Invoke(res);
-            }, e =>
-            {
-                error?.Invoke(e.ToString());
-            });
-            */
         }
 
         IEnumerator Fetch(IObserver<string> observer, UnityWebRequest request)

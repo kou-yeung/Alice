@@ -1,0 +1,4 @@
+ID,効果,対象範囲,対象数,パラメータ,
+Effect_001_001,Damage,Enemy,1,10,
+Effect_001_002,DamageRatio,Enemy,1,10,
+Effect_001_003,Recovery,Self,1,10,

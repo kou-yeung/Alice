@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-namespace Zoo.Async
+namespace Zoo
 {
     public static class Async
     {
