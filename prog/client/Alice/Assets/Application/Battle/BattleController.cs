@@ -83,7 +83,7 @@ namespace Alice
         {
             for (int i = 0; i < ids.Length; i++)
             {
-                var uniq = Guid.NewGuid().ToString();
+                var uniq = $"PLAYER:{i}";// Guid.NewGuid().ToString();
                 var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Player);
                 units.Add(uniq, unit);
 
@@ -99,7 +99,7 @@ namespace Alice
         {
             for (int i = 0; i < ids.Length; i++)
             {
-                var uniq = Guid.NewGuid().ToString();
+                var uniq = $"ENEMY:{i}";//Guid.NewGuid().ToString();
                 var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Enemy);
                 units.Add(uniq, unit);
 

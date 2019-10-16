@@ -65,7 +65,18 @@ namespace Alice
             Assert.IsTrue(units != null, "効果対象が設定してください");
             Assert.IsTrue(units.Count != 0, "効果対象がない");
             Assert.IsTrue(count != 0, "効果対象数が0になっています");
-            return units.OrderBy(v => Guid.NewGuid()).Take(count).ToList();
+
+            // 抽選最大数制限
+            count = Mathf.Min(units.Count, count);
+            List<BattleUnit> res = new List<BattleUnit>();
+            List<BattleUnit> wrk = units.ToList();
+            for (int i = 0; i < count; i++)
+            {
+                var index = Battle.Instance.random.Next(0, wrk.Count);
+                res.Add(wrk[index]);
+                wrk.RemoveAt(index);
+            }
+            return res;
         }
 
         /// <summary>

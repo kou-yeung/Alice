@@ -24,8 +24,8 @@ namespace Alice
             // バトル情報を取得する
             CommunicationService.Instance.Request("Battle", "", (res) =>
             {
-                Debug.Log(res);
-                this.random = new System.Random();
+                var battleRecv = JsonUtility.FromJson<BattleStartRecv>(res);
+                this.random = new System.Random(battleRecv.seed);
 
                 // 必要なリソースをプリロード
                 List<string> resourcePaths = new List<string>();
@@ -37,7 +37,7 @@ namespace Alice
                 LoaderService.Instance.Preload(resourcePaths.ToArray(), () =>
                 {
                     // コントローラ初期化
-                    controller.Setup(JsonUtility.FromJson<BattleStartRecv>(res));
+                    controller.Setup(battleRecv);
                     // ステート開始
                     controller.ChangeState(BattleConst.State.Init);
                 });
