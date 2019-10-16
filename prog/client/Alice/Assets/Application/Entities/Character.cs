@@ -7,7 +7,8 @@ namespace Alice.Entities
         public string ID;
         public string Name;
         public string Image;
-        public BattleConst.Personality Personality;
+        public string Personality;
+        public int HP;
         public int Atk;
         public int Def;
         public int MAtk;
@@ -23,16 +24,8 @@ namespace Alice.Entities
             Map(x => x.ID).Name("ID");
             Map(x => x.Name).Name("名前");
             Map(x => x.Image).Name("画像ID");
-            Map(x => x.Personality).ConvertUsing(row =>
-            {
-                switch(row.GetField<string>("性格"))
-                {
-                    case "乱暴": return BattleConst.Personality.Violent;
-                    case "知的": return BattleConst.Personality.Intellectual;
-                    case "仲間思い": return BattleConst.Personality.Considerate;
-                    default:throw new System.Exception("未知の性格ですね。");
-                }
-            });
+            Map(x => x.Personality).Name("性格");
+            Map(x => x.HP).Name("HP");
             Map(x => x.Atk).Name("ATK");
             Map(x => x.Def).Name("DEF");
             Map(x => x.MAtk).Name("MATK");

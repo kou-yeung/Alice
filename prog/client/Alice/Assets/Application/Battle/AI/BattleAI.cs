@@ -18,24 +18,17 @@ namespace Alice
         delegate Skill AI(BattleUnit behaviour);
         // ロジックカタログ
         Dictionary<string, AI> ais = new Dictionary<string, AI>();
-        // 数字からAI登録名に変換用マップ
-        Dictionary<int, string> aiMap = new Dictionary<int, string>()
-        {
-            { 1, "回復スキル" },
-            { 2, "バフスキル" },
-        };
-        // 性格の抽選順
-        Dictionary<BattleConst.Personality, int[]> personalityAI = new Dictionary<BattleConst.Personality, int[]>()
-        {
-            {BattleConst.Personality.Violent, new []{ 1, 2} },
-            {BattleConst.Personality.Intellectual, new []{ 2, 1} },
-            {BattleConst.Personality.Considerate, new []{ 2, 1} },
-        };
 
         public BattleAI()
         {
-            Register("回復スキル", Recovery);
-            Register("バフスキル", Buff);
+            //Register("回復", Recovery);
+            //Register("バフスキル", Buff);
+            Register("回復", Empty);
+            Register("バフ", Empty);
+            Register("デバフ", Empty);
+            Register("バフ解除", Empty);
+            Register("デバフ解除", Empty);
+            Register("ダメージ", Empty);
         }
 
         /// <summary>
@@ -45,9 +38,8 @@ namespace Alice
         /// <returns></returns>
         public Skill Exec(BattleUnit behaviour)
         {
-            // 実行順によって抽選する
-            var ids = personalityAI[behaviour.characterData.Personality];
-            foreach(var ai in ids.Select(id => aiMap[id]))
+            // 思考による抽選する
+            foreach(var ai in behaviour.ais)
             {
                 var skill = ais[ai](behaviour);
                 if (skill != null) return skill;
@@ -112,6 +104,16 @@ namespace Alice
                 // 将来は一回のみ抽選するようにします
                 if (this.Lots(30)) return skill;
             }
+            return null;
+        }
+
+        /// <summary>
+        /// 未実装時使用
+        /// </summary>
+        /// <param name="behaviour"></param>
+        /// <returns></returns>
+        Skill Empty(BattleUnit behaviour)
+        {
             return null;
         }
     }

@@ -22,11 +22,9 @@ namespace CsvHelper
         static void AddConverter()
         {
             //configuration.TypeConverterCache.AddConverter<Identify>(new IdentifyTypeConverter());
+            //configuration.TypeConverterCache.AddConverter<Vector2Int>(new Vector2IntTypeConverter());
             configuration.TypeConverterCache.AddConverter<BattleConst.Effect>(new EnumTypeConverter<BattleConst.Effect>());
             configuration.TypeConverterCache.AddConverter<BattleConst.Target>(new EnumTypeConverter<BattleConst.Target>());
-            //configuration.TypeConverterCache.AddConverter<Vector2Int>(new Vector2IntTypeConverter());
-            //configuration.TypeConverterCache.AddConverter<SkillType>(new EnumTypeConverter<SkillType>());
-            //configuration.TypeConverterCache.AddConverter<SkiiTarget>(new EnumTypeConverter<SkiiTarget>());
         }
 
         /// <summary>
@@ -37,18 +35,7 @@ namespace CsvHelper
             configuration.RegisterClassMap<CharacterMap>();
             configuration.RegisterClassMap<SkillMap>();
             configuration.RegisterClassMap<EffectMap>();
-            //configuration.RegisterClassMap<VendingMap>();
-            //configuration.RegisterClassMap<RecipeMap>();
-            //configuration.RegisterClassMap<ItemMap>();
-            //configuration.RegisterClassMap<ConfigsMap>();
-            //configuration.RegisterClassMap<CheatMap>();
-            //configuration.RegisterClassMap<StringTableMap>();
-            //configuration.RegisterClassMap<DungeonMap>();
-            //configuration.RegisterClassMap<RoomMap>();
-            //configuration.RegisterClassMap<StageMap>();
-            //configuration.RegisterClassMap<LevelMap>();
-            //configuration.RegisterClassMap<EnemyMap>();
-            //configuration.RegisterClassMap<SkillMap>();
+            configuration.RegisterClassMap<PersonalityMap>();
         }
     }
 }

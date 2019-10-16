@@ -16,13 +16,15 @@ namespace Alice.Entities
         public static Character[] characters { get; private set; }
         public static Skill[] skills { get; private set; }
         public static Effect[] effects { get; private set; }
+        public static Personality[] personalities { get; private set; }
 
         public static void Initialize(Action cb)
         {
             Async.Parallel( cb,
                 (end) => Load<Character>("Entities/Character.csv", res => characters = res, end),
                 (end) => Load<Skill>("Entities/Skill.csv", res => skills = res, end),
-                (end) => Load<Effect>("Entities/Effect.csv", res => effects = res, end)
+                (end) => Load<Effect>("Entities/Effect.csv", res => effects = res, end),
+                (end) => Load<Personality>("Entities/Personality.csv", res => personalities = res, end)
             );
         }
         static void Load<T>(string path, Action<T[]> cb, Action end)

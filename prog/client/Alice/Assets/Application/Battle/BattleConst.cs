@@ -83,16 +83,5 @@ namespace Alice
             Enemy,      // 敵
             Accession,  // 継承：前の効果設定に依存する
         }
-
-        /// <summary>
-        /// キャラの性格
-        /// スキル選択AIの抽選順に影響します
-        /// </summary>
-        public enum Personality
-        {
-            Violent,        // 乱暴:ダメージ > バフ・デバフ > 回復
-            Intellectual,   // 知的:バフ・デバフ > 回復 > ダメージ
-            Considerate,    // 仲間思い:回復 > バフ・デバフ > ダメージ
-        }
     }
 }
