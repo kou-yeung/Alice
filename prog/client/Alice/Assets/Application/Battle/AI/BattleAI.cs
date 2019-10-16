@@ -24,6 +24,13 @@ namespace Alice
             { 1, "回復スキル" },
             { 2, "バフスキル" },
         };
+        // 性格の抽選順
+        Dictionary<BattleConst.Personality, int[]> personalityAI = new Dictionary<BattleConst.Personality, int[]>()
+        {
+            {BattleConst.Personality.Violent, new []{ 1, 2} },
+            {BattleConst.Personality.Intellectual, new []{ 2, 1} },
+            {BattleConst.Personality.Considerate, new []{ 2, 1} },
+        };
 
         public BattleAI()
         {
@@ -39,7 +46,7 @@ namespace Alice
         public Skill Exec(BattleUnit behaviour)
         {
             // 実行順によって抽選する
-            var ids = new[] { 2, 1 };
+            var ids = personalityAI[behaviour.characterData.Personality];
             foreach(var ai in ids.Select(id => aiMap[id]))
             {
                 var skill = ais[ai](behaviour);
