@@ -9,10 +9,9 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
-            var uniq = owner.controller.currentActionUniq;
-            var behaviour = owner.controller.units[uniq];
+            var behaviour = owner.controller.currentActionBattleUnit;
             // 行動選択
-            var skill = BattleAI.Instance.Exec(owner.controller.units[uniq]);
+            var skill = BattleAI.Instance.Exec(behaviour);
             // 行動による効果計算
             var action = BattleLogic.Instance.Exec(new BattleAction(behaviour, skill));
             // 行動保持する

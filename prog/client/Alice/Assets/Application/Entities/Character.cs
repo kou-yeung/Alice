@@ -1,4 +1,5 @@
 ﻿using CsvHelper.Configuration;
+using System.Collections.Generic;
 
 namespace Alice.Entities
 {
@@ -14,11 +15,16 @@ namespace Alice.Entities
         public int MAtk;
         public int MDef;
         public int Wait;
-
+        public int[] Trigger;   // 発動確率
     }
 
     public sealed class CharacterMap : ClassMap<Character>
     {
+        static readonly string[] triggerFields = new[]
+        {
+            "回復","バフ","デバフ","バフ解除","デバフ解除","ダメージ",
+        };
+
         public CharacterMap()
         {
             Map(x => x.ID).Name("ID");
@@ -31,6 +37,15 @@ namespace Alice.Entities
             Map(x => x.MAtk).Name("MATK");
             Map(x => x.MDef).Name("MDEF");
             Map(x => x.Wait).Name("WAIT");
+            Map(x => x.Trigger).ConvertUsing(row =>
+            {
+                var trigger = new int[triggerFields.Length];
+                for (int i = 0; i < trigger.Length; i++)
+                {
+                    trigger[i] = row.GetField<int>(triggerFields[i]);
+                }
+                return trigger;
+            });
         }
     }
 }

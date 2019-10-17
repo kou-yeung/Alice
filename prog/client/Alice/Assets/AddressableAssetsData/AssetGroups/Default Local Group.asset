@@ -113,6 +113,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv010.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: e89a964c2de66724bb3d3b81e50d745f
+    m_Address: Assets/AddressableAssets/Entities/Personality.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f0296a71c93351f46b29f49ae820e40b, type: 2}
   m_SchemaSet:

@@ -66,5 +66,15 @@ namespace Alice
                 image.transform.localScale = new Vector3(-1, 1, 1);
             }
         }
+
+        /// <summary>
+        /// 発動トリガ
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int Trigger(BattleConst.SkillType type)
+        {
+            return this.characterData.Trigger[(int)type];
+        }
     }
 }
