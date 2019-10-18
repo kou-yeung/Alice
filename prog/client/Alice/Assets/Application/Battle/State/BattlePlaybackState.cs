@@ -13,8 +13,6 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
-            Debug.Log("BattlePlaybackState : Begin");
-
             var action = owner.controller.currentAction;
 
             Async.Waterflow(() =>
@@ -27,24 +25,11 @@ namespace Alice
                 // 演出終了
                 owner.controller.ChangeState(BattleConst.State.TurnEnd);
             },
+            (end) => Cutin(action, end),    // 演出:スキルカットイン
             (end) => Attack(action, end),   // 演出:アクション開始
             (end) => Damage(action, end),   // 演出:ダメージ
             (end) => Recovery(action, end)  // 演出:回復
             );
-
-            //foreach(var effect in owner.controller.currentAction.effects)
-            //{
-            //    Debug.Log($"Action : {effect.target.uniq} ({effect.target.side}) : {effect.type} : {effect.value}");
-            //}
-
-            //Observable.FromCoroutine<Unit>(o => Playback(o)).Subscribe((_)=>
-            //{
-            //    Debug.Log("Playback Wait!!");
-            //},
-            //()=>
-            //{
-            //    owner.controller.ChangeState(BattleConst.State.TurnEnd);
-            //});
         }
 
         IEnumerator Playback(IObserver<Unit> observer)
@@ -108,6 +93,25 @@ namespace Alice
             }
             else
             {
+                cb();
+            }
+        }
+
+        /// <summary>
+        /// 演出:スキルカットイン
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cb"></param>
+        void Cutin(BattleAction action, Action cb)
+        {
+            if(action.skill != null)
+            {
+                Debug.Log($"スキル:{action.skill.Name}");
+                cb();
+            }
+            else
+            {
+                Debug.Log($"通常攻撃");
                 cb();
             }
         }

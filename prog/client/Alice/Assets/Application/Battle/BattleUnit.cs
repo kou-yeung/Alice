@@ -47,7 +47,7 @@ namespace Alice
             this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;
 
             // スキルID -> スキルデータ
-            foreach (var skill in new[] { "Skill_001_001" })
+            foreach (var skill in new[] { "Skill_001_001","Skill_001_002","Skill_001_003" })
             {
                 this.skills.Add(MasterData.skills.First(v => v.ID == skill));
             }
