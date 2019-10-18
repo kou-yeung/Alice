@@ -29,18 +29,15 @@ namespace Alice
             }
         }
 
+        public GameObject root { get; private set; }
+        public Actor actor { get; private set; }
 
         public string uniq { get; private set; }
         public BattleConst.Side side { get; private set; }
-        public GameObject gameObject { get; private set; }
-        public Image image { get; private set; }
-        //public Sprites sprites { get; private set; }
         public Character characterData { get; private set; }
         public Current current { get; private set; }
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
-
-        public Actor actor { get; private set; }
 
         public BattleUnit(string uniq, string id, BattleConst.Side side)
         {
@@ -55,20 +52,18 @@ namespace Alice
                 this.skills.Add(MasterData.skills.First(v => v.ID == skill));
             }
 
+            root = new GameObject(this.uniq);
             this.side = side;
             var prefab = LoaderService.Instance.Load<GameObject>("Actor/Actor.prefab");
-            gameObject = GameObject.Instantiate(prefab);
-            actor = gameObject.GetComponent<Actor>();
-
+            actor = GameObject.Instantiate(prefab).GetComponent<Actor>();
+            actor.transform.SetParent(root.transform, true);
 
             var sprites = LoaderService.Instance.Load<Sprites>(string.Format("Character/$yuhinamv{0}.asset", this.characterData.Image));
             actor.sprites = sprites;
-            //image = gameObject.GetComponent<Image>();
-            //image.sprite = sprites[7];
 
             if(side == BattleConst.Side.Enemy)
             {
-                actor.transform.localScale = new Vector3(-1, 1, 1);
+                root.transform.localScale = new Vector3(-1, 1, 1);
             }
         }
 
