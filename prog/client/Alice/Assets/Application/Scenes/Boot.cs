@@ -13,7 +13,13 @@ public class Boot : MonoBehaviour
 
     void Start()
     {
-        Async.Parallel(() => SceneManager.LoadSceneAsync(nextScene),
+        Async.Parallel(() =>
+        {
+            if(!string.IsNullOrEmpty(nextScene))
+            {
+                SceneManager.LoadSceneAsync(nextScene);
+            }
+        },
             (end) => MasterData.Initialize(end)
         );
     }

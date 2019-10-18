@@ -34,11 +34,13 @@ namespace Alice
         public BattleConst.Side side { get; private set; }
         public GameObject gameObject { get; private set; }
         public Image image { get; private set; }
-        public Sprites sprites { get; private set; }
+        //public Sprites sprites { get; private set; }
         public Character characterData { get; private set; }
         public Current current { get; private set; }
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
+
+        public Actor actor { get; private set; }
 
         public BattleUnit(string uniq, string id, BattleConst.Side side)
         {
@@ -54,17 +56,30 @@ namespace Alice
             }
 
             this.side = side;
-            var prefab = LoaderService.Instance.Load<GameObject>("Character.prefab");
+            var prefab = LoaderService.Instance.Load<GameObject>("Actor/Actor.prefab");
             gameObject = GameObject.Instantiate(prefab);
+            actor = gameObject.GetComponent<Actor>();
 
-            sprites = LoaderService.Instance.Load<Sprites>(string.Format("Character/$yuhinamv{0}.asset", this.characterData.Image));
-            image = gameObject.GetComponent<Image>();
-            image.sprite = sprites[7];
+
+            var sprites = LoaderService.Instance.Load<Sprites>(string.Format("Character/$yuhinamv{0}.asset", this.characterData.Image));
+            actor.sprites = sprites;
+            //image = gameObject.GetComponent<Image>();
+            //image.sprite = sprites[7];
 
             if(side == BattleConst.Side.Enemy)
             {
-                image.transform.localScale = new Vector3(-1, 1, 1);
+                actor.transform.localScale = new Vector3(-1, 1, 1);
             }
+        }
+
+        /// <summary>
+        /// 発動トリガ
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int Trigger(BattleConst.SkillType type)
+        {
+            return this.characterData.Trigger[(int)type];
         }
     }
 }

@@ -57,6 +57,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv009.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 7d13d65960d27d04aadeedf9b6cc354f
+    m_Address: Assets/AddressableAssets/Actor/Actor.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 82ee3483de931f14c813b20afc16b8ae
     m_Address: Assets/AddressableAssets/Character/$yuhinamv010.png
     m_ReadOnly: 0
@@ -111,6 +115,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: e4a7b9833a52e264b94dd9b581290d32
     m_Address: Assets/AddressableAssets/Character/$yuhinamv010.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e89a964c2de66724bb3d3b81e50d745f
+    m_Address: Assets/AddressableAssets/Entities/Personality.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

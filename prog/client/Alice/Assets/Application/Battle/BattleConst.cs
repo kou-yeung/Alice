@@ -13,6 +13,7 @@ namespace Alice
             Timeline,   // タイムライン更新
             Action,     // アクション選択
             Playback,   // 選択したアクションの再生
+            TurnEnd,    // ターンエンド
         }
 
         /// <summary>
@@ -58,19 +59,38 @@ namespace Alice
 
             // バフ
             Buff_Base = 200,            // 計算に使用する
-            Buff_All = Buff_Base,       // バフ:全パラメータ
             Buff_Atk,                   // バフ:ATK
             Buff_Def,                   // バフ:Def
             Buff_MAtk,                  // バフ:MAtk
             Buff_MDef,                  // バフ:MDef
+            Buff_Wait,                  // バフ:MDef
 
             // デバフ
-            Debuff_Base = 300,     // 計算に使用する
-            Debuff_All = 300,      // デバフ:全パラメータ
-            Debuff_Atk,            // デバフ:ATK
-            Debuff_Def,            // デバフ:Def
-            Debuff_MAtk,           // デバフ:MAtk
-            Debuff_MDef,           // デバフ:MDef
+            Debuff_Base = 300,          // 計算に使用する
+            Debuff_Atk,                 // デバフ:ATK
+            Debuff_Def,                 // デバフ:Def
+            Debuff_MAtk,                // デバフ:MAtk
+            Debuff_MDef,                // デバフ:MDef
+            Debuff_Wait,                // デバフ:Wait
+
+            // バフ解除
+            BuffCancel_Base = 400,      // 計算に使用する
+            BuffCancel_Atk,             // バフ解除:ATK
+            BuffCancel_Def,             // バフ解除:DEF
+            BuffCancel_MAtk,            // バフ解除:MATK
+            BuffCancel_MDef,            // バフ解除:MDEF
+            BuffCancel_Wait,            // バフ解除:Wait
+            BuffCancel_All = BuffCancel_Base, // バフ解除:すべて
+
+            // バフ解除
+            DebuffCancel_Base = 500,      // 計算に使用する
+            DebuffCancel_Atk,             // デバフ解除:ATK
+            DebuffCancel_Def,             // デバフ解除:DEF
+            DebuffCancel_MAtk,            // デバフ解除:MATK
+            DebuffCancel_MDef,            // デバフ解除:MDEF
+            DebuffCancel_Wait,            // デバフ解除:Wait
+            DebuffCancel_All = DebuffCancel_Base, // デバフ解除:すべて
+
         }
 
         /// <summary>
@@ -82,6 +102,19 @@ namespace Alice
             Friend,     // 味方
             Enemy,      // 敵
             Accession,  // 継承：前の効果設定に依存する
+        }
+
+        /// <summary>
+        /// スキル種類
+        /// </summary>
+        public enum SkillType
+        {
+            Recovery,       // 回復
+            Buff,           // バフ
+            Debuff,         // デバフ
+            BuffCancel,     // バフ解除
+            DebuffCancel,   // デバフ解除
+            Damage,         // ダメージ
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Alice
             },
             ()=>
             {
-                owner.controller.ChangeState(BattleConst.State.Timeline);
+                owner.controller.ChangeState(BattleConst.State.TurnEnd);
             });
         }
 

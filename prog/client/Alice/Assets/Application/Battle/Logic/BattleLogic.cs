@@ -120,12 +120,10 @@ namespace Alice
                         case BattleConst.Effect.RecoveryRatio:
                             logic = logics["割合回復"];
                             break;
-                        case BattleConst.Effect.Buff_All:
                         case BattleConst.Effect.Buff_Atk:
                         case BattleConst.Effect.Buff_Def:
                         case BattleConst.Effect.Buff_MAtk:
                         case BattleConst.Effect.Buff_MDef:
-                        case BattleConst.Effect.Debuff_All:
                         case BattleConst.Effect.Debuff_Atk:
                         case BattleConst.Effect.Debuff_Def:
                         case BattleConst.Effect.Debuff_MAtk:

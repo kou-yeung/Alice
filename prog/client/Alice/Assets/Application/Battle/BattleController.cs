@@ -12,10 +12,10 @@ namespace Alice
         Battle owner;
         StateBehaviour<Battle, BattleConst.State> stateBehaviour;
         BattleStartRecv recv;
-        string[] sortedUniqs { get; set; }
+        List<BattleUnit> sortedBattleUnits { get; set; }
 
         public Dictionary<string, BattleUnit> units { get; private set; } = new Dictionary<string, BattleUnit>();
-        public string currentActionUniq { get { return sortedUniqs[0]; } }
+        public BattleUnit currentActionBattleUnit { get { return sortedBattleUnits[0]; } }
         public BattleAction currentAction { get; private set; }
 
         public BattleController(Battle owner)
@@ -27,6 +27,7 @@ namespace Alice
             stateBehaviour.AddState(BattleConst.State.Action, new BattleActionState());
             stateBehaviour.AddState(BattleConst.State.Playback, new BattlePlaybackState());
             stateBehaviour.AddState(BattleConst.State.Timeline, new BattleTimelineState());
+            stateBehaviour.AddState(BattleConst.State.TurnEnd, new BattleTurnEndState());
         }
 
         public void Dispose()
@@ -59,12 +60,12 @@ namespace Alice
         }
 
         /// <summary>
-        /// ソート済みのUniq配列更新
+        /// タイムラインによるソート済みのBattleUnit配列更新
         /// </summary>
         /// <param name="uniqs"></param>
-        public void UpdateSortedUniqs(string[] sortedUniqs)
+        public void UpdateSortedBattleUnits(List<BattleUnit> sortedBattleUnits)
         {
-            this.sortedUniqs = sortedUniqs;
+            this.sortedBattleUnits = sortedBattleUnits;
         }
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace Alice
                 var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Player);
                 units.Add(uniq, unit);
 
-                var transform = unit.image.transform;
+                var transform = unit.actor.transform;
                 transform.SetParent(this.owner.transform);
                 transform.localPosition = BattleConst.PlayerUnitPositions[i];
             }
@@ -103,7 +104,7 @@ namespace Alice
                 var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Enemy);
                 units.Add(uniq, unit);
 
-                var transform = unit.image.transform;
+                var transform = unit.actor.transform;
                 transform.SetParent(this.owner.transform);
                 transform.localPosition = BattleConst.EnemyUnitPositions[i];
             }
