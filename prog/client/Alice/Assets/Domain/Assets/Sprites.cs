@@ -17,6 +17,8 @@ namespace Zoo.Assets
         [SerializeField]
         Sprite[] sprites;
 
+        public int Count { get { return sprites.Length; } }
+
         public Sprite this[string name]
         {
             get

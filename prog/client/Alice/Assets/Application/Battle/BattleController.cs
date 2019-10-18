@@ -88,7 +88,7 @@ namespace Alice
                 var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Player);
                 units.Add(uniq, unit);
 
-                var transform = unit.image.transform;
+                var transform = unit.actor.transform;
                 transform.SetParent(this.owner.transform);
                 transform.localPosition = BattleConst.PlayerUnitPositions[i];
             }
@@ -104,7 +104,7 @@ namespace Alice
                 var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Enemy);
                 units.Add(uniq, unit);
 
-                var transform = unit.image.transform;
+                var transform = unit.actor.transform;
                 transform.SetParent(this.owner.transform);
                 transform.localPosition = BattleConst.EnemyUnitPositions[i];
             }

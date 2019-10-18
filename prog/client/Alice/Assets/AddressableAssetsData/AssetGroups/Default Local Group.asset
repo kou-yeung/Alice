@@ -57,6 +57,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv009.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 7d13d65960d27d04aadeedf9b6cc354f
+    m_Address: Assets/AddressableAssets/Actor/Actor.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 82ee3483de931f14c813b20afc16b8ae
     m_Address: Assets/AddressableAssets/Character/$yuhinamv010.png
     m_ReadOnly: 0

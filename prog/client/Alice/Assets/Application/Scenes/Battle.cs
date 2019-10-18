@@ -33,7 +33,7 @@ namespace Alice
                 {
                     resourcePaths.Add(string.Format("Character/$yuhinamv{0:D3}.asset", i));
                 }
-                resourcePaths.Add("Character.prefab");
+                resourcePaths.Add("Actor/Actor.prefab");
                 LoaderService.Instance.Preload(resourcePaths.ToArray(), () =>
                 {
                     // コントローラ初期化
