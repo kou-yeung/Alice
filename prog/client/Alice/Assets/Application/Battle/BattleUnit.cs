@@ -70,6 +70,7 @@ namespace Alice
             state = GameObject.Instantiate(statePrefab).GetComponent<UnitState>();
             state.transform.SetParent(root.transform, true);
 
+            state.Setup(this);
             var sprites = LoaderService.Instance.Load<Sprites>(string.Format("Character/$yuhinamv{0}.asset", this.characterData.Image));
             actor.sprites = sprites;
 
@@ -99,7 +100,7 @@ namespace Alice
         public void Damage(int value)
         {
             current.HP = Mathf.Max(0, current.HP - value);
-            state.SetHP(current.HP, characterData.HP);
+            state.SetHP(current.HP);
             state.PlayDamage(value);
         }
 
@@ -110,7 +111,7 @@ namespace Alice
         public void Recovery(int value)
         {
             current.HP = Mathf.Min(characterData.HP, current.HP + value);
-            state.SetHP(current.HP, characterData.HP);
+            state.SetHP(current.HP);
             state.PlayRecovery(value);
         }
     }
