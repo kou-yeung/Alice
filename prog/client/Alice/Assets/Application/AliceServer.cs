@@ -29,21 +29,22 @@ namespace Alice
         /// <returns></returns>
         string Battle(string data)
         {
+            //new[] { "Skill_001_001", "Skill_001_002", "Skill_001_003" }
             var recv = new BattleStartRecv();
             recv.seed = 9527;
             recv.player = new[]
             {
-                "Character_001_002",
-                "Character_001_004",
-                "Character_001_006",
-                "Character_001_008",
+                new UserUnit{ characterId = "Character_001_002", position = 0, skill = new string[]{ "Skill_001_001" } },
+                new UserUnit{ characterId = "Character_001_004", position = 1, skill = new string[]{ "Skill_001_002" } },
+                new UserUnit{ characterId = "Character_001_006", position = 2, skill = new string[]{ "Skill_001_003" } },
+                new UserUnit{ characterId = "Character_001_008", position = 3, skill = new string[]{ "Skill_001_001" } },
             };
             recv.enemy = new[]
             {
-                "Character_001_003",
-                "Character_001_007",
-                "Character_001_009",
-                "Character_001_010",
+                new UserUnit{ characterId = "Character_001_003", position = 0, skill = new string[]{ "Skill_001_001" } },
+                new UserUnit{ characterId = "Character_001_007", position = 1, skill = new string[]{ "Skill_001_002" } },
+                //new UserUnit{ characterId = "Character_001_009", position = 0, skill = new string[]{} },
+                new UserUnit{ characterId = "Character_001_010", position = 3, skill = new string[]{ "Skill_001_003" } },
             };
             return JsonUtility.ToJson(recv);
         }

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Zoo;
 using Zoo.IO;
 using Zoo.Communication;
 using Alice.Entities;
@@ -29,11 +31,22 @@ namespace Alice
 
                 // 必要なリソースをプリロード
                 List<string> resourcePaths = new List<string>();
-                for (int i = 1; i <= 10; i++)
-                {
-                    resourcePaths.Add(string.Format("Character/$yuhinamv{0:D3}.asset", i));
-                }
+
                 resourcePaths.Add("Actor/Actor.prefab");
+                resourcePaths.Add("Effect/FX.prefab");
+                resourcePaths.Add("Effect/火5.asset");
+
+                // 味方ユニットに必要なリソースをロード
+                foreach(var unit in battleRecv.player)
+                {
+                    resourcePaths.AddRange(UserUnitPreloadPaths(unit));
+                }
+                // 相手ユニットに必要なリソースをロード
+                foreach (var unit in battleRecv.enemy)
+                {
+                    resourcePaths.AddRange(UserUnitPreloadPaths(unit));
+                }
+
                 LoaderService.Instance.Preload(resourcePaths.ToArray(), () =>
                 {
                     // コントローラ初期化
@@ -47,6 +60,28 @@ namespace Alice
         void OnDestroy()
         {
             controller?.Dispose();
+        }
+
+        List<string> UserUnitPreloadPaths(UserUnit unit)
+        {
+            List<string> paths = new List<string>();
+
+            // キャラマスタデータ
+            var character = MasterData.characters.First(v => v.ID == unit.characterId);
+            // キャラセルアニメーション
+            paths.Add(string.Format("Character/$yuhinamv{0:D3}.asset", character.Image));
+            // エフェクト
+            foreach (var skill in unit.skill)
+            {
+                // スキルマスタデータ
+                var skillData = MasterData.skills.First(v => v.ID == skill);
+                foreach(var effect in skillData.Effects)
+                {
+                    var effectData = MasterData.effects.First(v => v.ID == effect);
+                    paths.Add($"Effect/{effectData.FX}.asset");
+                }
+            }
+            return paths;
         }
     }
 }

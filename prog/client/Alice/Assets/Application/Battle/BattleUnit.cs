@@ -39,15 +39,18 @@ namespace Alice
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
 
-        public BattleUnit(string uniq, string id, BattleConst.Side side)
+        UserUnit data;
+
+        public BattleUnit(string uniq, UserUnit data, BattleConst.Side side)
         {
             this.uniq = uniq;
-            this.characterData = MasterData.characters.First(v => v.ID == id);
+            this.data = data;
+            this.characterData = MasterData.characters.First(v => v.ID == data.characterId);
             this.current = new Current(this.characterData);
             this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;
 
             // スキルID -> スキルデータ
-            foreach (var skill in new[] { "Skill_001_001","Skill_001_002","Skill_001_003" })
+            foreach (var skill in data.skill)
             {
                 this.skills.Add(MasterData.skills.First(v => v.ID == skill));
             }

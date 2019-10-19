@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Alice
 {
@@ -11,14 +12,27 @@ namespace Alice
     {
     }
 
+
+    /// <summary>
+    /// Unit x 1
+    /// </summary>
+    [Serializable]
+    public class UserUnit
+    {
+        public string characterId;
+        public int position;
+        public string[] skill; 
+    }
+
     /// <summary>
     /// バトル開始: SV -> CL
     /// </summary>
+    [Serializable]
     public class BattleStartRecv
     {
         public int seed;
-        public string[] player;
-        public string[] enemy;
+        public UserUnit[] player;
+        public UserUnit[] enemy;
     }
 }
 

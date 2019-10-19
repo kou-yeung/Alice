@@ -55,8 +55,8 @@ namespace Alice
         public void Setup(BattleStartRecv recv)
         {
             this.recv = recv;
-            CreatePlayerUnit(recv.player);
-            CreateEnemyUnit(recv.enemy);
+            CreatePlayerUnit(recv);
+            CreateEnemyUnit(recv);
         }
 
         /// <summary>
@@ -80,33 +80,33 @@ namespace Alice
         /// <summary>
         /// プレイヤーユニット生成
         /// </summary>
-        void CreatePlayerUnit(string[] ids)
+        void CreatePlayerUnit(BattleStartRecv recv)
         {
-            for (int i = 0; i < ids.Length; i++)
+            foreach(var data in recv.player)
             {
-                var uniq = $"PLAYER:{i}";// Guid.NewGuid().ToString();
-                var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Player);
+                var uniq = $"PLAYER:{data.position}";// Guid.NewGuid().ToString();
+                var unit = new BattleUnit(uniq, data, BattleConst.Side.Player);
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform);
-                transform.localPosition = BattleConst.PlayerUnitPositions[i];
+                transform.localPosition = BattleConst.PlayerUnitPositions[data.position];
             }
         }
         /// <summary>
         /// エネミーユニット生成
         /// </summary>
-        void CreateEnemyUnit(string[] ids)
+        void CreateEnemyUnit(BattleStartRecv recv)
         {
-            for (int i = 0; i < ids.Length; i++)
+            foreach (var data in recv.enemy)
             {
-                var uniq = $"ENEMY:{i}";//Guid.NewGuid().ToString();
-                var unit = new BattleUnit(uniq, ids[i], BattleConst.Side.Enemy);
+                var uniq = $"ENEMY:{data.position}";//Guid.NewGuid().ToString();
+                var unit = new BattleUnit(uniq, data, BattleConst.Side.Enemy);
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform);
-                transform.localPosition = BattleConst.EnemyUnitPositions[i];
+                transform.localPosition = BattleConst.EnemyUnitPositions[data.position];
             }
         }
     }
