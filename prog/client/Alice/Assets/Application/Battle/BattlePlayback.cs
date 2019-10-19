@@ -9,30 +9,35 @@ using System.Linq;
 
 namespace Alice
 {
-    public class BattlePlaybackState : IState<Battle>
+    public static class BattlePlayback
     {
-        public override void Begin(Battle owner)
+        /// <summary>
+        /// BattleActionを再生する
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cb"></param>
+        public static void Play(BattleAction action, Action cb)
         {
-            var action = owner.controller.currentAction;
-
-            Async.Waterflow(() =>
-            {
-                // 待機モーションに設定
-                foreach(var kv in owner.controller.units)
-                {
-                    kv.Value.actor.setAnimation("Idle");
-                }
-                // 演出終了
-                owner.controller.ChangeState(BattleConst.State.TurnEnd);
-            },
+            Async.Waterflow(cb,
             (end) => Cutin(action, end),    // 演出:スキルカットイン
-            (end) => Attack(action, end),   // 演出:アクション開始
+            (end) => Action(action, end),   // 演出:アクション開始
             (end) => Damage(action, end),   // 演出:ダメージ
             (end) => Recovery(action, end),  // 演出:回復
+            // 演出:バフ
+            (end) => Condition(action, BattleConst.Effect.Buff_Atk, end),      // 演出:バフ:ATK
+            (end) => Condition(action, BattleConst.Effect.Buff_Def, end),      // 演出:バフ:DEF
+            (end) => Condition(action, BattleConst.Effect.Buff_MAtk, end),      // 演出:バフ:MATK
+            (end) => Condition(action, BattleConst.Effect.Buff_MDef, end),      // 演出:バフ:MDEF
+            (end) => Condition(action, BattleConst.Effect.Buff_Wait, end),      // 演出:バフ:WAIT
+            // 演出:デバフ
+            (end) => Condition(action, BattleConst.Effect.Debuff_Atk, end),      // 演出:デバフ:ATK
+            (end) => Condition(action, BattleConst.Effect.Debuff_Def, end),      // 演出:デバフ:DEF
+            (end) => Condition(action, BattleConst.Effect.Debuff_MAtk, end),      // 演出:デバフ:MATK
+            (end) => Condition(action, BattleConst.Effect.Debuff_MDef, end),      // 演出:デバフ:MDEF
+            (end) => Condition(action, BattleConst.Effect.Debuff_Wait, end),      // 演出:デバフ:WAIT
             (end) => Dead(action, end)      // 演出死亡
             );
         }
-
 
         /// <summary>
         /// 指定したエフェクトファイルの一覧を取得
@@ -40,7 +45,7 @@ namespace Alice
         /// </summary>
         /// <param name="effects"></param>
         /// <returns></returns>
-        BattleEffect[] GetBattleEffectByTypes(List<BattleEffect> effects, BattleConst.Effect[] types)
+        static BattleEffect[] GetBattleEffectByTypes(List<BattleEffect> effects, BattleConst.Effect[] types)
         {
             return effects.Where(v => types.Contains(v.type) && !v.target.current.IsDead).ToArray();
         }
@@ -50,7 +55,7 @@ namespace Alice
         /// </summary>
         /// <param name="action"></param>
         /// <param name="cb"></param>
-        void Attack(BattleAction action, Action cb)
+        static void Action(BattleAction action, Action cb)
         {
             action.behavioure.actor.setAnimation("Attack", cb);
         }
@@ -60,7 +65,7 @@ namespace Alice
         /// </summary>
         /// <param name="action"></param>
         /// <param name="cb"></param>
-        void Damage(BattleAction action, Action cb)
+        static void Damage(BattleAction action, Action cb)
         {
             var types = new[] { BattleConst.Effect.Damage, BattleConst.Effect.DamageRatio };
             var effects = GetBattleEffectByTypes(action.effects, types);
@@ -84,7 +89,7 @@ namespace Alice
         /// </summary>
         /// <param name="action"></param>
         /// <param name="cb"></param>
-        void Recovery(BattleAction action, Action cb)
+        static void Recovery(BattleAction action, Action cb)
         {
             var types = new[] { BattleConst.Effect.Recovery, BattleConst.Effect.RecoveryRatio };
             var effects = GetBattleEffectByTypes(action.effects, types);
@@ -109,7 +114,7 @@ namespace Alice
         /// </summary>
         /// <param name="action"></param>
         /// <param name="cb"></param>
-        void Cutin(BattleAction action, Action cb)
+        static void Cutin(BattleAction action, Action cb)
         {
             if(action.skill != null)
             {
@@ -128,7 +133,7 @@ namespace Alice
         /// </summary>
         /// <param name="action"></param>
         /// <param name="cb"></param>
-        void Dead(BattleAction action, Action cb)
+        static void Dead(BattleAction action, Action cb)
         {
             var deads = action.effects.Where(v => v.target.current.IsDead).Select(v=>v.target).Distinct();
             foreach(var dead in deads)
@@ -140,6 +145,31 @@ namespace Alice
                 });
             }
             cb();
+        }
+
+        /// <summary>
+        /// 演出:バフ演出
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cb"></param>
+        static void Condition(BattleAction action, BattleConst.Effect type, Action cb)
+        {
+            var effects = GetBattleEffectByTypes(action.effects, new[] { type });
+            if (effects.Length > 0)
+            {
+                var function = Async.Passive(cb, effects.Length);
+                foreach (var effect in effects)
+                {
+                    effect.target.actor.setAnimation("Recovery", function);
+                    effect.target.AddCondition(effect.type, effect.value, effect.remain);
+                    FX.Play(effect.FX, effect.target.actor.transform);
+                }
+            }
+            else
+            {
+                cb();
+            }
+
         }
     }
 }

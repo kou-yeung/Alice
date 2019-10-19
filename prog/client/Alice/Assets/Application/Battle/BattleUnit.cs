@@ -16,6 +16,23 @@ namespace Alice
     public class BattleUnit
     {
         /// <summary>
+        /// 効果x1
+        /// </summary>
+        class Condition
+        {
+            public BattleConst.Effect effect { get; private set; }
+            public int value { get; private set; }
+            public int remain { get; set; }
+
+            public Condition(BattleConst.Effect effect, int value, int remain = 2)
+            {
+                this.effect = effect;
+                this.value = value;
+                this.remain = remain;
+            }
+        }
+
+        /// <summary>
         /// 参照情報
         /// </summary>
         public class Current
@@ -41,7 +58,9 @@ namespace Alice
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
         public Dictionary<string, int> cooltimes = new Dictionary<string, int>();
+        public int Position { get { return data.position; } }
 
+        List<Condition> conditions = new List<Condition>();
         UserUnit data;
         UnitState state;
 
@@ -134,6 +153,8 @@ namespace Alice
         /// <returns></returns>
         public bool CanUseSkill(Skill skill)
         {
+            if (skill.Passive) return false;
+
             int cooltime;
             if(cooltimes.TryGetValue(skill.ID, out cooltime))
             {
@@ -153,6 +174,10 @@ namespace Alice
             {
                 --cooltimes[key];
             }
+
+            // 効果の持続回数過ぎたものを削除する
+            foreach (var v in conditions) { --v.remain; }
+            conditions = conditions.Where(v => v.remain >= 0).ToList();
         }
 
         /// <summary>
@@ -160,6 +185,44 @@ namespace Alice
         /// </summary>
         public void PostAction()
         {
+        }
+
+        /// <summary>
+        /// 効果を追加します
+        /// </summary>
+        /// <param name="effect"></param>
+        /// <param name="value"></param>
+        public void AddCondition(BattleConst.Effect effect, int value, int remain)
+        {
+            Debug.Log($"{uniq}: AddCondition({effect}, {value})");
+            conditions.Add(new Condition(effect, value, remain));
+        }
+
+        /// <summary>
+        /// 指定した効果の合計効果値を取得
+        /// </summary>
+        /// <param name="effect"></param>
+        public int GetCondition(BattleConst.Effect effect)
+        {
+            var res = 0;
+            foreach(var v in conditions.Where(v => v.effect == effect))
+            {
+                res += v.value;
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// 指定した効果が所持しているか
+        /// </summary>
+        /// <param name="effect"></param>
+        public bool HasCondition(BattleConst.Effect effect)
+        {
+            foreach (var v in conditions)
+            {
+                if (v.effect == effect) return true;
+            }
+            return false;
         }
     }
 }

@@ -11,9 +11,9 @@ namespace Alice
     public class Phase : MonoBehaviour
     {
         [SerializeField]
-        Animation Animation;
+        Animation Animation = null;
         [SerializeField]
-        Text text;
+        Text text = null;
 
         public void Change(string phase, Action cb = null)
         {

@@ -9,10 +9,10 @@ namespace Alice
         public enum State
         {
             Init,       // 初期化
+            Passive,    // パッシブスキル発動＆再生
             Start,      // バトル開始
             Timeline,   // タイムライン更新
-            Action,     // アクション選択
-            Playback,   // 選択したアクションの再生
+            Action,     // アクション選択＆再生
             TurnEnd,    // ターンエンド
             GameSet,    // ゲーム終了
         }

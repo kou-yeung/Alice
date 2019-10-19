@@ -176,14 +176,32 @@ namespace Alice
         int Damage(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
             var atk = behavioure.characterData.Atk;
+            var atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_Atk);
+            var atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_Atk);
+
             var def = target.characterData.Def;
+            var defBuff = target.GetCondition(BattleConst.Effect.Buff_Def);
+            var defDebuff = target.GetCondition(BattleConst.Effect.Debuff_Def);
+
             // 属性判別: スキルがあるかつ魔法属性
-            if(skill?.Attribute == BattleConst.Attribute.Magic)
+            if (skill?.Attribute == BattleConst.Attribute.Magic)
             {
-                atk = behavioure.characterData.MAtk;
-                def = target.characterData.MDef;
+                atk = behavioure.characterData.MAtk + behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
+                atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
+                atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_MAtk);
+
+                def = target.characterData.MDef + target.GetCondition(BattleConst.Effect.Buff_MDef);
+                defBuff = target.GetCondition(BattleConst.Effect.Buff_MDef);
+                defDebuff = target.GetCondition(BattleConst.Effect.Debuff_MDef);
             }
-            var damage = (atk * atk * 3) / (atk + 3 * def);
+
+            atk = atk + (atkBuff - atkDebuff);
+            def = def + (defBuff - defDebuff);
+
+            var a = (atk * atk * 3);
+            var b = (atk + 3 * def);
+            if (b <= 0) return 0;   // 0割り算対策
+            var damage = a / b;
             var random = Battle.Instance.random.Next(90, 110) / 100f;
             return Mathf.FloorToInt(damage * random);
         }
@@ -218,7 +236,7 @@ namespace Alice
         /// </summary>
         int Correction(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            return 5;
+            return effect.Value;
         }
     }
 }

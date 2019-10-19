@@ -21,7 +21,10 @@ namespace Alice
             // スキルを使用したため登録
             behaviour.UseSkill(skill);
             // 行動再生
-            owner.controller.ChangeState(BattleConst.State.Playback);
+            BattlePlayback.Play(action, () =>
+            {
+                owner.controller.ChangeState(BattleConst.State.TurnEnd);
+            });
         }
     }
 }

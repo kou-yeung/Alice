@@ -14,6 +14,7 @@ namespace Alice.Entities
         public BattleConst.Target Target;   // 対象範囲
         public int Count;                   // 対象者数
         public int Value;                   // パラメータ(効果値)
+        public int Remain;                  // 持続回数
         public string FX;                   // エフェクトファイル名
     }
 
@@ -26,6 +27,7 @@ namespace Alice.Entities
             Map(x => x.Target).Name("対象範囲");
             Map(x => x.Count).Name("対象数");
             Map(x => x.Value).Name("パラメータ");
+            Map(x => x.Remain).Name("持続回数");
             Map(x => x.FX).Name("FX");
         }
     }

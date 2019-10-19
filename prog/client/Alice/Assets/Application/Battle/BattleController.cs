@@ -28,20 +28,15 @@ namespace Alice
             stateBehaviour.AddState(BattleConst.State.Init, new BattleInitState());
             stateBehaviour.AddState(BattleConst.State.Start, new BattleStartState());
             stateBehaviour.AddState(BattleConst.State.Action, new BattleActionState());
-            stateBehaviour.AddState(BattleConst.State.Playback, new BattlePlaybackState());
             stateBehaviour.AddState(BattleConst.State.Timeline, new BattleTimelineState());
             stateBehaviour.AddState(BattleConst.State.TurnEnd, new BattleTurnEndState());
             stateBehaviour.AddState(BattleConst.State.GameSet, new BattleGameSetState());
+            stateBehaviour.AddState(BattleConst.State.Passive, new BattlePassiveState());
         }
 
         public void Dispose()
         {
             stateBehaviour?.Dispose();
-        }
-
-        public void DoAction()
-        {
-            ChangeState(BattleConst.State.Playback);
         }
 
         /// <summary>

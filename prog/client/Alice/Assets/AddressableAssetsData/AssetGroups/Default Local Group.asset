@@ -85,6 +85,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Entities/Effect.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: dc0348508569da74a834bb897f7fa893
+    m_Address: "Assets/AddressableAssets/Effect/\u95C78.asset"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: e2284e4b9de31414795a1fbff3dc1958
     m_Address: Assets/AddressableAssets/Character/$yuhinamv007.asset
     m_ReadOnly: 0

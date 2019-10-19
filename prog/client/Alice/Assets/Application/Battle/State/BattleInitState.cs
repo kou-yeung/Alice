@@ -10,7 +10,7 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
-            owner.controller.ChangeState(BattleConst.State.Start);
+            owner.controller.ChangeState(BattleConst.State.Passive);
         }
     }
 }
