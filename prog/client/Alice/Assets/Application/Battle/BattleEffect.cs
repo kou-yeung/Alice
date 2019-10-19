@@ -17,7 +17,7 @@ namespace Alice
         public BattleEffect(BattleUnit target, Effect effect, int value)
         {
             this.target = target;
-            this.effect = effect != null? effect : Effect.Empty;
+            this.effect = effect;
             this.value = value;
         }
     }

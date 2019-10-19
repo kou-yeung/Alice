@@ -154,7 +154,7 @@ namespace Alice
                 {
                     // 効果値を計算
                     var value = logic(action.behavioure, target, null);
-                    action.effects.Add(new BattleEffect(target, null, value));
+                    action.effects.Add(new BattleEffect(target, Effect.Empty, value));
                 }
             }
             return action;
