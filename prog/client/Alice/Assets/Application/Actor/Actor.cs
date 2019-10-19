@@ -21,10 +21,6 @@ namespace Alice
         {
             Animation = GetComponent<Animation>();
             image = GetComponent<Image>();
-            setAnimation("Attack", () =>
-            {
-                setAnimation("Hit");
-            });
         }
 
         void Update()
@@ -33,7 +29,10 @@ namespace Alice
             {
                 if(spriteIndex >= 0 && spriteIndex < sprites.Count)
                 {
-                    image.sprite = sprites[spriteIndex];
+                    if(image.sprite != sprites[spriteIndex])
+                    {
+                        image.sprite = sprites[spriteIndex];
+                    }
                 }
             }
         }

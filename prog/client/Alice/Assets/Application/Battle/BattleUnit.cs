@@ -25,52 +25,62 @@ namespace Alice
 
             public Current(Character data)
             {
+                this.HP = data.HP;
                 this.Wait = data.Wait;
             }
         }
 
+        public GameObject root { get; private set; }
+        public Actor actor { get; private set; }
 
         public string uniq { get; private set; }
         public BattleConst.Side side { get; private set; }
-        public GameObject gameObject { get; private set; }
-        public Image image { get; private set; }
-        //public Sprites sprites { get; private set; }
         public Character characterData { get; private set; }
         public Current current { get; private set; }
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
 
-        public Actor actor { get; private set; }
+        UserUnit data;
+        UnitState state;
 
-        public BattleUnit(string uniq, string id, BattleConst.Side side)
+        public BattleUnit(string uniq, UserUnit data, BattleConst.Side side)
         {
             this.uniq = uniq;
-            this.characterData = MasterData.characters.First(v => v.ID == id);
+            this.data = data;
+            this.characterData = MasterData.characters.First(v => v.ID == data.characterId);
             this.current = new Current(this.characterData);
             this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;
 
             // スキルID -> スキルデータ
-            foreach (var skill in new[] { "Skill_001_001" })
+            foreach (var skill in data.skill)
             {
                 this.skills.Add(MasterData.skills.First(v => v.ID == skill));
             }
 
+            root = new GameObject(this.uniq);
             this.side = side;
-            var prefab = LoaderService.Instance.Load<GameObject>("Actor/Actor.prefab");
-            gameObject = GameObject.Instantiate(prefab);
-            actor = gameObject.GetComponent<Actor>();
 
+            // アクター
+            var actorPrefab = LoaderService.Instance.Load<GameObject>("Prefab/Actor.prefab");
+            actor = GameObject.Instantiate(actorPrefab).GetComponent<Actor>();
+            actor.transform.SetParent(root.transform, true);
+
+            // ステート
+            var statePrefab = LoaderService.Instance.Load<GameObject>("Prefab/UnitState.prefab");
+            state = GameObject.Instantiate(statePrefab).GetComponent<UnitState>();
+            state.transform.SetParent(root.transform, true);
 
             var sprites = LoaderService.Instance.Load<Sprites>(string.Format("Character/$yuhinamv{0}.asset", this.characterData.Image));
             actor.sprites = sprites;
-            //image = gameObject.GetComponent<Image>();
-            //image.sprite = sprites[7];
 
             if(side == BattleConst.Side.Enemy)
             {
-                actor.transform.localScale = new Vector3(-1, 1, 1);
+                root.transform.localScale = new Vector3(-1, 1, 1);
+                state.transform.localScale = new Vector3(-1, 1, 1);
             }
         }
+
+
 
         /// <summary>
         /// 発動トリガ
@@ -80,6 +90,26 @@ namespace Alice
         public int Trigger(BattleConst.SkillType type)
         {
             return this.characterData.Trigger[(int)type];
+        }
+
+        /// <summary>
+        /// ダメージを与える
+        /// </summary>
+        /// <param name="value"></param>
+        public void Damage(int value)
+        {
+            current.HP = Mathf.Max(0, current.HP - value);
+            state.SetHP(current.HP, characterData.HP);
+        }
+
+        /// <summary>
+        /// 回復
+        /// </summary>
+        /// <param name="value"></param>
+        public void Recovery(int value)
+        {
+            current.HP = Mathf.Min(characterData.HP, current.HP + value);
+            state.SetHP(current.HP, characterData.HP);
         }
     }
 }
