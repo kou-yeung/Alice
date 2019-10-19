@@ -10,6 +10,9 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
+            // 行動後始末
+            owner.controller.currentAction.behavioure.PostAction();
+
             // 試合終了判定
             var playerCount = owner.controller.units.Count(kv => kv.Value.side == BattleConst.Side.Player);
             var enemyCount = owner.controller.units.Count(kv => kv.Value.side == BattleConst.Side.Enemy);

@@ -40,6 +40,7 @@ namespace Alice
         public Current current { get; private set; }
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
+        public Dictionary<string, int> cooltimes = new Dictionary<string, int>();
 
         UserUnit data;
         UnitState state;
@@ -56,6 +57,7 @@ namespace Alice
             foreach (var skill in data.skill)
             {
                 this.skills.Add(MasterData.skills.First(v => v.ID == skill));
+                this.cooltimes[skill] = -1;
             }
 
             root = new GameObject(this.uniq);
@@ -81,8 +83,6 @@ namespace Alice
                 state.transform.localScale = new Vector3(-1, 1, 1);
             }
         }
-
-
 
         /// <summary>
         /// 発動トリガ
@@ -115,6 +115,51 @@ namespace Alice
             current.HP = Mathf.Min(characterData.HP, current.HP + value);
             state.SetHP(current.HP);
             state.PlayRecovery(value);
+        }
+
+        /// <summary>
+        /// スキル使用した。クールタイム登録する
+        /// </summary>
+        /// <param name="skill"></param>
+        public void UseSkill(Skill skill)
+        {
+            if (skill == null) return;
+            cooltimes[skill.ID] = skill.CoolTime;
+        }
+
+        /// <summary>
+        /// 指定したスキルが使用できるかどうかを確認する
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        public bool CanUseSkill(Skill skill)
+        {
+            int cooltime;
+            if(cooltimes.TryGetValue(skill.ID, out cooltime))
+            {
+                return cooltime < 0;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 行動前に呼び出される
+        /// </summary>
+        public void PreAction()
+        {
+            var keys = cooltimes.Keys.ToArray();
+            // クールタイム減らす
+            foreach (var key in keys)
+            {
+                --cooltimes[key];
+            }
+        }
+
+        /// <summary>
+        /// 行動後に呼び出される
+        /// </summary>
+        public void PostAction()
+        {
         }
     }
 }
