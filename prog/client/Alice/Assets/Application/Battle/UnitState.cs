@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UniRx;
 
 namespace Alice
 {
@@ -14,7 +13,12 @@ namespace Alice
         [SerializeField]
         Slider hp = null;
         [SerializeField]
-        Slider Barrier = null;
+        Slider barrier = null;
+        [SerializeField]
+        Animation Animation = null;
+        [SerializeField]
+        Text value = null;
+
 
         /// <summary>
         /// HPを設定する
@@ -31,5 +35,26 @@ namespace Alice
                 this.damage.value = value;
             });
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public void PlayDamage(int value)
+        {
+            this.value.text = value.ToString();
+            Animation.Play("Damage");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public void PlayRecovery(int value)
+        {
+            this.value.text = value.ToString();
+            Animation.Play("Recovery");
+        }
+
     }
 }

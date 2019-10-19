@@ -100,6 +100,7 @@ namespace Alice
         {
             current.HP = Mathf.Max(0, current.HP - value);
             state.SetHP(current.HP, characterData.HP);
+            state.PlayDamage(value);
         }
 
         /// <summary>
@@ -110,6 +111,7 @@ namespace Alice
         {
             current.HP = Mathf.Min(characterData.HP, current.HP + value);
             state.SetHP(current.HP, characterData.HP);
+            state.PlayRecovery(value);
         }
     }
 }
