@@ -41,6 +41,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv001.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 32f2aa54dac1ddc438fcc8ab1c4aae38
+    m_Address: "Assets/AddressableAssets/Effect/\u8A60\u55316.asset"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 3c22793e23a419647ba0b8c5a3a3feae
     m_Address: Assets/AddressableAssets/Entities/Character.csv
     m_ReadOnly: 0
@@ -77,8 +81,16 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv003.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: bb2558091711c9d49b5e1ec641a9c59e
+    m_Address: Assets/AddressableAssets/Prefab/Phase.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: be0010635a413b74ab622702bdf6e5eb
     m_Address: Assets/AddressableAssets/Entities/Effect.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dc0348508569da74a834bb897f7fa893
+    m_Address: "Assets/AddressableAssets/Effect/\u95C78.asset"
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: e2284e4b9de31414795a1fbff3dc1958

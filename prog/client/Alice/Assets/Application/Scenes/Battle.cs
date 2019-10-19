@@ -35,6 +35,7 @@ namespace Alice
                 // 
                 resourcePaths.Add("Prefab/Actor.prefab");
                 resourcePaths.Add("Prefab/FX.prefab");
+                resourcePaths.Add("Prefab/Phase.prefab");
                 resourcePaths.Add("Prefab/UnitState.prefab");
                 resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
 

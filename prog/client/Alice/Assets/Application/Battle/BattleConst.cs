@@ -9,11 +9,12 @@ namespace Alice
         public enum State
         {
             Init,       // 初期化
+            Passive,    // パッシブスキル発動＆再生
             Start,      // バトル開始
             Timeline,   // タイムライン更新
-            Action,     // アクション選択
-            Playback,   // 選択したアクションの再生
+            Action,     // アクション選択＆再生
             TurnEnd,    // ターンエンド
+            GameSet,    // ゲーム終了
         }
 
         /// <summary>
@@ -115,6 +116,15 @@ namespace Alice
             BuffCancel,     // バフ解除
             DebuffCancel,   // デバフ解除
             Damage,         // ダメージ
+        }
+
+        /// <summary>
+        /// 属性
+        /// </summary>
+        public enum Attribute
+        {
+            Physics,    // 物理
+            Magic,      // 魔法
         }
     }
 }

@@ -86,6 +86,7 @@ namespace Alice
             fx.Play(fn, cb);
             go.transform.SetParent(parent);
             go.transform.localPosition = position;
+            go.transform.SetSiblingIndex(1);
             return fx;
         }
     }

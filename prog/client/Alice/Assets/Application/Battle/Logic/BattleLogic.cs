@@ -14,7 +14,7 @@ namespace Alice
         static BattleLogic() { Instance = new BattleLogic(); }
 
         // ロジックの共通インタフェース定義
-        delegate int Logic(BattleUnit behavioure, BattleUnit target, Effect effect);
+        delegate int Logic(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect);
         // ロジックカタログ
         Dictionary<string, Logic> logics = new Dictionary<string, Logic>();
 
@@ -137,7 +137,7 @@ namespace Alice
                     foreach (var target in cacheTargets)
                     {
                         // 効果値を計算
-                        var value = logic(action.behavioure, target, effect);
+                        var value = logic(action.behavioure, target, action.skill, effect);
                         action.effects.Add(new BattleEffect(target, effect, value));
                     }
 
@@ -153,7 +153,7 @@ namespace Alice
                 foreach (var target in cacheTargets)
                 {
                     // 効果値を計算
-                    var value = logic(action.behavioure, target, null);
+                    var value = logic(action.behavioure, target, null, null);
                     action.effects.Add(new BattleEffect(target, Effect.Empty, value));
                 }
             }
@@ -173,23 +173,52 @@ namespace Alice
         /// <summary>
         /// 通常ダメージ
         /// </summary>
-        int Damage(BattleUnit behavioure, BattleUnit target, Effect effect)
+        int Damage(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            return 10;
+            var atk = behavioure.characterData.Atk;
+            var atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_Atk);
+            var atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_Atk);
+
+            var def = target.characterData.Def;
+            var defBuff = target.GetCondition(BattleConst.Effect.Buff_Def);
+            var defDebuff = target.GetCondition(BattleConst.Effect.Debuff_Def);
+
+            // 属性判別: スキルがあるかつ魔法属性
+            if (skill?.Attribute == BattleConst.Attribute.Magic)
+            {
+                atk = behavioure.characterData.MAtk + behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
+                atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
+                atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_MAtk);
+
+                def = target.characterData.MDef + target.GetCondition(BattleConst.Effect.Buff_MDef);
+                defBuff = target.GetCondition(BattleConst.Effect.Buff_MDef);
+                defDebuff = target.GetCondition(BattleConst.Effect.Debuff_MDef);
+            }
+
+            atk = atk + (atkBuff - atkDebuff);
+            def = def + (defBuff - defDebuff);
+
+            var a = (atk * atk * 3);
+            var b = (atk + 3 * def);
+            if (b <= 0) return 0;   // 0割り算対策
+            var damage = a / b;
+            var random = Battle.Instance.random.Next(90, 110) / 100f;
+            return Mathf.FloorToInt(damage * random);
         }
 
         /// <summary>
         /// 割合ダメージ
         /// </summary>
-        int DamageRatio(BattleUnit behavioure, BattleUnit target, Effect effect)
+        int DamageRatio(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            return 10;
+            var ratio = effect.Value / 100f;
+            return Mathf.FloorToInt(target.characterData.HP * ratio);
         }
 
         /// <summary>
         /// 通常回復
         /// </summary>
-        int Recovery(BattleUnit behavioure, BattleUnit target, Effect effect)
+        int Recovery(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
             return 10;
         }
@@ -197,7 +226,7 @@ namespace Alice
         /// <summary>
         /// 割合回復
         /// </summary>
-        int RecoveryRatio(BattleUnit behavioure, BattleUnit target, Effect effect)
+        int RecoveryRatio(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
             return 10;
         }
@@ -205,9 +234,9 @@ namespace Alice
         /// <summary>
         /// 補正値
         /// </summary>
-        int Correction(BattleUnit behavioure, BattleUnit target, Effect effect)
+        int Correction(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            return 5;
+            return effect.Value;
         }
     }
 }

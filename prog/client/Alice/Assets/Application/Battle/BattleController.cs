@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using Zoo.StateMachine;
+using UnityEngine;
+using Zoo.IO;
 
 namespace Alice
 {
@@ -17,6 +19,7 @@ namespace Alice
         public Dictionary<string, BattleUnit> units { get; private set; } = new Dictionary<string, BattleUnit>();
         public BattleUnit currentActionBattleUnit { get { return sortedBattleUnits[0]; } }
         public BattleAction currentAction { get; private set; }
+        public Phase phase { get; private set; }
 
         public BattleController(Battle owner)
         {
@@ -25,19 +28,15 @@ namespace Alice
             stateBehaviour.AddState(BattleConst.State.Init, new BattleInitState());
             stateBehaviour.AddState(BattleConst.State.Start, new BattleStartState());
             stateBehaviour.AddState(BattleConst.State.Action, new BattleActionState());
-            stateBehaviour.AddState(BattleConst.State.Playback, new BattlePlaybackState());
             stateBehaviour.AddState(BattleConst.State.Timeline, new BattleTimelineState());
             stateBehaviour.AddState(BattleConst.State.TurnEnd, new BattleTurnEndState());
+            stateBehaviour.AddState(BattleConst.State.GameSet, new BattleGameSetState());
+            stateBehaviour.AddState(BattleConst.State.Passive, new BattlePassiveState());
         }
 
         public void Dispose()
         {
             stateBehaviour?.Dispose();
-        }
-
-        public void DoAction()
-        {
-            ChangeState(BattleConst.State.Playback);
         }
 
         /// <summary>
@@ -57,6 +56,7 @@ namespace Alice
             this.recv = recv;
             CreatePlayerUnit(recv);
             CreateEnemyUnit(recv);
+            phase = Phase.Gen(this.owner.transform);
         }
 
         /// <summary>

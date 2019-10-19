@@ -15,7 +15,7 @@ namespace Alice
         static BattleAI() { Instance = new BattleAI(); }
 
         // AIの共通インタフェース定義
-        delegate Skill AI(BattleUnit behaviour);
+        delegate Skill AI(BattleUnit behaviour, Skill[] skills);
         // ロジックカタログ
         Dictionary<string, AI> ais = new Dictionary<string, AI>();
 
@@ -36,10 +36,16 @@ namespace Alice
         /// <returns></returns>
         public Skill Exec(BattleUnit behaviour)
         {
+            // 使用可能スキル一覧を取得する
+            var skills = behaviour.skills.Where(v => behaviour.CanUseSkill(v)).ToArray();
+
+            // 使用するスキルがないのでチェックする必要がありません
+            if (skills.Length <= 0) return null;
+
             // 思考による抽選する
-            foreach(var ai in behaviour.ais)
+            foreach (var ai in behaviour.ais)
             {
-                var skill = ais[ai](behaviour);
+                var skill = ais[ai](behaviour, skills);
                 if (skill != null) return skill;
             }
             // 通常攻撃
@@ -69,14 +75,13 @@ namespace Alice
         /// 回復
         /// </summary>
         /// <returns></returns>
-        Skill Recovery(BattleUnit behaviour)
+        Skill Recovery(BattleUnit behaviour, Skill[] skills)
         {
             // トリガ抽選
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.Recovery))) return null;
 
             var types = new[] { BattleConst.Effect.Recovery, BattleConst.Effect.RecoveryRatio };
-            var skills = behaviour.skills.Where(v => v.HasEffect(types));
-            foreach (var skill in skills)
+            foreach (var skill in skills.Where(v => v.HasEffect(types)))
             {
                 // todo:cooltimeチェック
                 return skill;
@@ -89,7 +94,7 @@ namespace Alice
         /// </summary>
         /// <param name="behaviour"></param>
         /// <returns></returns>
-        Skill Buff(BattleUnit behaviour)
+        Skill Buff(BattleUnit behaviour, Skill[] skills)
         {
             // トリガ抽選
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.Buff))) return null;
@@ -100,8 +105,8 @@ namespace Alice
                 BattleConst.Effect.Buff_MAtk, BattleConst.Effect.Buff_MDef,
                 BattleConst.Effect.Buff_Wait,
             };
-            var skills = behaviour.skills.Where(v => v.HasEffect(types));
-            foreach (var skill in skills)
+
+            foreach (var skill in skills.Where(v => v.HasEffect(types)))
             {
                 // todo:cooltimeチェック
                 return skill;
@@ -114,7 +119,7 @@ namespace Alice
         /// </summary>
         /// <param name="behaviour"></param>
         /// <returns></returns>
-        Skill Debuff(BattleUnit behaviour)
+        Skill Debuff(BattleUnit behaviour, Skill[] skills)
         {
             // トリガ抽選
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.Debuff))) return null;
@@ -125,8 +130,8 @@ namespace Alice
                 BattleConst.Effect.Debuff_MAtk, BattleConst.Effect.Debuff_MDef,
                 BattleConst.Effect.Debuff_Wait,
             };
-            var skills = behaviour.skills.Where(v => v.HasEffect(types));
-            foreach (var skill in skills)
+
+            foreach (var skill in skills.Where(v => v.HasEffect(types)))
             {
                 // todo:cooltimeチェック
                 return skill;
@@ -139,7 +144,7 @@ namespace Alice
         /// </summary>
         /// <param name="behaviour"></param>
         /// <returns></returns>
-        Skill BuffCancel(BattleUnit behaviour)
+        Skill BuffCancel(BattleUnit behaviour, Skill[] skills)
         {
             // トリガ抽選
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.BuffCancel))) return null;
@@ -151,8 +156,7 @@ namespace Alice
                 BattleConst.Effect.BuffCancel_MAtk, BattleConst.Effect.BuffCancel_MDef,
                 BattleConst.Effect.BuffCancel_Wait,
             };
-            var skills = behaviour.skills.Where(v => v.HasEffect(types));
-            foreach (var skill in skills)
+            foreach (var skill in skills.Where(v => v.HasEffect(types)))
             {
                 // todo:cooltimeチェック
                 return skill;
@@ -165,7 +169,7 @@ namespace Alice
         /// </summary>
         /// <param name="behaviour"></param>
         /// <returns></returns>
-        Skill DebuffCancel(BattleUnit behaviour)
+        Skill DebuffCancel(BattleUnit behaviour, Skill[] skills)
         {
             // トリガ抽選
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.DebuffCancel))) return null;
@@ -177,8 +181,7 @@ namespace Alice
                 BattleConst.Effect.DebuffCancel_MAtk, BattleConst.Effect.DebuffCancel_MDef,
                 BattleConst.Effect.DebuffCancel_Wait,
             };
-            var skills = behaviour.skills.Where(v => v.HasEffect(types));
-            foreach (var skill in skills)
+            foreach (var skill in skills.Where(v => v.HasEffect(types)))
             {
                 // todo:cooltimeチェック
                 return skill;
@@ -191,14 +194,14 @@ namespace Alice
         /// </summary>
         /// <param name="behaviour"></param>
         /// <returns></returns>
-        Skill Damage(BattleUnit behaviour)
+        Skill Damage(BattleUnit behaviour, Skill[] skills)
         {
             // トリガ抽選
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.Damage))) return null;
 
             var types = new[] { BattleConst.Effect.Damage, BattleConst.Effect.DamageRatio };
-            var skills = behaviour.skills.Where(v => v.HasEffect(types));
-            foreach (var skill in skills)
+
+            foreach (var skill in skills.Where(v => v.HasEffect(types)))
             {
                 // todo:cooltimeチェック
                 return skill;
@@ -211,7 +214,7 @@ namespace Alice
         /// </summary>
         /// <param name="behaviour"></param>
         /// <returns></returns>
-        Skill Empty(BattleUnit behaviour)
+        Skill Empty(BattleUnit behaviour, Skill[] skills)
         {
             return null;
         }

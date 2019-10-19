@@ -16,12 +16,30 @@ namespace Alice
     public class BattleUnit
     {
         /// <summary>
+        /// 効果x1
+        /// </summary>
+        class Condition
+        {
+            public BattleConst.Effect effect { get; private set; }
+            public int value { get; private set; }
+            public int remain { get; set; }
+
+            public Condition(BattleConst.Effect effect, int value, int remain = 2)
+            {
+                this.effect = effect;
+                this.value = value;
+                this.remain = remain;
+            }
+        }
+
+        /// <summary>
         /// 参照情報
         /// </summary>
         public class Current
         {
             public int HP;
             public int Wait;
+            public bool IsDead { get { return HP <= 0; } }
 
             public Current(Character data)
             {
@@ -39,7 +57,10 @@ namespace Alice
         public Current current { get; private set; }
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
+        public Dictionary<string, int> cooltimes = new Dictionary<string, int>();
+        public int Position { get { return data.position; } }
 
+        List<Condition> conditions = new List<Condition>();
         UserUnit data;
         UnitState state;
 
@@ -55,6 +76,7 @@ namespace Alice
             foreach (var skill in data.skill)
             {
                 this.skills.Add(MasterData.skills.First(v => v.ID == skill));
+                this.cooltimes[skill] = -1;
             }
 
             root = new GameObject(this.uniq);
@@ -70,6 +92,7 @@ namespace Alice
             state = GameObject.Instantiate(statePrefab).GetComponent<UnitState>();
             state.transform.SetParent(root.transform, true);
 
+            state.Setup(this);
             var sprites = LoaderService.Instance.Load<Sprites>(string.Format("Character/$yuhinamv{0}.asset", this.characterData.Image));
             actor.sprites = sprites;
 
@@ -79,8 +102,6 @@ namespace Alice
                 state.transform.localScale = new Vector3(-1, 1, 1);
             }
         }
-
-
 
         /// <summary>
         /// 発動トリガ
@@ -99,8 +120,10 @@ namespace Alice
         public void Damage(int value)
         {
             current.HP = Mathf.Max(0, current.HP - value);
-            state.SetHP(current.HP, characterData.HP);
+            state.SetHP(current.HP);
+            state.PlayDamage(value);
         }
+
 
         /// <summary>
         /// 回復
@@ -109,7 +132,97 @@ namespace Alice
         public void Recovery(int value)
         {
             current.HP = Mathf.Min(characterData.HP, current.HP + value);
-            state.SetHP(current.HP, characterData.HP);
+            state.SetHP(current.HP);
+            state.PlayRecovery(value);
+        }
+
+        /// <summary>
+        /// スキル使用した。クールタイム登録する
+        /// </summary>
+        /// <param name="skill"></param>
+        public void UseSkill(Skill skill)
+        {
+            if (skill == null) return;
+            cooltimes[skill.ID] = skill.CoolTime;
+        }
+
+        /// <summary>
+        /// 指定したスキルが使用できるかどうかを確認する
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        public bool CanUseSkill(Skill skill)
+        {
+            if (skill.Passive) return false;
+
+            int cooltime;
+            if(cooltimes.TryGetValue(skill.ID, out cooltime))
+            {
+                return cooltime < 0;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 行動前に呼び出される
+        /// </summary>
+        public void PreAction()
+        {
+            var keys = cooltimes.Keys.ToArray();
+            // クールタイム減らす
+            foreach (var key in keys)
+            {
+                --cooltimes[key];
+            }
+
+            // 効果の持続回数過ぎたものを削除する
+            foreach (var v in conditions) { --v.remain; }
+            conditions = conditions.Where(v => v.remain >= 0).ToList();
+        }
+
+        /// <summary>
+        /// 行動後に呼び出される
+        /// </summary>
+        public void PostAction()
+        {
+        }
+
+        /// <summary>
+        /// 効果を追加します
+        /// </summary>
+        /// <param name="effect"></param>
+        /// <param name="value"></param>
+        public void AddCondition(BattleConst.Effect effect, int value, int remain)
+        {
+            Debug.Log($"{uniq}: AddCondition({effect}, {value})");
+            conditions.Add(new Condition(effect, value, remain));
+        }
+
+        /// <summary>
+        /// 指定した効果の合計効果値を取得
+        /// </summary>
+        /// <param name="effect"></param>
+        public int GetCondition(BattleConst.Effect effect)
+        {
+            var res = 0;
+            foreach(var v in conditions.Where(v => v.effect == effect))
+            {
+                res += v.value;
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// 指定した効果が所持しているか
+        /// </summary>
+        /// <param name="effect"></param>
+        public bool HasCondition(BattleConst.Effect effect)
+        {
+            foreach (var v in conditions)
+            {
+                if (v.effect == effect) return true;
+            }
+            return false;
         }
     }
 }

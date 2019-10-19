@@ -11,6 +11,9 @@ namespace Alice.Entities
         public string ID;
         public string Name;
         public string Image;
+        public bool Passive;    // パッシブスキルかどうか
+        public int CoolTime;
+        public BattleConst.Attribute Attribute;
         public string[] Effects;
 
         public List<Effect> _EffectsRef;
@@ -48,6 +51,17 @@ namespace Alice.Entities
             Map(x => x.ID).Name("ID");
             Map(x => x.Name).Name("名前");
             Map(x => x.Image).Name("画像ID");
+            Map(x => x.Passive).ConvertUsing(row => row.GetField<string>("種類") == "パッシブ");
+            Map(x => x.CoolTime).Name("CT");
+            Map(x => x.Attribute).ConvertUsing(row =>
+            {
+                switch(row.GetField<string>("属性"))
+                {
+                    default:
+                    case "物理": return BattleConst.Attribute.Physics;
+                    case "魔法": return BattleConst.Attribute.Magic;
+                }
+            });
             Map(x => x.Effects).ConvertUsing(row =>
             {
                 List<string> result = new List<string>();
