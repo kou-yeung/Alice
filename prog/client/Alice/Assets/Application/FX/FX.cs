@@ -78,7 +78,7 @@ namespace Alice
             if(!PrefabPool.Has(PrefabPoolKey))
             {
                 // Pool 登録
-                PrefabPool.Regist(PrefabPoolKey, LoaderService.Instance.Load<GameObject>($"Effect/FX.prefab"));
+                PrefabPool.Regist(PrefabPoolKey, LoaderService.Instance.Load<GameObject>($"Prefab/FX.prefab"));
             }
 
             var go = PrefabPool.Get(PrefabPoolKey);

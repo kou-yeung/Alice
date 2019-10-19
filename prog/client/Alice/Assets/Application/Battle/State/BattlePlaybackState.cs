@@ -67,6 +67,7 @@ namespace Alice
                 foreach (var effect in effects)
                 {
                     effect.target.actor.setAnimation("Hit", function);
+                    effect.target.Damage(effect.value);
                     FX.Play(effect.FX, effect.target.root.transform);
                 }
             } else
@@ -90,6 +91,7 @@ namespace Alice
                 foreach (var effect in effects)
                 {
                     effect.target.actor.setAnimation("Recovery", function);
+                    effect.target.Recovery(effect.value);
                     FX.Play(effect.FX, effect.target.root.transform);
                 }
             }

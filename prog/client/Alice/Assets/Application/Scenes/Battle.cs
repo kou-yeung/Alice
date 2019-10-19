@@ -33,8 +33,9 @@ namespace Alice
                 List<string> resourcePaths = new List<string>();
 
                 // 
-                resourcePaths.Add("Actor/Actor.prefab");
-                resourcePaths.Add("Effect/FX.prefab");
+                resourcePaths.Add("Prefab/Actor.prefab");
+                resourcePaths.Add("Prefab/FX.prefab");
+                resourcePaths.Add("Prefab/UnitState.prefab");
                 resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
 
                 // 味方ユニットに必要なリソースをロード

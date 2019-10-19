@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/$yuhinamv002.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 0dbf230b5f819f14a930c84932679b9f
+    m_Address: Assets/AddressableAssets/Prefab/UnitState.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 187999b8984f565449f4ba188cefb097
     m_Address: Assets/AddressableAssets/Character/$yuhinamv008.asset
     m_ReadOnly: 0
@@ -46,7 +50,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 7d13d65960d27d04aadeedf9b6cc354f
-    m_Address: Assets/AddressableAssets/Actor/Actor.prefab
+    m_Address: Assets/AddressableAssets/Prefab/Actor.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 856ecd295b3c9a94e979abd5a6a99130
@@ -62,7 +66,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: b1379c5a5d7689d4090073efd1c73625
-    m_Address: Assets/AddressableAssets/Effect/FX.prefab
+    m_Address: Assets/AddressableAssets/Prefab/FX.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: b884c78fe2a6c094d810d9b17b1c5a8a
