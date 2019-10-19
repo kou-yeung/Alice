@@ -95,7 +95,7 @@ namespace Alice
                 {
                     effect.target.actor.setAnimation("Recovery", function);
                     effect.target.Recovery(effect.value);
-                    FX.Play(effect.FX, effect.target.root.transform);
+                    FX.Play(effect.FX, effect.target.actor.transform);
                 }
             }
             else
@@ -113,12 +113,12 @@ namespace Alice
         {
             if(action.skill != null)
             {
-                Debug.Log($"スキル:{action.skill.Name}");
-                cb();
+                var owner = Battle.Instance.controller;
+                owner.phase.Change($"{action.skill.Name}", cb);
             }
             else
             {
-                Debug.Log($"通常攻撃");
+                //Debug.Log($"通常攻撃");
                 cb();
             }
         }

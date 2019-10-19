@@ -17,17 +17,27 @@ namespace Alice
             if(playerCount <= 0 && enemyCount <= 0)
             {
                 // 引き分け:ダメージ反射による全滅の可能性を考える
-                owner.controller.ChangeState(BattleConst.State.GameSet);
+                owner.controller.phase.Change("引き分け", () =>
+                {
+                    owner.controller.ChangeState(BattleConst.State.GameSet);
+                });
             }
             else if(playerCount <= 0)
             {
                 // 味方数 0 なら負け
-                owner.controller.ChangeState(BattleConst.State.GameSet);
+                // 引き分け:ダメージ反射による全滅の可能性を考える
+                owner.controller.phase.Change("敗北", () =>
+                {
+                    owner.controller.ChangeState(BattleConst.State.GameSet);
+                });
             }
             else if(enemyCount <= 0)
             {
                 // 相手数 0 なら勝ち
-                owner.controller.ChangeState(BattleConst.State.GameSet);
+                owner.controller.phase.Change("勝利", () =>
+                {
+                    owner.controller.ChangeState(BattleConst.State.GameSet);
+                });
             }
             else
             {

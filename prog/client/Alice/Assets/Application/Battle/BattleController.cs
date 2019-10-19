@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using Zoo.StateMachine;
+using UnityEngine;
+using Zoo.IO;
 
 namespace Alice
 {
@@ -17,6 +19,7 @@ namespace Alice
         public Dictionary<string, BattleUnit> units { get; private set; } = new Dictionary<string, BattleUnit>();
         public BattleUnit currentActionBattleUnit { get { return sortedBattleUnits[0]; } }
         public BattleAction currentAction { get; private set; }
+        public Phase phase { get; private set; }
 
         public BattleController(Battle owner)
         {
@@ -58,6 +61,7 @@ namespace Alice
             this.recv = recv;
             CreatePlayerUnit(recv);
             CreateEnemyUnit(recv);
+            phase = Phase.Gen(this.owner.transform);
         }
 
         /// <summary>
