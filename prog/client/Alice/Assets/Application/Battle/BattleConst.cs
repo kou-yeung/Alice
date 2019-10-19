@@ -117,5 +117,14 @@ namespace Alice
             DebuffCancel,   // デバフ解除
             Damage,         // ダメージ
         }
+
+        /// <summary>
+        /// 属性
+        /// </summary>
+        public enum Attribute
+        {
+            Physics,    // 物理
+            Magic,      // 魔法
+        }
     }
 }
