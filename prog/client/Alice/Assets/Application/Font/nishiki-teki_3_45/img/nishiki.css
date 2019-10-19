@@ -1,0 +1,20 @@
+p.nishiki {
+color: #006969;
+background-color: #FFFFFF;
+font-size: 120px;
+font-family: "Nishiki-teki";
+margin-left: 120px;
+width: 144px;
+height: 144px;
+}
+
+table.nishiki{
+    border-collapse:collapse;
+    border-spacing:0;
+    empty-cells:show;
+}
+.nishiki td{
+    color: #C5B3FF;
+    font-size: 0.8em;
+    padding:0.3em 1em;
+}
