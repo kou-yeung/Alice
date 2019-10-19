@@ -175,7 +175,11 @@ namespace Alice
         /// </summary>
         int Damage(BattleUnit behavioure, BattleUnit target, Effect effect)
         {
-            return 10;
+            var atk = behavioure.characterData.Atk;
+            var def = target.characterData.Def;
+            var damage = (atk * atk * 3) / (atk + 3 * def);
+            var random = Battle.Instance.random.Next(90, 110) / 100f;
+            return Mathf.FloorToInt(damage * random);
         }
 
         /// <summary>
@@ -183,7 +187,8 @@ namespace Alice
         /// </summary>
         int DamageRatio(BattleUnit behavioure, BattleUnit target, Effect effect)
         {
-            return 10;
+            var ratio = effect.Value / 100f;
+            return Mathf.FloorToInt(target.characterData.HP * ratio);
         }
 
         /// <summary>

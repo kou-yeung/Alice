@@ -28,6 +28,7 @@ namespace Alice
             stateBehaviour.AddState(BattleConst.State.Playback, new BattlePlaybackState());
             stateBehaviour.AddState(BattleConst.State.Timeline, new BattleTimelineState());
             stateBehaviour.AddState(BattleConst.State.TurnEnd, new BattleTurnEndState());
+            stateBehaviour.AddState(BattleConst.State.GameSet, new BattleGameSetState());
         }
 
         public void Dispose()

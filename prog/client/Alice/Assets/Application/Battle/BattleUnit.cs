@@ -22,6 +22,7 @@ namespace Alice
         {
             public int HP;
             public int Wait;
+            public bool IsDead { get { return HP <= 0; } }
 
             public Current(Character data)
             {
@@ -103,6 +104,7 @@ namespace Alice
             state.SetHP(current.HP);
             state.PlayDamage(value);
         }
+
 
         /// <summary>
         /// 回復

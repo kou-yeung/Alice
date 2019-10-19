@@ -28,18 +28,21 @@ namespace Alice
             (end) => Cutin(action, end),    // 演出:スキルカットイン
             (end) => Attack(action, end),   // 演出:アクション開始
             (end) => Damage(action, end),   // 演出:ダメージ
-            (end) => Recovery(action, end)  // 演出:回復
+            (end) => Recovery(action, end),  // 演出:回復
+            (end) => Dead(action, end)      // 演出死亡
             );
         }
 
-        IEnumerator Playback(IObserver<Unit> observer)
+
+        /// <summary>
+        /// 指定したエフェクトファイルの一覧を取得
+        /// ※死亡したユニットは含まない
+        /// </summary>
+        /// <param name="effects"></param>
+        /// <returns></returns>
+        BattleEffect[] GetBattleEffectByTypes(List<BattleEffect> effects, BattleConst.Effect[] types)
         {
-            for (int i = 0; i < 3; i++)
-            {
-                observer.OnNext(Unit.Default);
-                yield return new WaitForSeconds(1);
-            }
-            observer.OnCompleted();
+            return effects.Where(v => types.Contains(v.type) && !v.target.current.IsDead).ToArray();
         }
 
         /// <summary>
@@ -60,7 +63,7 @@ namespace Alice
         void Damage(BattleAction action, Action cb)
         {
             var types = new[] { BattleConst.Effect.Damage, BattleConst.Effect.DamageRatio };
-            var effects = action.effects.Where(v => types.Contains(v.type)).ToArray();
+            var effects = GetBattleEffectByTypes(action.effects, types);
             if(effects.Length > 0)
             {
                 var function = Async.Passive(cb, effects.Length);
@@ -84,7 +87,7 @@ namespace Alice
         void Recovery(BattleAction action, Action cb)
         {
             var types = new[] { BattleConst.Effect.Recovery, BattleConst.Effect.RecoveryRatio };
-            var effects = action.effects.Where(v => types.Contains(v.type)).ToArray();
+            var effects = GetBattleEffectByTypes(action.effects, types);
             if (effects.Length > 0)
             {
                 var function = Async.Passive(cb, effects.Length);
@@ -118,6 +121,25 @@ namespace Alice
                 Debug.Log($"通常攻撃");
                 cb();
             }
+        }
+
+        /// <summary>
+        /// 演出:死亡
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cb"></param>
+        void Dead(BattleAction action, Action cb)
+        {
+            var deads = action.effects.Where(v => v.target.current.IsDead).Select(v=>v.target).Distinct();
+            foreach(var dead in deads)
+            {
+                Battle.Instance.controller.units.Remove(dead.uniq);
+                dead.actor.setAnimation("Dead", () =>
+                {
+                    GameObject.Destroy(dead.root);
+                });
+            }
+            cb();
         }
     }
 }

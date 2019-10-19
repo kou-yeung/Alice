@@ -14,6 +14,7 @@ namespace Alice
             Action,     // アクション選択
             Playback,   // 選択したアクションの再生
             TurnEnd,    // ターンエンド
+            GameSet,    // ゲーム終了
         }
 
         /// <summary>

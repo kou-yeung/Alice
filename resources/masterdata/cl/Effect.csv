@@ -1,4 +1,4 @@
 ID,効果,対象範囲,対象数,パラメータ,FX,
 Effect_001_001,Damage,Enemy,1,10,火5,
-Effect_001_002,DamageRatio,Self,1,10,火5,
+Effect_001_002,DamageRatio,Enemy,1,10,火5,
 Effect_001_003,Recovery,Friend,2,10,回復14,
