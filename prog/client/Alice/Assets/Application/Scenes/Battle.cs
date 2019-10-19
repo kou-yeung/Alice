@@ -32,9 +32,10 @@ namespace Alice
                 // 必要なリソースをプリロード
                 List<string> resourcePaths = new List<string>();
 
+                // 
                 resourcePaths.Add("Actor/Actor.prefab");
                 resourcePaths.Add("Effect/FX.prefab");
-                resourcePaths.Add("Effect/火5.asset");
+                resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
 
                 // 味方ユニットに必要なリソースをロード
                 foreach(var unit in battleRecv.player)
@@ -47,7 +48,7 @@ namespace Alice
                     resourcePaths.AddRange(UserUnitPreloadPaths(unit));
                 }
 
-                LoaderService.Instance.Preload(resourcePaths.ToArray(), () =>
+                LoaderService.Instance.Preload(resourcePaths.Distinct().ToArray(), () =>
                 {
                     // コントローラ初期化
                     controller.Setup(battleRecv);
