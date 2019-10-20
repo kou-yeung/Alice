@@ -17,92 +17,1992 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 172e0799de4820f4697b4b62b82a05a2
   m_SerializeEntries:
-  - m_GUID: 088f3544d755492499ecd8414e63f01a
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv002.asset
+  - m_GUID: 00050b86dc790bc438a947e794eb5f18
+    m_Address: Assets/AddressableAssets/Character/124/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 004b28991f0d64c41be2d8b8e9dff37e
+    m_Address: Assets/AddressableAssets/Character/146/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 01b533ef603f10447b3b2ca19e6c226b
+    m_Address: Assets/AddressableAssets/Character/039/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 01c156b6270ab9c499fc456bd15a2368
+    m_Address: Assets/AddressableAssets/Character/066/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 02bbd7f2d95149841aebf57723e7e8b4
+    m_Address: Assets/AddressableAssets/Character/196/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 033a4be7ae5569b42ac2f1e5c5826c20
+    m_Address: Assets/AddressableAssets/Character/034/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0359fbd5f56fecc44961d438975db6d6
+    m_Address: Assets/AddressableAssets/Character/020/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 057866945326d8f41bb09e32685fe116
+    m_Address: Assets/AddressableAssets/Character/111/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 05b105aefe74d814c82de852e9b7181b
+    m_Address: Assets/AddressableAssets/Character/187/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 05e71d11c2d3c9647976c3eafbd9e6ad
+    m_Address: Assets/AddressableAssets/Character/037/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0805e2d4dbedb0d4ea63a83914e061b9
+    m_Address: Assets/AddressableAssets/Character/242/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 08e26943b29951a4f88670612fa81675
+    m_Address: Assets/AddressableAssets/Character/204/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 097b8c81dae5c0f499465c220849f4fb
+    m_Address: Assets/AddressableAssets/Character/015/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0b4807a60016c9b4f94039a935299352
+    m_Address: Assets/AddressableAssets/Character/030/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0bced1cc3019cdf4aa26736d32a75a55
+    m_Address: Assets/AddressableAssets/Character/036/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0c1df62dee243ed41ab674f52a912a61
+    m_Address: Assets/AddressableAssets/Character/049/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0ce6337c94d3ee14bb4f3f5ed879ab22
+    m_Address: Assets/AddressableAssets/Character/060/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0ce80020417e4f342a3c46ffffe3134d
+    m_Address: Assets/AddressableAssets/Character/011/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0d50b50247908d64a900ea6d10186b03
+    m_Address: Assets/AddressableAssets/Character/078/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0d5ee49c9dfb63a49a1e8e8cd6b48508
+    m_Address: Assets/AddressableAssets/Character/110/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0d637ec061c29054b80543cad7e026bf
+    m_Address: Assets/AddressableAssets/Character/024/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 0dbf230b5f819f14a930c84932679b9f
     m_Address: Assets/AddressableAssets/Prefab/UnitState.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 187999b8984f565449f4ba188cefb097
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv008.asset
+  - m_GUID: 0e88ebf205f21474496b39a6bb8e7f9b
+    m_Address: Assets/AddressableAssets/Character/118/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 2785d40931a99ea49aff601f488cb2d4
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv005.asset
+  - m_GUID: 0ed4a2e24b762e8489efe0f1f1e84028
+    m_Address: Assets/AddressableAssets/Character/233/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 0fb98582e3b874245bda7244f559b386
+    m_Address: Assets/AddressableAssets/Character/110/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 101a4587cce65a84c8c737e009d23fcf
+    m_Address: Assets/AddressableAssets/Character/223/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 10bf937315c249148b10131d5e0cebdd
+    m_Address: Assets/AddressableAssets/Character/166/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 111cf0c2a448eee4583fd37efbade81e
+    m_Address: Assets/AddressableAssets/Character/142/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 11a5353d270282347aaa93c63c647850
+    m_Address: Assets/AddressableAssets/Character/090/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1232c23732ee0304b85d61f6ec7c171e
+    m_Address: Assets/AddressableAssets/Character/129/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 123ec672689886644b3f4c92aa963874
+    m_Address: Assets/AddressableAssets/Character/104/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 126a6c19a20288c42bbb8ca63909ad8a
+    m_Address: Assets/AddressableAssets/Character/165/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 13b8de42cabe8ce4a8e563e985766ae9
+    m_Address: Assets/AddressableAssets/Character/133/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1461c42c683fed848a3ffb6ff7e3dd42
+    m_Address: Assets/AddressableAssets/Character/057/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 148917c3fd540c24f8c91069674fab2c
+    m_Address: Assets/AddressableAssets/Character/119/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 148d9efe22c8add4d8abeb07ece0358c
+    m_Address: Assets/AddressableAssets/Character/147/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1561afd7ed531974d8ce539c32ae3041
+    m_Address: Assets/AddressableAssets/Character/152/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 16563d8d86600be47b453c40c8e033e0
+    m_Address: Assets/AddressableAssets/Character/140/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 16c3ba8a56923a74da70c5a5a225d23b
+    m_Address: Assets/AddressableAssets/Character/099/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1717c174a909e8c48a6f5b4950cb7160
+    m_Address: Assets/AddressableAssets/Character/005/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 17a77fd30d6d4004b8aac5f41c324b23
+    m_Address: Assets/AddressableAssets/Character/189/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 17fa38d097b404748833d8bedef13e0c
+    m_Address: Assets/AddressableAssets/Character/231/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 184659bba984a414fa69dc4b66fa6759
+    m_Address: Assets/AddressableAssets/Character/224/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1976308adc1120645a5c20a4c010df19
+    m_Address: Assets/AddressableAssets/Character/221/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 19e666ca51fc4f34ba2034fdb6e8083f
+    m_Address: Assets/AddressableAssets/Character/197/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1a4c50ee576b69446a34067c62eadd63
+    m_Address: Assets/AddressableAssets/Character/236/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1a6d8e43de797604b9343b60d83b49ac
+    m_Address: Assets/AddressableAssets/Character/133/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1a8bbc10948bf724e8ded64a7e2096a6
+    m_Address: Assets/AddressableAssets/Character/023/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1b1a7973f2e387345ac200fa6ed15a29
+    m_Address: Assets/AddressableAssets/Character/160/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1b3588e00eaba7c4886fb8377fa202fb
+    m_Address: Assets/AddressableAssets/Character/040/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1c045783584c73b4a8c6568ccea78664
+    m_Address: Assets/AddressableAssets/Character/194/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1c303d56602e16049adef6fe76243aea
+    m_Address: Assets/AddressableAssets/Character/135/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1cd2304e60b9348488ed05a83e014ad8
+    m_Address: Assets/AddressableAssets/Character/095/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1d1c03d94a7feb149b910f91aca058cd
+    m_Address: Assets/AddressableAssets/Character/105/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1dca4851e5c469d4a9cb432619cddf9b
+    m_Address: Assets/AddressableAssets/Character/093/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1fffa291daabc9d4b9900bf4e04d9f06
+    m_Address: Assets/AddressableAssets/Character/118/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 20483d8678f4642429613a9b84a6de30
+    m_Address: Assets/AddressableAssets/Character/234/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 20a7f4df95327b44db27538439762c78
+    m_Address: Assets/AddressableAssets/Character/035/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 20aa6bf9d19e9f148b30a35316bd5a9b
+    m_Address: Assets/AddressableAssets/Character/016/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 20d50d919f8eaea4cba65bda317f5488
+    m_Address: Assets/AddressableAssets/Character/107/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 214c5dc227d47f7488b2ef7416f3fc40
+    m_Address: Assets/AddressableAssets/Character/188/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2200878e8ae3a2340a1b738e6ff0bc1c
+    m_Address: Assets/AddressableAssets/Character/128/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 22cb9212e6fff374f864fd75aea10611
+    m_Address: Assets/AddressableAssets/Character/186/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 22d06efa0f2b69a4aa76f25ace8350ef
+    m_Address: Assets/AddressableAssets/Character/062/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 230b38c034a218b4eaa75d2cc23c2962
+    m_Address: Assets/AddressableAssets/Character/120/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 232e503a86b88744599c332eb96e6f50
+    m_Address: Assets/AddressableAssets/Character/068/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 23340d6f39e33ba498e2213dec2c7edf
+    m_Address: Assets/AddressableAssets/Character/053/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 23366f03099e5e842ae54ebd156053e2
+    m_Address: Assets/AddressableAssets/Character/081/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 237b8dfdf2d4f464d9bcbfdb21f6f342
+    m_Address: Assets/AddressableAssets/Character/021/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 238ee75d06abf1b458421b0b458399d6
+    m_Address: Assets/AddressableAssets/Character/125/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2474b37f95d44984cb357da426db5b9f
+    m_Address: Assets/AddressableAssets/Character/145/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 251957c82493364429e37bc09e1ded02
+    m_Address: Assets/AddressableAssets/Character/205/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 27d171e1a605e9f4fba64c0dd38112c7
+    m_Address: Assets/AddressableAssets/Character/248/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 28286389b74607240b2ba1e0f8ed7a23
+    m_Address: Assets/AddressableAssets/Character/155/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 285bb99d69d4baf4380fc9f84d3c9eb2
+    m_Address: Assets/AddressableAssets/Character/251/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 287c7c06ae25159438e054f3d3d9360d
     m_Address: Assets/AddressableAssets/Entities/Skill.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 3134a7b79c0108846a3a6f1ffc99e208
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv001.asset
+  - m_GUID: 29b89caca4f4bce4192b1a7532d82ad5
+    m_Address: Assets/AddressableAssets/Character/044/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 29d60a399f2185645830b3f031ef308e
+    m_Address: Assets/AddressableAssets/Character/202/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2a33f2deb96299546b3c839a57e4f79e
+    m_Address: Assets/AddressableAssets/Character/175/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2a434e317d1568d4baa1b1ffa58c8801
+    m_Address: Assets/AddressableAssets/Character/084/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2a8a346feedb5984a92f460ea8682231
+    m_Address: Assets/AddressableAssets/Character/065/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2ab5c42b08da0c34cb7dca8336c9fb39
+    m_Address: Assets/AddressableAssets/Character/051/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2ae2feedb657f354abe7eb5efed2aac3
+    m_Address: Assets/AddressableAssets/Character/056/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2b0e28f36629ebd4290dea01216c8e22
+    m_Address: Assets/AddressableAssets/Character/198/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2bfc95ee2c1b7b54092bb26628d3fbb7
+    m_Address: Assets/AddressableAssets/Character/065/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2cd7112cd8b66804ca6a2176ebd3dcf7
+    m_Address: Assets/AddressableAssets/Character/114/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2cfa676f76c951d4392e5a8ec7b7d936
+    m_Address: Assets/AddressableAssets/Character/079/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2e1b8c262cd999e4fa220a9556d6c580
+    m_Address: Assets/AddressableAssets/Character/247/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2e6fd8b45f5ff904f8ff40528c3631d0
+    m_Address: Assets/AddressableAssets/Character/070/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2ebeffab200cde246955cba15c4e6e61
+    m_Address: Assets/AddressableAssets/Character/192/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2f8498311fc39444fa76ce13a12c9b93
+    m_Address: Assets/AddressableAssets/Character/137/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2fee6fa68cfd7b840b63536823d478ee
+    m_Address: Assets/AddressableAssets/Character/054/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 318272a3ccc2cef48958af0f9753f086
+    m_Address: Assets/AddressableAssets/Character/189/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 319037fd777a0f3448a78264fb33d448
+    m_Address: Assets/AddressableAssets/Character/247/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 31b47e687d3bead44ba70771bee1c5d2
+    m_Address: Assets/AddressableAssets/Character/206/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 31e45d566d0ea2e41ad33f4fd4dd0f82
+    m_Address: Assets/AddressableAssets/Character/132/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 320370e16b3544f4a8f7403bd6c4055c
+    m_Address: Assets/AddressableAssets/Character/074/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3215e0e298bbaff4bbd4331f3bda73ec
+    m_Address: Assets/AddressableAssets/Character/167/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 32f2aa54dac1ddc438fcc8ab1c4aae38
     m_Address: "Assets/AddressableAssets/Effect/\u8A60\u55316.asset"
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3391d73b11f6ab143af6188b59c45ae0
+    m_Address: Assets/AddressableAssets/Character/090/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3486a402fe42c5c46a36b0bb16244027
+    m_Address: Assets/AddressableAssets/Character/217/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3490ec0cd08bd124197b38887b98b6ee
+    m_Address: Assets/AddressableAssets/Character/046/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 34b846dbfcc40ee4fa9da42d1fe1e0c3
+    m_Address: Assets/AddressableAssets/Character/185/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3603e1601f1dfa040a375ff096f036fb
+    m_Address: Assets/AddressableAssets/Character/209/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3619f62b113f80c488b72f658ad447f7
+    m_Address: Assets/AddressableAssets/Character/008/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 373ad454e986abd478584c175f5569aa
+    m_Address: Assets/AddressableAssets/Character/038/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3854d4d22b48f3446a823ede9208b4bf
+    m_Address: Assets/AddressableAssets/Character/190/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3ba805f018b6d78438fbf1020ad81fa4
+    m_Address: Assets/AddressableAssets/Character/241/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 3c22793e23a419647ba0b8c5a3a3feae
     m_Address: Assets/AddressableAssets/Entities/Character.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 5ced619b3e664154e803bd0fe126561c
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv009.asset
+  - m_GUID: 3c9640bfa233fe747ad186dccf654b53
+    m_Address: Assets/AddressableAssets/Character/149/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3d15348a41aa2d24aa9e11dc4cd894ef
+    m_Address: Assets/AddressableAssets/Character/087/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3d1bbd05923120a41adc1cc1fc94dd20
+    m_Address: Assets/AddressableAssets/Character/082/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3de9c6851da5a3a4baf6d798a4764a6e
+    m_Address: Assets/AddressableAssets/Character/052/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3e7c23a63ed473943b748d25bc577679
+    m_Address: Assets/AddressableAssets/Character/157/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3ef011447373e9145a20f52c2793b662
+    m_Address: Assets/AddressableAssets/Character/095/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3f80867474b97ef408c4324008da27fa
+    m_Address: Assets/AddressableAssets/Character/089/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4106e0a849c15654a9c89db4b83fb158
+    m_Address: Assets/AddressableAssets/Character/217/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4143a07137479e84bb0440d29bdfc713
+    m_Address: Assets/AddressableAssets/Character/159/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 415256f2add4cda45b80b70bf00a022a
+    m_Address: Assets/AddressableAssets/Character/047/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 41c15a55d5c4a9e41aac1245d453faa8
+    m_Address: Assets/AddressableAssets/Character/048/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 426930d5755770749a87f399276e5232
+    m_Address: Assets/AddressableAssets/Character/177/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 42a51dbf599771a43897a5672420c2de
+    m_Address: Assets/AddressableAssets/Character/236/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 43194382654a8b746898092992a0f0a6
+    m_Address: Assets/AddressableAssets/Character/056/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4751ce562a9c86442ab7434d496a6856
+    m_Address: Assets/AddressableAssets/Character/022/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 489bb6ba3d9a78346a14a26d7643ba49
+    m_Address: Assets/AddressableAssets/Character/225/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 493976e106b46fb45a9ee11d9af314c2
+    m_Address: Assets/AddressableAssets/Character/173/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4a3a908947217bb4ebd5d881123a6ee2
+    m_Address: Assets/AddressableAssets/Character/119/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4a72b8a383961e846b8f3f98bbfa2283
+    m_Address: Assets/AddressableAssets/Character/043/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4afb20cd1827fdb4dad6e74d4754994a
+    m_Address: Assets/AddressableAssets/Character/072/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4b23bfaf8bd68d94cba233918d1d2e67
+    m_Address: Assets/AddressableAssets/Character/042/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4b8aef46b5003a743bed81704765e67b
+    m_Address: Assets/AddressableAssets/Character/113/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4bd28d35bfe2bde4d9d5fa3f9dfdfb0a
+    m_Address: Assets/AddressableAssets/Character/202/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4c537d38ff5fdd14d898cdaa155306a3
+    m_Address: Assets/AddressableAssets/Character/062/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4c996920a623552418af8e3b2ce68804
+    m_Address: Assets/AddressableAssets/Character/105/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4d12b50d973b6ec4baadb4a42a62a59d
+    m_Address: Assets/AddressableAssets/Character/156/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4d98006a5515d4d44927a7979700ee7a
+    m_Address: Assets/AddressableAssets/Character/082/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4e1f994b988f56a47b5cb3feccd7f872
+    m_Address: Assets/AddressableAssets/Character/028/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4e93341192484024dbcc13fd201a1ac6
+    m_Address: Assets/AddressableAssets/Character/144/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4f333c14ecf195e4eb65a1a97bdf1651
+    m_Address: Assets/AddressableAssets/Character/245/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4f6670d1f55ecc34f93ff0fd575b097d
+    m_Address: Assets/AddressableAssets/Character/152/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4faa8ea78e2bee040ae94ffd89d05ac7
+    m_Address: Assets/AddressableAssets/Character/168/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 500e8026207c9be478a4a36c771a76fd
+    m_Address: Assets/AddressableAssets/Character/239/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 51de0303524f8db4dbab7dd14481988c
+    m_Address: Assets/AddressableAssets/Character/233/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 521f7c8f4b8b63d4998da9356a363c1b
+    m_Address: Assets/AddressableAssets/Character/227/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 52b7e020f2c3c304687b25907c9149ce
+    m_Address: Assets/AddressableAssets/Character/212/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 52d3e966825b7eb4ba0f56c4dfbd1dc4
+    m_Address: Assets/AddressableAssets/Character/246/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 53ed8e4dd60644642b4b5e3b443009cd
+    m_Address: Assets/AddressableAssets/Character/112/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 53fc652a302182741bc59615de0c584c
+    m_Address: Assets/AddressableAssets/Character/213/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 55f24c9ff8612124a8e54ec9f2367b1a
+    m_Address: Assets/AddressableAssets/Character/063/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 568a4483a9fe27848b3895ef03093259
+    m_Address: Assets/AddressableAssets/Character/173/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 569d3a38d81ca1f429a2b1df8437d8f6
+    m_Address: Assets/AddressableAssets/Character/023/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 57fd1741f5121bb45b8dc2f06c99fb8f
+    m_Address: Assets/AddressableAssets/Character/072/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5814a6f99a0d0e644819dc9fc09a23c6
+    m_Address: Assets/AddressableAssets/Character/033/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 58d07e7fbaeb5a84cbef272c008600b2
+    m_Address: Assets/AddressableAssets/Character/006/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 59c6960b8dc99fd419ebb91211067365
+    m_Address: Assets/AddressableAssets/Character/158/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5a13c495ec3c60c4b9617cfb4045eceb
+    m_Address: Assets/AddressableAssets/Character/210/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5aa76e10df009eb418ff7fdf19290bf0
+    m_Address: Assets/AddressableAssets/Character/071/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5ab47a0e1a97b7e40a047058dbf959b7
+    m_Address: Assets/AddressableAssets/Character/145/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5b69e7a648176994c84feb1322e1c411
+    m_Address: Assets/AddressableAssets/Character/162/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5c106e8ad9ba32f449ee45f5ee0a89fd
+    m_Address: Assets/AddressableAssets/Character/117/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5c333d39089c83e48bede552d647ed26
+    m_Address: Assets/AddressableAssets/Character/148/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5d41ee21f72539c4a802a71f3861d0db
+    m_Address: Assets/AddressableAssets/Character/076/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5da3ce159fdd0cc4982471cee4b665d3
+    m_Address: Assets/AddressableAssets/Character/132/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5e3d9cecdf2f5fb4497b192b504709c0
+    m_Address: Assets/AddressableAssets/Character/226/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5f2c6e6467262ba4ca0a0b8a65e03ba0
+    m_Address: Assets/AddressableAssets/Character/030/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 60179be3c8d70134b8e5a886ce091df0
+    m_Address: Assets/AddressableAssets/Character/243/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 60747ca2caa3b4744ab4449e22886ff5
+    m_Address: Assets/AddressableAssets/Character/244/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 61150365bf038c742829fb37764aad74
+    m_Address: Assets/AddressableAssets/Character/114/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6180ce8cdc50b0546a44140a97b4e94a
+    m_Address: Assets/AddressableAssets/Character/138/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 61989c56c7af4584b9ed625f622d6419
+    m_Address: Assets/AddressableAssets/Character/069/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 623f4393a92897645a66445a9bc525c8
+    m_Address: Assets/AddressableAssets/Character/127/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 62994a3103f879d4e8c477e7937d9033
+    m_Address: Assets/AddressableAssets/Character/116/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 62d8e7d1ba78c2d42abe67120345001f
+    m_Address: Assets/AddressableAssets/Character/121/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 62fa02e511e58324380415f65c6a6530
+    m_Address: Assets/AddressableAssets/Character/031/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 63a520b04e3fc674a9b0cb2a3a203529
+    m_Address: Assets/AddressableAssets/Character/017/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 640f456e01a574144970dc4b91cca367
+    m_Address: Assets/AddressableAssets/Character/002/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6419fccc042165e44870232fc6b83d4e
+    m_Address: Assets/AddressableAssets/Character/198/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 64873552457b1ba4a8a12abebf73a4b7
+    m_Address: Assets/AddressableAssets/Character/204/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6493e33eac573e24483853e2f35250b7
+    m_Address: Assets/AddressableAssets/Character/220/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 64ca20085d150ac41ad1edf317aa1a08
+    m_Address: Assets/AddressableAssets/Character/021/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 65468e7ff41761847b656346c3db1994
+    m_Address: Assets/AddressableAssets/Character/176/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 65b293444e3cb8d4d856c5635d967f8d
+    m_Address: Assets/AddressableAssets/Character/237/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 65f03b6bd9d5e7442b2d063c01a0f812
+    m_Address: Assets/AddressableAssets/Character/199/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 67644537e7544e14cad26939462ede26
+    m_Address: Assets/AddressableAssets/Character/064/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6778b116e58c3964eb9fee077aa0be0d
+    m_Address: Assets/AddressableAssets/Character/162/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 68224e6499ffe3d4583b9045be7a7943
+    m_Address: Assets/AddressableAssets/Character/018/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 683f23dc422ad3b4c9ab00c01b984235
+    m_Address: Assets/AddressableAssets/Character/083/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 68406178e6febd141b10a33cf56709a9
+    m_Address: Assets/AddressableAssets/Character/100/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 68547e7ee32dc334895eb9f8019b6a02
+    m_Address: Assets/AddressableAssets/Character/087/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6865ea79db6534147a5d1a7c6d508cd6
+    m_Address: Assets/AddressableAssets/Character/216/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 697f20fe2f6feed479f4583e9081fb09
+    m_Address: Assets/AddressableAssets/Character/164/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6b33e372d9267e044a0d933b0cf24a0a
+    m_Address: Assets/AddressableAssets/Character/191/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6c218f6b0cbcf914aaeae1b707ac4e3c
+    m_Address: Assets/AddressableAssets/Character/051/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6db314476f2dc08479c9963fa1622292
+    m_Address: Assets/AddressableAssets/Character/109/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6e148b547bdf4f346b3b9fb16d911143
+    m_Address: Assets/AddressableAssets/Character/174/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6e4da755a51f1e048b52f0696a19724d
+    m_Address: Assets/AddressableAssets/Character/248/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6e6e2d22e959d3c45a794a74f5c8f05a
+    m_Address: Assets/AddressableAssets/Character/036/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6eb1487b5f38da140a2a2ca3b90f71a3
+    m_Address: Assets/AddressableAssets/Character/027/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6ed28b6a6073ea747bd2de4f5d01877e
+    m_Address: Assets/AddressableAssets/Character/054/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6ef267750a110844a820b1a94964e1ca
+    m_Address: Assets/AddressableAssets/Character/115/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6f49d1b843438c049a0b53e04d63064b
+    m_Address: Assets/AddressableAssets/Character/240/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6ff28facf5b835c4683a5b79eb4482f8
+    m_Address: Assets/AddressableAssets/Character/123/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 702314709000bd848aaa0ff4f9671afd
+    m_Address: Assets/AddressableAssets/Character/129/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 70523c0967542e34199c28260cdd523e
+    m_Address: Assets/AddressableAssets/Character/206/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 71b9637f8aa01314b85d9df390c67166
+    m_Address: Assets/AddressableAssets/Character/170/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 71d360381b264f34fb30867acec02abf
+    m_Address: Assets/AddressableAssets/Character/077/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 721158825aa57784c8166560a8e7de47
+    m_Address: Assets/AddressableAssets/Character/136/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 73ab49c2832bc8b4ca6e45a7dc83ea01
+    m_Address: Assets/AddressableAssets/Character/143/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 742a32a952a0d4b459d42d6bad45dae9
+    m_Address: Assets/AddressableAssets/Character/148/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 745fa85b55e64ed47b6865be488f56e3
+    m_Address: Assets/AddressableAssets/Character/232/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 74bf92cdb85a0ba4fa0e2b3316a3605b
+    m_Address: Assets/AddressableAssets/Character/003/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 74e4d2f165223e14281d3fd7f174959b
+    m_Address: Assets/AddressableAssets/Character/010/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 75177070c8d061b43a9aa2d2a859b23f
+    m_Address: Assets/AddressableAssets/Character/151/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 753c03e644db8f244afaf52e7a63c1ba
+    m_Address: Assets/AddressableAssets/Character/237/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 759080fa86185654aaf1be7e6e9fb65a
+    m_Address: Assets/AddressableAssets/Character/158/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 75e66ac4b93e3884f84d3e34f06a8889
+    m_Address: Assets/AddressableAssets/Character/004/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 769eba6fbd4070d4281b7f82cc813a27
+    m_Address: Assets/AddressableAssets/Character/079/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7721cfc30d27eba479e151eed0822028
+    m_Address: Assets/AddressableAssets/Character/101/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7797e07c443f03944a079607e88c73a2
+    m_Address: Assets/AddressableAssets/Character/154/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 77feb3bdefc3f414ab8a370abc2a1bd7
+    m_Address: Assets/AddressableAssets/Character/086/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 78384ce6ef2b7eb42bd726e302056bf1
+    m_Address: Assets/AddressableAssets/Character/106/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7862f8051c589f2468221d975c66d4ea
+    m_Address: Assets/AddressableAssets/Character/006/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 78e283b6672f1594d808f1f341ac6cb7
+    m_Address: Assets/AddressableAssets/Character/115/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7b8a813065c76394dae980a49c4e97a3
+    m_Address: Assets/AddressableAssets/Character/150/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7bb184afcd9343a43b439c4900f917d4
+    m_Address: Assets/AddressableAssets/Character/121/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7c8980cdbfcb98b47954d42f08ea0959
+    m_Address: Assets/AddressableAssets/Character/210/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7c923ab014a32dd44ba5477443c37b4e
+    m_Address: Assets/AddressableAssets/Character/019/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7d028734748896d478b130b0139c9b7c
+    m_Address: Assets/AddressableAssets/Character/097/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 7d13d65960d27d04aadeedf9b6cc354f
     m_Address: Assets/AddressableAssets/Prefab/Actor.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 7d2864eebb9a0ca4db6ed67418ae449c
+    m_Address: Assets/AddressableAssets/Character/002/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7e73eb534c64d8b459038789a685fb6b
+    m_Address: Assets/AddressableAssets/Character/107/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7eb312b74d8d6e44a959ba2c46b8abe4
+    m_Address: Assets/AddressableAssets/Character/218/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7ef64bd247cacf04288f33d0dab9e190
+    m_Address: Assets/AddressableAssets/Character/005/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7f2397a8354423641a23e2c9eb512c37
+    m_Address: Assets/AddressableAssets/Character/033/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 80add265ad8924c4aa08c46dfd1e98dc
+    m_Address: Assets/AddressableAssets/Character/182/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 811adb9eb968a7640920a3b04261118f
+    m_Address: Assets/AddressableAssets/Character/091/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 81cf1941b5e63d642bd8cab44dedc3e3
+    m_Address: Assets/AddressableAssets/Character/172/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8280475bbeadab142ae0c373c3323b16
+    m_Address: Assets/AddressableAssets/Character/159/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 83ed32704ca918849895e004040c48a4
+    m_Address: Assets/AddressableAssets/Character/227/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 845f7db8904ca5c48b2e96714fc1f04e
+    m_Address: Assets/AddressableAssets/Character/094/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 850d4a7c32c49b34f8ef0e08f73ac496
+    m_Address: Assets/AddressableAssets/Character/059/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 856ecd295b3c9a94e979abd5a6a99130
     m_Address: "Assets/AddressableAssets/Effect/\u706B5.asset"
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 971684dc482a369458d775e181ab038e
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv006.asset
+  - m_GUID: 858fa76ad0d881a4983ad0371813246f
+    m_Address: Assets/AddressableAssets/Character/238/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 870edcc25eea292439c0afade79fabf8
+    m_Address: Assets/AddressableAssets/Character/085/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 87c258613c3bd4844b347594a826a645
+    m_Address: Assets/AddressableAssets/Character/235/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 87ee213ff47e25043a556207de2787bd
+    m_Address: Assets/AddressableAssets/Character/058/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 87f92db17c4c89e4d80ba739ea92bd10
+    m_Address: Assets/AddressableAssets/Character/195/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 880807338fe504042a67347057eb6df8
+    m_Address: Assets/AddressableAssets/Character/024/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 881dd9c740be897478e7c3ae9c347b9b
+    m_Address: Assets/AddressableAssets/Character/098/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 883368e3d65058949bc564ecdbdb0e5e
+    m_Address: Assets/AddressableAssets/Character/099/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 883eed582d5876f48970fc1faef7dcac
+    m_Address: Assets/AddressableAssets/Character/077/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8853e5cecaf79e843b27ac67541b0d66
+    m_Address: Assets/AddressableAssets/Character/224/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 88a49634a31458044a3409b5a01aed18
+    m_Address: Assets/AddressableAssets/Character/211/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 894797bc4ef16d04181e8f8fe895a3d3
+    m_Address: Assets/AddressableAssets/Character/031/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8953e51385725d84ebed98d6bb77631c
+    m_Address: Assets/AddressableAssets/Character/010/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8a60cf1c119dc6d48b5dcc99961cd940
+    m_Address: Assets/AddressableAssets/Character/019/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8b4149c05edce6247812df971690edaf
+    m_Address: Assets/AddressableAssets/Character/135/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8c20a34f40c9b6c47a8a8396724ac5af
+    m_Address: Assets/AddressableAssets/Character/022/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8c33db5cd110b17498daa5d71e974098
+    m_Address: Assets/AddressableAssets/Character/037/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8dbe6db7db31ca04b86a9497c421556b
+    m_Address: Assets/AddressableAssets/Character/116/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8e34a771ab1500147a407d827fff918c
+    m_Address: Assets/AddressableAssets/Character/128/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8e40dd49c3170584a82e524cadde5e1a
+    m_Address: Assets/AddressableAssets/Character/252/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 8fe65c85bafccc64aa7205acb461573f
+    m_Address: Assets/AddressableAssets/Character/004/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 90e08fb67cfee9349848660cd59ecfa1
+    m_Address: Assets/AddressableAssets/Character/222/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 912a589d3b52f66448b9de5066ee691c
+    m_Address: Assets/AddressableAssets/Character/242/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 922c634a61937bd48bd4e5dff2f8193b
+    m_Address: Assets/AddressableAssets/Character/126/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9249b609171ce9c4594cdf683f4f4e8a
+    m_Address: Assets/AddressableAssets/Character/231/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9317fd95165ea7d44927f1ea8f831a3d
+    m_Address: Assets/AddressableAssets/Character/146/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 93ed423313a794e4eab217c000b81ddc
+    m_Address: Assets/AddressableAssets/Character/142/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9435379b7cade0e42a6d24e4602e04fb
+    m_Address: Assets/AddressableAssets/Character/098/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 949b68aa192ee764aba1f9045551809d
+    m_Address: Assets/AddressableAssets/Character/032/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 94a508daf7c39e24aab21bb60366a24e
+    m_Address: Assets/AddressableAssets/Character/130/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9589434bc36b73f43856d03018091775
+    m_Address: Assets/AddressableAssets/Character/117/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 969ec650e4fe3074fbe44d23add5e5ad
+    m_Address: Assets/AddressableAssets/Character/138/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 96f20b2c08111f44382111f27674fe53
+    m_Address: Assets/AddressableAssets/Character/124/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 97b8a90134790ba44ab8e2ab2a62b649
     m_Address: "Assets/AddressableAssets/Effect/\u56DE\u5FA914.asset"
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 980552cbdb62131448b271fcfad0a774
+    m_Address: Assets/AddressableAssets/Character/043/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9889456c15bbc854a88af1ac63f1c3ac
+    m_Address: Assets/AddressableAssets/Character/073/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9aab7c4b6047281478d349a84ce641d0
+    m_Address: Assets/AddressableAssets/Character/092/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9abbc2268c5871646a30c3bb4881d7b2
+    m_Address: Assets/AddressableAssets/Character/131/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9accd899e242a6447977c068cb734226
+    m_Address: Assets/AddressableAssets/Character/190/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9b5121deb960a1b46b175b38afa26601
+    m_Address: Assets/AddressableAssets/Character/045/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9b8b5684b36b5844f947dba59a51cbeb
+    m_Address: Assets/AddressableAssets/Character/029/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9bf0d63af81865640bf9fa4cc6b09577
+    m_Address: Assets/AddressableAssets/Character/069/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9c694c646e2a0bc4cb9575906ee72818
+    m_Address: Assets/AddressableAssets/Character/094/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9d0e1b1b653da394493f2feacbab9764
+    m_Address: Assets/AddressableAssets/Character/223/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9dd1f54b053c83c48a1110d42dc32a0e
+    m_Address: Assets/AddressableAssets/Character/013/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9e0b55e844daa744fb7cf402ec2c653e
+    m_Address: Assets/AddressableAssets/Character/068/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9ea06bb5986a8864aa9a08aacae46f3a
+    m_Address: Assets/AddressableAssets/Character/025/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9ea4b7508a6642a478834bf4794db269
+    m_Address: Assets/AddressableAssets/Character/075/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9f52814a89af59d45a1653a3398f7df8
+    m_Address: Assets/AddressableAssets/Character/234/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9fa8968ed12f30948bedcd53abd536a6
+    m_Address: Assets/AddressableAssets/Character/064/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9ff2116ff92cf174fb618f91cd950702
+    m_Address: Assets/AddressableAssets/Character/214/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a0851aba333285b44bbb1089b5ef9c48
+    m_Address: Assets/AddressableAssets/Character/134/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a0cac67484786f342866c02290d96cc2
+    m_Address: Assets/AddressableAssets/Character/169/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a1050718e8f838243be97930c4d3a780
+    m_Address: Assets/AddressableAssets/Character/046/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a157497f3dcbf8b47bf2ce2612a6b3c5
+    m_Address: Assets/AddressableAssets/Character/061/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a2b0132e2145aa142ac532fb36162632
+    m_Address: Assets/AddressableAssets/Character/080/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a3fa115a9034d874cad273517d612f07
+    m_Address: Assets/AddressableAssets/Character/252/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a4336d88ca3069d419788b2bd582d5b9
+    m_Address: Assets/AddressableAssets/Character/083/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a458d2fe7574ec944a2c6562684597b8
+    m_Address: Assets/AddressableAssets/Character/166/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a48749f5539d7734fbccc37c0b71d570
+    m_Address: Assets/AddressableAssets/Character/174/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a52ef222f1d548a4e956bad153d9a62b
+    m_Address: Assets/AddressableAssets/Character/085/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a564953e6a0daa54288b4ee34c471f55
+    m_Address: Assets/AddressableAssets/Character/219/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a5739cbd25b2bb1468107ff6a9435d90
+    m_Address: Assets/AddressableAssets/Character/207/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a575a7f4a4b90b4458453fa33936a9e5
+    m_Address: Assets/AddressableAssets/Character/235/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a6d2ca89be7512b4dbedd93e1250fae4
+    m_Address: Assets/AddressableAssets/Character/026/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a6de5636f63c61c4c808e72c14739dfb
+    m_Address: Assets/AddressableAssets/Character/080/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a73a52f03c0b60a4683a37b3e5164336
+    m_Address: Assets/AddressableAssets/Character/230/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a7c864fef463bf84a99f48520d721124
+    m_Address: Assets/AddressableAssets/Character/049/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a89ed0108d683404ebeec1d12eebc95c
+    m_Address: Assets/AddressableAssets/Character/213/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a8dc17ce4f78ed442b221ca931534e64
+    m_Address: Assets/AddressableAssets/Character/239/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a8e3438c8fbf45945a34a514934828ba
+    m_Address: Assets/AddressableAssets/Character/103/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a9cab44f939cd91408d1fea9b0facb99
+    m_Address: Assets/AddressableAssets/Character/228/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: aa5bc2fcc6abbc34d91cfb43431ea74a
+    m_Address: Assets/AddressableAssets/Character/164/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: aa6001d8767ee4841881fe8b3f1611d0
+    m_Address: Assets/AddressableAssets/Character/038/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ab09ffcc700cfd244941255d3745948c
+    m_Address: Assets/AddressableAssets/Character/163/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ab6b17f91ad74b14e9aadc0578d0b19d
+    m_Address: Assets/AddressableAssets/Character/171/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: abe8ebe0ebdb47c47b791b002547c446
+    m_Address: Assets/AddressableAssets/Character/153/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ac601500bc181ab47b031f7be3376989
+    m_Address: Assets/AddressableAssets/Character/108/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ac6454cfe1c3bfa4c88498ecb4a6d558
+    m_Address: Assets/AddressableAssets/Character/081/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: acdc09851cf27a840b94665f5cc416c9
+    m_Address: Assets/AddressableAssets/Character/055/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ad3840c0b9a65e64cb350efbd757a6fd
+    m_Address: Assets/AddressableAssets/Character/150/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: adca61f9f6aa3994bb55e6c787908ddc
+    m_Address: Assets/AddressableAssets/Character/165/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b090470e1360225458dc9b7fbdf3d3d3
+    m_Address: Assets/AddressableAssets/Character/088/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: b1379c5a5d7689d4090073efd1c73625
     m_Address: Assets/AddressableAssets/Prefab/FX.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: b884c78fe2a6c094d810d9b17b1c5a8a
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv004.asset
+  - m_GUID: b199f75090d231f4e9405c56d0e00eae
+    m_Address: Assets/AddressableAssets/Character/241/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: b8fc48e8cac93ed41b602f3f93fa8061
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv003.asset
+  - m_GUID: b1fee175e06a0054d859f84a7f6caf44
+    m_Address: Assets/AddressableAssets/Character/140/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b23138eb33d86424988f8edbcb0bb5b5
+    m_Address: Assets/AddressableAssets/Character/041/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b2dcb3a881ce7284dadcb9feb2b974b1
+    m_Address: Assets/AddressableAssets/Character/253/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b2ee46021aeb66447a29190d8c6bb3cb
+    m_Address: Assets/AddressableAssets/Character/060/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b2f25a944be16b04baba2b3c0dbeae1f
+    m_Address: Assets/AddressableAssets/Character/050/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b3c79f281719ec449a59d5723d64fd52
+    m_Address: Assets/AddressableAssets/Character/007/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b5427982840aa0d42840c4c1ae0904a7
+    m_Address: Assets/AddressableAssets/Character/101/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b55aea9ca879ab349b858e24b984564a
+    m_Address: Assets/AddressableAssets/Character/123/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b5f425edb72398c4dabdc6229773b6d7
+    m_Address: Assets/AddressableAssets/Character/154/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b696d6b800c572a47bd0c4e6d6175a83
+    m_Address: Assets/AddressableAssets/Character/040/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b6d9e0416c38b7743a65f5ecf4e45a3e
+    m_Address: Assets/AddressableAssets/Character/102/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b6ea98e48ed998c40ada0d57bc506f7d
+    m_Address: Assets/AddressableAssets/Character/170/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b77485f776f63284cae3ad20c624ceaa
+    m_Address: Assets/AddressableAssets/Character/222/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b7b85862fe517984b8f73424283b90f5
+    m_Address: Assets/AddressableAssets/Character/169/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b7d24ecca31a48f4d8cbd463da33da92
+    m_Address: Assets/AddressableAssets/Character/012/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b808665669cfa804bacdc6776291c755
+    m_Address: Assets/AddressableAssets/Character/179/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b8c11b0501c2b014d94b4337d5d668bc
+    m_Address: Assets/AddressableAssets/Character/017/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b9abd5877a040ac43ba3d9cb80aab536
+    m_Address: Assets/AddressableAssets/Character/149/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ba0d7cacbb0d7224daa794503bcf8df2
+    m_Address: Assets/AddressableAssets/Character/092/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ba42e3367e25f0b438e73f53ad8c986a
+    m_Address: Assets/AddressableAssets/Character/225/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ba5095b5d9cd16247b05cfc9ad8b60a7
+    m_Address: Assets/AddressableAssets/Character/171/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bacd5c5c810a8764cbda4755ceecd6e6
+    m_Address: Assets/AddressableAssets/Character/240/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bb169092fcfd6754591e55af8c89cc66
+    m_Address: Assets/AddressableAssets/Character/096/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: bb2558091711c9d49b5e1ec641a9c59e
     m_Address: Assets/AddressableAssets/Prefab/Phase.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: bb58e9a138fc46c44b0a1c6d3b9807bc
+    m_Address: Assets/AddressableAssets/Character/044/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bbe9134777626f540afd2915ffd273e2
+    m_Address: Assets/AddressableAssets/Character/007/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bc08d1827dea3a541beee2b6d7c8106c
+    m_Address: Assets/AddressableAssets/Character/220/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bc100d79e289b2b4194ca6f993bf1299
+    m_Address: Assets/AddressableAssets/Character/212/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bceef994c16f61845aba8b7e4f000d55
+    m_Address: Assets/AddressableAssets/Character/026/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bdbeb3c4abec7454d9ed134a9793b83f
+    m_Address: Assets/AddressableAssets/Character/012/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bdd4c2b7304f4f646a51e49ff24e34a2
+    m_Address: Assets/AddressableAssets/Character/156/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: be0010635a413b74ab622702bdf6e5eb
     m_Address: Assets/AddressableAssets/Entities/Effect.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bf6a93d6545037a46aa9e83cf3c2fea4
+    m_Address: Assets/AddressableAssets/Character/018/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bf7221cb19216e440b9e45c56c433664
+    m_Address: Assets/AddressableAssets/Character/111/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c0059bf6fe80a644a9ae1c1b416c1812
+    m_Address: Assets/AddressableAssets/Character/201/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c069a068b7e6efc4f847ff9f628d12db
+    m_Address: Assets/AddressableAssets/Character/215/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c0cfa0f4913bda241a3c5ca834ed225d
+    m_Address: Assets/AddressableAssets/Character/113/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c0d42b30688fbcb40aed0eb66821f030
+    m_Address: Assets/AddressableAssets/Character/216/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c233a3c1a0b38c44ab439302328699a0
+    m_Address: Assets/AddressableAssets/Character/001/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c2e294c313171934493d748fa73dd844
+    m_Address: Assets/AddressableAssets/Character/074/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c4287d91f69096747961387eb50aa51a
+    m_Address: Assets/AddressableAssets/Character/035/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c43ecbab9e117de42b8565373308346c
+    m_Address: Assets/AddressableAssets/Character/009/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c45c3ef3666da434788aa3865975d91c
+    m_Address: Assets/AddressableAssets/Character/196/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c5836b70ed474844286f6a2081c63645
+    m_Address: Assets/AddressableAssets/Prefab/TimelineIcon.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c59a804efb0cb134b9f2754de04649f5
+    m_Address: Assets/AddressableAssets/Character/249/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c617a01337ba5154da6a0c1aba070546
+    m_Address: Assets/AddressableAssets/Character/184/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c618dcd880bd49f4fa45a4f04635c4e2
+    m_Address: Assets/AddressableAssets/Character/215/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c6356a10f381c0748b286f66fb4645a4
+    m_Address: Assets/AddressableAssets/Character/161/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c63a332b3060f334a98d8274b0045786
+    m_Address: Assets/AddressableAssets/Character/041/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c65a2b52603834842aa9544f31749571
+    m_Address: Assets/AddressableAssets/Character/230/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c6e6eeb6b3b387c42be7a6184b6bf4fd
+    m_Address: Assets/AddressableAssets/Character/088/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c7fa062c99e5419468f496f5c5ab463e
+    m_Address: Assets/AddressableAssets/Character/137/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c9c99d9679be7334a91a7c1e14293532
+    m_Address: Assets/AddressableAssets/Character/180/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c9d155f377d53f342b37f7d01b35d1f0
+    m_Address: Assets/AddressableAssets/Character/205/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cb8ffe16a5f07bc48ac0191631dafec2
+    m_Address: Assets/AddressableAssets/Character/097/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cc2a82c81efdb84469804a1f803d6592
+    m_Address: Assets/AddressableAssets/Character/172/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cc8d56a7694522f43a17d57d883fd83d
+    m_Address: Assets/AddressableAssets/Character/141/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cd0c434bd026f2442b6304eed073eb42
+    m_Address: Assets/AddressableAssets/Character/067/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cd1665648ae15eb41b35fb1b04b81e72
+    m_Address: Assets/AddressableAssets/Character/108/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cd25e555716881b4f9ff09caa54197b3
+    m_Address: Assets/AddressableAssets/Character/126/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cd4859edf44e3484ca3a4ae902d67d1d
+    m_Address: Assets/AddressableAssets/Character/143/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cd55649f3f42d7641b2fc7876af75cf8
+    m_Address: Assets/AddressableAssets/Character/028/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cd6c85403214c054db9a4edd601c33c6
+    m_Address: Assets/AddressableAssets/Character/073/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cdc75f8514e2b2141b0f0ec3f0c5516c
+    m_Address: Assets/AddressableAssets/Character/014/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ce451628f1e152c4f9db03226557a41d
+    m_Address: Assets/AddressableAssets/Character/039/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cec5e75b58822134abb31f3479039c58
+    m_Address: Assets/AddressableAssets/Character/207/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cf094edb2db515944a33020fe034a990
+    m_Address: Assets/AddressableAssets/Character/139/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cfa87f13b955fd94d9123159ac085a45
+    m_Address: Assets/AddressableAssets/Character/214/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d02ba8027fb199f48808ffe92f274d4a
+    m_Address: Assets/AddressableAssets/Character/229/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d165b0562a91df94886ab4889e7be66b
+    m_Address: Assets/AddressableAssets/Character/201/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d1e06deb5518008409d149feba6da476
+    m_Address: Assets/AddressableAssets/Character/070/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d216ba0f9636fe448a9e792b13a48b09
+    m_Address: Assets/AddressableAssets/Character/134/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d226f9ef22683fe4e849c867b5c65a7b
+    m_Address: Assets/AddressableAssets/Character/059/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d236b0b9e315adc4a9c247b5aa82b638
+    m_Address: Assets/AddressableAssets/Character/163/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d2b3af39533b1a646a9b975b10a9c45c
+    m_Address: Assets/AddressableAssets/Character/058/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d3319239f424e1249bfb075e5ea23fee
+    m_Address: Assets/AddressableAssets/Character/011/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d3aea27c5a3f667488e62480b46a49f7
+    m_Address: Assets/AddressableAssets/Character/139/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d3d20e98c9adbe3479e90750b6bda48c
+    m_Address: Assets/AddressableAssets/Character/147/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d4558afa9fd65024a904436b23f33580
+    m_Address: Assets/AddressableAssets/Character/042/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d529ec3b84ee7b9468c60eb42f18b13d
+    m_Address: Assets/AddressableAssets/Character/208/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d647d6a63112fa440a8b0daad9b32883
+    m_Address: Assets/AddressableAssets/Character/181/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d6ad2a84f82fa2c40af8200143c32008
+    m_Address: Assets/AddressableAssets/Character/167/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d82a47370f5bd3b4b87f55f2d2154d1f
+    m_Address: Assets/AddressableAssets/Character/151/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d85c13c5331c792428351fcf12b78c56
+    m_Address: Assets/AddressableAssets/Character/045/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d868f39988f49ec40a21105859a3bbb0
+    m_Address: Assets/AddressableAssets/Character/052/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d89547bcc28264c4085ffe23030014c7
+    m_Address: Assets/AddressableAssets/Character/127/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d8e056a64463e67469e41b610cd1e260
+    m_Address: Assets/AddressableAssets/Character/232/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d92cdd581087bd742bdff99559800eae
+    m_Address: Assets/AddressableAssets/Character/122/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: da3da045772f7e247b50c37e83c75d0d
+    m_Address: Assets/AddressableAssets/Character/243/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: da681d67678dbdd41a1fb5813e465727
+    m_Address: Assets/AddressableAssets/Character/168/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: db278a09064af854cbbc03e6ce0cd233
+    m_Address: Assets/AddressableAssets/Character/175/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: db34a7b170a7dad4780dff3d2f32ecdf
+    m_Address: Assets/AddressableAssets/Character/104/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dbc2ee17f36f3234dbbb8d7eb218b4d3
+    m_Address: Assets/AddressableAssets/Character/096/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dbfd7bc9857c1644797524f0126ae08e
+    m_Address: Assets/AddressableAssets/Character/178/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: dc0348508569da74a834bb897f7fa893
     m_Address: "Assets/AddressableAssets/Effect/\u95C78.asset"
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: e2284e4b9de31414795a1fbff3dc1958
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv007.asset
+  - m_GUID: dc605f2a81f002b40bcf257849e8ef3b
+    m_Address: Assets/AddressableAssets/Character/122/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: e4a7b9833a52e264b94dd9b581290d32
-    m_Address: Assets/AddressableAssets/Character/$yuhinamv010.asset
+  - m_GUID: dd2b643ec86eecf48ae058cee92458f5
+    m_Address: Assets/AddressableAssets/Character/102/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: de2afa7812b0a974e80c2d765da11b87
+    m_Address: Assets/AddressableAssets/Character/032/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: de61ee54a9a4d4447be4fe40bf455021
+    m_Address: Assets/AddressableAssets/Character/091/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: deff2f78434cb3e47b9542caa4701823
+    m_Address: Assets/AddressableAssets/Character/027/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: df5c11887f1c46c40b9d7fa76063fefa
+    m_Address: Assets/AddressableAssets/Character/001/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: df608e31f717eca45a7d912f3545d6a9
+    m_Address: Assets/AddressableAssets/Character/203/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: dfe8f8ccd412df74db90874f14525bcb
+    m_Address: Assets/AddressableAssets/Character/020/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e087dd7d6af37af4c848b89e94261908
+    m_Address: Assets/AddressableAssets/Character/063/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e0d25e9c396c24e48bb7216190eaa72b
+    m_Address: Assets/AddressableAssets/Character/200/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e0f4a0eefbb1cc34fab6a42179276962
+    m_Address: Assets/AddressableAssets/Character/055/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e1a996d572ad21b47b414e9e96b9a6e5
+    m_Address: Assets/AddressableAssets/Character/199/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e2657f2ee623d664cb7bbd89efe625c1
+    m_Address: Assets/AddressableAssets/Character/251/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e272620f32e98a34aa0d10d623d05e99
+    m_Address: Assets/AddressableAssets/Character/211/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e3a8877ef4b24da4187b1c8251f5503c
+    m_Address: Assets/AddressableAssets/Character/125/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e5005853e55d8ba4093440694191ff6a
+    m_Address: Assets/AddressableAssets/Character/109/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e6e3a852978375f48ad8d69d1585dfce
+    m_Address: Assets/AddressableAssets/Character/025/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e74c1bdb8dd575947a3ccff793f8ac5e
+    m_Address: Assets/AddressableAssets/Character/250/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e86783f035a75434caaf1f9d811803d1
+    m_Address: Assets/AddressableAssets/Character/071/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: e89a964c2de66724bb3d3b81e50d745f
     m_Address: Assets/AddressableAssets/Entities/Personality.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e8ab2a738f20bc44582b02533036ccd8
+    m_Address: Assets/AddressableAssets/Character/209/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e9046f845f207eb4496511dd703cd136
+    m_Address: Assets/AddressableAssets/Character/014/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e909e7ed82837944baa9d867856063ef
+    m_Address: Assets/AddressableAssets/Character/067/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e92319d5ecbed334cb6fe947446f7edb
+    m_Address: Assets/AddressableAssets/Character/106/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ea4288db78a10a742b6b6a4ce964c578
+    m_Address: Assets/AddressableAssets/Character/112/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: eb0d21705924a8747aa5b66dae10e023
+    m_Address: Assets/AddressableAssets/Character/034/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ebc2bd59dbe3b5e4aab18a3ec1bf7604
+    m_Address: Assets/AddressableAssets/Character/238/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ec7388da0fa626a49983f3f6b91fb976
+    m_Address: Assets/AddressableAssets/Character/226/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ed6cb35fa35c53a44a446ab75453bf45
+    m_Address: Assets/AddressableAssets/Character/103/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ede6d8b9f2d20da478d1cdc2ebb11521
+    m_Address: Assets/AddressableAssets/Character/029/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ee26b3c130ab9144c9aea63836804959
+    m_Address: Assets/AddressableAssets/Character/120/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: eeb56d7e435845b49be9880fe2f4fa0b
+    m_Address: Assets/AddressableAssets/Character/003/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: eec14ac2bd1713f488bcda239723fc00
+    m_Address: Assets/AddressableAssets/Character/089/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ef168bc918e7c9d46b9dfd91f53d891c
+    m_Address: Assets/AddressableAssets/Character/050/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ef63bb1c0e023b84c8367e3955126846
+    m_Address: Assets/AddressableAssets/Character/078/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ef897563eefa34a4493f74da0cc7a313
+    m_Address: Assets/AddressableAssets/Character/153/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f0c745218e2a24e4c90d852f8ac3ffd4
+    m_Address: Assets/AddressableAssets/Character/084/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f174fdbe6401fed45b13eea0c20bd81b
+    m_Address: Assets/AddressableAssets/Character/249/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f1d30de014a31c54388e0327053cc659
+    m_Address: Assets/AddressableAssets/Character/228/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f1e3e0e62a3d3b9478ede6f2ac57e06e
+    m_Address: Assets/AddressableAssets/Character/141/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f29f0ccad09e44244a28ebf5f632dbb9
+    m_Address: Assets/AddressableAssets/Character/075/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f2a9e92fd3ad7ce42826d5b6f57714a4
+    m_Address: Assets/AddressableAssets/Character/136/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f305fd3a92853f14283c5fd75f0ef70c
+    m_Address: Assets/AddressableAssets/Character/221/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f355eb6c0b7f078408750a98e07ed0ae
+    m_Address: Assets/AddressableAssets/Character/193/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f36279b1d85d7e441a0d096d8727202f
+    m_Address: Assets/AddressableAssets/Character/144/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f3b5fd9fc479b334b875750d7e495ea9
+    m_Address: Assets/AddressableAssets/Character/161/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f4a5d5993e5ce0642bf64a3d761029c1
+    m_Address: Assets/AddressableAssets/Character/187/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f5b3460014eef4e499640a0c000fab5d
+    m_Address: Assets/AddressableAssets/Character/061/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f6229d77db06502479f73b3029339c99
+    m_Address: Assets/AddressableAssets/Character/008/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f66c8e5ac44cf244987bf4f93d877e4a
+    m_Address: Assets/AddressableAssets/Character/188/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f6872518a6694ea42aaaaa68f0d97b32
+    m_Address: Assets/AddressableAssets/Character/203/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f6eea616b0005b641b2784dd9d7a7af1
+    m_Address: Assets/AddressableAssets/Character/086/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f73b0a0aab6429f41a0e53529ea8cd4a
+    m_Address: Assets/AddressableAssets/Character/131/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f7efc084f6629244a81b78f6ba052113
+    m_Address: Assets/AddressableAssets/Character/015/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f823045e972aba7458aa01ca5e5bfea2
+    m_Address: Assets/AddressableAssets/Character/246/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f84d6fdb44fee414196fc8ca0a29f4b6
+    m_Address: Assets/AddressableAssets/Character/016/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f92c9da0a7048ce47a753056bd73c671
+    m_Address: Assets/AddressableAssets/Character/245/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f9728a71581f20c4ca9749e80b16e835
+    m_Address: Assets/AddressableAssets/Character/100/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f9fbfe8e75bae9744b817f676a5e79e6
+    m_Address: Assets/AddressableAssets/Character/093/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fab50c141e1a54148bcf1189220f20bf
+    m_Address: Assets/AddressableAssets/Character/155/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fae346bbaec7f4247bc7546e2783365d
+    m_Address: Assets/AddressableAssets/Character/183/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fb8a66215cb2f3f4abe7ea9d79e801fa
+    m_Address: Assets/AddressableAssets/Character/076/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fbd10fce23d1fde44adf60bef33b0fb5
+    m_Address: Assets/AddressableAssets/Character/047/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fc840acb3548235418c9cee40ba218a8
+    m_Address: Assets/AddressableAssets/Character/157/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fc86f981e52908848a195b74bb53de69
+    m_Address: Assets/AddressableAssets/Character/048/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fcacd4a0c05db674da8c22349bfef9dc
+    m_Address: Assets/AddressableAssets/Character/009/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fd4725925c955e64b8836cd4fa446500
+    m_Address: Assets/AddressableAssets/Character/053/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fd553d54c23131e44b0aefebaa73411f
+    m_Address: Assets/AddressableAssets/Character/218/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fd819c25fa0a786479c0144eb1e4dec7
+    m_Address: Assets/AddressableAssets/Character/208/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fe3fbb82539b7ad40ad71866d196ad50
+    m_Address: Assets/AddressableAssets/Character/013/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fe669a3c601040840b5f652bc5dc0ea6
+    m_Address: Assets/AddressableAssets/Character/229/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fe7366a7d3d037349a1f4c0d4f795e7a
+    m_Address: Assets/AddressableAssets/Character/130/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fef35cb2b0a4e544a9de7d52e20a97ad
+    m_Address: Assets/AddressableAssets/Character/160/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ff4626319ea83d1499a316cb17bdb542
+    m_Address: Assets/AddressableAssets/Character/057/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ffc3da3de0ab232478cd822eb295f510
+    m_Address: Assets/AddressableAssets/Character/066/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

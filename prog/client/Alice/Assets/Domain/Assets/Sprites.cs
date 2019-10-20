@@ -52,14 +52,13 @@ namespace Zoo.Assets
     /// </summary>
     public class MultipleSpriteToSprite : AssetPostprocessor
     {
-        Sprites GetOrCreateSprites(string path)
+        Sprites GetOrCreateSprites(string spritePath)
         {
-            path = Path.ChangeExtension(path, ".asset");
-            Sprites res = AssetDatabase.LoadAssetAtPath<Sprites>(path);
+            Sprites res = AssetDatabase.LoadAssetAtPath<Sprites>(spritePath);
             if(res == null)
             {
                 res = ScriptableObject.CreateInstance<Sprites>();
-                AssetDatabase.CreateAsset(res, path);
+                AssetDatabase.CreateAsset(res, spritePath);
                 AssetDatabase.SaveAssets();
             }
             return res;
@@ -69,10 +68,14 @@ namespace Zoo.Assets
         /// パスを指定してSpritesを生成する
         /// </summary>
         /// <param name="assetPath"></param>
-        void GenSprites(string assetPath)
+        void GenSprites(string assetPath, string spritePath)
         {
-            var asset = GetOrCreateSprites(assetPath);
+            if(!Directory.Exists(Path.GetDirectoryName(spritePath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(spritePath));
+            }
 
+            var asset = GetOrCreateSprites(spritePath);
             List<Sprite> s = new List<Sprite>();
             foreach (var v in AssetDatabase.LoadAllAssetsAtPath(assetPath).Where(v => v is Sprite))
             {
@@ -88,14 +91,38 @@ namespace Zoo.Assets
         /// </summary>
         void OnPreprocessTexture()
         {
-            if (assetPath.Contains("AddressableAssets/Character"))
+            if (assetPath.Contains("AddressableAssets/Character/Work"))
             {
-                AutoSpriteSheet(3, 4);  // 3x4で分割
-                Register(assetPath);    // Sprites登録
+                var fn = Path.GetFileNameWithoutExtension(assetPath);
+                // 歩行
+                {
+                    var match = Regex.Match(fn, @"\$yuhinamv([0-9]+)");
+                    if (match != Match.Empty)
+                    {
+                        var spritePath = assetPath.Replace("Work", match.Groups[1].ToString());
+                        spritePath = spritePath.Replace(fn, "walk");
+                        spritePath = Path.ChangeExtension(spritePath, ".asset");
+                        AutoSpriteSheet(3, 4);  // 3x4で分割
+                        Register(assetPath, spritePath);    // Sprites登録
+                    }
+                }
+                // アイコン
+                {
+                    var match = Regex.Match(fn, @"yhvx([0-9]+)");
+                    if (match != Match.Empty)
+                    {
+                        var spritePath = assetPath.Replace("Work", match.Groups[1].ToString());
+                        spritePath = spritePath.Replace(fn, "icon");
+                        spritePath = Path.ChangeExtension(spritePath, ".asset");
+                        AutoSpriteSheet(4, 2);  // 3x4で分割
+                        Register(assetPath, spritePath);    // Sprites登録
+                    }
+                }
             }
             else if (assetPath.Contains("AddressableAssets/Effect"))
             {
-                Register(assetPath);    // Sprites登録
+                var spritePath = Path.ChangeExtension(assetPath, ".asset");
+                Register(assetPath, spritePath);    // Sprites登録
             }
         }
 
@@ -140,27 +167,40 @@ namespace Zoo.Assets
         /// 指定したパスのSpritesを生成登録する
         /// </summary>
         /// <param name="path"></param>
-        void Register(string path)
+        void Register(string assetPath, string spritePath)
         {
             // 次のフレームにSpriteを生成(更新)します
             Observable.NextFrame().Subscribe(
                 _ => { },
-                () => GenSprites(path));
+                () => GenSprites(assetPath, spritePath));
         }
 
-        [MenuItem("Character/Copy")]
-        static void CopyCharacter()
+        [MenuItem("Character/Copy/Walk")]
+        static void CopyCharacter_Walk()
         {
             var from = @"D:\Image\素材\ゆうひな素材\歩行ドットMV";
-            var to = @"D:\GitHub\Alice\prog\client\Alice\Assets\AddressableAssets\Character";
+            var to = @"D:\GitHub\Alice\prog\client\Alice\Assets\AddressableAssets\Character\Work";
 
-            foreach(var path in Directory.GetFiles(from, "*.png"))
+            foreach (var path in Directory.GetFiles(from, "*.png"))
             {
                 var fn = Path.GetFileName(path);
-                if (!Regex.IsMatch(fn, @"\$yuhinamv(.*)")) continue;
-                File.Copy(path, Path.Combine(to, fn.Replace("$yuhinamv", "")), true);
+                if (!Regex.IsMatch(fn, @"\$yuhinamv([0-9]+).png")) continue;
+                File.Copy(path, Path.Combine(to, fn), true);
             }
+            AssetDatabase.Refresh();
+        }
+        [MenuItem("Character/Copy/Icon")]
+        static void CopyCharacter_Icon()
+        {
+            var from = @"D:\Image\素材\ゆうひな素材\顔画像Ace";
+            var to = @"D:\GitHub\Alice\prog\client\Alice\Assets\AddressableAssets\Character\Work";
 
+            foreach (var path in Directory.GetFiles(from, "*.png"))
+            {
+                var fn = Path.GetFileName(path);
+                if (!Regex.IsMatch(fn, @"yhvx([0-9]+).png")) continue;
+                File.Copy(path, Path.Combine(to, fn), true);
+            }
             AssetDatabase.Refresh();
         }
     }

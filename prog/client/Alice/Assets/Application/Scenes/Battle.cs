@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,6 +18,14 @@ namespace Alice
         public System.Random random { get; private set; }
         public Button buttonAction;
         public BattleController controller { get; private set; }
+
+        [Serializable]
+        public struct Timeline
+        {
+            public Transform root;
+            public Transform[] nodes;
+        }
+        public Timeline timeline;
 
         void Start()
         {
@@ -37,6 +46,7 @@ namespace Alice
                 resourcePaths.Add("Prefab/FX.prefab");
                 resourcePaths.Add("Prefab/Phase.prefab");
                 resourcePaths.Add("Prefab/UnitState.prefab");
+                resourcePaths.Add("Prefab/TimelineIcon.prefab");
                 resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
 
                 // 味方ユニットに必要なリソースをロード
@@ -72,7 +82,9 @@ namespace Alice
             // キャラマスタデータ
             var character = MasterData.characters.First(v => v.ID == unit.characterId);
             // キャラセルアニメーション
-            paths.Add(string.Format("Character/$yuhinamv{0:D3}.asset", character.Image));
+            paths.Add($"Character/{character.Image}/walk.asset");
+            // アイコン
+            paths.Add($"Character/{character.Image}/icon.asset");
             // エフェクト
             foreach (var skill in unit.skill)
             {

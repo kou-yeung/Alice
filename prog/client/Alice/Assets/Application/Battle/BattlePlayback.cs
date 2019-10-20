@@ -141,6 +141,11 @@ namespace Alice
                 Battle.Instance.controller.units.Remove(dead.uniq);
                 dead.actor.setAnimation("Dead", () =>
                 {
+                    // タイムラインアイコンを消す
+                    var icon = Battle.Instance.controller.timeline[dead.uniq];
+                    icon.Destroy();
+
+                    // ユニットを消す
                     GameObject.Destroy(dead.root);
                 });
             }

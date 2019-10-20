@@ -93,7 +93,7 @@ namespace Alice
             state.transform.SetParent(root.transform, true);
 
             state.Setup(this);
-            var sprites = LoaderService.Instance.Load<Sprites>(string.Format("Character/$yuhinamv{0}.asset", this.characterData.Image));
+            var sprites = LoaderService.Instance.Load<Sprites>($"Character/{this.characterData.Image}/walk.asset");
             actor.sprites = sprites;
 
             if(side == BattleConst.Side.Enemy)
