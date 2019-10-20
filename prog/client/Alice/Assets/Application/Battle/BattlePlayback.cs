@@ -136,7 +136,9 @@ namespace Alice
         static void Dead(BattleAction action, Action cb)
         {
             var deads = action.effects.Where(v => v.target.current.IsDead).Select(v=>v.target).Distinct();
-            foreach(var dead in deads)
+            var function = Async.Passive(cb, deads.Count());
+            
+            foreach (var dead in deads)
             {
                 Battle.Instance.controller.units.Remove(dead.uniq);
                 dead.actor.setAnimation("Dead", () =>
@@ -144,12 +146,12 @@ namespace Alice
                     // タイムラインアイコンを消す
                     var icon = Battle.Instance.controller.timeline[dead.uniq];
                     icon.Destroy();
-
+                    Battle.Instance.controller.timeline.Remove(dead.uniq);
                     // ユニットを消す
                     GameObject.Destroy(dead.root);
+                    function();
                 });
             }
-            cb();
         }
 
         /// <summary>
