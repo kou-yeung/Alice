@@ -69,7 +69,6 @@ namespace Zoo
 #if UNITY_EDITOR
             Assert.IsFalse(pools[key].Contains(gameObject));
 #endif
-            gameObject.transform.SetParent(null);
             gameObject.SetActive(false);
             pools[key].Push(gameObject);
         }

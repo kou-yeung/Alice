@@ -13,7 +13,7 @@ namespace Alice
         {
             switch (proto)
             {
-                case "getItems": complete?.Invoke(getItems(data)); break;
+                case "Home": complete?.Invoke(getItems(data)); break;
                 case "Battle": complete?.Invoke(Battle(data)); break;
             }
         }
@@ -21,6 +21,16 @@ namespace Alice
         string getItems(string data)
         {
             return "ITEM_001_001";
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string Home(string data)
+        {
+            return "";
         }
 
         /// <summary>
