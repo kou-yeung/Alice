@@ -29,6 +29,13 @@ namespace Alice
             }
         }
 
+        /// <summary>
+        /// 後始末
+        /// </summary>
+        public void Destory()
+        {
+            GameObject.Destroy(this.gameObject);
+        }
         public static Phase Gen(Transform parent)
         {
             var prefab = LoaderService.Instance.Load<GameObject>("Prefab/Phase.prefab");

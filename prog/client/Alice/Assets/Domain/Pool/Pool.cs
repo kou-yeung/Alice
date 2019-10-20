@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Zoo
 {
@@ -65,7 +66,9 @@ namespace Zoo
         /// <param name="gameObject"></param>
         public static void Release(string key, GameObject gameObject)
         {
-            gameObject.transform.SetParent(null);
+#if UNITY_EDITOR
+            Assert.IsFalse(pools[key].Contains(gameObject));
+#endif
             gameObject.SetActive(false);
             pools[key].Push(gameObject);
         }

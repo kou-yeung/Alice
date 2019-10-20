@@ -29,11 +29,20 @@ namespace Zoo.IO
 
         public void LoadAsync<T>(string path, Action<T> onloaded) where T : class
         {
-            Observable.FromCoroutine(()=>_Preload<T>(path, (res) =>
+            if(caches.ContainsKey(path))
             {
-                caches[path] = res;
-                onloaded(res as T);
-            })).Subscribe();
+                // すでにキャッシュしたため使い回す
+                onloaded(caches[path] as T);
+            }
+            else
+            {
+                // ストレージから非同期ロードして返す
+                Observable.FromCoroutine(() => _Preload<T>(path, (res) =>
+                {
+                    caches[path] = res;
+                    onloaded(res as T);
+                })).Subscribe();
+            }
         }
 
         public void Preload(string[] paths, Action onloaded)

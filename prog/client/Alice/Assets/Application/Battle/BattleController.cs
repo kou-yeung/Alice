@@ -33,6 +33,7 @@ namespace Alice
             stateBehaviour.AddState(BattleConst.State.TurnEnd, new BattleTurnEndState());
             stateBehaviour.AddState(BattleConst.State.GameSet, new BattleGameSetState());
             stateBehaviour.AddState(BattleConst.State.Passive, new BattlePassiveState());
+            stateBehaviour.AddState(BattleConst.State.Finally, new BattleFinallyState());
         }
 
         public void Dispose()
@@ -90,13 +91,13 @@ namespace Alice
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
-                transform.SetParent(this.owner.transform);
+                transform.SetParent(this.owner.transform, false);
                 transform.localPosition = BattleConst.PlayerUnitPositions[data.position];
 
                 // タイムラインアイコン登録
                 var icon = TimelineIcon.Gen(unit);
                 timeline[uniq] = icon;
-                icon.transform.SetParent(owner.timeline.root);
+                icon.transform.SetParent(owner.timeline.root, false);
                 icon.transform.localPosition = Battle.Instance.timeline.nodes[0].localPosition;
             }
         }
@@ -112,13 +113,13 @@ namespace Alice
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
-                transform.SetParent(this.owner.transform);
+                transform.SetParent(this.owner.transform, false);
                 transform.localPosition = BattleConst.EnemyUnitPositions[data.position];
 
                 // タイムラインアイコン登録
                 var icon = TimelineIcon.Gen(unit);
                 timeline[uniq] = icon;
-                icon.transform.SetParent(owner.timeline.root);
+                icon.transform.SetParent(owner.timeline.root, false);
                 icon.transform.localPosition = Battle.Instance.timeline.nodes[0].localPosition;
             }
         }

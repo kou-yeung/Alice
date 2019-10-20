@@ -85,12 +85,12 @@ namespace Alice
             // アクター
             var actorPrefab = LoaderService.Instance.Load<GameObject>("Prefab/Actor.prefab");
             actor = GameObject.Instantiate(actorPrefab).GetComponent<Actor>();
-            actor.transform.SetParent(root.transform, true);
+            actor.transform.SetParent(root.transform);
 
             // ステート
             var statePrefab = LoaderService.Instance.Load<GameObject>("Prefab/UnitState.prefab");
             state = GameObject.Instantiate(statePrefab).GetComponent<UnitState>();
-            state.transform.SetParent(root.transform, true);
+            state.transform.SetParent(root.transform);
 
             state.Setup(this);
             var sprites = LoaderService.Instance.Load<Sprites>($"Character/{this.characterData.Image}/walk.asset");
@@ -101,6 +101,14 @@ namespace Alice
                 root.transform.localScale = new Vector3(-1, 1, 1);
                 state.transform.localScale = new Vector3(-1, 1, 1);
             }
+        }
+
+        /// <summary>
+        /// 後始末
+        /// </summary>
+        public void Destory()
+        {
+            GameObject.Destroy(root);
         }
 
         /// <summary>

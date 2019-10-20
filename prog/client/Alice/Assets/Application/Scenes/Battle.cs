@@ -16,7 +16,6 @@ namespace Alice
         public static Battle Instance { get; private set; }
         // ロジック抽選用乱数
         public System.Random random { get; private set; }
-        public Button buttonAction;
         public BattleController controller { get; private set; }
 
         [Serializable]
@@ -27,46 +26,51 @@ namespace Alice
         }
         public Timeline timeline;
 
-        void Start()
+        void Awake()
         {
             Instance = this;
+        }
+
+        /// <summary>
+        /// 実行する
+        /// </summary>
+        public void Exec(BattleStartRecv recv)
+        {
+            gameObject.SetActive(true);
+
             controller = new BattleController(this);
 
-            // バトル情報を取得する
-            CommunicationService.Instance.Request("Battle", "", (res) =>
+            var battleRecv = recv;
+            this.random = new System.Random(battleRecv.seed);
+
+            // 必要なリソースをプリロード
+            List<string> resourcePaths = new List<string>();
+
+            // 
+            resourcePaths.Add("Prefab/Actor.prefab");
+            resourcePaths.Add("Prefab/FX.prefab");
+            resourcePaths.Add("Prefab/Phase.prefab");
+            resourcePaths.Add("Prefab/UnitState.prefab");
+            resourcePaths.Add("Prefab/TimelineIcon.prefab");
+            resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
+
+            // 味方ユニットに必要なリソースをロード
+            foreach(var unit in battleRecv.player)
             {
-                var battleRecv = JsonUtility.FromJson<BattleStartRecv>(res);
-                this.random = new System.Random(battleRecv.seed);
+                resourcePaths.AddRange(UserUnitPreloadPaths(unit));
+            }
+            // 相手ユニットに必要なリソースをロード
+            foreach (var unit in battleRecv.enemy)
+            {
+                resourcePaths.AddRange(UserUnitPreloadPaths(unit));
+            }
 
-                // 必要なリソースをプリロード
-                List<string> resourcePaths = new List<string>();
-
-                // 
-                resourcePaths.Add("Prefab/Actor.prefab");
-                resourcePaths.Add("Prefab/FX.prefab");
-                resourcePaths.Add("Prefab/Phase.prefab");
-                resourcePaths.Add("Prefab/UnitState.prefab");
-                resourcePaths.Add("Prefab/TimelineIcon.prefab");
-                resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
-
-                // 味方ユニットに必要なリソースをロード
-                foreach(var unit in battleRecv.player)
-                {
-                    resourcePaths.AddRange(UserUnitPreloadPaths(unit));
-                }
-                // 相手ユニットに必要なリソースをロード
-                foreach (var unit in battleRecv.enemy)
-                {
-                    resourcePaths.AddRange(UserUnitPreloadPaths(unit));
-                }
-
-                LoaderService.Instance.Preload(resourcePaths.Distinct().ToArray(), () =>
-                {
-                    // コントローラ初期化
-                    controller.Setup(battleRecv);
-                    // ステート開始
-                    controller.ChangeState(BattleConst.State.Init);
-                });
+            LoaderService.Instance.Preload(resourcePaths.Distinct().ToArray(), () =>
+            {
+                // コントローラ初期化
+                controller.Setup(battleRecv);
+                // ステート開始
+                controller.ChangeState(BattleConst.State.Init);
             });
         }
 
