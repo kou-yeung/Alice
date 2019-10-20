@@ -38,6 +38,7 @@ namespace Alice
                 var icon = owner.controller.timeline[units[i].uniq];
                 icon.transform.SetAsLastSibling();
                 LeanTween.moveLocal(icon.gameObject, owner.timeline.nodes[i].localPosition, 0.2f).setOnComplete(function);
+                LeanTween.scale(icon.gameObject, owner.timeline.nodes[i].localScale, 0.2f);
             }
         }
     }
