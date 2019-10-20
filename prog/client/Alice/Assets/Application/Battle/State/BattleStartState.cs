@@ -11,6 +11,7 @@ namespace Alice
         {
             owner.controller.phase.Change("Battle Start", () =>
             {
+                owner.timeline.root.gameObject.SetActive(true);
                 owner.controller.ChangeState(BattleConst.State.Timeline);
             });
         }

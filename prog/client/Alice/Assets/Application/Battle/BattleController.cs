@@ -20,6 +20,7 @@ namespace Alice
         public BattleUnit currentActionBattleUnit { get { return sortedBattleUnits[0]; } }
         public BattleAction currentAction { get; private set; }
         public Phase phase { get; private set; }
+        public Dictionary<string, TimelineIcon> timeline { get; private set; } = new Dictionary<string, TimelineIcon>();
 
         public BattleController(Battle owner)
         {
@@ -91,6 +92,12 @@ namespace Alice
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform);
                 transform.localPosition = BattleConst.PlayerUnitPositions[data.position];
+
+                // タイムラインアイコン登録
+                var icon = TimelineIcon.Gen(unit);
+                timeline[uniq] = icon;
+                icon.transform.SetParent(owner.timeline.root);
+                icon.transform.localPosition = Battle.Instance.timeline.nodes[0].localPosition;
             }
         }
         /// <summary>
@@ -107,6 +114,12 @@ namespace Alice
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform);
                 transform.localPosition = BattleConst.EnemyUnitPositions[data.position];
+
+                // タイムラインアイコン登録
+                var icon = TimelineIcon.Gen(unit);
+                timeline[uniq] = icon;
+                icon.transform.SetParent(owner.timeline.root);
+                icon.transform.localPosition = Battle.Instance.timeline.nodes[0].localPosition;
             }
         }
     }
