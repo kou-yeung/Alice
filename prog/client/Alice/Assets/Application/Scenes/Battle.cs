@@ -17,6 +17,8 @@ namespace Alice
         // ロジック抽選用乱数
         public System.Random random { get; private set; }
         public BattleController controller { get; private set; }
+        public BattleStartRecv recv { get; private set; }
+        public bool fromRecord { get; private set; }
 
         [Serializable]
         public struct Timeline
@@ -34,14 +36,15 @@ namespace Alice
         /// <summary>
         /// 実行する
         /// </summary>
-        public void Exec(BattleStartRecv recv)
+        public void Exec(BattleStartRecv recv, bool fromRecord = false)
         {
             gameObject.SetActive(true);
 
             controller = new BattleController(this);
 
-            var battleRecv = recv;
-            this.random = new System.Random(battleRecv.seed);
+            this.recv = recv;
+            this.fromRecord = fromRecord;
+            this.random = new System.Random(this.recv.seed);
 
             // 必要なリソースをプリロード
             List<string> resourcePaths = new List<string>();
@@ -55,12 +58,12 @@ namespace Alice
             resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
 
             // 味方ユニットに必要なリソースをロード
-            foreach(var unit in battleRecv.player)
+            foreach(var unit in this.recv.player)
             {
                 resourcePaths.AddRange(UserUnitPreloadPaths(unit));
             }
             // 相手ユニットに必要なリソースをロード
-            foreach (var unit in battleRecv.enemy)
+            foreach (var unit in this.recv.enemy)
             {
                 resourcePaths.AddRange(UserUnitPreloadPaths(unit));
             }
@@ -68,7 +71,7 @@ namespace Alice
             LoaderService.Instance.Preload(resourcePaths.Distinct().ToArray(), () =>
             {
                 // コントローラ初期化
-                controller.Setup(battleRecv);
+                controller.Setup(this.recv);
                 // ステート開始
                 controller.ChangeState(BattleConst.State.Init);
             });
@@ -101,6 +104,15 @@ namespace Alice
                 }
             }
             return paths;
+        }
+
+        /// <summary>
+        /// 実行した試合結果に更新する
+        /// </summary>
+        /// <param name="result"></param>
+        public void SetBattleResult(BattleConst.Result result)
+        {
+            this.recv.result = result;
         }
     }
 }

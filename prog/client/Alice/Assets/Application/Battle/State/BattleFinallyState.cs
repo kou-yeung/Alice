@@ -10,8 +10,14 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
+            // 新規バトルの場合、試合履歴に追加
+            if(!Battle.Instance.fromRecord)
+            {
+                UserData.GetBattleRecord().AddRecord(owner.recv);
+            }
+
             // 必要なくなったものの後始末
-            foreach(var unit in owner.controller.units)
+            foreach (var unit in owner.controller.units)
             {
                 unit.Value.Destory();
             }

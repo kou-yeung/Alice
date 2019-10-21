@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zoo.Communication;
 
 namespace Alice
 {
     public class Base : MonoBehaviour
     {
         public Chest[] chests;
+        public Battle battle;
 
         void Start()
         {
@@ -32,5 +34,14 @@ namespace Alice
         {
             Debug.Log(JsonUtility.ToJson(chest));
         }
+        public void OnBattle()
+        {
+            // バトル情報を取得する
+            CommunicationService.Instance.Request("Battle", "", (res) =>
+            {
+                battle.Exec(JsonUtility.FromJson<BattleStartRecv>(res));
+            });
+        }
+
     }
 }

@@ -1,22 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Zoo.Communication;
 
 namespace Alice
 {
     public class Home : MonoBehaviour
     {
-        public Battle battle;
-        public void OnBattle()
+        public GameObject[] tab;
+
+        /// <summary>
+        /// フッターのタップをクリックした
+        /// </summary>
+        /// <param name="target"></param>
+        public void OnClickTab(GameObject target)
         {
-            // バトル情報を取得する
-            CommunicationService.Instance.Request("Battle", "", (res) =>
+            foreach (var v in tab)
             {
-                battle.Exec(JsonUtility.FromJson<BattleStartRecv>(res));
-            });
+                if (v == null) continue;
+                v.SetActive(v == target);
+            }
+        }
+
+        /// <summary>
+        /// アプリ一時停止
+        /// </summary>
+        /// <param name="pause"></param>
+        private void OnApplicationPause(bool pause)
+        {
+            if (!pause) return;
+            // 実行したバトル履歴を保持する
+            UserData.SaveBattleRecord();
+        }
+        /// <summary>
+        /// アプリ終了
+        /// </summary>
+        /// <param name="pause"></param>
+        private void OnApplicationQuit()
+        {
+            // 実行したバトル履歴を保持する
+            UserData.SaveBattleRecord();
         }
     }
-
 }
