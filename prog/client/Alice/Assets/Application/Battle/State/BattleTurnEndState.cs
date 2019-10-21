@@ -19,6 +19,7 @@ namespace Alice
 
             if(playerCount <= 0 && enemyCount <= 0)
             {
+                owner.SetBattleResult(BattleConst.Result.Draw);
                 // 引き分け:ダメージ反射による全滅の可能性を考える
                 owner.controller.phase.Change("引き分け", () =>
                 {
@@ -28,7 +29,7 @@ namespace Alice
             else if(playerCount <= 0)
             {
                 // 味方数 0 なら負け
-                // 引き分け:ダメージ反射による全滅の可能性を考える
+                owner.SetBattleResult(BattleConst.Result.Lose);
                 owner.controller.phase.Change("敗北", () =>
                 {
                     owner.controller.ChangeState(BattleConst.State.GameSet);
@@ -37,6 +38,7 @@ namespace Alice
             else if(enemyCount <= 0)
             {
                 // 相手数 0 なら勝ち
+                owner.SetBattleResult(BattleConst.Result.Win);
                 owner.controller.phase.Change("勝利", () =>
                 {
                     owner.controller.ChangeState(BattleConst.State.GameSet);

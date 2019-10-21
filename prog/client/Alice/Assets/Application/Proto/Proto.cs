@@ -33,6 +33,8 @@ namespace Alice
         public int seed;
         public UserUnit[] player;
         public UserUnit[] enemy;
+        // 以下はクライアント側が生成する結果
+        public BattleConst.Result result;
     }
 
 

@@ -49,6 +49,17 @@ namespace Alice
         }
 
         /// <summary>
+        /// 試合結果
+        /// </summary>
+        public enum Result
+        {
+            Unknown,    // 未定
+            Win,        // 勝利
+            Lose,       // 負け
+            Draw,       // 引き分け
+        }
+
+        /// <summary>
         /// 効果
         /// </summary>
         public enum Effect

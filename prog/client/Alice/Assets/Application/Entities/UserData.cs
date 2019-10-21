@@ -14,5 +14,24 @@ namespace Alice
         {
             cacheHomeRecv = homeRecv;
         }
+
+        static BattleRecord battleRecord;
+        public static BattleRecord GetBattleRecord()
+        {
+            if(battleRecord == null)
+            {
+                battleRecord = new BattleRecord();
+            }
+            return battleRecord;
+        }
+        /// <summary>
+        /// ストレージに試合結果を保持する
+        /// </summary>
+        public static void SaveBattleRecord()
+        {
+            // 初期化されなかったら弾く
+            if (battleRecord == null) return;
+            battleRecord.Save();
+        }
     }
 }
