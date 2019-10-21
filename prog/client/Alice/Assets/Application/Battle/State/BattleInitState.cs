@@ -10,6 +10,9 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
+            // バトル開始時はスリープしないように
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
             owner.controller.ChangeState(BattleConst.State.Passive);
         }
     }
