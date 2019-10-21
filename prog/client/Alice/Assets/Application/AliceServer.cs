@@ -80,7 +80,7 @@ namespace Alice
             
             for (int i = 0; i < count; i++)
             {
-                var index = random.Next(1, 11);
+                var index = random.Next(1, 253);
 
                 var unit = new UserUnit
                 {
