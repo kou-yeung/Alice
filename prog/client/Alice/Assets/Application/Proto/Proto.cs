@@ -34,5 +34,27 @@ namespace Alice
         public UserUnit[] player;
         public UserUnit[] enemy;
     }
+
+
+    /// <summary>
+    /// 宝箱
+    /// </summary>
+    [Serializable]
+    public class UserChest
+    {
+        public string uniq;    // アクセス用ID
+        public long start; // 開始時間
+        public long end;   // 終了時間
+        public int rate;   // レアリティ
+    }
+
+    /// <summary>
+    /// ホーム画面: SV -> CL
+    /// </summary>
+    [Serializable]
+    public class HomeRecv
+    {
+        public UserChest[] chests;
+    }
 }
 

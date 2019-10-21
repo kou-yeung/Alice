@@ -298,7 +298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb62fd9855fb85f4ab5d90b0018f9c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: Home
   backend: 0
 --- !u!4 &1797134025
 Transform:
@@ -325,6 +324,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Battle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760620205037165324, guid: e152a129438d487499ec0ceecf34b4d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760620205037165325, guid: e152a129438d487499ec0ceecf34b4d7,
         type: 3}
@@ -430,6 +434,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2760620205546158678, guid: e152a129438d487499ec0ceecf34b4d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e152a129438d487499ec0ceecf34b4d7, type: 3}
