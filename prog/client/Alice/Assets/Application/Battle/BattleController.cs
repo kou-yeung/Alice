@@ -99,6 +99,7 @@ namespace Alice
                 timeline[uniq] = icon;
                 icon.transform.SetParent(owner.timeline.root, false);
                 icon.transform.localPosition = Battle.Instance.timeline.nodes[0].localPosition;
+                icon.transform.localScale = Battle.Instance.timeline.nodes[0].localScale;
             }
         }
         /// <summary>
@@ -121,6 +122,7 @@ namespace Alice
                 timeline[uniq] = icon;
                 icon.transform.SetParent(owner.timeline.root, false);
                 icon.transform.localPosition = Battle.Instance.timeline.nodes[0].localPosition;
+                icon.transform.localScale = Battle.Instance.timeline.nodes[0].localScale;
             }
         }
     }

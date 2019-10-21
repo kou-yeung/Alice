@@ -23,6 +23,9 @@ namespace Alice
             owner.gameObject.SetActive(false);
             // フェーズを破棄
             owner.controller.phase.Destory();
+
+            // 自動スリープはシステム値に戻す
+            Screen.sleepTimeout = SleepTimeout.SystemSetting;
         }
     }
 }
