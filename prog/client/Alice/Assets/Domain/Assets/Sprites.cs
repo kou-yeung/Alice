@@ -96,7 +96,7 @@ namespace Zoo.Assets
                 var fn = Path.GetFileNameWithoutExtension(assetPath);
                 // 歩行
                 {
-                    var match = Regex.Match(fn, @"\$yuhinamv([0-9]+)");
+                    var match = Regex.Match(fn, @"\$yuhina([0-9]+)y?");
                     if (match != Match.Empty)
                     {
                         var spritePath = assetPath.Replace("Work", match.Groups[1].ToString());
@@ -154,9 +154,9 @@ namespace Zoo.Assets
                 {
                     var meta = new SpriteMetaData();
                     meta.pivot = new Vector2(.5f, .5f);
-                    meta.name = $"{Path.GetFileNameWithoutExtension(assetPath)}_{(countX * countY - 1) - (y * countX + x)}";
+                    meta.name = $"{Path.GetFileNameWithoutExtension(assetPath)}_{y}_{x}";
 
-                    meta.rect = new Rect(sliceWidth * x, sliceHeight * y, sliceWidth, sliceHeight);
+                    meta.rect = new Rect(sliceWidth * x, sliceHeight * (countY-y-1), sliceWidth, sliceHeight);
                     metas.Add(meta);
                 }
             }
@@ -178,13 +178,13 @@ namespace Zoo.Assets
         [MenuItem("Character/Copy/Walk")]
         static void CopyCharacter_Walk()
         {
-            var from = @"D:\Image\素材\ゆうひな素材\歩行ドットMV";
+            var from = @"D:\Image\素材\ゆうひな素材\歩行ドットAce";
             var to = @"D:\GitHub\Alice\prog\client\Alice\Assets\AddressableAssets\Character\Work";
 
             foreach (var path in Directory.GetFiles(from, "*.png"))
             {
                 var fn = Path.GetFileName(path);
-                if (!Regex.IsMatch(fn, @"\$yuhinamv([0-9]+).png")) continue;
+                if (!Regex.IsMatch(fn, @"\$yuhina([0-9]+)y?.png")) continue;
                 File.Copy(path, Path.Combine(to, fn), true);
             }
             AssetDatabase.Refresh();

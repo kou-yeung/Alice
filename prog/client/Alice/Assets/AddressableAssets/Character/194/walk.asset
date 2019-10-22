@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967169ea2b06ac448b2bcfaba0a07128, type: 3}
+  m_Name: walk
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 4310138582019266964, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: -1764460001205724918, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: 304737541416084856, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: 3673906145307793643, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: -3074318616557686993, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: 2019875735844788091, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: -8761815110079966689, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: -3370719295428975289, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: 1835516020891747819, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: 5279038850435862604, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: 2059464013172127462, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}
+  - {fileID: 4933299463275310730, guid: 01d843ddbb08c1f498dc4373a4b70c1a, type: 3}

@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: walk
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: -2495828876950063881, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -557730733643602189, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -4588713159719848871, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: 8137675798171084874, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -6495381633563523461, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -4272935896630387179, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -6480828640230832890, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: 2427745255350417031, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -3784126661266556903, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -7213842553567851295, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: 1672814625958381384, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
-  - {fileID: -4776369282483413459, guid: 43f5885bf341bcb4bb5da5fee4504aa6, type: 3}
+  - {fileID: 433868637652450693, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: -5648611439172781928, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: -2948118099482596350, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: 8910473989257644491, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: -4980854487292606012, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: -6886907787739093626, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: -7891779703860695262, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: -7158292918363465109, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: 3592867733599898296, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: 1051882883178415127, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: 7822152389204980931, guid: ebaef4d5e880186428366527a934f02b, type: 3}
+  - {fileID: 5428547828858321308, guid: ebaef4d5e880186428366527a934f02b, type: 3}
