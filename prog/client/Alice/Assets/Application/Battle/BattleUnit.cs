@@ -38,12 +38,21 @@ namespace Alice
         public class Current
         {
             public int HP;
+            public int MaxHP;
+            public int Atk;
+            public int Def;
+            public int MAtk;
+            public int MDef;
             public int Wait;
             public bool IsDead { get { return HP <= 0; } }
 
-            public Current(Character data)
+            public Current(Character data, int level)
             {
-                this.HP = data.HP;
+                this.MaxHP = this.HP = data.Base.HP + level * data.Grow.HP;
+                this.Atk = data.Base.Atk + level * data.Grow.Atk;
+                this.Def = data.Base.Def + level * data.Grow.Def;
+                this.MAtk = data.Base.MAtk + level * data.Grow.MAtk;
+                this.MDef = data.Base.MDef + level * data.Grow.MDef;
                 this.Wait = data.Wait;
             }
         }
@@ -69,7 +78,7 @@ namespace Alice
             this.uniq = uniq;
             this.data = data;
             this.characterData = MasterData.characters.First(v => v.ID == data.characterId);
-            this.current = new Current(this.characterData);
+            this.current = new Current(this.characterData, data.Level());
             this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;
 
             // スキルID -> スキルデータ
@@ -139,7 +148,7 @@ namespace Alice
         /// <param name="value"></param>
         public void Recovery(int value)
         {
-            current.HP = Mathf.Min(characterData.HP, current.HP + value);
+            current.HP = Mathf.Min(current.MaxHP, current.HP + value);
             state.SetHP(current.HP);
             state.PlayRecovery(value);
         }

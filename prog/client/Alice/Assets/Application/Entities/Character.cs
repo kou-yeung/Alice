@@ -5,16 +5,22 @@ namespace Alice.Entities
 {
     public class Character
     {
+        public struct Param
+        {
+            public int HP;
+            public int Atk;
+            public int Def;
+            public int MAtk;
+            public int MDef;
+        }
+
         public string ID;
         public string Name;
         public string Image;
         public string Personality;
-        public int HP;
-        public int Atk;
-        public int Def;
-        public int MAtk;
-        public int MDef;
+        public Param Base;
         public int Wait;
+        public Param Grow;
         public int[] Trigger;   // 発動確率
     }
 
@@ -31,12 +37,17 @@ namespace Alice.Entities
             Map(x => x.Name).Name("名前");
             Map(x => x.Image).Name("画像ID");
             Map(x => x.Personality).Name("性格");
-            Map(x => x.HP).Name("HP");
-            Map(x => x.Atk).Name("ATK");
-            Map(x => x.Def).Name("DEF");
-            Map(x => x.MAtk).Name("MATK");
-            Map(x => x.MDef).Name("MDEF");
+            Map(x => x.Base.HP).Name("HP");
+            Map(x => x.Base.Atk).Name("ATK");
+            Map(x => x.Base.Def).Name("DEF");
+            Map(x => x.Base.MAtk).Name("MATK");
+            Map(x => x.Base.MDef).Name("MDEF");
             Map(x => x.Wait).Name("WAIT");
+            Map(x => x.Grow.HP).Name("成長:HP");
+            Map(x => x.Grow.Atk).Name("成長:ATK");
+            Map(x => x.Grow.Def).Name("成長:DEF");
+            Map(x => x.Grow.MAtk).Name("成長:MATK");
+            Map(x => x.Grow.MDef).Name("成長:MDEF");
             Map(x => x.Trigger).ConvertUsing(row =>
             {
                 var trigger = new int[triggerFields.Length];
