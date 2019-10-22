@@ -60,6 +60,9 @@ namespace Alice
         {
             var recv = new BattleStartRecv();
             recv.seed = random.Next();
+
+            var unit_random = new System.Random(recv.seed);
+
             recv.player = new[]
             {
                 new UserUnit{ characterId = "Character_001_002", position = 0, skill = new string[]{ "Skill_001_001" } },
@@ -68,7 +71,7 @@ namespace Alice
                 new UserUnit{ characterId = "Character_001_008", position = 3, skill = new string[]{ "Skill_001_001" } },
             };
             List<UserUnit> enemy = new List<UserUnit>();
-            var count = random.Next(1, 4);
+            var count = unit_random.Next(1, 4);
 
             string[] skills = new[]
             {
@@ -80,24 +83,17 @@ namespace Alice
             
             for (int i = 0; i < count; i++)
             {
-                var index = random.Next(1, 253);
+                var index = unit_random.Next(1, 253);
 
                 var unit = new UserUnit
                 {
                     characterId = string.Format("Character_001_{0:D3}", index),
                     position = i,
-                    skill = new string[] { skills[random.Next(0,4)] }
+                    skill = new string[] { skills[unit_random.Next(0,4)] }
                 };
                 enemy.Add(unit);
             }
             recv.enemy = enemy.ToArray();
-            //recv.enemy = new[]
-            //{
-            //    new UserUnit{ characterId = "Character_001_003", position = 0, skill = new string[]{ "Skill_001_001" } },
-            //    new UserUnit{ characterId = "Character_001_007", position = 1, skill = new string[]{ "Skill_001_002", "Skill_002_001" } },
-            //    //new UserUnit{ characterId = "Character_001_009", position = 0, skill = new string[]{} },
-            //    new UserUnit{ characterId = "Character_001_010", position = 3, skill = new string[]{ "Skill_001_003" } },
-            //};
             return JsonUtility.ToJson(recv);
         }
     }
