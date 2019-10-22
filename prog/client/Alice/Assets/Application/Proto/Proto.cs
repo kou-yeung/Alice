@@ -22,6 +22,7 @@ namespace Alice
         public string characterId;
         public int position;        // セットされた場合[0-3] セットされてない場合[-1]
         public string[] skill;
+        public int exp;             // 経験値:戦闘回数
     }
 
     /// <summary>
@@ -53,13 +54,40 @@ namespace Alice
     }
 
     /// <summary>
+    /// プレイヤー情報
+    /// </summary>
+    [Serializable]
+    public class Player
+    {
+        public string name; // ユーザ名
+        public int exp;     // 戦闘した回数
+        public int coin;    // コイン(将来か課金で買えるようにします
+    }
+
+    /// <summary>
     /// ホーム画面: SV -> CL
     /// </summary>
     [Serializable]
     public class HomeRecv
     {
+        public Player player;
         public UserUnit[] units;
         public UserChest[] chests;
+    }
+
+    [Serializable]
+    public class GameSetSend
+    {
+        public string ID;    // バトルID
+        public BattleConst.Result result; // 試合結果
+    }
+
+    [Serializable]
+    public class GameSetRecv
+    {
+        public Player player;
+        public UserUnit[] modifiedUnit;
+        public UserChest[] modifiedChest;
     }
 }
 

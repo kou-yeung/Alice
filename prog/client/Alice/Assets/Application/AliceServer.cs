@@ -16,7 +16,7 @@ namespace Alice
             {
                 case "Home": complete?.Invoke(Home(data)); break;
                 case "Battle": complete?.Invoke(Battle(data)); break;
-                case "GameSet": complete?.Invoke(Battle(data)); break;
+                case "GameSet": complete?.Invoke(GameSet(data)); break;
             }
         }
 
@@ -120,6 +120,47 @@ namespace Alice
                 enemy.Add(unit);
             }
             recv.enemy = enemy.ToArray();
+            return JsonUtility.ToJson(recv);
+        }
+
+        /// <summary>
+        /// 試合完了
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string GameSet(string data)
+        {
+            var send = JsonUtility.FromJson<GameSetSend>(data);
+            var recv = new GameSetRecv();
+
+            // プレイヤー経験値追加
+            recv.player = JsonUtility.FromJson<Player>(JsonUtility.ToJson(UserData.cacheHomeRecv.player));
+            recv.player.exp += 1;
+
+            List<UserUnit> modifiedUnit = new List<UserUnit>();
+            // ユニットに経験値を与える
+            foreach (var unit in UserData.cacheUserDeck)
+            {
+                var modified = JsonUtility.FromJson<UserUnit>(JsonUtility.ToJson(unit));
+                ++modified.exp;
+                modifiedUnit.Add(modified);
+            }
+            recv.modifiedUnit = modifiedUnit.ToArray();
+
+            // 宝箱追加
+            if (UserData.cacheHomeRecv.chests.Length < 3)
+            {
+                recv.modifiedChest = new[]
+                {
+                    new UserChest
+                    {
+                        uniq = Guid.NewGuid().ToString(),
+                        start = DateTime.Now.Ticks,
+                        end = (DateTime.Now + TimeSpan.FromMinutes(10)).Ticks,
+                        rate = send.result == BattleConst.Result.Win?2:1
+                    }
+                };
+            }
             return JsonUtility.ToJson(recv);
         }
     }
