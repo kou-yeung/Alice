@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Zoo.Communication;
+using Zoo;
 
 namespace Alice
 {
@@ -14,6 +15,7 @@ namespace Alice
 
         void Start()
         {
+            Observer.AddObserver("HomeRecv", Setup);
             Setup();
         }
 
@@ -33,7 +35,7 @@ namespace Alice
             {
                 var chest = i < recv.chests.Length ? recv.chests[i] : null;
                 chests[i].Setup(chest);
-                chests[i].CliceEvent += () => ClickChest(chest);
+                chests[i].CliceEvent = () => ClickChest(chest);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Zoo.IO;
 using Alice.Entities;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Alice
     public class Card : MonoBehaviour
     {
         public TimelineIcon icon;
-
+        public Text level;
         UserUnit currentUnit;
         Character characterData;
 
@@ -36,15 +37,18 @@ namespace Alice
                 gameObject.SetActive(false);
             }
             gameObject.SetActive(true);
+
             currentUnit = unit;
             characterData = MasterData.characters.FirstOrDefault(v => v.ID == currentUnit.characterId);
-
+            // アイコン
             LoaderService.Instance.Preload(new []{IconPath}, () =>
             {
                 if (currentUnit != unit) return;
                 var sprites = LoaderService.Instance.Load<Sprites>(IconPath);
                 icon.Setup(characterData);
             });
+            // レベル
+            level.text = $"Lv.{unit.Level()}";
         }
     }
 }

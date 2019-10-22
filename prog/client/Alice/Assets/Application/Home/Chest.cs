@@ -18,7 +18,7 @@ namespace Alice
         [SerializeField]
         Text remainTime;
 
-        public event Action CliceEvent;
+        public Action CliceEvent;
         UserChest cacheUserChest;
 
         public void Setup(UserChest chest)

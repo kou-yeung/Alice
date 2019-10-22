@@ -27,7 +27,7 @@ namespace Alice
         {
             var player = UserData.cacheHomeRecv.player;
             Name.text = string.IsNullOrEmpty(player.name) ? "ゲスト" : player.name;
-            Level.text = $"LV: {player.exp}";
+            Level.text = $"LV: {player.Level()}";
             Coin.text = $"COIN: {player.coin}";
         }
     }

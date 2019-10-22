@@ -19,13 +19,7 @@ namespace Alice
             cacheHomeRecv = homeRecv;
 
             // 編成されたユニットをキャッシュしておく
-            UserUnit[] deck = new UserUnit[4];
-            foreach (var unit in cacheHomeRecv.units)
-            {
-                if (unit.position == -1) continue;
-                deck[unit.position] = unit;
-            }
-            cacheUserDeck = deck.Where(v => v != null).ToArray();
+            cacheUserDeck = cacheHomeRecv.units.Where(v => v.position != -1).ToArray();
 
             Observer.Notify("HomeRecv");
         }
@@ -78,6 +72,8 @@ namespace Alice
                     cacheHomeRecv.units = new[] { unit }.Concat(cacheHomeRecv.units).ToArray();
                 }
             }
+            // 編成されたユニットをキャッシュしておく
+            cacheUserDeck = cacheHomeRecv.units.Where(v => v.position != -1).ToArray();
         }
         /// <summary>
         /// 宝箱更新
@@ -94,7 +90,7 @@ namespace Alice
                 }
                 else
                 {
-                    cacheHomeRecv.chests = new[] { chest }.Concat(cacheHomeRecv.chests).ToArray();
+                    cacheHomeRecv.chests = cacheHomeRecv.chests.Concat(new[] { chest }).ToArray();
                 }
             }
         }

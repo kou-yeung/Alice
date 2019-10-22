@@ -23,6 +23,15 @@ namespace Alice
         public int position;        // セットされた場合[0-3] セットされてない場合[-1]
         public string[] skill;
         public int exp;             // 経験値:戦闘回数
+
+        /// <summary>
+        /// レベル
+        /// </summary>
+        /// <returns></returns>
+        public int Level()
+        {
+            return Mathf.FloorToInt(Mathf.Sqrt(exp)) + 1;
+        }
     }
 
     /// <summary>
@@ -62,6 +71,15 @@ namespace Alice
         public string name; // ユーザ名
         public int exp;     // 戦闘した回数
         public int coin;    // コイン(将来か課金で買えるようにします
+
+        /// <summary>
+        /// プレイヤーレベル
+        /// </summary>
+        /// <returns></returns>
+        public int Level()
+        {
+            return Mathf.FloorToInt(Mathf.Pow(Mathf.Pow(exp / 2, 0.5f) / 2, 0.5f)) + 1;
+        }
     }
 
     /// <summary>
