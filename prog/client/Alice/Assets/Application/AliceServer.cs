@@ -16,6 +16,7 @@ namespace Alice
             {
                 case "Home": complete?.Invoke(Home(data)); break;
                 case "Battle": complete?.Invoke(Battle(data)); break;
+                case "GameSet": complete?.Invoke(Battle(data)); break;
             }
         }
 
@@ -28,9 +29,35 @@ namespace Alice
         {
             HomeRecv recv = new HomeRecv();
             var random = new System.Random();
-            // 宝箱一覧
-            List <UserChest> chests = new List<UserChest>();
 
+            List<UserUnit> units = new List<UserUnit>();
+            var characters = MasterData.characters;
+            var skills = MasterData.skills;
+            foreach (var character in characters)
+            {
+                var unit = new UserUnit { characterId = character.ID, position = -1 };
+
+                // スキル抽選
+                var count = random.Next(0, 2);
+                unit.skill = new string[count];
+                for (int i = 0; i < count; i++)
+                {
+                    unit.skill[i] = skills[random.Next(0, skills.Length)].ID;
+                }
+                units.Add(unit);
+            }
+
+            // ユニットをセットする
+            for (int i = 0; i < 4; i++)
+            {
+                units[random.Next(0, units.Count)].position = i;
+            }
+
+            // ユニット
+            recv.units = units.ToArray();
+
+            // 宝箱一覧
+            List<UserChest> chests = new List<UserChest>();
             // 残り時間ある
             chests.Add(new UserChest
             {
@@ -68,13 +95,12 @@ namespace Alice
             recv.names = new[] { "PLAYER", "ENEMY" };
 
             // プレイヤーユニット
-            recv.player = new[]
+            List<UserUnit> player = new List<UserUnit>();
+            foreach (var unit in UserData.cacheUserDeck)
             {
-                new UserUnit{ characterId = "Character_001_002", position = 0, skill = new string[]{ "Skill_001_001" } },
-                new UserUnit{ characterId = "Character_001_004", position = 1, skill = new string[]{ "Skill_001_002" } },
-                new UserUnit{ characterId = "Character_001_006", position = 2, skill = new string[]{ "Skill_001_003", "Skill_002_001" } },
-                new UserUnit{ characterId = "Character_001_008", position = 3, skill = new string[]{ "Skill_001_001" } },
-            };
+                player.Add(JsonUtility.FromJson<UserUnit>(JsonUtility.ToJson(unit)));
+            }
+            recv.player = player.ToArray();
 
             // 相手ユニット
             List<UserUnit> enemy = new List<UserUnit>();

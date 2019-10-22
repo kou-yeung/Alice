@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Alice
 {
@@ -10,9 +11,19 @@ namespace Alice
         /// ホーム情報をキャッシュする
         /// </summary>
         public static HomeRecv cacheHomeRecv { get; private set; }
+        public static UserUnit[] cacheUserDeck { get; private set; }
         public static void CacheHomeRecv(HomeRecv homeRecv)
         {
             cacheHomeRecv = homeRecv;
+
+            // 編成されたユニットをキャッシュしておく
+            UserUnit[] deck = new UserUnit[4];
+            foreach (var unit in cacheHomeRecv.units)
+            {
+                if (unit.position == -1) continue;
+                deck[unit.position] = unit;
+            }
+            cacheUserDeck = deck.Where(v => v != null).ToArray();
         }
 
         static BattleRecord battleRecord;

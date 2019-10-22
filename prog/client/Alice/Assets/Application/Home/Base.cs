@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zoo.Communication;
 
@@ -8,6 +9,7 @@ namespace Alice
     public class Base : MonoBehaviour
     {
         public Chest[] chests;
+        public Card[] cards;
         public Battle battle;
 
         void Start()
@@ -18,6 +20,15 @@ namespace Alice
         public void Setup()
         {
             var recv = UserData.cacheHomeRecv;
+
+            // ユニット
+            for (int i = 0; i < cards.Length; i++)
+            {
+                var unit = recv.units.FirstOrDefault(v => v.position == i);
+                cards[i].Setup(unit);
+            }
+
+            // 宝箱
             for (int i = 0; i < chests.Length; i++)
             {
                 var chest = i < recv.chests.Length ? recv.chests[i] : null;

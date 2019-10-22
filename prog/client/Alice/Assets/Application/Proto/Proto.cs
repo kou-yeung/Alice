@@ -20,8 +20,8 @@ namespace Alice
     public class UserUnit
     {
         public string characterId;
-        public int position;
-        public string[] skill; 
+        public int position;        // セットされた場合[0-3] セットされてない場合[-1]
+        public string[] skill;
     }
 
     /// <summary>
@@ -58,6 +58,7 @@ namespace Alice
     [Serializable]
     public class HomeRecv
     {
+        public UserUnit[] units;
         public UserChest[] chests;
     }
 }
