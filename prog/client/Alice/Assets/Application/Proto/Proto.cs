@@ -31,6 +31,8 @@ namespace Alice
     public class BattleStartRecv
     {
         public int seed;
+        public BattleConst.BattleType type;
+        public string[] names;  // 名前
         public UserUnit[] player;
         public UserUnit[] enemy;
         // 以下はクライアント側が生成する結果

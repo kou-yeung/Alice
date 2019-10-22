@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zoo.Communication;
+using Alice.Entities;
 
 namespace Alice
 {
@@ -63,6 +64,10 @@ namespace Alice
 
             var unit_random = new System.Random(recv.seed);
 
+            // 名前
+            recv.names = new[] { "PLAYER", "ENEMY" };
+
+            // プレイヤーユニット
             recv.player = new[]
             {
                 new UserUnit{ characterId = "Character_001_002", position = 0, skill = new string[]{ "Skill_001_001" } },
@@ -70,26 +75,21 @@ namespace Alice
                 new UserUnit{ characterId = "Character_001_006", position = 2, skill = new string[]{ "Skill_001_003", "Skill_002_001" } },
                 new UserUnit{ characterId = "Character_001_008", position = 3, skill = new string[]{ "Skill_001_001" } },
             };
+
+            // 相手ユニット
             List<UserUnit> enemy = new List<UserUnit>();
             var count = unit_random.Next(1, 4);
-
-            string[] skills = new[]
-            {
-                "Skill_001_001",
-                "Skill_001_002",
-                "Skill_001_003",
-                "Skill_002_001",
-            };
-            
+            var skills = MasterData.skills;
+            var characters = MasterData.characters;
             for (int i = 0; i < count; i++)
             {
-                var index = unit_random.Next(1, 253);
+                var character = characters[unit_random.Next(0, characters.Length)];
 
                 var unit = new UserUnit
                 {
-                    characterId = string.Format("Character_001_{0:D3}", index),
+                    characterId = character.ID,
                     position = i,
-                    skill = new string[] { skills[unit_random.Next(0,4)] }
+                    skill = new string[] { skills[unit_random.Next(0, skills.Length)].ID }
                 };
                 enemy.Add(unit);
             }
