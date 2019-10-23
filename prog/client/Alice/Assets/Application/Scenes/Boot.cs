@@ -5,6 +5,9 @@ using Zoo.Communication;
 using Zoo.IO;
 using Alice.Entities;
 using Zoo;
+using UnityEngine.Advertisements;
+using System;
+using System.Collections;
 
 namespace Alice
 {
@@ -32,7 +35,8 @@ namespace Alice
                 });
             },
                 (end) => AuthService.Instance.SignInAnonymously(end),
-                (end) => MasterData.Initialize(end)
+                (end) => MasterData.Initialize(end),
+                (end) => StartCoroutine(InitializeAds(end))
             );
         }
 
@@ -55,6 +59,26 @@ namespace Alice
                     CommunicationService.SetLocator(new CommunicationFirebase("alice-321c1"));    // 通信
                     break;
             }
+        }
+
+        /// <summary>
+        /// 広告APIの初期化
+        /// </summary>
+        IEnumerator InitializeAds(Action cb)
+        {
+#if UNITY_ADS
+            // https://github.com/unity3d-jp/unityads-help-jp/wiki/Integration-Guide-for-Unity
+            //Advertisement.Initialize("2788195");  // MEMO : 必要なくなったかも？
+
+            // Ads の初期化待ち
+            while (!Advertisement.isInitialized || !Advertisement.IsReady())
+            {
+                yield return null;
+            }
+#else
+            yield return null;
+#endif
+            cb?.Invoke();
         }
     }
 }

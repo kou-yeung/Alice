@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zoo.Communication;
+using Alice.Entities;
 
 namespace Alice
 {
@@ -15,6 +16,9 @@ namespace Alice
             {
                 case "Home": complete?.Invoke(Home(data)); break;
                 case "Battle": complete?.Invoke(Battle(data)); break;
+                case "GameSet": complete?.Invoke(GameSet(data)); break;
+                case "BeginAds": complete?.Invoke(BeginAds(data)); break;
+                case "EndAds": complete?.Invoke(EndAds(data)); break;
             }
         }
 
@@ -27,9 +31,35 @@ namespace Alice
         {
             HomeRecv recv = new HomeRecv();
             var random = new System.Random();
-            // 宝箱一覧
-            List <UserChest> chests = new List<UserChest>();
 
+            List<UserUnit> units = new List<UserUnit>();
+            var characters = MasterData.characters;
+            var skills = MasterData.skills;
+            foreach (var character in characters)
+            {
+                var unit = new UserUnit { characterId = character.ID, position = -1 };
+
+                // スキル抽選
+                var count = random.Next(0, 2);
+                unit.skill = new string[count];
+                for (int i = 0; i < count; i++)
+                {
+                    unit.skill[i] = skills[random.Next(0, skills.Length)].ID;
+                }
+                units.Add(unit);
+            }
+
+            // ユニットをセットする
+            for (int i = 0; i < 4; i++)
+            {
+                units[random.Next(0, units.Count)].position = i;
+            }
+
+            // ユニット
+            recv.units = units.ToArray();
+
+            // 宝箱一覧
+            List<UserChest> chests = new List<UserChest>();
             // 残り時間ある
             chests.Add(new UserChest
             {
@@ -60,45 +90,107 @@ namespace Alice
         {
             var recv = new BattleStartRecv();
             recv.seed = random.Next();
-            recv.player = new[]
-            {
-                new UserUnit{ characterId = "Character_001_002", position = 0, skill = new string[]{ "Skill_001_001" } },
-                new UserUnit{ characterId = "Character_001_004", position = 1, skill = new string[]{ "Skill_001_002" } },
-                new UserUnit{ characterId = "Character_001_006", position = 2, skill = new string[]{ "Skill_001_003", "Skill_002_001" } },
-                new UserUnit{ characterId = "Character_001_008", position = 3, skill = new string[]{ "Skill_001_001" } },
-            };
-            List<UserUnit> enemy = new List<UserUnit>();
-            var count = random.Next(1, 4);
 
-            string[] skills = new[]
+            var unit_random = new System.Random(recv.seed);
+
+            // 名前
+            recv.names = new[] { "PLAYER", "ENEMY" };
+
+            // プレイヤーユニット
+            List<UserUnit> player = new List<UserUnit>();
+            foreach (var unit in UserData.cacheUserDeck)
             {
-                "Skill_001_001",
-                "Skill_001_002",
-                "Skill_001_003",
-                "Skill_002_001",
-            };
-            
+                player.Add(JsonUtility.FromJson<UserUnit>(JsonUtility.ToJson(unit)));
+            }
+            recv.player = player.ToArray();
+
+            // 相手ユニット
+            List<UserUnit> enemy = new List<UserUnit>();
+            var count = unit_random.Next(1, 4);
+            var skills = MasterData.skills;
+            var characters = MasterData.characters;
             for (int i = 0; i < count; i++)
             {
-                var index = random.Next(1, 11);
+                var character = characters[unit_random.Next(0, characters.Length)];
 
                 var unit = new UserUnit
                 {
-                    characterId = string.Format("Character_001_{0:D3}", index),
+                    characterId = character.ID,
                     position = i,
-                    skill = new string[] { skills[random.Next(0,4)] }
+                    skill = new string[] { skills[unit_random.Next(0, skills.Length)].ID }
                 };
                 enemy.Add(unit);
             }
             recv.enemy = enemy.ToArray();
-            //recv.enemy = new[]
-            //{
-            //    new UserUnit{ characterId = "Character_001_003", position = 0, skill = new string[]{ "Skill_001_001" } },
-            //    new UserUnit{ characterId = "Character_001_007", position = 1, skill = new string[]{ "Skill_001_002", "Skill_002_001" } },
-            //    //new UserUnit{ characterId = "Character_001_009", position = 0, skill = new string[]{} },
-            //    new UserUnit{ characterId = "Character_001_010", position = 3, skill = new string[]{ "Skill_001_003" } },
-            //};
             return JsonUtility.ToJson(recv);
+        }
+
+        /// <summary>
+        /// 試合完了
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string GameSet(string data)
+        {
+            var send = JsonUtility.FromJson<GameSetSend>(data);
+            var recv = new GameSetRecv();
+
+            // プレイヤー経験値追加
+            recv.player = JsonUtility.FromJson<Player>(JsonUtility.ToJson(UserData.cacheHomeRecv.player));
+            recv.player.exp += 1;
+
+            List<UserUnit> modifiedUnit = new List<UserUnit>();
+            // ユニットに経験値を与える
+            foreach (var unit in UserData.cacheUserDeck)
+            {
+                var modified = JsonUtility.FromJson<UserUnit>(JsonUtility.ToJson(unit));
+                ++modified.exp;
+                modifiedUnit.Add(modified);
+            }
+            recv.modifiedUnit = modifiedUnit.ToArray();
+
+            // 宝箱追加
+            if (UserData.cacheHomeRecv.chests.Length < 3)
+            {
+                recv.modifiedChest = new[]
+                {
+                    new UserChest
+                    {
+                        uniq = Guid.NewGuid().ToString(),
+                        start = DateTime.Now.Ticks,
+                        end = (DateTime.Now + TimeSpan.FromMinutes(10)).Ticks,
+                        rate = send.result == BattleConst.Result.Win?2:1
+                    }
+                };
+            }
+            return JsonUtility.ToJson(recv);
+        }
+
+
+        /// <summary>
+        /// 広告開始
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string BeginAds(string data)
+        {
+            Debug.Log(data);
+            var res = new AdsBeginRecv();
+            res.adsUniq = Guid.NewGuid().ToString();
+            return JsonUtility.ToJson(res);
+        }
+
+        /// <summary>
+        /// 広告終了
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string EndAds(string data)
+        {
+            Debug.Log(data);
+            var res = new AdsEndRecv();
+            res.modifiedChest = new UserChest[0];
+            return JsonUtility.ToJson(res);
         }
     }
 }

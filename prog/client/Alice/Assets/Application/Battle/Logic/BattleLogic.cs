@@ -175,22 +175,22 @@ namespace Alice
         /// </summary>
         int Damage(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            var atk = behavioure.characterData.Atk;
+            var atk = behavioure.current.Atk;
             var atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_Atk);
             var atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_Atk);
 
-            var def = target.characterData.Def;
+            var def = target.current.Def;
             var defBuff = target.GetCondition(BattleConst.Effect.Buff_Def);
             var defDebuff = target.GetCondition(BattleConst.Effect.Debuff_Def);
 
             // 属性判別: スキルがあるかつ魔法属性
             if (skill?.Attribute == BattleConst.Attribute.Magic)
             {
-                atk = behavioure.characterData.MAtk + behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
+                atk = behavioure.current.MAtk + behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
                 atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
                 atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_MAtk);
 
-                def = target.characterData.MDef + target.GetCondition(BattleConst.Effect.Buff_MDef);
+                def = target.current.MDef + target.GetCondition(BattleConst.Effect.Buff_MDef);
                 defBuff = target.GetCondition(BattleConst.Effect.Buff_MDef);
                 defDebuff = target.GetCondition(BattleConst.Effect.Debuff_MDef);
             }
@@ -212,7 +212,7 @@ namespace Alice
         int DamageRatio(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
             var ratio = effect.Value / 100f;
-            return Mathf.FloorToInt(target.characterData.HP * ratio);
+            return Mathf.FloorToInt(target.current.MaxHP * ratio);
         }
 
         /// <summary>

@@ -25,10 +25,15 @@ namespace Alice
         /// </summary>
         public void Setup(BattleUnit unit)
         {
-            sprites = LoaderService.Instance.Load<Sprites>($"Character/{unit.characterData.Image}/icon.asset");
+            Setup(unit.characterData);
             // 背景色設定
             background.color = unit.side == BattleConst.Side.Player ? colorSelf : colorEnemy;
+        }
+
+        public void Setup(Character character)
+        {
             // アイコンを設定する
+            sprites = LoaderService.Instance.Load<Sprites>($"Character/{character.Image}/icon.asset");
             icon.sprite = sprites[0];
         }
 

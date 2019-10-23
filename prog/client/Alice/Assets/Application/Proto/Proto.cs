@@ -20,8 +20,18 @@ namespace Alice
     public class UserUnit
     {
         public string characterId;
-        public int position;
-        public string[] skill; 
+        public int position;        // セットされた場合[0-3] セットされてない場合[-1]
+        public string[] skill;
+        public int exp;             // 経験値:戦闘回数
+
+        /// <summary>
+        /// レベル
+        /// </summary>
+        /// <returns></returns>
+        public int Level()
+        {
+            return Mathf.FloorToInt(Mathf.Sqrt(exp)) + 1;
+        }
     }
 
     /// <summary>
@@ -31,6 +41,8 @@ namespace Alice
     public class BattleStartRecv
     {
         public int seed;
+        public BattleConst.BattleType type;
+        public string[] names;  // 名前
         public UserUnit[] player;
         public UserUnit[] enemy;
         // 以下はクライアント側が生成する結果
@@ -51,12 +63,83 @@ namespace Alice
     }
 
     /// <summary>
+    /// プレイヤー情報
+    /// </summary>
+    [Serializable]
+    public class Player
+    {
+        public string name; // ユーザ名
+        public int exp;     // 戦闘した回数
+        public int coin;    // コイン(将来か課金で買えるようにします
+
+        /// <summary>
+        /// プレイヤーレベル
+        /// </summary>
+        /// <returns></returns>
+        public int Level()
+        {
+            return Mathf.FloorToInt(Mathf.Pow(Mathf.Pow(exp / 2, 0.5f) / 2, 0.5f)) + 1;
+        }
+    }
+
+    /// <summary>
     /// ホーム画面: SV -> CL
     /// </summary>
     [Serializable]
     public class HomeRecv
     {
+        public Player player;
+        public UserUnit[] units;
         public UserChest[] chests;
+    }
+
+    [Serializable]
+    public class GameSetSend
+    {
+        public string ID;    // バトルID
+        public BattleConst.Result result; // 試合結果
+    }
+
+    [Serializable]
+    public class GameSetRecv
+    {
+        public Player player;
+        public UserUnit[] modifiedUnit;
+        public UserChest[] modifiedChest;
+    }
+
+
+    /// <summary>
+    /// 広告開始: cl -> sv
+    /// </summary>
+    [Serializable]
+    public class AdsBeginSend
+    {
+        public UserChest chest;
+    }
+    /// <summary>
+    /// 広告開始: sv -> cl
+    /// </summary>
+    [Serializable]
+    public class AdsBeginRecv
+    {
+        public string adsUniq;  // サーバ側が発行したUniqID
+    }
+    /// <summary>
+    /// 広告終了: cl -> sv
+    /// </summary>
+    [Serializable]
+    public class AdsEndSend
+    {
+        public string adsUniq;  // サーバ側が発行したUniqID
+    }
+    /// <summary>
+    /// 広告終了: sv -> cl
+    /// </summary>
+    [Serializable]
+    public class AdsEndRecv
+    {
+        public UserChest[] modifiedChest;   // 更新された宝箱
     }
 }
 

@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: walk
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 2143223006717619783, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: 525784634341360436, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: 3947174755586069981, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: -4112648308782082183, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: 4235926967460194311, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: 8593375185215169290, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: 3379771953196480962, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: -6032904213270078443, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: 5801279895479938674, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: 1790342729969951066, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: -4887956029624561758, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
-  - {fileID: -3741373978146555104, guid: 0cd2f39a52e602f4fb13f4a789c41abd, type: 3}
+  - {fileID: 2644946426094574414, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: 399010126213422975, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: -3022648234956577074, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: -3369912471017108830, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: -9048600822933611523, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: -8972405921898044464, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: 2175196416845303728, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: -7091461113578709902, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: 4989068562565472261, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: 2525610249246949900, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: 1471631380457819421, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}
+  - {fileID: -569720952416696368, guid: 990a757dbf93ebe44b0324d5490fbec1, type: 3}

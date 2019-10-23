@@ -708,10 +708,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: b4207b05-049b-4b2a-bdc2-fd8cc1396229
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: Alice
+  organizationId: kou-yeung
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3336038034889113676
 CanvasRenderer:
@@ -107,5 +107,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ddbff2ecfd69be4a8456b882ff2af2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites: {fileID: 11400000, guid: b8fc48e8cac93ed41b602f3f93fa8061, type: 2}
+  sprites: {fileID: 0}
   spriteIndex: 0

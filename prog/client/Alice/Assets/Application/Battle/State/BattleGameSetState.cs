@@ -5,6 +5,7 @@ using Zoo.StateMachine;
 using System.Linq;
 using UniRx;
 using System;
+using Zoo.Communication;
 
 namespace Alice
 {
@@ -22,12 +23,31 @@ namespace Alice
             }
             owner.controller.timeline.Clear();
 
-            // MEMO : 将来はシェアなどの機能を追加すると思いますが、今は３秒待ったら終了する
-            Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { },
+            if (owner.fromRecord)
+            {
+                // MEMO : 将来はシェアなどの機能を追加すると思いますが、今は３秒待ったら終了する
+                Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { },
                 () =>
                 {
                     owner.controller.ChangeState(BattleConst.State.Finally);
                 });
+            }
+            else
+            {
+                var send = new GameSetSend();
+                send.ID = "";
+                send.result = owner.recv.result;
+                CommunicationService.Instance.Request("GameSet", JsonUtility.ToJson(send), (recv) =>
+                {
+                    UserData.Modify(JsonUtility.FromJson<GameSetRecv>(recv));
+                    // MEMO : 将来はシェアなどの機能を追加すると思いますが、今は３秒待ったら終了する
+                    Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { },
+                    () =>
+                    {
+                        owner.controller.ChangeState(BattleConst.State.Finally);
+                    });
+                });
+            }
         }
     }
 }

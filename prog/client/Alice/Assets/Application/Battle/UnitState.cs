@@ -27,7 +27,7 @@ namespace Alice
         /// </summary>
         public void Setup(BattleUnit unit)
         {
-            maxHP = unit.characterData.HP;
+            maxHP = unit.current.HP;
             currentHP.text = maxHP.ToString();
         }
 

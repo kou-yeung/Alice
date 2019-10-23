@@ -6,6 +6,12 @@ namespace Alice
 {
     public static class BattleConst
     {
+        public enum BattleType
+        {
+            Normal,     // 通常バトル
+            Shadow,     // シャドウバトル
+        }
+
         public enum State
         {
             Init,       // 初期化
