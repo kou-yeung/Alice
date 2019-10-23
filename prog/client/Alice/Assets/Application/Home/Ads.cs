@@ -31,29 +31,30 @@ namespace Alice
         public void Show(UserChest chest, Action<ShowResult> cb)
         {
             blocker.enabled = true;
-            var send = new AdsBeginSend { chest = chest };
-            CommunicationService.Instance.Request("BeginAds", JsonUtility.ToJson(send), (begin) =>
+            Advertisement.Show(new ShowOptions { resultCallback = (showResult)=>
             {
-                Advertisement.Show(new ShowOptions { resultCallback = (showResult)=>
+                if(showResult == ShowResult.Finished)
                 {
-                    if(showResult == ShowResult.Finished)
+                    blocker.enabled = false;
+
+                    var c2v = new AdsSend();
+                    c2v.ads = UserData.cacheHomeRecv.ads;
+                    c2v.chest = chest;
+
+                    CommunicationService.Instance.Request("Ads", JsonUtility.ToJson(c2v), (res) =>
                     {
-                        blocker.enabled = false;
-                        CommunicationService.Instance.Request("EndAds", begin, (end) =>
-                        {
-                            var data = JsonUtility.FromJson<AdsEndRecv>(end);
-                            UserData.Modify(data.modifiedChest);
-                            blocker.enabled = false;
-                            cb?.Invoke(showResult);
-                        });
-                    }
-                    else
-                    {
+                        var data = JsonUtility.FromJson<AdsRecv>(res);
+                        UserData.Modify(data);
                         blocker.enabled = false;
                         cb?.Invoke(showResult);
-                    }
-                }});
-            });
+                    });
+                }
+                else
+                {
+                    blocker.enabled = false;
+                    cb?.Invoke(showResult);
+                }
+            }});
         }
     }
 }

@@ -55,6 +55,20 @@ namespace Alice
         }
 
         /// <summary>
+        /// 更新あり
+        /// </summary>
+        /// <param name="recv"></param>
+        public static void Modify(AdsRecv recv)
+        {
+            cacheHomeRecv.ads = recv.modifiedAds;
+            if(recv.modifiedChest != null)
+            {
+                Modify(new[] { recv.modifiedChest });
+            }
+            Observer.Notify("HomeRecv");
+        }
+
+        /// <summary>
         /// ユニット更新
         /// </summary>
         /// <param name="units"></param>

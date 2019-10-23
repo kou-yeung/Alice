@@ -91,6 +91,7 @@ namespace Alice
         public Player player;
         public UserUnit[] units;
         public UserChest[] chests;
+        public string ads;  // 広告用認証キー
     }
 
     [Serializable]
@@ -108,38 +109,23 @@ namespace Alice
         public UserChest[] modifiedChest;
     }
 
-
     /// <summary>
-    /// 広告開始: cl -> sv
+    /// 広告を観ました: cl -> sv
     /// </summary>
     [Serializable]
-    public class AdsBeginSend
+    public class AdsSend
     {
-        public UserChest chest;
-    }
-    /// <summary>
-    /// 広告開始: sv -> cl
-    /// </summary>
-    [Serializable]
-    public class AdsBeginRecv
-    {
-        public string adsUniq;  // サーバ側が発行したUniqID
-    }
-    /// <summary>
-    /// 広告終了: cl -> sv
-    /// </summary>
-    [Serializable]
-    public class AdsEndSend
-    {
-        public string adsUniq;  // サーバ側が発行したUniqID
+        public string ads;          // Ads認証ID
+        public UserChest chest;     // 対象
     }
     /// <summary>
     /// 広告終了: sv -> cl
     /// </summary>
     [Serializable]
-    public class AdsEndRecv
+    public class AdsRecv
     {
-        public UserChest[] modifiedChest;   // 更新された宝箱
+        public string modifiedAds;          // Ads認証ID
+        public UserChest modifiedChest;     // 更新された宝箱
     }
 }
 
