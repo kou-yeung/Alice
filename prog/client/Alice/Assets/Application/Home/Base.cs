@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Zoo.Communication;
 using Zoo;
+using UnityEngine.Advertisements;
 
 namespace Alice
 {
@@ -45,7 +46,8 @@ namespace Alice
         /// <param name="chest"></param>
         void ClickChest(UserChest chest)
         {
-            Debug.Log(JsonUtility.ToJson(chest));
+            //Debug.Log(JsonUtility.ToJson(chest));
+            Advertisement.Show(new ShowOptions { resultCallback = ResultCallback });
         }
         public void OnBattle()
         {
@@ -54,6 +56,28 @@ namespace Alice
             {
                 battle.Exec(JsonUtility.FromJson<BattleStartRecv>(res));
             });
+        }
+
+        /// <summary>
+        /// 広告の表示結果
+        /// </summary>
+        /// <param name="result"></param>
+        void ResultCallback(ShowResult result)
+        {
+            Debug.Log(result);
+            if (result == ShowResult.Finished)
+            {
+                //Protocol.Send(new AdsEndSend { id = receive.id }, (AdsEndReceive end) =>
+                //{
+                //    Entity.Instance.HatchList.Modify(end.hatch);
+                //    Entity.Instance.UnitList.Modify(end.unit);
+                //    Close();
+                //});
+            }
+            else
+            {
+                //Close();
+            }
         }
 
     }

@@ -6,6 +6,7 @@ using Zoo.IO;
 using Alice.Entities;
 using System.Linq;
 using Zoo.Assets;
+using System.Text;
 
 namespace Alice
 {
@@ -16,6 +17,8 @@ namespace Alice
     {
         public TimelineIcon icon;
         public Text level;
+        public Text Param;
+
         UserUnit currentUnit;
         Character characterData;
 
@@ -47,8 +50,22 @@ namespace Alice
                 var sprites = LoaderService.Instance.Load<Sprites>(IconPath);
                 icon.Setup(characterData);
             });
+            var lv = unit.Level();
             // レベル
-            level.text = $"Lv.{unit.Level()}";
+            level.text = $"Lv.{lv}";
+
+            var b = characterData.Base;
+            var g = characterData.Grow;
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"ATK: {b.Atk + g.Atk * lv}");
+            sb.AppendLine($"MATK: {b.MAtk + g.MAtk * lv}");
+            sb.AppendLine($"Def: {b.Def + g.Def * lv}");
+            sb.AppendLine($"MDef: {b.MDef + g.MDef * lv}");
+            sb.AppendLine($"WAIT: {characterData.Wait}");
+            var next = (lv) * (lv) - unit.exp;
+            sb.AppendLine($"LVUP: {next}");
+            Param.text = sb.ToString();
         }
     }
 }
