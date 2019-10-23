@@ -47,7 +47,10 @@ namespace Alice
         void ClickChest(UserChest chest)
         {
             //Debug.Log(JsonUtility.ToJson(chest));
-            Advertisement.Show(new ShowOptions { resultCallback = ResultCallback });
+            //Advertisement.Show(new ShowOptions { resultCallback = ResultCallback });
+            Ads.Instance.Show(chest, (res) =>
+            {
+            });
         }
         public void OnBattle()
         {

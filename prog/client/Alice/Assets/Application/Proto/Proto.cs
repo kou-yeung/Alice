@@ -107,5 +107,39 @@ namespace Alice
         public UserUnit[] modifiedUnit;
         public UserChest[] modifiedChest;
     }
+
+
+    /// <summary>
+    /// 広告開始: cl -> sv
+    /// </summary>
+    [Serializable]
+    public class AdsBeginSend
+    {
+        public UserChest chest;
+    }
+    /// <summary>
+    /// 広告開始: sv -> cl
+    /// </summary>
+    [Serializable]
+    public class AdsBeginRecv
+    {
+        public string adsUniq;  // サーバ側が発行したUniqID
+    }
+    /// <summary>
+    /// 広告終了: cl -> sv
+    /// </summary>
+    [Serializable]
+    public class AdsEndSend
+    {
+        public string adsUniq;  // サーバ側が発行したUniqID
+    }
+    /// <summary>
+    /// 広告終了: sv -> cl
+    /// </summary>
+    [Serializable]
+    public class AdsEndRecv
+    {
+        public UserChest[] modifiedChest;   // 更新された宝箱
+    }
 }
 

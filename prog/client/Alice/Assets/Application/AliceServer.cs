@@ -17,6 +17,8 @@ namespace Alice
                 case "Home": complete?.Invoke(Home(data)); break;
                 case "Battle": complete?.Invoke(Battle(data)); break;
                 case "GameSet": complete?.Invoke(GameSet(data)); break;
+                case "BeginAds": complete?.Invoke(BeginAds(data)); break;
+                case "EndAds": complete?.Invoke(EndAds(data)); break;
             }
         }
 
@@ -162,6 +164,33 @@ namespace Alice
                 };
             }
             return JsonUtility.ToJson(recv);
+        }
+
+
+        /// <summary>
+        /// 広告開始
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string BeginAds(string data)
+        {
+            Debug.Log(data);
+            var res = new AdsBeginRecv();
+            res.adsUniq = Guid.NewGuid().ToString();
+            return JsonUtility.ToJson(res);
+        }
+
+        /// <summary>
+        /// 広告終了
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string EndAds(string data)
+        {
+            Debug.Log(data);
+            var res = new AdsEndRecv();
+            res.modifiedChest = new UserChest[0];
+            return JsonUtility.ToJson(res);
         }
     }
 }
