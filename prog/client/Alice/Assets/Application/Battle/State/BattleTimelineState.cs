@@ -15,8 +15,8 @@ namespace Alice
             units.Sort((a, b) =>
             {
                 var res = a.current.Wait.CompareTo(b.current.Wait);
-                if (res == 0) res = a.side.CompareTo(b.side);
                 if (res == 0) res = a.Position.CompareTo(b.Position);
+                if (res == 0) res = a.side.CompareTo(b.side);
                 return res;
             });
             // 並び順更新
