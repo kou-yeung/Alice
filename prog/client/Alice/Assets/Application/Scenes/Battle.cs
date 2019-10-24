@@ -58,12 +58,12 @@ namespace Alice
             resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
 
             // 味方ユニットに必要なリソースをロード
-            foreach(var unit in this.recv.player)
+            foreach(var unit in this.recv.playerUnit)
             {
                 resourcePaths.AddRange(UserUnitPreloadPaths(unit));
             }
             // 相手ユニットに必要なリソースをロード
-            foreach (var unit in this.recv.enemy)
+            foreach (var unit in this.recv.enemyUnit)
             {
                 resourcePaths.AddRange(UserUnitPreloadPaths(unit));
             }

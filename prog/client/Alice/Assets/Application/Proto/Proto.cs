@@ -6,21 +6,12 @@ using System;
 namespace Alice
 {
     /// <summary>
-    /// バトル開始: CL -> SV
-    /// </summary>
-    public class BattleStartSend
-    {
-    }
-
-
-    /// <summary>
     /// Unit x 1
     /// </summary>
     [Serializable]
     public class UserUnit
     {
         public string characterId;
-        public int position;        // セットされた場合[0-3] セットされてない場合[-1]
         public string[] skill;
         public int exp;             // 経験値:戦闘回数
 
@@ -35,6 +26,26 @@ namespace Alice
     }
 
     /// <summary>
+    /// デッキ情報
+    /// </summary>
+    [Serializable]
+    public class UserDeck
+    {
+        public string characterId;
+        public int position;
+    }
+
+    /// <summary>
+    /// バトル開始: CL -> SV
+    /// </summary>
+    public class BattleStartSend
+    {
+        public Player player;       // プレイヤー情報
+        public UserUnit[] units;    // バトルに使用するユニット
+        public UserDeck[] decks;    // デッキの配置情報
+    }
+
+    /// <summary>
     /// バトル開始: SV -> CL
     /// </summary>
     [Serializable]
@@ -43,8 +54,12 @@ namespace Alice
         public int seed;
         public BattleConst.BattleType type;
         public string[] names;  // 名前
-        public UserUnit[] player;
-        public UserUnit[] enemy;
+        // 味方のユニット情報
+        public UserUnit[] playerUnit;
+        public UserDeck[] playerDeck;
+        // 相手のユニット情報
+        public UserUnit[] enemyUnit;
+        public UserDeck[] enemyDeck;
         // 以下はクライアント側が生成する結果
         public BattleConst.Result result;
     }
@@ -89,7 +104,8 @@ namespace Alice
     public class HomeRecv
     {
         public Player player;
-        public UserUnit[] units;
+        public UserUnit[] units;    // ユニット一覧
+        public UserDeck[] decks;    // デッキの配置情報
         public UserChest[] chests;
         public string ads;  // 広告用認証キー
     }

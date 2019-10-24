@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Zoo.StateMachine;
 using UnityEngine;
 using Zoo.IO;
+using System.Linq;
 
 namespace Alice
 {
@@ -84,15 +85,16 @@ namespace Alice
         /// </summary>
         void CreatePlayerUnit(BattleStartRecv recv)
         {
-            foreach(var data in recv.player)
+            foreach(var data in recv.playerUnit)
             {
-                var uniq = $"PLAYER:{data.position}";// Guid.NewGuid().ToString();
-                var unit = new BattleUnit(uniq, data, BattleConst.Side.Player);
+                var deck = recv.playerDeck.First(v => v.characterId == data.characterId);
+                var uniq = $"PLAYER:{deck.position}";
+                var unit = new BattleUnit(uniq, data, deck, BattleConst.Side.Player);
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform, false);
-                transform.localPosition = BattleConst.PlayerUnitPositions[data.position];
+                transform.localPosition = BattleConst.PlayerUnitPositions[deck.position];
 
                 // タイムラインアイコン登録
                 var icon = TimelineIcon.Gen(unit);
@@ -107,15 +109,16 @@ namespace Alice
         /// </summary>
         void CreateEnemyUnit(BattleStartRecv recv)
         {
-            foreach (var data in recv.enemy)
+            foreach (var data in recv.enemyUnit)
             {
-                var uniq = $"ENEMY:{data.position}";//Guid.NewGuid().ToString();
-                var unit = new BattleUnit(uniq, data, BattleConst.Side.Enemy);
+                var deck = recv.enemyDeck.First(v => v.characterId == data.characterId);
+                var uniq = $"ENEMY:{deck.position}";
+                var unit = new BattleUnit(uniq, data, deck, BattleConst.Side.Enemy);
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform, false);
-                transform.localPosition = BattleConst.EnemyUnitPositions[data.position];
+                transform.localPosition = BattleConst.EnemyUnitPositions[deck.position];
 
                 // タイムラインアイコン登録
                 var icon = TimelineIcon.Gen(unit);

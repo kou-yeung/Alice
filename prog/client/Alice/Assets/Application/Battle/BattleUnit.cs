@@ -67,16 +67,17 @@ namespace Alice
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
         public Dictionary<string, int> cooltimes = new Dictionary<string, int>();
-        public int Position { get { return data.position; } }
+        public int Position { get; private set; }
 
         List<Condition> conditions = new List<Condition>();
         UserUnit data;
         UnitState state;
 
-        public BattleUnit(string uniq, UserUnit data, BattleConst.Side side)
+        public BattleUnit(string uniq, UserUnit data, UserDeck deck, BattleConst.Side side)
         {
             this.uniq = uniq;
             this.data = data;
+            this.Position = deck.position;
             this.characterData = MasterData.characters.First(v => v.ID == data.characterId);
             this.current = new Current(this.characterData, data.Level());
             this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;

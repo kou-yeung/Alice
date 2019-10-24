@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zoo.Communication;
 using Alice.Entities;
+using System.Linq;
 
 namespace Alice
 {
@@ -31,12 +32,14 @@ namespace Alice
             HomeRecv recv = new HomeRecv();
             var random = new System.Random();
 
-            List<UserUnit> units = new List<UserUnit>();
             var characters = MasterData.characters;
             var skills = MasterData.skills;
+
+            // ユニット一覧生成
+            List<UserUnit> units = new List<UserUnit>();
             foreach (var character in characters)
             {
-                var unit = new UserUnit { characterId = character.ID, position = -1 };
+                var unit = new UserUnit { characterId = character.ID };
 
                 // スキル抽選
                 var count = random.Next(0, 2);
@@ -47,15 +50,19 @@ namespace Alice
                 }
                 units.Add(unit);
             }
+            // ユニット
+            recv.units = units.ToArray();
 
+            List<UserDeck> decks = new List<UserDeck>();
             // ユニットをセットする
             for (int i = 0; i < 4; i++)
             {
-                units[random.Next(0, units.Count)].position = i;
+                var unit = units[random.Next(0, units.Count)];
+                if (decks.Exists(v => v.characterId == unit.characterId)) continue;
+                var deck = new UserDeck { characterId = unit.characterId, position = i };
+                decks.Add(deck);
             }
-
-            // ユニット
-            recv.units = units.ToArray();
+            recv.decks = decks.ToArray();
 
             // 宝箱一覧
             List<UserChest> chests = new List<UserChest>();
@@ -87,41 +94,45 @@ namespace Alice
         /// <returns></returns>
         string Battle(string data)
         {
-            var recv = new BattleStartRecv();
-            recv.seed = random.Next();
+            var c2s = JsonUtility.FromJson<BattleStartSend>(data);
 
-            var unit_random = new System.Random(recv.seed);
+            var s2c = new BattleStartRecv();
+            s2c.seed = random.Next();
+
+            var unit_random = new System.Random(s2c.seed);
 
             // 名前
-            recv.names = new[] { "PLAYER", "ENEMY" };
-
+            s2c.names = new[] { c2s.player.name, "ENEMY" };
             // プレイヤーユニット
-            List<UserUnit> player = new List<UserUnit>();
-            foreach (var unit in UserData.cacheUserDeck)
-            {
-                player.Add(JsonUtility.FromJson<UserUnit>(JsonUtility.ToJson(unit)));
-            }
-            recv.player = player.ToArray();
+            s2c.playerUnit = c2s.units;
+            s2c.playerDeck = c2s.decks;
 
             // 相手ユニット
-            List<UserUnit> enemy = new List<UserUnit>();
-            var count = unit_random.Next(1, 4);
             var skills = MasterData.skills;
             var characters = MasterData.characters;
+
+            List<UserUnit> enemyUnit = new List<UserUnit>();
+            List<UserDeck> enemyDeck = new List<UserDeck>();
+            var count = unit_random.Next(2, 4);
             for (int i = 0; i < count; i++)
             {
+                // キャラ抽選
                 var character = characters[unit_random.Next(0, characters.Length)];
+                if (enemyDeck.Exists(v => v.characterId == character.ID)) continue;
 
-                var unit = new UserUnit
-                {
-                    characterId = character.ID,
-                    position = i,
-                    skill = new string[] { skills[unit_random.Next(0, skills.Length)].ID }
-                };
-                enemy.Add(unit);
+                var unit = new UserUnit();
+                unit.characterId = character.ID;
+                unit.skill = new string[] { skills[unit_random.Next(0, skills.Length)].ID };
+                enemyUnit.Add(unit);
+
+                var deck = new UserDeck();
+                deck.characterId = unit.characterId;
+                deck.position = i;
+                enemyDeck.Add(deck);
             }
-            recv.enemy = enemy.ToArray();
-            return JsonUtility.ToJson(recv);
+            s2c.enemyUnit = enemyUnit.ToArray();
+            s2c.enemyDeck = enemyDeck.ToArray();
+            return JsonUtility.ToJson(s2c);
         }
 
         /// <summary>
@@ -140,11 +151,12 @@ namespace Alice
 
             List<UserUnit> modifiedUnit = new List<UserUnit>();
             // ユニットに経験値を与える
-            foreach (var unit in UserData.cacheUserDeck)
+            foreach (var deck in UserData.cacheHomeRecv.decks)
             {
-                var modified = JsonUtility.FromJson<UserUnit>(JsonUtility.ToJson(unit));
-                ++modified.exp;
-                modifiedUnit.Add(modified);
+                var modified = JsonUtility.FromJson<UserDeck>(JsonUtility.ToJson(deck));
+                var unit = UserData.cacheHomeRecv.units.First(v => v.characterId == modified.characterId);
+                ++unit.exp;
+                modifiedUnit.Add(unit);
             }
             recv.modifiedUnit = modifiedUnit.ToArray();
 

@@ -5,6 +5,7 @@ using UnityEngine;
 using Zoo.Communication;
 using Zoo;
 using UnityEngine.Advertisements;
+using System;
 
 namespace Alice
 {
@@ -27,8 +28,15 @@ namespace Alice
             // ユニット
             for (int i = 0; i < cards.Length; i++)
             {
-                var unit = recv.units.FirstOrDefault(v => v.position == i);
-                cards[i].Setup(unit);
+                var deck = recv.decks.FirstOrDefault(v => v.position == i);
+                if (deck == null)
+                {
+                    cards[i].Setup(null);
+                } else
+                {
+                    var unit = recv.units.First(v => v.characterId == deck.characterId);
+                    cards[i].Setup(unit);
+                }
             }
 
             // 宝箱
@@ -46,16 +54,20 @@ namespace Alice
         /// <param name="chest"></param>
         void ClickChest(UserChest chest)
         {
-            //Debug.Log(JsonUtility.ToJson(chest));
-            //Advertisement.Show(new ShowOptions { resultCallback = ResultCallback });
             Ads.Instance.Show(chest, (res) =>
             {
             });
         }
         public void OnBattle()
         {
+            var cache = UserData.cacheHomeRecv;
+            var c2v = new BattleStartSend();
+            c2v.player = cache.player;
+            c2v.decks = cache.decks;
+            c2v.units = cache.units.Where(v => Array.Exists(c2v.decks, deck => deck.characterId == v.characterId)).ToArray();
+
             // バトル情報を取得する
-            CommunicationService.Instance.Request("Battle", "", (res) =>
+            CommunicationService.Instance.Request("Battle", JsonUtility.ToJson(c2v), (res) =>
             {
                 battle.Exec(JsonUtility.FromJson<BattleStartRecv>(res));
             });

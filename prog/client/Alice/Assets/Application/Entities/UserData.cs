@@ -13,14 +13,9 @@ namespace Alice
         /// ホーム情報をキャッシュする
         /// </summary>
         public static HomeRecv cacheHomeRecv { get; private set; }
-        public static UserUnit[] cacheUserDeck { get; private set; }
         public static void CacheHomeRecv(HomeRecv homeRecv)
         {
             cacheHomeRecv = homeRecv;
-
-            // 編成されたユニットをキャッシュしておく
-            cacheUserDeck = cacheHomeRecv.units.Where(v => v.position != -1).ToArray();
-
             Observer.Notify("HomeRecv");
         }
 
@@ -86,9 +81,8 @@ namespace Alice
                     cacheHomeRecv.units = new[] { unit }.Concat(cacheHomeRecv.units).ToArray();
                 }
             }
-            // 編成されたユニットをキャッシュしておく
-            cacheUserDeck = cacheHomeRecv.units.Where(v => v.position != -1).ToArray();
         }
+
         /// <summary>
         /// 宝箱更新
         /// </summary>
