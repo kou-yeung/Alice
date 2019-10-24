@@ -5,11 +5,80 @@ using UnityEngine;
 using Zoo.Communication;
 using Alice.Entities;
 using System.Linq;
+using System.IO;
 
 namespace Alice
 {
     public class AliceServer : IDummyServer
     {
+        static readonly string fn = Path.Combine(Application.persistentDataPath, "DB.txt");
+        /// <summary>
+        /// 仮のDBを提供する
+        /// </summary>
+        [Serializable]
+        class DB
+        {
+            public Player player;
+            public UserUnit[] units;
+            public UserDeck[] decks;
+            public UserChest[] chests;
+            public UserSkill[] skills;
+            public string token;
+        }
+
+        DB db;
+        public AliceServer()
+        {
+            if (File.Exists(fn))
+            {
+                db = JsonUtility.FromJson<DB>(File.ReadAllText(fn));
+            }
+        }
+
+        /// <summary>
+        /// 新規ユーザの初期化設定
+        /// </summary>
+        void CreateDB()
+        {
+            // 生成する
+            db = new DB();
+            var random = new System.Random();
+            // 情報を設定する
+            db.player = new Player { name = "ゲスト" };
+            //　ユニットの適当に抽選する
+            var characters = MasterData.characters;
+            var unit = new UserUnit();
+            unit.characterId = characters[random.Next(0, characters.Length)].ID;
+            unit.skill = new string[0];
+            db.units = new[] { unit };
+            // デッキにセットする
+            db.decks = new[] { new UserDeck { characterId = unit.characterId, position = 0 } };
+            // 所持スキル
+            db.skills = new UserSkill[0];
+            // 宝箱はなかった
+            db.chests = new UserChest[0];
+            // 認証トークン
+            db.token = Guid.NewGuid().ToString();
+            // 同期
+            Sync();
+        }
+        /// <summary>
+        /// 生成済から
+        /// </summary>
+        /// <returns></returns>
+        bool Created()
+        {
+            return db != null;
+        }
+        /// <summary>
+        /// 同期する
+        /// </summary>
+        void Sync()
+        {
+            File.WriteAllText(fn, JsonUtility.ToJson(db));
+        }
+
+
         System.Random random = new System.Random();
         public void Call(string proto, string data, Action<string> complete = null, Action<string> error = null)
         {
@@ -29,63 +98,22 @@ namespace Alice
         /// <returns></returns>
         string Home(string data)
         {
+            if(!Created())
+            {
+                CreateDB();
+            }
+
             HomeRecv recv = new HomeRecv();
-            var random = new System.Random();
-
-            var characters = MasterData.characters;
-            var skills = MasterData.skills;
-
             // スキル
-            recv.skills = skills.Select(v=> new UserSkill { id = v.ID, count = random.Next(1, 10) }).ToArray();
-
-            // ユニット一覧生成
-            List<UserUnit> units = new List<UserUnit>();
-            foreach (var character in characters)
-            {
-                var unit = new UserUnit { characterId = character.ID };
-
-                // スキル抽選
-                var count = random.Next(0, 2);
-                unit.skill = new string[count];
-                for (int i = 0; i < count; i++)
-                {
-                    unit.skill[i] = skills[random.Next(0, skills.Length)].ID;
-                }
-                units.Add(unit);
-            }
+            recv.skills = db.skills;
             // ユニット
-            recv.units = units.ToArray();
-
-            List<UserDeck> decks = new List<UserDeck>();
-            // ユニットをセットする
-            for (int i = 0; i < 4; i++)
-            {
-                var unit = units[random.Next(0, units.Count)];
-                if (decks.Exists(v => v.characterId == unit.characterId)) continue;
-                var deck = new UserDeck { characterId = unit.characterId, position = i };
-                decks.Add(deck);
-            }
-            recv.decks = decks.ToArray();
-
+            recv.units = db.units;
+            // デッキ情報
+            recv.decks = db.decks;
             // 宝箱一覧
-            List<UserChest> chests = new List<UserChest>();
-            // 残り時間ある
-            chests.Add(new UserChest
-            {
-                uniq = "remain_chest",
-                start = (DateTime.Now - TimeSpan.FromMinutes(random.Next(10, 20))).Ticks,
-                end = (DateTime.Now + TimeSpan.FromMinutes(10)).Ticks,
-                rate = 1
-            });
-            // 完了
-            chests.Add(new UserChest
-            {
-                uniq = "ready_chest",
-                start = (DateTime.Now - TimeSpan.FromMinutes(random.Next(10, 20))).Ticks,
-                end = (DateTime.Now - TimeSpan.FromMinutes(10)).Ticks,
-                rate = 3
-            });
-            recv.chests = chests.ToArray();
+            recv.chests = db.chests;
+            // 認証トークン
+            recv.token = db.token;
 
             return JsonUtility.ToJson(recv);
         }
@@ -98,6 +126,16 @@ namespace Alice
         string Battle(string data)
         {
             var c2s = JsonUtility.FromJson<BattleStartSend>(data);
+
+            // デッキ情報とユニットのスキル情報を同期する
+            db.decks = c2s.decks;
+            foreach (var unit in c2s.units)
+            {
+                var index = Array.FindIndex(db.units, v => v.characterId == unit.characterId);
+                db.units[index] = unit;
+            }
+            // 同期する
+            Sync();
 
             var s2c = new BattleStartRecv();
             s2c.seed = random.Next();
@@ -145,39 +183,42 @@ namespace Alice
         /// <returns></returns>
         string GameSet(string data)
         {
-            var send = JsonUtility.FromJson<GameSetSend>(data);
-            var recv = new GameSetRecv();
+            var c2s = JsonUtility.FromJson<GameSetSend>(data);
+            var s2c = new GameSetRecv();
 
-            // プレイヤー経験値追加
-            recv.player = JsonUtility.FromJson<Player>(JsonUtility.ToJson(UserData.cacheHomeRecv.player));
-            recv.player.exp += 1;
+            // プレイヤー経験値追加(仮
+            db.player.exp += 1;
 
+            // デッキにセットしたユニットに経験値を与える
             List<UserUnit> modifiedUnit = new List<UserUnit>();
-            // ユニットに経験値を与える
-            foreach (var deck in UserData.cacheHomeRecv.decks)
+            foreach (var deck in db.decks)
             {
-                var modified = JsonUtility.FromJson<UserDeck>(JsonUtility.ToJson(deck));
-                var unit = UserData.cacheHomeRecv.units.First(v => v.characterId == modified.characterId);
-                ++unit.exp;
-                modifiedUnit.Add(unit);
+                var index = Array.FindIndex(db.units, v => v.characterId == deck.characterId);
+                db.units[index].exp += 1;
+                modifiedUnit.Add(db.units[index]);
             }
-            recv.modifiedUnit = modifiedUnit.ToArray();
+            s2c.modifiedUnit = modifiedUnit.ToArray();
 
             // 宝箱追加
-            if (UserData.cacheHomeRecv.chests.Length < 3)
+            if (db.chests.Length < 3)
             {
-                recv.modifiedChest = new[]
+                var reward = new[]
                 {
                     new UserChest
                     {
                         uniq = Guid.NewGuid().ToString(),
                         start = DateTime.Now.Ticks,
                         end = (DateTime.Now + TimeSpan.FromMinutes(10)).Ticks,
-                        rate = send.result == BattleConst.Result.Win?2:1
+                        rate = c2s.result == BattleConst.Result.Win?2:1
                     }
                 };
+                // 末尾に追加
+                db.chests = db.chests.Concat(reward).ToArray();
+                s2c.modifiedChest = reward;
             }
-            return JsonUtility.ToJson(recv);
+            Sync();
+
+            return JsonUtility.ToJson(s2c);
         }
 
         /// <summary>
@@ -187,15 +228,29 @@ namespace Alice
         /// <returns></returns>
         string Ads(string data)
         {
-            Debug.Log(data);
-            var c2v = JsonUtility.FromJson<AdsSend>(data);
-            // 時間を減らす
-            c2v.chest.end -= TimeSpan.FromMinutes(5).Ticks;
+            var c2s = JsonUtility.FromJson<AdsSend>(data);
+            var s2c = new AdsRecv();
+
+            if(c2s.token != db.token)
+            {
+                throw new Exception("Token 無効");
+            }
+
+            // 指定された宝箱の時間を減らす
+            for (int i = 0; i < db.chests.Length; i++)
+            {
+                if(db.chests[i].uniq == c2s.chest.uniq)
+                {
+                    db.chests[i].end -= TimeSpan.FromMinutes(5).Ticks;
+                    s2c.modifiedChest = c2s.chest;
+                }
+            }
+            db.token = Guid.NewGuid().ToString();
+            // 同期する
+            Sync();
 
             // 返信
-            var s2c = new AdsRecv();
-            s2c.modifiedChest = c2v.chest;
-            s2c.modifiedToken = Guid.NewGuid().ToString();
+            s2c.modifiedToken = db.token;
             return JsonUtility.ToJson(s2c);
         }
     }

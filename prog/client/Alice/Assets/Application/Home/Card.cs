@@ -19,6 +19,7 @@ namespace Alice
         public Text level;
         public Text Param;
 
+        public GameObject info;
         UserUnit currentUnit;
         Character characterData;
 
@@ -37,9 +38,10 @@ namespace Alice
         {
             if(unit == null)
             {
-                gameObject.SetActive(false);
+                info.SetActive(false);
+                return;
             }
-            gameObject.SetActive(true);
+            info.SetActive(true);
 
             currentUnit = unit;
             characterData = MasterData.characters.FirstOrDefault(v => v.ID == currentUnit.characterId);
