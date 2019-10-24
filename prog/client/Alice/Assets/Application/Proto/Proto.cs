@@ -6,6 +6,16 @@ using System;
 namespace Alice
 {
     /// <summary>
+    /// 所持スキルx1
+    /// </summary>
+    [Serializable]
+    public class UserSkill
+    {
+        public string id;
+        public int count;
+    }
+
+    /// <summary>
     /// Unit x 1
     /// </summary>
     [Serializable]
@@ -106,6 +116,7 @@ namespace Alice
         public Player player;
         public UserUnit[] units;    // ユニット一覧
         public UserDeck[] decks;    // デッキの配置情報
+        public UserSkill[] skills;  // スキル一覧
         public UserChest[] chests;
         public string ads;  // 広告用認証キー
     }

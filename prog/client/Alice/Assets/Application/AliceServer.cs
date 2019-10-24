@@ -35,6 +35,9 @@ namespace Alice
             var characters = MasterData.characters;
             var skills = MasterData.skills;
 
+            // スキル
+            recv.skills = skills.Select(v=> new UserSkill { id = v.ID, count = random.Next(1, 10) }).ToArray();
+
             // ユニット一覧生成
             List<UserUnit> units = new List<UserUnit>();
             foreach (var character in characters)
