@@ -104,6 +104,8 @@ namespace Alice
             }
 
             HomeRecv recv = new HomeRecv();
+            // プレイヤー情報
+            recv.player = db.player;
             // スキル
             recv.skills = db.skills;
             // ユニット
@@ -125,6 +127,7 @@ namespace Alice
         /// <returns></returns>
         string Battle(string data)
         {
+            Debug.Log(data);
             var c2s = JsonUtility.FromJson<BattleStartSend>(data);
 
             // デッキ情報とユニットのスキル情報を同期する
@@ -188,6 +191,7 @@ namespace Alice
 
             // プレイヤー経験値追加(仮
             db.player.exp += 1;
+            s2c.player = db.player;
 
             // デッキにセットしたユニットに経験値を与える
             List<UserUnit> modifiedUnit = new List<UserUnit>();
@@ -241,8 +245,11 @@ namespace Alice
             {
                 if(db.chests[i].uniq == c2s.chest.uniq)
                 {
-                    db.chests[i].end -= TimeSpan.FromMinutes(5).Ticks;
-                    s2c.modifiedChest = c2s.chest;
+                    var time = TimeSpan.FromMinutes(5).Ticks;
+                    db.chests[i].start -= time;
+                    db.chests[i].end -= time;
+                    s2c.modifiedChest = db.chests[i];
+                    break;
                 }
             }
             db.token = Guid.NewGuid().ToString();
