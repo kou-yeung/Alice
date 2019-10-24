@@ -481,6 +481,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/190/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3897744307ed1c34fbc0fbc0b395fed5
+    m_Address: Assets/AddressableAssets/Character/250/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 3ba805f018b6d78438fbf1020ad81fa4
     m_Address: Assets/AddressableAssets/Character/241/icon.asset
     m_ReadOnly: 0
