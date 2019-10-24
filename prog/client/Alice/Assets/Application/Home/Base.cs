@@ -54,6 +54,7 @@ namespace Alice
         /// <param name="chest"></param>
         void ClickChest(UserChest chest)
         {
+            if (Application.internetReachability == NetworkReachability.NotReachable) return;
             Ads.Instance.Show(chest, (res) =>
             {
             });

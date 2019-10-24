@@ -195,7 +195,7 @@ namespace Alice
             // 返信
             var s2c = new AdsRecv();
             s2c.modifiedChest = c2v.chest;
-            s2c.modifiedAds = Guid.NewGuid().ToString();
+            s2c.modifiedToken = Guid.NewGuid().ToString();
             return JsonUtility.ToJson(s2c);
         }
     }

@@ -66,6 +66,12 @@ namespace Alice
         /// </summary>
         IEnumerator InitializeAds(Action cb)
         {
+            // 将来はタイトル画面にチェックし弾く
+            if(Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                cb?.Invoke();
+                yield break;
+            }
 #if UNITY_ADS
             // https://github.com/unity3d-jp/unityads-help-jp/wiki/Integration-Guide-for-Unity
             //Advertisement.Initialize("2788195");  // MEMO : 必要なくなったかも？

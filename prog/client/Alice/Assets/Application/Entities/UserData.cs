@@ -55,7 +55,7 @@ namespace Alice
         /// <param name="recv"></param>
         public static void Modify(AdsRecv recv)
         {
-            cacheHomeRecv.ads = recv.modifiedAds;
+            cacheHomeRecv.token = recv.modifiedToken;
             if(recv.modifiedChest != null)
             {
                 Modify(new[] { recv.modifiedChest });

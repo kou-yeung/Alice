@@ -118,7 +118,7 @@ namespace Alice
         public UserDeck[] decks;    // デッキの配置情報
         public UserSkill[] skills;  // スキル一覧
         public UserChest[] chests;
-        public string ads;  // 広告用認証キー
+        public string token;        // 認証トークン
     }
 
     [Serializable]
@@ -142,7 +142,7 @@ namespace Alice
     [Serializable]
     public class AdsSend
     {
-        public string ads;          // Ads認証ID
+        public string token;        // 認証トークン
         public UserChest chest;     // 対象
     }
     /// <summary>
@@ -151,7 +151,7 @@ namespace Alice
     [Serializable]
     public class AdsRecv
     {
-        public string modifiedAds;          // Ads認証ID
+        public string modifiedToken;          // 認証トークンの更新
         public UserChest modifiedChest;     // 更新された宝箱
     }
 }

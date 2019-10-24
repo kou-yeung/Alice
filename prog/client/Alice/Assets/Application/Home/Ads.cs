@@ -38,7 +38,7 @@ namespace Alice
                     blocker.enabled = false;
 
                     var c2v = new AdsSend();
-                    c2v.ads = UserData.cacheHomeRecv.ads;
+                    c2v.token = UserData.cacheHomeRecv.token;
                     c2v.chest = chest;
 
                     CommunicationService.Instance.Request("Ads", JsonUtility.ToJson(c2v), (res) =>
