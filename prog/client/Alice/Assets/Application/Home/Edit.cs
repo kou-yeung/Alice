@@ -66,8 +66,9 @@ namespace Alice
             var unit = UserData.cacheHomeRecv.units[index];
             var decks = UserData.cacheHomeRecv.decks;
 
-            // 指定された場所を空く
-            decks = decks.Where(v => v.characterId != unit.characterId).ToArray();
+            // このキャラはデッキから外す && 指定された場所を空く
+            decks = decks.Where(v => v.characterId != unit.characterId && v.position != editIndex).ToArray();
+
             // 選択したユニットをセットする
             var add = new UserDeck { characterId = unit.characterId, position = editIndex };
             UserData.cacheHomeRecv.decks = decks.Concat(new[] { add }).ToArray();
