@@ -71,17 +71,17 @@ namespace Alice
                     var s2c = JsonUtility.FromJson<ChestRecv>(res);
                     UserData.Modify(s2c.modified);
 
-                    var name = "";
+                    var name = "新キャラクタ";
 
-                    foreach(var unit in s2c.modified.unit)
-                    {
-                        name = MasterData.characters.First(v => v.ID == unit.characterId).Name;
-                    }
+                    //foreach(var unit in s2c.modified.unit)
+                    //{
+                    //    name = MasterData.characters.First(v => v.ID == unit.characterId).Name;
+                    //}
 
                     PlatformDialog.SetButtonLabel("OK");
                     PlatformDialog.Show(
                         "おめでとう",
-                        $"{name} 入手しました",
+                        $"{name} を入手しました",
                         PlatformDialog.Type.SubmitOnly,
                         () => {
                             Debug.Log("OK");
