@@ -98,6 +98,8 @@ namespace Alice
         public int exp;         // 戦闘した回数
         public int coin;        // コイン(将来か課金で買えるようにします
         public string token;    // 認証トークン
+        public long stamp;      // 最後ログインの日付
+        public int loginCount;  // 累計ログイン日数
 
         /// <summary>
         /// プレイヤーレベル

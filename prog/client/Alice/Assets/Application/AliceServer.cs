@@ -89,6 +89,23 @@ namespace Alice
         }
 
         /// <summary>
+        /// ログインボーナスのチェック
+        /// </summary>
+        /// <returns></returns>
+        bool CheckLoginBonus()
+        {
+            var stamp = new DateTime(db.player.stamp);
+            var today = DateTime.Today;
+            // 24時間以内の場合、falseを返す
+            if (DateTime.Today - stamp < TimeSpan.FromHours(24)) return false;
+            // 24時間以上の場合、スタンプを更新します
+            db.player.stamp = today.Ticks;
+            db.player.loginCount += 1;
+            Sync();
+            return true;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
@@ -98,6 +115,10 @@ namespace Alice
             if(!Created())
             {
                 CreateDB();
+            }
+            if(CheckLoginBonus())
+            {
+                Debug.Log("ログインボーナスもらったよ～");
             }
 
             HomeRecv recv = new HomeRecv();
@@ -185,6 +206,11 @@ namespace Alice
             var c2s = JsonUtility.FromJson<GameSetSend>(data);
             var s2c = new GameSetRecv();
             s2c.modified = new Modified();
+
+            if (CheckLoginBonus())
+            {
+                Debug.Log("ログインボーナスもらったよ～");
+            }
 
             // プレイヤー経験値追加(仮
             db.player.exp += 1;
