@@ -66,16 +66,12 @@ namespace Alice
             var unit = UserData.cacheHomeRecv.units[index];
             var decks = UserData.cacheHomeRecv.decks;
 
-            var at = Array.FindIndex(decks, v => v.characterId == unit.characterId);
-            if(at != -1)
-            {
-                // 場所だけ更新
-                decks[at].position = editIndex;
-            } else
-            {
-                var add = new UserDeck { characterId = unit.characterId, position = editIndex };
-                UserData.cacheHomeRecv.decks = decks.Concat(new[] { add }).ToArray();
-            }
+            // 指定された場所を空く
+            decks = decks.Where(v => v.characterId != unit.characterId).ToArray();
+            // 選択したユニットをセットする
+            var add = new UserDeck { characterId = unit.characterId, position = editIndex };
+            UserData.cacheHomeRecv.decks = decks.Concat(new[] { add }).ToArray();
+
             gameObject.SetActive(false);
             Observer.Notify("HomeRecv");
         }
