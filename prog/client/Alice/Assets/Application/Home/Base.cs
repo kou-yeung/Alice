@@ -6,6 +6,7 @@ using Zoo.Communication;
 using Zoo;
 using UnityEngine.Advertisements;
 using System;
+using Alice.Entities;
 
 namespace Alice
 {
@@ -60,7 +61,7 @@ namespace Alice
             if (Application.internetReachability == NetworkReachability.NotReachable) return;
 
             var remain = Math.Max(0, chest.end - DateTime.Now.Ticks);
-            if(remain <= 0)
+            if (remain <= 0)
             {
                 var c2s = new ChestSend();
                 c2s.chest = chest;
@@ -69,14 +70,39 @@ namespace Alice
                 {
                     var s2c = JsonUtility.FromJson<ChestRecv>(res);
                     UserData.Modify(s2c.modified);
+
+                    var name = "";
+
+                    foreach(var unit in s2c.modified.unit)
+                    {
+                        name = MasterData.characters.First(v => v.ID == unit.characterId).Name;
+                    }
+
+                    PlatformDialog.SetButtonLabel("OK");
+                    PlatformDialog.Show(
+                        "おめでとう",
+                        $"{name} 入手しました",
+                        PlatformDialog.Type.SubmitOnly,
+                        () => {
+                            Debug.Log("OK");
+                        }
+                    );
                 });
-            } else
+            }
+            else
             {
-                // MEMO : 将来はダイアログ一個挟む
-                // 広告
-                Ads.Instance.Show(chest, (res) =>
-                {
-                });
+                PlatformDialog.SetButtonLabel("Yes", "No");
+                PlatformDialog.Show(
+                    "確認(仮)",
+                    "広告を観て時間短縮しますか？",
+                    PlatformDialog.Type.OKCancel,
+                    () => {
+                        // 広告
+                        Ads.Instance.Show(chest, (res) =>
+                        {
+                        });
+                    }
+                );
             }
         }
 
