@@ -7,6 +7,7 @@ using Alice.Entities;
 using System.Linq;
 using Zoo.Assets;
 using System.Text;
+using System;
 
 namespace Alice
 {
@@ -15,21 +16,12 @@ namespace Alice
     /// </summary>
     public class Card : MonoBehaviour
     {
-        public TimelineIcon icon;
-        public Text level;
+        public Thumbnail thumbnail;
         public Text Param;
+        public Action<int> OnEditEvent;
 
         public GameObject info;
-        UserUnit currentUnit;
-        Character characterData;
 
-        string IconPath
-        {
-            get
-            {
-                return $"Character/{characterData.Image}/icon.asset";
-            }
-        }        
         /// <summary>
         /// 
         /// </summary>
@@ -43,31 +35,38 @@ namespace Alice
             }
             info.SetActive(true);
 
-            currentUnit = unit;
-            characterData = MasterData.characters.FirstOrDefault(v => v.ID == currentUnit.characterId);
-            // アイコン
-            LoaderService.Instance.Preload(new []{IconPath}, () =>
-            {
-                if (currentUnit != unit) return;
-                var sprites = LoaderService.Instance.Load<Sprites>(IconPath);
-                icon.Setup(characterData);
-            });
-            var lv = unit.Level();
-            // レベル
-            level.text = $"Lv.{lv}";
+            thumbnail.Setup(unit);
 
-            var b = characterData.Base;
-            var g = characterData.Grow;
+            var data = MasterData.characters.FirstOrDefault(v => v.ID == unit.characterId);
+            var lv = unit.Level();
+            var b = data.Base;
+            var g = data.Grow;
 
             var sb = new StringBuilder();
             sb.AppendLine($"ATK: {b.Atk + g.Atk * lv}");
             sb.AppendLine($"MATK: {b.MAtk + g.MAtk * lv}");
             sb.AppendLine($"Def: {b.Def + g.Def * lv}");
             sb.AppendLine($"MDef: {b.MDef + g.MDef * lv}");
-            sb.AppendLine($"WAIT: {characterData.Wait}");
+            sb.AppendLine($"WAIT: {data.Wait}");
             var next = (lv) * (lv) - unit.exp;
             sb.AppendLine($"LVUP: {next}");
             Param.text = sb.ToString();
+        }
+
+        /// <summary>
+        /// 編集を押します
+        /// </summary>
+        public void OnEdit(int index)
+        {
+            OnEditEvent?.Invoke(index);
+        }
+
+        /// <summary>
+        /// スキルを押します
+        /// </summary>
+        public void OnSkill(int index)
+        {
+            Debug.Log($"OnSkill:{index}");
         }
     }
 }

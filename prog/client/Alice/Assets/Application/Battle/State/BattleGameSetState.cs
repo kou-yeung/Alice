@@ -39,7 +39,9 @@ namespace Alice
                 send.result = owner.recv.result;
                 CommunicationService.Instance.Request("GameSet", JsonUtility.ToJson(send), (recv) =>
                 {
-                    UserData.Modify(JsonUtility.FromJson<GameSetRecv>(recv));
+                    var data = JsonUtility.FromJson<GameSetRecv>(recv);
+                    UserData.Modify(data.modified);
+
                     // MEMO : 将来はシェアなどの機能を追加すると思いますが、今は３秒待ったら終了する
                     Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { },
                     () =>

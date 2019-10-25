@@ -38,13 +38,13 @@ namespace Alice
                     blocker.enabled = false;
 
                     var c2v = new AdsSend();
-                    c2v.token = UserData.cacheHomeRecv.token;
+                    c2v.token = UserData.cacheHomeRecv.player.token;
                     c2v.chest = chest;
 
                     CommunicationService.Instance.Request("Ads", JsonUtility.ToJson(c2v), (res) =>
                     {
                         var data = JsonUtility.FromJson<AdsRecv>(res);
-                        UserData.Modify(data);
+                        UserData.Modify(data.modified);
                         blocker.enabled = false;
                         cb?.Invoke(showResult);
                     });

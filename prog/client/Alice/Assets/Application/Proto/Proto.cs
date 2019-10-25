@@ -53,6 +53,7 @@ namespace Alice
         public Player player;       // プレイヤー情報
         public UserUnit[] units;    // バトルに使用するユニット
         public UserDeck[] decks;    // デッキの配置情報
+        public UserUnit[] edited;  // 情報を更新したユニット
     }
 
     /// <summary>
@@ -93,9 +94,10 @@ namespace Alice
     [Serializable]
     public class Player
     {
-        public string name; // ユーザ名
-        public int exp;     // 戦闘した回数
-        public int coin;    // コイン(将来か課金で買えるようにします
+        public string name;     // ユーザ名
+        public int exp;         // 戦闘した回数
+        public int coin;        // コイン(将来か課金で買えるようにします
+        public string token;    // 認証トークン
 
         /// <summary>
         /// プレイヤーレベル
@@ -105,6 +107,19 @@ namespace Alice
         {
             return Mathf.FloorToInt(Mathf.Pow(Mathf.Pow(exp / 2, 0.5f) / 2, 0.5f)) + 1;
         }
+    }
+
+    /// <summary>
+    /// 編集した差分データ
+    /// </summary>
+    [Serializable]
+    public class Modified
+    {
+        public Player[] player;         // プレイヤー情報
+        public UserSkill[] skill;       // スキルデータ
+        public UserUnit[] unit;         // ユニットデータ
+        public UserChest[] chest;       // 宝箱データ
+        public UserChest[] remove;      // 削除した宝箱
     }
 
     /// <summary>
@@ -118,7 +133,6 @@ namespace Alice
         public UserDeck[] decks;    // デッキの配置情報
         public UserSkill[] skills;  // スキル一覧
         public UserChest[] chests;
-        public string token;        // 認証トークン
     }
 
     [Serializable]
@@ -132,8 +146,7 @@ namespace Alice
     public class GameSetRecv
     {
         public Player player;
-        public UserUnit[] modifiedUnit;
-        public UserChest[] modifiedChest;
+        public Modified modified;
     }
 
     /// <summary>
@@ -151,8 +164,25 @@ namespace Alice
     [Serializable]
     public class AdsRecv
     {
-        public string modifiedToken;          // 認証トークンの更新
-        public UserChest modifiedChest;     // 更新された宝箱
+        public Modified modified;
+    }
+
+    /// <summary>
+    /// 宝箱を開く: cl -> sv
+    /// </summary>
+    [Serializable]
+    public class ChestSend
+    {
+        public UserChest chest;     // 宝箱
+        public bool useItem;        // アイテム使用
+    }
+
+    /// <summary>
+    /// 宝箱を開く: sv -> cl
+    /// </summary>
+    [Serializable]
+    public class ChestRecv
+    {
+        public Modified modified;       // 更新したデータ
     }
 }
-

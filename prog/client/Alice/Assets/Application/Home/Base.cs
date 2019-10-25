@@ -14,6 +14,7 @@ namespace Alice
         public Chest[] chests;
         public Card[] cards;
         public Battle battle;
+        public Edit edit;
 
         void Start()
         {
@@ -37,6 +38,8 @@ namespace Alice
                     var unit = recv.units.First(v => v.characterId == deck.characterId);
                     cards[i].Setup(unit);
                 }
+
+                cards[i].OnEditEvent = OnEditEvent;
             }
 
             // 宝箱
@@ -55,10 +58,36 @@ namespace Alice
         void ClickChest(UserChest chest)
         {
             if (Application.internetReachability == NetworkReachability.NotReachable) return;
-            Ads.Instance.Show(chest, (res) =>
+
+            var remain = Math.Max(0, chest.end - DateTime.Now.Ticks);
+            if(remain <= 0)
             {
-            });
+                var c2s = new ChestSend();
+                c2s.chest = chest;
+                // 開く
+                CommunicationService.Instance.Request("Chest", JsonUtility.ToJson(c2s), (res) =>
+                {
+                    var s2c = JsonUtility.FromJson<ChestRecv>(res);
+                    UserData.Modify(s2c.modified);
+                });
+            } else
+            {
+                // MEMO : 将来はダイアログ一個挟む
+                // 広告
+                Ads.Instance.Show(chest, (res) =>
+                {
+                });
+            }
         }
+
+        /// <summary>
+        /// 編集したい
+        /// </summary>
+        void OnEditEvent(int index)
+        {
+            edit.Open(index);
+        }
+
         public void OnBattle()
         {
             var cache = UserData.cacheHomeRecv;

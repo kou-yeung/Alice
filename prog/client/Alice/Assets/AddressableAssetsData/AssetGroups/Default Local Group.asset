@@ -521,6 +521,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/089/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 40e4cc80c0c0fa54aa24d0ccc50cc4e9
+    m_Address: Assets/AddressableAssets/Prefab/Thumbnail.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 4106e0a849c15654a9c89db4b83fb158
     m_Address: Assets/AddressableAssets/Character/217/walk.asset
     m_ReadOnly: 0

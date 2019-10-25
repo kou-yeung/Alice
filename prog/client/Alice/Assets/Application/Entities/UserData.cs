@@ -39,27 +39,19 @@ namespace Alice
         }
 
         /// <summary>
-        /// 更新あり
+        /// 差分を更新する
         /// </summary>
-        public static void Modify(GameSetRecv recv)
+        public static void Modify(Modified modified)
         {
-            cacheHomeRecv.player = recv.player;
-            Modify(recv.modifiedUnit);
-            Modify(recv.modifiedChest);
-            Observer.Notify("HomeRecv");
-        }
-
-        /// <summary>
-        /// 更新あり
-        /// </summary>
-        /// <param name="recv"></param>
-        public static void Modify(AdsRecv recv)
-        {
-            cacheHomeRecv.token = recv.modifiedToken;
-            if(recv.modifiedChest != null)
+            if (modified == null) return;
+            foreach (var player in modified.player)
             {
-                Modify(new[] { recv.modifiedChest });
+                cacheHomeRecv.player = player;
             }
+            Modify(modified.unit);
+            Modify(modified.skill);
+            Modify(modified.chest);
+            Remove(modified.remove);
             Observer.Notify("HomeRecv");
         }
 
@@ -82,7 +74,25 @@ namespace Alice
                 }
             }
         }
-
+        /// <summary>
+        /// スキル更新
+        /// </summary>
+        /// <param name="units"></param>
+        public static void Modify(UserSkill[] skills)
+        {
+            foreach (var skill in skills)
+            {
+                var index = Array.FindIndex(cacheHomeRecv.skills, v => v.id == skill.id);
+                if (index != -1)
+                {
+                    cacheHomeRecv.skills[index] = skill;
+                }
+                else
+                {
+                    cacheHomeRecv.skills = new[] { skill }.Concat(cacheHomeRecv.skills).ToArray();
+                }
+            }
+        }
         /// <summary>
         /// 宝箱更新
         /// </summary>
@@ -101,6 +111,14 @@ namespace Alice
                     cacheHomeRecv.chests = cacheHomeRecv.chests.Concat(new[] { chest }).ToArray();
                 }
             }
+        }
+        /// <summary>
+        /// 宝箱削除
+        /// </summary>
+        /// <param name="units"></param>
+        public static void Remove(UserChest[] chests)
+        {
+            cacheHomeRecv.chests = cacheHomeRecv.chests.Where(v => !Array.Exists(chests, c => c.uniq == v.uniq)).ToArray();
         }
     }
 }
