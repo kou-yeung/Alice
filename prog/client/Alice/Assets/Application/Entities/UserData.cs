@@ -191,5 +191,14 @@ namespace Alice
         {
             editedUnit[unit.characterId] = unit;
         }
+
+        /// <summary>
+        /// プレイヤー名を編集した
+        /// </summary>
+        /// <param name="name"></param>
+        public static void EditPlayerName(string name)
+        {
+            cacheHomeRecv.player.name = name;
+        }
     }
 }

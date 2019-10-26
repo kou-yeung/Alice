@@ -168,6 +168,11 @@ namespace Alice
             Debug.Log(data);
             var c2s = JsonUtility.FromJson<BattleStartSend>(data);
 
+            // プレイヤー名が変更されたら更新する
+            if(c2s.player.name != db.player.name)
+            {
+                db.player.name = c2s.player.name;
+            }
             // デッキ情報とユニットのスキル情報を同期する
             db.decks = c2s.decks;
             // 情報更新したユニットを同期する
