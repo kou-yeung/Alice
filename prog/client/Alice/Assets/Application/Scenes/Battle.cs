@@ -93,10 +93,10 @@ namespace Alice
             // アイコン
             paths.Add($"Character/{character.Image}/icon.asset");
             // エフェクト
-            foreach (var skill in unit.skill)
+            foreach (var skill in unit.skill.Where(v => !string.IsNullOrEmpty(v)))
             {
                 // スキルマスタデータ
-                var skillData = MasterData.skills.First(v => v.ID == skill);
+                var skillData = MasterData.FindSkillByID(skill);
                 foreach(var effect in skillData.Effects)
                 {
                     var effectData = MasterData.effects.First(v => v.ID == effect);

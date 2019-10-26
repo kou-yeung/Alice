@@ -15,13 +15,14 @@ namespace Alice
     {
         public static Ads Instance { get; private set; }
         Image blocker;
-
+        UserChest cacheChest;
+        Action<ShowResult> cb;
         // Start is called before the first frame update
         void Start()
         {
             Instance = this;
             blocker = GetComponent<Image>();
-            blocker.enabled = false;
+            blocker.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -30,24 +31,17 @@ namespace Alice
         /// <param name=""></param>
         public void Show(UserChest chest, Action<ShowResult> cb)
         {
-            blocker.enabled = true;
+            blocker.gameObject.SetActive(true);
+            this.cacheChest = chest;
+            this.cb = cb;
+
+            if (!Advertisement.IsReady()) return;
+
             Advertisement.Show(new ShowOptions { resultCallback = (showResult)=>
             {
                 if(showResult == ShowResult.Finished)
                 {
-                    blocker.enabled = false;
-
-                    var c2v = new AdsSend();
-                    c2v.token = UserData.cacheHomeRecv.player.token;
-                    c2v.chest = chest;
-
-                    CommunicationService.Instance.Request("Ads", JsonUtility.ToJson(c2v), (res) =>
-                    {
-                        var data = JsonUtility.FromJson<AdsRecv>(res);
-                        UserData.Modify(data.modified);
-                        blocker.enabled = false;
-                        cb?.Invoke(showResult);
-                    });
+                    Finished();
                 }
                 else
                 {
@@ -55,6 +49,23 @@ namespace Alice
                     cb?.Invoke(showResult);
                 }
             }});
+        }
+
+        public void Finished()
+        {
+            blocker.gameObject.SetActive(false);
+
+            var c2v = new AdsSend();
+            c2v.token = UserData.cacheHomeRecv.player.token;
+            c2v.chest = this.cacheChest;
+
+            CommunicationService.Instance.Request("Ads", JsonUtility.ToJson(c2v), (res) =>
+            {
+                var data = JsonUtility.FromJson<AdsRecv>(res);
+                UserData.Modify(data.modified);
+                blocker.enabled = false;
+                cb?.Invoke(ShowResult.Finished);
+            });
         }
     }
 }

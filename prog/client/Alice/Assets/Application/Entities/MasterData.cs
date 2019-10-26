@@ -39,5 +39,20 @@ namespace Alice.Entities
                 end?.Invoke();
             });
         }
+
+        // ヘルパー関数
+        /// <summary>
+        /// 検索: UserSkill -> Skill
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        public static Skill Find(UserSkill skill)
+        {
+            return FindSkillByID(skill.id);
+        }
+        public static Skill FindSkillByID(string id)
+        {
+            return skills.FirstOrDefault(v => v.ID == id);
+        }
     }
 }

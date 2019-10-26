@@ -665,6 +665,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/063/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 56777ba42f870de41b4dea0af2f19f36
+    m_Address: Assets/AddressableAssets/Prefab/SkillItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 568a4483a9fe27848b3895ef03093259
     m_Address: Assets/AddressableAssets/Character/173/walk.asset
     m_ReadOnly: 0

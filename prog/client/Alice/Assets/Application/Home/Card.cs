@@ -18,9 +18,13 @@ namespace Alice
     {
         public Thumbnail thumbnail;
         public Text Param;
-        public Action<int> OnEditEvent;
-
         public GameObject info;
+        public Button[] skill;
+
+        public Action<int> OnEditEvent;
+        public Action<UserUnit, int> OnSkillEvent;
+
+        UserUnit cacheUnit;
 
         /// <summary>
         /// 
@@ -28,7 +32,9 @@ namespace Alice
         /// <param name="unit"></param>
         public void Setup(UserUnit unit)
         {
-            if(unit == null)
+            cacheUnit = unit;
+
+            if (unit == null)
             {
                 info.SetActive(false);
                 return;
@@ -50,6 +56,22 @@ namespace Alice
             sb.AppendLine($"WAIT: {data.Wait}");
             var next = (lv) * (lv) - unit.exp;
             sb.AppendLine($"LVUP: {next}");
+
+            // スキル設定
+            for (int i = 0; i < skill.Length; i++)
+            {
+                var text = skill[i].GetComponentInChildren<Text>();
+
+                if (i < unit.skill.Length)
+                {
+                    text.text = MasterData.FindSkillByID(unit.skill[i])?.Name;
+                }
+                else
+                {
+                    text.text = "+";
+                }
+            }
+
             Param.text = sb.ToString();
         }
 
@@ -66,7 +88,7 @@ namespace Alice
         /// </summary>
         public void OnSkill(int index)
         {
-            Debug.Log($"OnSkill:{index}");
+            OnSkillEvent?.Invoke(cacheUnit, index);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Alice
         IEnumerator InitializeAds(Action cb)
         {
             // 将来はタイトル画面にチェックし弾く
-            if(Application.internetReachability == NetworkReachability.NotReachable)
+            if (Application.internetReachability == NetworkReachability.NotReachable)
             {
                 cb?.Invoke();
                 yield break;

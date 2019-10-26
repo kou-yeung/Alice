@@ -9,6 +9,8 @@ namespace Alice
 {
     public static class UserData
     {
+        public static Dictionary<string, UserUnit> editedUnit = new Dictionary<string, UserUnit>();
+
         /// <summary>
         /// ホーム情報をキャッシュする
         /// </summary>
@@ -119,6 +121,15 @@ namespace Alice
         public static void Remove(UserChest[] chests)
         {
             cacheHomeRecv.chests = cacheHomeRecv.chests.Where(v => !Array.Exists(chests, c => c.uniq == v.uniq)).ToArray();
+        }
+
+        /// <summary>
+        /// 編集したユニットを登録する
+        /// </summary>
+        /// <param name="unit"></param>
+        public static void EditUnit(UserUnit unit)
+        {
+            editedUnit[unit.characterId] = unit;
         }
     }
 }

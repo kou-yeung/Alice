@@ -85,7 +85,7 @@ namespace Alice
             // スキルID -> スキルデータ
             foreach (var skill in data.skill)
             {
-                this.skills.Add(MasterData.skills.First(v => v.ID == skill));
+                this.skills.Add(MasterData.FindSkillByID(skill));
                 this.cooltimes[skill] = -1;
             }
 

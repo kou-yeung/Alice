@@ -167,6 +167,10 @@ namespace Alice
             // プレイヤーユニット
             s2c.playerUnit = c2s.units;
             s2c.playerDeck = c2s.decks;
+            foreach (var v in s2c.playerUnit)
+            {
+                v.skill = v.skill.Where(n => !string.IsNullOrEmpty(n)).ToArray();
+            }
 
             // 相手ユニット
             var skills = MasterData.skills;
@@ -193,6 +197,11 @@ namespace Alice
             }
             s2c.enemyUnit = enemyUnit.ToArray();
             s2c.enemyDeck = enemyDeck.ToArray();
+
+            foreach (var v in s2c.enemyUnit)
+            {
+                v.skill = v.skill.Where(n => !string.IsNullOrEmpty(n)).ToArray();
+            }
             return JsonUtility.ToJson(s2c);
         }
 

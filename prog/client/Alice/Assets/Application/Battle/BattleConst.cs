@@ -101,7 +101,7 @@ namespace Alice
             BuffCancel_Wait,            // バフ解除:Wait
             BuffCancel_All = BuffCancel_Base, // バフ解除:すべて
 
-            // バフ解除
+            // デバフ解除
             DebuffCancel_Base = 500,      // 計算に使用する
             DebuffCancel_Atk,             // デバフ解除:ATK
             DebuffCancel_Def,             // デバフ解除:DEF

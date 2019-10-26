@@ -16,6 +16,7 @@ namespace Alice
         public Card[] cards;
         public Battle battle;
         public Edit edit;
+        public SkillView skill;
 
         void Start()
         {
@@ -41,6 +42,7 @@ namespace Alice
                 }
 
                 cards[i].OnEditEvent = OnEditEvent;
+                cards[i].OnSkillEvent = OnSkillEvent;
             }
 
             // 宝箱
@@ -58,8 +60,6 @@ namespace Alice
         /// <param name="chest"></param>
         void ClickChest(UserChest chest)
         {
-            if (Application.internetReachability == NetworkReachability.NotReachable) return;
-
             var remain = Math.Max(0, chest.end - DateTime.Now.Ticks);
             if (remain <= 0)
             {
@@ -114,6 +114,16 @@ namespace Alice
             edit.Open(index);
         }
 
+        /// <summary>
+        /// スキルをセットしたい
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="index"></param>
+        void OnSkillEvent(UserUnit unit, int index)
+        {
+            skill.Open(unit, index);
+        }
+
         public void OnBattle()
         {
             var cache = UserData.cacheHomeRecv;
@@ -121,10 +131,12 @@ namespace Alice
             c2v.player = cache.player;
             c2v.decks = cache.decks;
             c2v.units = cache.units.Where(v => Array.Exists(c2v.decks, deck => deck.characterId == v.characterId)).ToArray();
+            c2v.edited = UserData.editedUnit.Values.ToArray();
 
             // バトル情報を取得する
             CommunicationService.Instance.Request("Battle", JsonUtility.ToJson(c2v), (res) =>
             {
+                UserData.editedUnit.Clear();
                 battle.Exec(JsonUtility.FromJson<BattleStartRecv>(res));
             });
         }
