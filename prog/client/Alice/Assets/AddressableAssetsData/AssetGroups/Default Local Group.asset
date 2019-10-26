@@ -485,6 +485,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/250/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 38c46f9ebc1baa249ab997da0f108942
+    m_Address: Assets/AddressableAssets/Character/253/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 3ba805f018b6d78438fbf1020ad81fa4
     m_Address: Assets/AddressableAssets/Character/241/icon.asset
     m_ReadOnly: 0
@@ -1179,6 +1183,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 969ec650e4fe3074fbe44d23add5e5ad
     m_Address: Assets/AddressableAssets/Character/138/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 96cd941e3537e1747859bb4f6a0b1801
+    m_Address: Assets/AddressableAssets/Character/219/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 96f20b2c08111f44382111f27674fe53

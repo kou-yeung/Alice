@@ -56,16 +56,22 @@ namespace Alice
         public void TapCellItem(int index, GameObject listItem)
         {
             var data = UserData.cacheHomeRecv.skills[index];
-            if(cacheUnit.skill.Length < 2)
+            if (UserData.RemainSkill(data.id) <= 0) return;
+
+            if (cacheUnit.skill.Length < 2)
             {
                 Array.Resize(ref cacheUnit.skill, 2);
             }
-            cacheUnit.skill[cacheIndex] = data.id;
+            var before = cacheUnit.skill[cacheIndex];
+            var after = data.id;
+
+            if(UserData.ChangeSkill(after, before))
+            {
+                cacheUnit.skill[cacheIndex] = after;
+                UserData.EditUnit(cacheUnit);
+                Observer.Notify("HomeRecv");
+            }
             this.gameObject.SetActive(false);
-
-            UserData.EditUnit(cacheUnit);
-
-            Observer.Notify("HomeRecv");
         }
     }
 }

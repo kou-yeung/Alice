@@ -10,7 +10,59 @@ namespace Alice
     public static class UserData
     {
         public static Dictionary<string, UserUnit> editedUnit = new Dictionary<string, UserUnit>();
+        static Dictionary<string, int> skillCollections = new Dictionary<string, int>();
 
+        /// <summary>
+        /// 所持情報からスキルの装備状態を割り出す
+        /// </summary>
+        static void SkillCollections()
+        {
+            skillCollections.Clear();
+            // まずは最大数を保持
+            foreach (var skill in cacheHomeRecv.skills)
+            {
+                skillCollections[skill.id] = skill.count;
+            }
+            // ユニットに装備した分を減らす
+            foreach (var unit in cacheHomeRecv.units)
+            {
+                foreach (var skill in unit.skill)
+                {
+                    --skillCollections[skill];
+                }
+            }
+        }
+
+        /// <summary>
+        /// 指定したスキルの残り数
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static int RemainSkill(string id)
+        {
+            return skillCollections[id];
+        }
+        /// <summary>
+        /// スキル変更
+        /// </summary>
+        /// <param name="setToUnit">ユニットに装備するスキルID</param>
+        /// <param name="releaseFromUnit">ユニットから外したスキルID</param>
+        public static bool ChangeSkill(string setToUnit, string releaseFromUnit)
+        {
+            if(skillCollections[setToUnit] <= 0)
+            {
+                return false;
+            }
+            if(skillCollections.ContainsKey(setToUnit))
+            {
+                --skillCollections[setToUnit];
+            }
+            if (skillCollections.ContainsKey(releaseFromUnit))
+            {
+                ++skillCollections[releaseFromUnit];
+            }
+            return true;
+        }
         /// <summary>
         /// ホーム情報をキャッシュする
         /// </summary>
@@ -18,6 +70,7 @@ namespace Alice
         public static void CacheHomeRecv(HomeRecv homeRecv)
         {
             cacheHomeRecv = homeRecv;
+            SkillCollections();
             Observer.Notify("HomeRecv");
         }
 

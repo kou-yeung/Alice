@@ -321,8 +321,7 @@ namespace Alice
             s2c.modified.remove = new[] { c2s.chest };
 
             // MEMO : 現在適当に1/2の確率で[Unit][Skill]分岐
-            // HACK : スキル未実装なので、必ずキャラが出るようにします
-            if (/*random.Next() % 2 == 0*/true)
+            if (random.Next() % 2 == 0)
             {
                 var character = MasterData.characters;
                 var lots = character.Where(v => !Array.Exists(db.units, u => u.characterId == v.ID)).ToArray();
