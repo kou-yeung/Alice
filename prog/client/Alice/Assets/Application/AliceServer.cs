@@ -100,7 +100,29 @@ namespace Alice
             if (DateTime.Today - stamp < TimeSpan.FromHours(24)) return false;
             // 24時間以上の場合、スタンプを更新します
             db.player.stamp = today.Ticks;
-            db.player.loginCount += 1;
+            db.player.loginCount += 1;          // 累計ログイン日数 + 1
+
+            // 本日戦闘回数が１０回以上のみチェックする
+            if(db.player.todayBattleCount >= 10)
+            {
+                var count = (float)db.player.todayBattleCount;
+                var win = (float)db.player.todayWinCount;
+
+                if( (win/ count) >= 0.65f)
+                {
+                    // 勝率65%以上ならランクアップ
+                    db.player.rank += 1;
+                } else
+                {
+                    // 下回ったらランクダウン
+                    db.player.rank = Mathf.Max(db.player.rank - 1, 0 );
+                }
+            }
+            // 本日バトル回数リセット
+            db.player.todayBattleCount = 0;     // 本日のバトル回数リセット
+            db.player.todayWinCount = 0;        // 本日のバトル回数リセット
+            // 広告使用回数回復
+            db.player.ads = 15;                 // 仮で15回
             Sync();
             return true;
         }
@@ -178,7 +200,7 @@ namespace Alice
 
             List<UserUnit> enemyUnit = new List<UserUnit>();
             List<UserDeck> enemyDeck = new List<UserDeck>();
-            var count = unit_random.Next(2, 4);
+            var count = c2s.decks.Length;   // 同じ数の敵を用意する
             for (int i = 0; i < count; i++)
             {
                 // キャラ抽選
@@ -188,6 +210,8 @@ namespace Alice
                 var unit = new UserUnit();
                 unit.characterId = character.ID;
                 unit.skill = new string[] { skills[unit_random.Next(0, skills.Length)].ID };
+                var level = c2s.units[i].Level();
+                unit.exp = Mathf.FloorToInt((level - 1) * (level - 1)); 
                 enemyUnit.Add(unit);
 
                 var deck = new UserDeck();
@@ -221,8 +245,12 @@ namespace Alice
                 Debug.Log("ログインボーナスもらったよ～");
             }
 
-            // プレイヤー経験値追加(仮
-            db.player.exp += 1;
+            db.player.totalBattleCount += 1;    // 累計バトル回数 + 1
+            db.player.todayBattleCount += 1;    // 本日のバトル回数 + 1
+            if (c2s.result == BattleConst.Result.Win)
+            {
+                db.player.todayWinCount += 1;    // 本日の勝利回数 + 1
+            }
             s2c.player = db.player;
 
             // デッキにセットしたユニットに経験値を与える
@@ -270,6 +298,11 @@ namespace Alice
                 throw new Exception("Token 無効");
             }
 
+            if(db.player.ads <= 0)
+            {
+                throw new Exception("これ以上使用できない");
+            }
+
             List<UserChest> modifiedChest = new List<UserChest>();
 
             // 指定された宝箱の時間を減らす
@@ -284,6 +317,7 @@ namespace Alice
                     break;
                 }
             }
+            db.player.ads -= 1; // 使用した
             db.player.token = Guid.NewGuid().ToString();
             // 同期する
             Sync();

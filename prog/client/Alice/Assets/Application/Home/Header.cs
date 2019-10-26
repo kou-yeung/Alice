@@ -10,8 +10,10 @@ namespace Alice
     {
         public static Header Instance { get; private set; }
         public InputField Name;
-        public Text Level;
-        public Text Coin;
+        public Text Rank;
+        public Text Rate;
+        public Text Alarm;
+        public Text Ads;
 
         void Awake()
         {
@@ -27,8 +29,22 @@ namespace Alice
         {
             var player = UserData.cacheHomeRecv.player;
             Name.text = string.IsNullOrEmpty(player.name) ? "ゲスト" : player.name;
-            Level.text = $"LV: {player.Level()}";
-            Coin.text = $"COIN: {player.coin}";
+            Rank.text = $"{player.rank + 1}";
+
+            if(player.todayBattleCount >= 10)
+            {
+                var max = player.todayBattleCount;
+                var win = player.todayWinCount * 100;
+                var rate = Mathf.FloorToInt(win/max);
+                Rate.text = $"({rate}%)";
+            }
+            else
+            {
+                Rate.text = $"(-)";
+            }
+
+            Alarm.text = $"{player.alarm}";
+            Ads.text = $"{player.ads}";
         }
     }
 }

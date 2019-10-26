@@ -95,20 +95,16 @@ namespace Alice
     public class Player
     {
         public string name;     // ユーザ名
-        public int exp;         // 戦闘した回数
-        public int coin;        // コイン(将来か課金で買えるようにします
+        public int alarm;       // アラーム(時間短縮アイテム
+        public int rank;        // プレイヤーランキング
+        public int ads;         // 残り広告使用回数
         public string token;    // 認証トークン
         public long stamp;      // 最後ログインの日付
         public int loginCount;  // 累計ログイン日数
 
-        /// <summary>
-        /// プレイヤーレベル
-        /// </summary>
-        /// <returns></returns>
-        public int Level()
-        {
-            return Mathf.FloorToInt(Mathf.Pow(Mathf.Pow(exp / 2, 0.5f) / 2, 0.5f)) + 1;
-        }
+        public int totalBattleCount;    // 累計バトル回数
+        public int todayBattleCount;    // 本日バトルした回数
+        public int todayWinCount;       // 本日勝利した回数
     }
 
     /// <summary>

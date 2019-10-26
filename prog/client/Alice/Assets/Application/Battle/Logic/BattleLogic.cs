@@ -25,6 +25,7 @@ namespace Alice
             Register("通常回復", Recovery);
             Register("割合回復", RecoveryRatio);
             Register("補正値", Correction);
+            Register("キャンセル数", Cancel);
         }
 
         /// <summary>
@@ -120,15 +121,39 @@ namespace Alice
                         case BattleConst.Effect.RecoveryRatio:
                             logic = logics["割合回復"];
                             break;
+                        // バフ
                         case BattleConst.Effect.Buff_Atk:
                         case BattleConst.Effect.Buff_Def:
                         case BattleConst.Effect.Buff_MAtk:
                         case BattleConst.Effect.Buff_MDef:
+                        case BattleConst.Effect.Buff_Wait:
+                            logic = logics["補正値"];
+                            break;
+                        // デバフ
                         case BattleConst.Effect.Debuff_Atk:
                         case BattleConst.Effect.Debuff_Def:
                         case BattleConst.Effect.Debuff_MAtk:
                         case BattleConst.Effect.Debuff_MDef:
+                        case BattleConst.Effect.Debuff_Wait:
                             logic = logics["補正値"];
+                            break;
+                        // バフキャンセル
+                        case BattleConst.Effect.BuffCancel_Atk:
+                        case BattleConst.Effect.BuffCancel_Def:
+                        case BattleConst.Effect.BuffCancel_MAtk:
+                        case BattleConst.Effect.BuffCancel_MDef:
+                        case BattleConst.Effect.BuffCancel_Wait:
+                        case BattleConst.Effect.BuffCancel_All:
+                            logic = logics["キャンセル数"];
+                            break;
+                        // デバフキャンセル
+                        case BattleConst.Effect.DebuffCancel_Atk:
+                        case BattleConst.Effect.DebuffCancel_Def:
+                        case BattleConst.Effect.DebuffCancel_MAtk:
+                        case BattleConst.Effect.DebuffCancel_MDef:
+                        case BattleConst.Effect.DebuffCancel_Wait:
+                        case BattleConst.Effect.DebuffCancel_All:
+                            logic = logics["キャンセル数"];
                             break;
                     }
 
@@ -138,7 +163,7 @@ namespace Alice
                     {
                         // 効果値を計算
                         var value = logic(action.behavioure, target, action.skill, effect);
-                        action.effects.Add(new BattleEffect(target, effect, value));
+                        action.effects.Add(new BattleEffect(target, effect, value, action.skill.Remain));
                     }
 
                 }
@@ -175,13 +200,13 @@ namespace Alice
         /// </summary>
         int Damage(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            var atk = behavioure.current.Atk;
-            var atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_Atk);
-            var atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_Atk);
+            float atk = behavioure.current.Atk;
+            float atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_Atk);
+            float atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_Atk);
 
-            var def = target.current.Def;
-            var defBuff = target.GetCondition(BattleConst.Effect.Buff_Def);
-            var defDebuff = target.GetCondition(BattleConst.Effect.Debuff_Def);
+            float def = target.current.Def;
+            float defBuff = target.GetCondition(BattleConst.Effect.Buff_Def);
+            float defDebuff = target.GetCondition(BattleConst.Effect.Debuff_Def);
 
             // 属性判別: スキルがあるかつ魔法属性
             if (skill?.Attribute == BattleConst.Attribute.Magic)
@@ -195,8 +220,9 @@ namespace Alice
                 defDebuff = target.GetCondition(BattleConst.Effect.Debuff_MDef);
             }
 
-            atk = atk + (atkBuff - atkDebuff);
-            def = def + (defBuff - defDebuff);
+            var e = (effect != null) ? (1 + effect.Value / 100) : (1);
+            atk = atk * (1 - (atkBuff - atkDebuff) / 100f) * e;
+            def = def * (1 - (defBuff - defDebuff) / 100f);
 
             var a = (atk * atk * 3);
             var b = (atk + 3 * def);
@@ -220,7 +246,15 @@ namespace Alice
         /// </summary>
         int Recovery(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            return 10;
+            // 魔法攻撃を使用する
+            float atk = behavioure.current.MAtk + behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
+            float atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
+            float atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_MAtk);
+
+            atk = atk * (1 - (atkBuff - atkDebuff) / 100f);
+            var recovery = atk * (effect.Value / 100f); // 基本回復量
+            var random = Battle.Instance.random.Next(90, 110) / 100f;
+            return Mathf.FloorToInt(recovery * random);
         }
 
         /// <summary>
@@ -228,13 +262,21 @@ namespace Alice
         /// </summary>
         int RecoveryRatio(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
-            return 10;
+            var ratio = effect.Value / 100f;
+            return Mathf.FloorToInt(target.current.MaxHP * ratio);
         }
 
         /// <summary>
         /// 補正値
         /// </summary>
         int Correction(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
+        {
+            return effect.Value;
+        }
+        /// <summary>
+        /// キャンセル数
+        /// </summary>
+        int Cancel(BattleUnit behavioure, BattleUnit target, Skill skill, Effect effect)
         {
             return effect.Value;
         }

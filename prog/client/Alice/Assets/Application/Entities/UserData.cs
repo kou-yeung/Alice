@@ -28,6 +28,7 @@ namespace Alice
             {
                 foreach (var skill in unit.skill)
                 {
+                    if (string.IsNullOrEmpty(skill)) continue;
                     --skillCollections[skill];
                 }
             }
@@ -49,15 +50,15 @@ namespace Alice
         /// <param name="releaseFromUnit">ユニットから外したスキルID</param>
         public static bool ChangeSkill(string setToUnit, string releaseFromUnit)
         {
-            if(skillCollections[setToUnit] <= 0)
+            if(!string.IsNullOrEmpty(setToUnit))
             {
-                return false;
-            }
-            if(skillCollections.ContainsKey(setToUnit))
-            {
+                if (skillCollections[setToUnit] <= 0)
+                {
+                    return false;
+                }
                 --skillCollections[setToUnit];
             }
-            if (skillCollections.ContainsKey(releaseFromUnit))
+            if (!string.IsNullOrEmpty(releaseFromUnit))
             {
                 ++skillCollections[releaseFromUnit];
             }
@@ -116,6 +117,7 @@ namespace Alice
         /// <param name="units"></param>
         public static void Modify(UserUnit[] units)
         {
+            if (units.Length <= 0) return;
             foreach (var unit in units)
             {
                 var index = Array.FindIndex(cacheHomeRecv.units, v => v.characterId == unit.characterId);
@@ -135,6 +137,7 @@ namespace Alice
         /// <param name="units"></param>
         public static void Modify(UserSkill[] skills)
         {
+            if (skills.Length <= 0) return;
             foreach (var skill in skills)
             {
                 var index = Array.FindIndex(cacheHomeRecv.skills, v => v.id == skill.id);
@@ -147,6 +150,7 @@ namespace Alice
                     cacheHomeRecv.skills = new[] { skill }.Concat(cacheHomeRecv.skills).ToArray();
                 }
             }
+            SkillCollections(); // 更新
         }
         /// <summary>
         /// 宝箱更新
@@ -154,6 +158,8 @@ namespace Alice
         /// <param name="units"></param>
         public static void Modify(UserChest[] chests)
         {
+            if (chests.Length <= 0) return;
+
             foreach (var chest in chests)
             {
                 var index = Array.FindIndex(cacheHomeRecv.chests, v => v.uniq == chest.uniq);
@@ -173,6 +179,7 @@ namespace Alice
         /// <param name="units"></param>
         public static void Remove(UserChest[] chests)
         {
+            if (chests.Length <= 0) return;
             cacheHomeRecv.chests = cacheHomeRecv.chests.Where(v => !Array.Exists(chests, c => c.uniq == v.uniq)).ToArray();
         }
 

@@ -13,6 +13,7 @@ namespace Alice.Entities
         public string Image;
         public bool Passive;    // パッシブスキルかどうか
         public int CoolTime;
+        public int Remain;      // 持続回数
         public BattleConst.Attribute Attribute;
         public string[] Effects;
 
@@ -53,6 +54,7 @@ namespace Alice.Entities
             Map(x => x.Image).Name("画像ID");
             Map(x => x.Passive).ConvertUsing(row => row.GetField<string>("種類") == "パッシブ");
             Map(x => x.CoolTime).Name("CT");
+            Map(x => x.Remain).Name("持続回数");
             Map(x => x.Attribute).ConvertUsing(row =>
             {
                 switch(row.GetField<string>("属性"))
