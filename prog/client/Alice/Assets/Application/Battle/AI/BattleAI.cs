@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Alice.Entities;
+using System;
 
 namespace Alice
 {
@@ -72,6 +73,41 @@ namespace Alice
         }
 
         /// <summary>
+        /// スキル抽選
+        /// </summary>
+        /// <param name="skill"></param>
+        /// <returns></returns>
+        Skill Lots(Skill[] skill)
+        {
+            if (skill == null) return null;
+            if (skill.Length <= 0) return null;
+            // 抽選する
+            var random = Battle.Instance.random;
+            return skill[random.Next(0, skill.Length)];
+        }
+
+        /// <summary>
+        /// このスキル発動するかどうかのチェック用共通処理
+        /// </summary>
+        /// <param name="behaviour"></param>
+        /// <param name="skill"></param>
+        /// <param name="check"></param>
+        bool CheckEffectTarget(BattleUnit behaviour, Skill skill, Func<Effect, List<BattleUnit>, bool> check)
+        {
+            List<BattleUnit> cacheTargets = null;
+            foreach (var effect in skill.EffectsRef)
+            {
+                if (effect.Target != BattleConst.Target.Accession)
+                {
+                    // 効果の対象一覧取得
+                    cacheTargets = BattleLogic.EffectTargets(behaviour, effect);
+                }
+                if (check(effect, cacheTargets)) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// 回復
         /// </summary>
         /// <returns></returns>
@@ -81,12 +117,31 @@ namespace Alice
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.Recovery))) return null;
 
             var types = new[] { BattleConst.Effect.Recovery, BattleConst.Effect.RecoveryRatio };
-            foreach (var skill in skills.Where(v => v.HasEffect(types)))
+            var option = skills.Where(v =>
             {
-                // todo:cooltimeチェック
-                return skill;
-            }
-            return null;
+                if (!v.HasEffect(types)) return false;
+                // エフェクト対象がダメージを受けてる
+                return CheckEffectTarget(behaviour, v, (effect, units) =>
+                {
+                    switch(effect.Type)
+                    {
+                        // 割合ダメージの場合
+                        case BattleConst.Effect.RecoveryRatio:
+                            return units.Any(unit =>
+                            {
+                                var value = unit.current.MaxHP * (effect.Value / 100f);
+                                var damage = unit.current.MaxHP - unit.current.HP;
+                                return damage >= value;
+                            });
+                        // 通常ダメージ
+                        default:
+                        case BattleConst.Effect.Recovery:
+                            return units.Any(unit => unit.current.HP != unit.current.MaxHP);
+                    }
+                });
+            }).ToArray();
+            // 抽選する
+            return Lots(option);
         }
 
         /// <summary>
@@ -105,13 +160,23 @@ namespace Alice
                 BattleConst.Effect.Buff_MAtk, BattleConst.Effect.Buff_MDef,
                 BattleConst.Effect.Buff_Wait,
             };
-
-            foreach (var skill in skills.Where(v => v.HasEffect(types)))
+            var option = skills.Where(v =>
             {
-                // todo:cooltimeチェック
-                return skill;
-            }
-            return null;
+                if (!v.HasEffect(types)) return false;
+                return CheckEffectTarget(behaviour, v, (effect, units) =>
+                {
+                    switch (effect.Type)
+                    {
+                        // 魔法攻撃アップの場合、魔法スキルが所持しているかを確認する
+                        case BattleConst.Effect.Buff_MAtk:
+                            return units.Any(unit => unit.skills.Any(skill => skill.Attribute == BattleConst.Attribute.Magic));
+                        // それ以外のパラメータはチェックしない
+                        default:return true;
+                    }
+                });
+            }).ToArray();
+            // 抽選する
+            return Lots(option);
         }
 
         /// <summary>
@@ -131,12 +196,23 @@ namespace Alice
                 BattleConst.Effect.Debuff_Wait,
             };
 
-            foreach (var skill in skills.Where(v => v.HasEffect(types)))
+            var option = skills.Where(v =>
             {
-                // todo:cooltimeチェック
-                return skill;
-            }
-            return null;
+                if (!v.HasEffect(types)) return false;
+                return CheckEffectTarget(behaviour, v, (effect, units) =>
+                {
+                    switch (effect.Type)
+                    {
+                        // 魔法攻撃ダウンの場合、魔法スキルが所持しているかを確認する
+                        case BattleConst.Effect.Debuff_MAtk:
+                            return units.Any(unit => unit.skills.Any(skill => skill.Attribute == BattleConst.Attribute.Magic));
+                        // それ以外のパラメータはチェックしない
+                        default: return true;
+                    }
+                });
+            }).ToArray();
+            // 抽選する
+            return Lots(option);
         }
 
         /// <summary>
@@ -156,12 +232,24 @@ namespace Alice
                 BattleConst.Effect.BuffCancel_MAtk, BattleConst.Effect.BuffCancel_MDef,
                 BattleConst.Effect.BuffCancel_Wait,
             };
-            foreach (var skill in skills.Where(v => v.HasEffect(types)))
+            var option = skills.Where(v =>
             {
-                // todo:cooltimeチェック
-                return skill;
-            }
-            return null;
+                if (!v.HasEffect(types)) return false;
+                return CheckEffectTarget(behaviour, v, (effect, units) =>
+                {
+                    switch (effect.Type)
+                    {
+                        // 何かのバフを受けてるかチェック
+                        case BattleConst.Effect.BuffCancel_All:
+                            return units.Any(unit => unit.BuffCount() > 0);
+                        default:
+                            // 指定した効果をかかっているか
+                            return units.Any(unit => unit.HasCondition(BattleConst.Cancel2Effect(effect.Type)));
+                    }
+                });
+            }).ToArray();
+            // 抽選する
+            return Lots(option);
         }
 
         /// <summary>
@@ -181,12 +269,25 @@ namespace Alice
                 BattleConst.Effect.DebuffCancel_MAtk, BattleConst.Effect.DebuffCancel_MDef,
                 BattleConst.Effect.DebuffCancel_Wait,
             };
-            foreach (var skill in skills.Where(v => v.HasEffect(types)))
+
+            var option = skills.Where(v =>
             {
-                // todo:cooltimeチェック
-                return skill;
-            }
-            return null;
+                if (!v.HasEffect(types)) return false;
+                return CheckEffectTarget(behaviour, v, (effect, units) =>
+                {
+                    switch (effect.Type)
+                    {
+                        // 何かのデバフを受けてるかチェック
+                        case BattleConst.Effect.DebuffCancel_All:
+                            return units.Any(unit => unit.DebuffCount() > 0);
+                        default:
+                            // 指定した効果をかかっているか
+                            return units.Any(unit => unit.HasCondition(BattleConst.Cancel2Effect(effect.Type)));
+                    }
+                });
+            }).ToArray();
+            // 抽選する
+            return Lots(option);
         }
 
         /// <summary>
@@ -198,15 +299,9 @@ namespace Alice
         {
             // トリガ抽選
             if (!Lots(behaviour.Trigger(BattleConst.SkillType.Damage))) return null;
-
             var types = new[] { BattleConst.Effect.Damage, BattleConst.Effect.DamageRatio };
-
-            foreach (var skill in skills.Where(v => v.HasEffect(types)))
-            {
-                // todo:cooltimeチェック
-                return skill;
-            }
-            return null;
+            var option = skills.Where(v => v.HasEffect(types)).ToArray();
+            return Lots(option);
         }
 
         /// <summary>

@@ -30,6 +30,25 @@ namespace Alice
                 this.value = value;
                 this.remain = remain;
             }
+
+            /// <summary>
+            /// これはバフ効果か？
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBuff()
+            {
+                var b = (BattleConst.Effect)(Mathf.FloorToInt((int)this.effect / 100) * 100);
+                return b == BattleConst.Effect.Buff_Base;
+            }
+            /// <summary>
+            /// これはデバフ効果か？
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDebuff()
+            {
+                var b = (BattleConst.Effect)(Mathf.FloorToInt((int)this.effect / 100) * 100);
+                return b == BattleConst.Effect.Debuff_Base;
+            }
         }
 
         /// <summary>
@@ -203,6 +222,11 @@ namespace Alice
         /// </summary>
         public void PostAction()
         {
+            // Wait加算
+            float buff = GetCondition(BattleConst.Effect.Buff_Wait);
+            float debuff = GetCondition(BattleConst.Effect.Debuff_Wait);
+            var ratio = Mathf.Max(0, 1 + ((buff - debuff) / 100f));
+            current.Wait = Mathf.FloorToInt(characterData.Wait * ratio);
         }
 
         /// <summary>
@@ -241,6 +265,51 @@ namespace Alice
                 if (v.effect == effect) return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// バフの数を取得
+        /// </summary>
+        /// <returns></returns>
+        public int BuffCount()
+        {
+            return conditions.Count(v => v.IsBuff());
+        }
+        /// <summary>
+        /// デバフの数を取得
+        /// </summary>
+        /// <returns></returns>
+        public int DebuffCount()
+        {
+            return conditions.Count(v => v.IsDebuff());
+        }
+
+        /// <summary>
+        /// 指定した効果を消す
+        /// </summary>
+        public void CancenCondition(BattleConst.Effect effect)
+        {
+            switch (effect)
+            {
+                case BattleConst.Effect.BuffCancel_All:
+                    {
+                        var index = conditions.FindLastIndex(v => v.IsBuff());
+                        if (index != -1) conditions.RemoveAt(index);
+                    }
+                    break;
+                case BattleConst.Effect.DebuffCancel_All:
+                    {
+                        var index = conditions.FindLastIndex(v => v.IsDebuff());
+                        if (index != -1) conditions.RemoveAt(index);
+                    }
+                    break;
+                default:
+                    {
+                        var index = conditions.FindLastIndex(v => v.effect == BattleConst.Cancel2Effect(effect));
+                        if (index != -1) conditions.RemoveAt(index);
+                    }
+                    break;
+            }
         }
     }
 }

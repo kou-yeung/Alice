@@ -144,5 +144,31 @@ namespace Alice
             Physics,    // 物理
             Magic,      // 魔法
         }
+
+        /// <summary>
+        /// キャンセルに対応したエフェクトタイプを返す
+        /// </summary>
+        /// <param name="cancel"></param>
+        /// <returns></returns>
+        public static Effect Cancel2Effect(Effect cancel)
+        {
+            switch(cancel)
+            {
+                // バフキャンセル -> バフ
+                case Effect.BuffCancel_Atk: return Effect.Buff_Atk;
+                case Effect.BuffCancel_Def: return Effect.Buff_Def;
+                case Effect.BuffCancel_MAtk: return Effect.Buff_MAtk;
+                case Effect.BuffCancel_MDef: return Effect.Buff_MDef;
+                case Effect.BuffCancel_Wait: return Effect.Buff_Wait;
+                // デバフキャンセル -> デバフ
+                case Effect.DebuffCancel_Atk: return Effect.Debuff_Atk;
+                case Effect.DebuffCancel_Def: return Effect.Debuff_Def;
+                case Effect.DebuffCancel_MAtk: return Effect.Debuff_MAtk;
+                case Effect.DebuffCancel_MDef: return Effect.Debuff_MDef;
+                case Effect.DebuffCancel_Wait: return Effect.Debuff_Wait;
+                default:
+                    throw new System.Exception("what??");
+            }
+        }
     }
 }

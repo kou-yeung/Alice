@@ -35,6 +35,20 @@ namespace Alice
             (end) => Condition(action, BattleConst.Effect.Debuff_MAtk, end),      // 演出:デバフ:MATK
             (end) => Condition(action, BattleConst.Effect.Debuff_MDef, end),      // 演出:デバフ:MDEF
             (end) => Condition(action, BattleConst.Effect.Debuff_Wait, end),      // 演出:デバフ:WAIT
+            // 演出:バフキャンセル
+            (end) => Cancel(action, BattleConst.Effect.BuffCancel_All, end),      // 演出:バフキャンセル:All
+            (end) => Cancel(action, BattleConst.Effect.BuffCancel_Atk, end),      // 演出:バフキャンセル:ATK
+            (end) => Cancel(action, BattleConst.Effect.BuffCancel_Def, end),      // 演出:バフキャンセル:DEF
+            (end) => Cancel(action, BattleConst.Effect.BuffCancel_MAtk, end),      // 演出:バフキャンセル:MATK
+            (end) => Cancel(action, BattleConst.Effect.BuffCancel_MDef, end),      // 演出:バフキャンセル:MDEF
+            (end) => Cancel(action, BattleConst.Effect.BuffCancel_Wait, end),      // 演出:バフキャンセル:WAIT
+            // 演出:デバフキャンセル
+            (end) => Cancel(action, BattleConst.Effect.DebuffCancel_All, end),      // 演出:デバフキャンセル:All
+            (end) => Cancel(action, BattleConst.Effect.DebuffCancel_Atk, end),      // 演出:デバフキャンセル:ATK
+            (end) => Cancel(action, BattleConst.Effect.DebuffCancel_Def, end),      // 演出:デバフキャンセル:DEF
+            (end) => Cancel(action, BattleConst.Effect.DebuffCancel_MAtk, end),      // 演出:デバフキャンセル:MATK
+            (end) => Cancel(action, BattleConst.Effect.DebuffCancel_MDef, end),      // 演出:デバフキャンセル:MDEF
+            (end) => Cancel(action, BattleConst.Effect.DebuffCancel_Wait, end),      // 演出:デバフキャンセル:WAIT
             (end) => Dead(action, end)      // 演出死亡
             );
         }
@@ -57,7 +71,7 @@ namespace Alice
         /// <param name="cb"></param>
         static void Action(BattleAction action, Action cb)
         {
-            action.behavioure.actor.setAnimation("Attack", cb);
+            action.behaviour.actor.setAnimation("Attack", cb);
         }
 
         /// <summary>
@@ -176,7 +190,33 @@ namespace Alice
             {
                 cb();
             }
+        }
 
+        /// <summary>
+        /// 演出:キャンセル演出
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cb"></param>
+        static void Cancel(BattleAction action, BattleConst.Effect type, Action cb)
+        {
+            var effects = GetBattleEffectByTypes(action.effects, new[] { type });
+            if (effects.Length > 0)
+            {
+                var function = Async.Passive(cb, effects.Length);
+                foreach (var effect in effects)
+                {
+                    effect.target.actor.setAnimation("Recovery", function);
+                    for (int i = 0; i < effect.value; i++)
+                    {
+                        effect.target.CancenCondition(effect.type);
+                    }
+                    FX.Play(effect.FX, effect.target.actor.transform);
+                }
+            }
+            else
+            {
+                cb();
+            }
         }
     }
 }

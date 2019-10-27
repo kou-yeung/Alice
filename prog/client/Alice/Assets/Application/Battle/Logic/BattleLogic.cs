@@ -34,7 +34,7 @@ namespace Alice
         /// <param name="behavioure"></param>
         /// <param name="effect"></param>
         /// <returns></returns>
-        List<BattleUnit> EffectTargets(BattleUnit behavioure, Effect effect)
+        public static List<BattleUnit> EffectTargets(BattleUnit behavioure, Effect effect)
         {
             BattleConst.Target target = (effect != null) ? effect.Target : BattleConst.Target.Enemy;
 
@@ -100,7 +100,7 @@ namespace Alice
                     else
                     {
                         // 効果の対象一覧取得
-                        cacheTargets = EffectTargets(action.behavioure, effect);
+                        cacheTargets = EffectTargets(action.behaviour, effect);
                         // 対象数を抽選する
                         cacheTargets = LotsTargets(cacheTargets, effect.Count);
                     }
@@ -162,7 +162,7 @@ namespace Alice
                     foreach (var target in cacheTargets)
                     {
                         // 効果値を計算
-                        var value = logic(action.behavioure, target, action.skill, effect);
+                        var value = logic(action.behaviour, target, action.skill, effect);
                         action.effects.Add(new BattleEffect(target, effect, value, action.skill.Remain));
                     }
 
@@ -170,7 +170,7 @@ namespace Alice
             } else
             {
                 // 効果の対象一覧取得
-                cacheTargets = EffectTargets(action.behavioure, null);
+                cacheTargets = EffectTargets(action.behaviour, null);
                 // 対象数を抽選する:必ず単体攻撃
                 cacheTargets = LotsTargets(cacheTargets, 1);
                 Logic logic = logics["通常ダメージ"];
@@ -178,7 +178,7 @@ namespace Alice
                 foreach (var target in cacheTargets)
                 {
                     // 効果値を計算
-                    var value = logic(action.behavioure, target, null, null);
+                    var value = logic(action.behaviour, target, null, null);
                     action.effects.Add(new BattleEffect(target, Effect.Empty, value));
                 }
             }
@@ -226,7 +226,7 @@ namespace Alice
 
             var a = (atk * atk * 3);
             var b = (atk + 3 * def);
-            if (b <= 0) return 0;   // 0割り算対策
+            if (a <= 0 || b <= 0) return 0;   // 0割り算対策
             var damage = a / b;
             var random = Battle.Instance.random.Next(90, 110) / 100f;
             return Mathf.FloorToInt(damage * random);
@@ -251,7 +251,7 @@ namespace Alice
             float atkBuff = behavioure.GetCondition(BattleConst.Effect.Buff_MAtk);
             float atkDebuff = behavioure.GetCondition(BattleConst.Effect.Debuff_MAtk);
 
-            atk = atk * (1 - (atkBuff - atkDebuff) / 100f);
+            atk = (atk * 5) * (1 - (atkBuff - atkDebuff) / 100f);
             var recovery = atk * (effect.Value / 100f); // 基本回復量
             var random = Battle.Instance.random.Next(90, 110) / 100f;
             return Mathf.FloorToInt(recovery * random);
