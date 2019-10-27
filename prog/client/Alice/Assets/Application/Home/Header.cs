@@ -40,7 +40,7 @@ namespace Alice
             }
             else
             {
-                Rate.text = $"(-)";
+                Rate.text = $"(集計中)";
             }
 
             Alarm.text = $"{player.alarm}";

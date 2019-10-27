@@ -143,7 +143,6 @@ namespace Alice
     [Serializable]
     public class GameSetRecv
     {
-        public Player player;
         public Modified modified;
     }
 
