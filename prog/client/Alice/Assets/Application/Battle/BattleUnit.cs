@@ -130,6 +130,8 @@ namespace Alice
                 root.transform.localScale = new Vector3(-1, 1, 1);
                 state.transform.localScale = new Vector3(-1, 1, 1);
             }
+
+            state.UpdateCooltime(this);
         }
 
         /// <summary>
@@ -215,6 +217,11 @@ namespace Alice
             // 効果の持続回数過ぎたものを削除する
             foreach (var v in conditions) { --v.remain; }
             conditions = conditions.Where(v => v.remain >= 0).ToList();
+
+            // 更新
+            state.UpdateCondition(this);
+            // クールタイム更新
+            state.UpdateCooltime(this);
         }
 
         /// <summary>
@@ -227,6 +234,8 @@ namespace Alice
             float debuff = GetCondition(BattleConst.Effect.Debuff_Wait);
             var ratio = Mathf.Max(0, 1 + ((buff - debuff) / 100f));
             current.Wait = Mathf.FloorToInt(characterData.Wait * ratio);
+            // クールタイム更新
+            state.UpdateCooltime(this);
         }
 
         /// <summary>
@@ -238,6 +247,7 @@ namespace Alice
         {
             Debug.Log($"{uniq}: AddCondition({effect}, {value})");
             conditions.Add(new Condition(effect, value, remain));
+            state.UpdateCondition(this);
         }
 
         /// <summary>
@@ -310,6 +320,7 @@ namespace Alice
                     }
                     break;
             }
+            state.UpdateCondition(this);
         }
     }
 }

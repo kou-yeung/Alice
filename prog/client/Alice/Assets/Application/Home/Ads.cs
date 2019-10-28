@@ -15,14 +15,11 @@ namespace Alice
     {
         public static Ads Instance { get; private set; }
         Image blocker;
-        UserChest cacheChest;
-        Action<ShowResult> cb;
-        // Start is called before the first frame update
+
         void Start()
         {
             Instance = this;
             blocker = GetComponent<Image>();
-            blocker.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -31,17 +28,13 @@ namespace Alice
         /// <param name=""></param>
         public void Show(UserChest chest, Action<ShowResult> cb)
         {
-            blocker.gameObject.SetActive(true);
-            this.cacheChest = chest;
-            this.cb = cb;
-
-            if (!Advertisement.IsReady()) return;
+            blocker.enabled = true;
 
             Advertisement.Show(new ShowOptions { resultCallback = (showResult)=>
             {
                 if(showResult == ShowResult.Finished)
                 {
-                    Finished();
+                    Finished(chest, cb);
                 }
                 else
                 {
@@ -51,13 +44,11 @@ namespace Alice
             }});
         }
 
-        public void Finished()
+        public void Finished(UserChest chest, Action<ShowResult> cb)
         {
-            blocker.gameObject.SetActive(false);
-
             var c2v = new AdsSend();
             c2v.token = UserData.cacheHomeRecv.player.token;
-            c2v.chest = this.cacheChest;
+            c2v.chest = chest;
 
             CommunicationService.Instance.Request("Ads", JsonUtility.ToJson(c2v), (res) =>
             {

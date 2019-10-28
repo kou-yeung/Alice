@@ -99,18 +99,34 @@ namespace Alice
             }
             else
             {
-                PlatformDialog.SetButtonLabel("Yes", "No");
-                PlatformDialog.Show(
-                    "確認(仮)",
-                    "広告を観て時間短縮しますか？",
-                    PlatformDialog.Type.OKCancel,
-                    () => {
+                var player = UserData.cacheHomeRecv.player;
+
+                if (player.ads > 0)
+                {
+                    PlatformDialog.SetButtonLabel("Yes", "No");
+                    PlatformDialog.Show(
+                        "確認(仮)",
+                        "広告を観て時間短縮しますか？",
+                        PlatformDialog.Type.OKCancel,
+                        () => {
                         // 広告
                         Ads.Instance.Show(chest, (res) =>
-                        {
-                        });
-                    }
-                );
+                            {
+                            });
+                        }
+                    );
+                } else
+                {
+                    PlatformDialog.SetButtonLabel("OK");
+                    PlatformDialog.Show(
+                        "MEMO",
+                        "広告回数は制限されますが、将来は時短アイテム購入可能にします",
+                        PlatformDialog.Type.SubmitOnly,
+                        () => {
+                            Debug.Log("OK");
+                        }
+                    );
+                }
             }
         }
 
@@ -134,12 +150,7 @@ namespace Alice
 
         public void OnBattle()
         {
-            var cache = UserData.cacheHomeRecv;
             var c2v = new BattleStartSend();
-            c2v.player = cache.player;
-            c2v.decks = cache.decks;
-            c2v.units = cache.units.Where(v => Array.Exists(c2v.decks, deck => deck.characterId == v.characterId)).ToArray();
-            c2v.edited = UserData.editedUnit.Values.ToArray();
 
             // バトル情報を取得する
             CommunicationService.Instance.Request("Battle", JsonUtility.ToJson(c2v), (res) =>

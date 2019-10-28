@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
+using Alice.Generic;
 
 namespace Alice
 {
@@ -54,6 +56,23 @@ namespace Alice
         public UserUnit[] units;    // バトルに使用するユニット
         public UserDeck[] decks;    // デッキの配置情報
         public UserUnit[] edited;  // 情報を更新したユニット
+
+        // 推薦敵ユニット:サーバ上にヒットした相手がなければこちらを使って対戦させます
+        public UserUnit[] recommendUnits;    // 推薦的ユニット
+        public UserDeck[] recommendDecks;    // 配置
+
+        public BattleStartSend()
+        {
+            var cache = UserData.cacheHomeRecv;
+            this.player = cache.player;
+            this.decks = cache.decks;
+            this.units = cache.units.Where(v => Array.Exists(this.decks, deck => deck.characterId == v.characterId)).ToArray();
+            this.edited = UserData.editedUnit.Values.ToArray();
+            // 推薦敵
+            var recommend = BattleEnemy.Gen(this.units);
+            this.recommendUnits = recommend.unit;
+            this.recommendDecks = recommend.deck;
+        }
     }
 
     /// <summary>

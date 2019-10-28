@@ -67,11 +67,18 @@ namespace Alice
         IEnumerator InitializeAds(Action cb)
         {
             // 将来はタイトル画面にチェックし弾く
-            if (Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                cb?.Invoke();
-                yield break;
-            }
+            //if (Application.internetReachability == NetworkReachability.NotReachable)
+            //{
+            //    PlatformDialog.SetButtonLabel("OK");
+            //    PlatformDialog.Show(
+            //        "警告",
+            //        "ネット接続できません。通信環境を確認してください",
+            //        PlatformDialog.Type.SubmitOnly,
+            //        () => {
+            //            Debug.Log("OK");
+            //        }
+            //    );
+            //}
 #if UNITY_ADS
             // https://github.com/unity3d-jp/unityads-help-jp/wiki/Integration-Guide-for-Unity
             //Advertisement.Initialize("2788195");  // MEMO : 必要なくなったかも？

@@ -21,6 +21,8 @@ namespace Alice
 
         public TimelineIcon icon;
         public Text level;
+        public Text desc;
+
         UserUnit currentUnit;
         Character characterData;
 
@@ -38,6 +40,17 @@ namespace Alice
             var lv = unit.Level();
             // レベル
             level.text = $"Lv.{lv}";
+        }
+
+        /// <summary>
+        /// 追加説明を設定
+        /// </summary>
+        /// <param name="richText"></param>
+        public void SetDesc(string richText)
+        {
+            // 表示・非表示
+            desc.transform.parent.gameObject.SetActive(!string.IsNullOrEmpty(richText));
+            desc.text = richText;
         }
     }
 }

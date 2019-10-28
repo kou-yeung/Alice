@@ -189,8 +189,6 @@ namespace Alice
 
             var unit_random = new System.Random(s2c.seed);
 
-            // 名前
-            s2c.names = new[] { c2s.player.name, "ENEMY" };
             // プレイヤーユニット
             s2c.playerUnit = c2s.units;
             s2c.playerDeck = c2s.decks;
@@ -200,37 +198,25 @@ namespace Alice
             }
 
             // 相手ユニット
+            // MEMO : グラウンドサーバの場合、同じランクのプレイヤーデッキを検索する
+            // なければ推薦ユニットで構築する
+            var hasOther = false;
+            if(!hasOther)
+            {
+                // 名前
+                s2c.names = new[] { c2s.player.name, "ゲスト" };
+                s2c.enemyUnit = c2s.recommendUnits;
+                s2c.enemyDeck = c2s.recommendDecks;
+            }
+            else
+            {
+                // 名前
+                //s2c.names = new[] { c2s.player.name, other.name };
+                //s2c.enemyUnit = enemyUnit.ToArray();
+                //s2c.enemyDeck = enemyDeck.ToArray();
+            }
             var skills = MasterData.skills;
             var characters = MasterData.characters;
-
-            List<UserUnit> enemyUnit = new List<UserUnit>();
-            List<UserDeck> enemyDeck = new List<UserDeck>();
-            var count = c2s.decks.Length;   // 同じ数の敵を用意する
-            for (int i = 0; i < count; i++)
-            {
-                // キャラ抽選
-                var character = characters[unit_random.Next(0, characters.Length)];
-                if (enemyDeck.Exists(v => v.characterId == character.ID)) continue;
-
-                var unit = new UserUnit();
-                unit.characterId = character.ID;
-                unit.skill = new string[] { skills[unit_random.Next(0, skills.Length)].ID };
-                var level = c2s.units[i].Level();
-                unit.exp = Mathf.FloorToInt((level - 1) * (level - 1)); 
-                enemyUnit.Add(unit);
-
-                var deck = new UserDeck();
-                deck.characterId = unit.characterId;
-                deck.position = i;
-                enemyDeck.Add(deck);
-            }
-            s2c.enemyUnit = enemyUnit.ToArray();
-            s2c.enemyDeck = enemyDeck.ToArray();
-
-            foreach (var v in s2c.enemyUnit)
-            {
-                v.skill = v.skill.Where(n => !string.IsNullOrEmpty(n)).ToArray();
-            }
             return JsonUtility.ToJson(s2c);
         }
 
@@ -277,7 +263,7 @@ namespace Alice
                     {
                         uniq = Guid.NewGuid().ToString(),
                         start = DateTime.Now.Ticks,
-                        end = (DateTime.Now + TimeSpan.FromMinutes(5)).Ticks,
+                        end = (DateTime.Now + TimeSpan.FromMinutes(15)).Ticks,
                         rate = c2s.result == BattleConst.Result.Win?2:1
                     }
                 };
@@ -315,7 +301,7 @@ namespace Alice
             {
                 if(db.chests[i].uniq == c2s.chest.uniq)
                 {
-                    var time = TimeSpan.FromMinutes(5).Ticks;
+                    var time = TimeSpan.FromMinutes(10).Ticks;
                     db.chests[i].start -= time;
                     db.chests[i].end -= time;
                     modifiedChest.Add(db.chests[i]);
@@ -360,7 +346,7 @@ namespace Alice
             s2c.modified.remove = new[] { c2s.chest };
 
             // MEMO : 現在適当に1/2の確率で[Unit][Skill]分岐
-            if (random.Next() % 2 == 0)
+            if (random.Next() % 2 == 0 && db.units.Length < MasterData.characters.Length)
             {
                 var character = MasterData.characters;
                 var lots = character.Where(v => !Array.Exists(db.units, u => u.characterId == v.ID)).ToArray();
