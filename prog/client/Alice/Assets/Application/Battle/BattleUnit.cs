@@ -232,7 +232,7 @@ namespace Alice
             // Wait加算
             float buff = GetCondition(BattleConst.Effect.Buff_Wait);
             float debuff = GetCondition(BattleConst.Effect.Debuff_Wait);
-            var ratio = Mathf.Max(0, 1 + ((buff - debuff) / 100f));
+            var ratio = Mathf.Max(0, 1 + ((debuff - buff) / 100f));
             current.Wait = Mathf.FloorToInt(characterData.Wait * ratio);
             // クールタイム更新
             state.UpdateCooltime(this);
