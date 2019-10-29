@@ -46,6 +46,11 @@ namespace Alice
         };
 
         /// <summary>
+        /// 配置場所によるバトルロジックでの抽選重み
+        /// </summary>
+        public static readonly int[] PositionRaito = new[] { 130, 130, 100, 100 };
+
+        /// <summary>
         /// 
         /// </summary>
         public enum Side

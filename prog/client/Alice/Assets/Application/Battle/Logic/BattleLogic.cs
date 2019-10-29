@@ -55,6 +55,35 @@ namespace Alice
             return res;
         }
         
+
+        /// <summary>
+        /// 対象を抽選する(1体分
+        /// </summary>
+        /// <param name="units"></param>
+        /// <returns></returns>
+        BattleUnit LotsTarget(List<BattleUnit> units)
+        {
+            // 抽選テーブルを構築する
+            Dictionary<BattleUnit, RangeInt> table = new Dictionary<BattleUnit, RangeInt>();
+            var max = 0;
+            foreach (var unit in units)
+            {
+                var len = BattleConst.PositionRaito[unit.Position];
+                table[unit] = new RangeInt(max, len);
+                max += len;
+            }
+            // 最大数から抽選する
+            var random = Battle.Instance.random.Next(0, max);
+            foreach (var kv in table)
+            {
+                var range = kv.Value;
+                if (random >= range.start && random < range.end)
+                {
+                    return kv.Key;
+                }
+            }
+            throw new Exception("Out of Range!!");
+        }
         /// <summary>
         /// 対象をランダム抽選する
         /// </summary>
@@ -71,11 +100,12 @@ namespace Alice
             count = Mathf.Min(units.Count, count);
             List<BattleUnit> res = new List<BattleUnit>();
             List<BattleUnit> wrk = units.ToList();
+
             for (int i = 0; i < count; i++)
             {
-                var index = Battle.Instance.random.Next(0, wrk.Count);
-                res.Add(wrk[index]);
-                wrk.RemoveAt(index);
+                var unit = LotsTarget(wrk);
+                res.Add(unit);
+                wrk.Remove(unit);
             }
             return res;
         }
