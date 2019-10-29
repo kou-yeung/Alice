@@ -22,6 +22,23 @@ namespace Alice.Entities
         public int Wait;
         public Param Grow;
         public int[] Trigger;   // 発動確率
+
+
+        /// <summary>
+        /// 指定のレベルのパラメータを取得する
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public Param ParamAtLevel(int level)
+        {
+            Param res;
+            res.HP = Base.HP + Grow.HP * level;
+            res.Atk = Base.Atk + Grow.Atk * level;
+            res.Def = Base.Def + Grow.Def * level;
+            res.MAtk = Base.MAtk + Grow.MAtk * level;
+            res.MDef = Base.MDef + Grow.MDef * level;
+            return res;
+        }
     }
 
     public sealed class CharacterMap : ClassMap<Character>

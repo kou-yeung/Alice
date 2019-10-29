@@ -323,6 +323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thumbnail: {fileID: 3457446746244593692}
+  gauge: {fileID: 3233997536448844915}
+  info: {fileID: 3233997536234159073}
 --- !u!1 &3233997535302928000
 GameObject:
   m_ObjectHideFlags: 0

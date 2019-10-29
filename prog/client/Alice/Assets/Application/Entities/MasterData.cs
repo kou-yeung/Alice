@@ -54,5 +54,15 @@ namespace Alice.Entities
         {
             return skills.FirstOrDefault(v => v.ID == id);
         }
+
+        /// <summary>
+        /// 検索: UserUnit -> Character
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static Character Find(UserUnit unit)
+        {
+            return characters.First(v => v.ID == unit.characterId);
+        }
     }
 }

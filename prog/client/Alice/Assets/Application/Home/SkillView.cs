@@ -17,6 +17,8 @@ namespace Alice
         UserUnit cacheUnit;
         int cacheIndex;
 
+        UserSkill[] sortedSkill;
+
         void Start()
         {
             PrefabPool.Regist(prefab.name, prefab);
@@ -29,6 +31,13 @@ namespace Alice
             this.gameObject.SetActive(true);
             this.cacheUnit = unit;
             this.cacheIndex = index;
+
+            sortedSkill = UserData.cacheHomeRecv.skills.ToArray();
+            Array.Sort(sortedSkill, (a, b) =>
+            {
+                return a.id.CompareTo(b.id);
+            });
+
             cellView.ReloadData();
         }
 
@@ -38,7 +47,7 @@ namespace Alice
             {
                 item = PrefabPool.Get(prefab.name);
             }
-            var data = UserData.cacheHomeRecv.skills[index];
+            var data = sortedSkill[index];
             item.GetComponent<SkillItem>().Setup(data);
             return item;
         }
@@ -50,12 +59,12 @@ namespace Alice
 
         public int NumOfItems()
         {
-            return UserData.cacheHomeRecv.skills.Length;
+            return sortedSkill.Length;
         }
 
         public void TapCellItem(int index, GameObject listItem)
         {
-            var data = UserData.cacheHomeRecv.skills[index];
+            var data = sortedSkill[index];
             if (UserData.RemainSkill(data.id) <= 0) return;
 
             if (cacheUnit.skill.Length < 2)

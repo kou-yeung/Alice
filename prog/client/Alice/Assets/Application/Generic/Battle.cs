@@ -23,6 +23,8 @@ namespace Alice.Generic
             var skills = MasterData.skills;
             var characters = MasterData.characters;
 
+            var skillNum = refUnit.Sum(v => v.skill.Count(s => !string.IsNullOrEmpty(s)));
+
             List<UserUnit> enemyUnit = new List<UserUnit>();
             List<UserDeck> enemyDeck = new List<UserDeck>();
 
@@ -35,7 +37,19 @@ namespace Alice.Generic
 
                 var unit = new UserUnit();
                 unit.characterId = character.ID;
-                unit.skill = new string[] { skills[random.Next(0, skills.Length)].ID };
+
+                HashSet<string> skill = new HashSet<string>();
+                if(skillNum > 0)
+                {
+                    var sCount = random.Next(1, 3);
+                    for (int j = 0; j < sCount; j++)
+                    {
+                        skill.Add(skills[random.Next(0, skills.Length)].ID);
+                    }
+                    skillNum -= sCount;
+                }
+                unit.skill = skill.ToArray();
+
                 var level = Mathf.Max(1, refUnit[i].Level() + random.Next(-1,2));
                 unit.exp = Mathf.FloorToInt((level - 1) * (level - 1));
                 enemyUnit.Add(unit);

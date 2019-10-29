@@ -22,11 +22,14 @@ namespace Alice
         public TimelineIcon icon;
         public Text level;
         public Text desc;
+        public GameObject skillBase;
+        public Image[] skill;
 
         UserUnit currentUnit;
         Character characterData;
 
-        public void Setup(UserUnit unit)
+
+        public void Setup(UserUnit unit, bool showSkill = false)
         {
             currentUnit = unit;
             characterData = MasterData.characters.FirstOrDefault(v => v.ID == currentUnit.characterId);
@@ -40,6 +43,20 @@ namespace Alice
             var lv = unit.Level();
             // レベル
             level.text = $"Lv.{lv}";
+
+            // スキル表示
+            skillBase.SetActive(showSkill);
+            for (int i = 0; i < skill.Length; i++)
+            {
+                if(i < unit.skill?.Length)
+                {
+                    skill[i].color = Color.red;
+                }
+                else
+                {
+                    skill[i].color = Color.black;
+                }
+            }
         }
 
         /// <summary>

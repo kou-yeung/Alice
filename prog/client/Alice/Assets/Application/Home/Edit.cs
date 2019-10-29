@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Xyz.AnzFactory.UI;
 using Zoo;
-using System;
 using System.Linq;
+using UnityEngine.Assertions;
 
 namespace Alice
 {
@@ -43,14 +43,13 @@ namespace Alice
             {
                 var unit = UserData.cacheHomeRecv.units.First(v => v.characterId == deck.characterId);
                 from.Setup(unit);
-                from.gameObject.SetActive(true);
             }
             else
             {
-                from.gameObject.SetActive(false);
+                from.Setup(null);
             }
 
-            to.gameObject.SetActive(false);
+            to.Setup(null);
             removeText.SetActive(false);
             btnOK.interactable = false;
 
@@ -85,7 +84,7 @@ namespace Alice
             }
             var unit = sortedUserUnit[index];
             var thumbnail = item.GetComponent<Thumbnail>();
-            thumbnail.Setup(unit);
+            thumbnail.Setup(unit, true);
 
             var deck = UserData.cacheHomeRecv.decks.FirstOrDefault(v => v.characterId == unit.characterId);
 
@@ -148,6 +147,38 @@ namespace Alice
             gameObject.SetActive(false);
         }
 
+
+        /// <summary>
+        /// 指定のキャラIDをセットする
+        /// </summary>
+        /// <param name="characterId"></param>
+        /// <param name="position"></param>
+        /// <returns>該当座標があるのであれば元のデッキ情報を POP する</returns>
+        UserDeck SetCharacterToDeck(string characterId, int position)
+        {
+            var deck = UserData.cacheHomeRecv.decks.FirstOrDefault(v => v.characterId == characterId);
+            var pop = UserData.cacheHomeRecv.decks.FirstOrDefault(v => v.position == position);
+
+            // すでにどこかにセットされたか？
+            if (deck != null)
+            {
+                // セットしたため、場所だけ変更する
+                deck.position = position;
+            }
+            else
+            {
+                // セットしてないので、追加する
+                var add = new UserDeck { characterId = to.cacheUnit.characterId, position = editIndex };
+                UserData.cacheHomeRecv.decks = UserData.cacheHomeRecv.decks.Concat(new[] { add }).ToArray();
+            }
+            if(pop != null)
+            {
+                // 一旦回避する
+                pop.position = -1;
+            }
+            return pop;
+        }
+
         /// <summary>
         /// OKを押した
         /// </summary>
@@ -169,28 +200,31 @@ namespace Alice
                 return;
             }
 
-            // 指定した場所を空く
-            var decks = UserData.cacheHomeRecv.decks.Where(v => v.position != editIndex).ToArray();
+            if (from.cacheUnit == to.cacheUnit)
+            {
+                // 外す
+                UserData.cacheHomeRecv.decks = UserData.cacheHomeRecv.decks.Where(v => v.characterId != from.cacheUnit.characterId).ToArray();
+            }  else
+            {
+                // 元座標
+                var beforePosition = UserData.cacheHomeRecv.decks.FirstOrDefault(v => v.characterId == to.cacheUnit.characterId)?.position;
 
-            // 入れ替え元がセットされた場合、元の場所から外す
-            if (from.cacheUnit != null)
-            {
-                decks = decks.Where(v => v.characterId != from.cacheUnit.characterId).ToArray();
-            }
-            // 入れ替え
-            if (to.cacheUnit != null)
-            {
-                //　元の場所から外す
-                decks = decks.Where(v => v.characterId != to.cacheUnit.characterId).ToArray();
+                // 編集場所にセットする
+                var pop = SetCharacterToDeck(to.cacheUnit.characterId, editIndex);
+
+                // Popしたものがある
+                if(pop != null)
+                {
+                    if (beforePosition.HasValue)
+                    {
+                        pop = SetCharacterToDeck(pop.characterId, beforePosition.Value);
+                        Assert.AreEqual(pop, null); // 入れ替えしたため、何もPOPしないはず
+                    }
+                }
+                // 有効な場所のキャラのみ残す
+                UserData.cacheHomeRecv.decks = UserData.cacheHomeRecv.decks.Where(v => v.position >= 0).ToArray();
             }
 
-            // 違う場合、セットする
-            if(from.cacheUnit != to.cacheUnit)
-            {
-                var add = new UserDeck { characterId = to.cacheUnit.characterId, position = editIndex };
-                decks = decks.Concat(new[] { add }).ToArray();
-            }
-            UserData.cacheHomeRecv.decks = decks.ToArray();
             Observer.Notify("HomeRecv");
             gameObject.SetActive(false);
         }
