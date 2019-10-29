@@ -3,12 +3,6 @@ using UnityEngine.SceneManagement;
 using Zoo.Auth;
 using Zoo.Communication;
 using Zoo.IO;
-using Alice.Entities;
-using Zoo;
-using UnityEngine.Advertisements;
-using System;
-using System.Collections;
-
 namespace Alice
 {
     public class Boot : MonoBehaviour
@@ -24,20 +18,7 @@ namespace Alice
         void Start()
         {
             InitializeServiceLocator();
-
-            Async.Parallel(() =>
-            {
-                // ホーム情報を取得し、シーンを遷移する
-                CommunicationService.Instance.Request("Home", "", (res) =>
-                {
-                    UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                    SceneManager.LoadSceneAsync("Home");
-                });
-            },
-                (end) => AuthService.Instance.SignInAnonymously(end),
-                (end) => MasterData.Initialize(end),
-                (end) => StartCoroutine(InitializeAds(end))
-            );
+            SceneManager.LoadSceneAsync("Title");
         }
 
         // サービスロケータの初期化
@@ -59,39 +40,6 @@ namespace Alice
                     CommunicationService.SetLocator(new CommunicationFirebase("alice-321c1"));    // 通信
                     break;
             }
-        }
-
-        /// <summary>
-        /// 広告APIの初期化
-        /// </summary>
-        IEnumerator InitializeAds(Action cb)
-        {
-            // 将来はタイトル画面にチェックし弾く
-            //if (Application.internetReachability == NetworkReachability.NotReachable)
-            //{
-            //    PlatformDialog.SetButtonLabel("OK");
-            //    PlatformDialog.Show(
-            //        "警告",
-            //        "ネット接続できません。通信環境を確認してください",
-            //        PlatformDialog.Type.SubmitOnly,
-            //        () => {
-            //            Debug.Log("OK");
-            //        }
-            //    );
-            //}
-#if UNITY_ADS
-            // https://github.com/unity3d-jp/unityads-help-jp/wiki/Integration-Guide-for-Unity
-            //Advertisement.Initialize("2788195");  // MEMO : 必要なくなったかも？
-
-            // Ads の初期化待ち
-            while (!Advertisement.isInitialized || !Advertisement.IsReady())
-            {
-                yield return null;
-            }
-#else
-            yield return null;
-#endif
-            cb?.Invoke();
         }
     }
 }
