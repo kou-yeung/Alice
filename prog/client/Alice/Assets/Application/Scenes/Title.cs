@@ -32,22 +32,32 @@ namespace Alice
                 );
                 return;
             }
-
-            wait.gameObject.SetActive(true);
-
-            Async.Parallel(() =>
+            AuthService.Instance.SignInAnonymously(() =>
             {
                 // ホーム情報を取得し、シーンを遷移する
                 CommunicationService.Instance.Request("Home", "", (res) =>
                 {
+                    Debug.Log(res);
+                    var data = JsonUtility.FromJson<HomeRecv>(res);
+                    Debug.Log(data.player.name);
                     UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                    SceneManager.LoadSceneAsync("Home");
                 });
-            },
-            (end) => AuthService.Instance.SignInAnonymously(end),
-            (end) => MasterData.Initialize(end),
-            (end) => StartCoroutine(InitializeAds(end))
-            );
+            });
+
+            //wait.gameObject.SetActive(true);
+            //Async.Parallel(() =>
+            //{
+            //    // ホーム情報を取得し、シーンを遷移する
+            //    CommunicationService.Instance.Request("Home", "", (res) =>
+            //    {
+            //        UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
+            //        SceneManager.LoadSceneAsync("Home");
+            //    });
+            //},
+            //(end) => AuthService.Instance.SignInAnonymously(end),
+            //(end) => MasterData.Initialize(end),
+            //(end) => StartCoroutine(InitializeAds(end))
+            //);
         }
         /// <summary>
         /// 広告APIの初期化
