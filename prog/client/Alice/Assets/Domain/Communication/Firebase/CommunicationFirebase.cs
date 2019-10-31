@@ -5,6 +5,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Networking;
 using Firebase.Functions;
+using System.Threading.Tasks;
 
 namespace Zoo.Communication
 {
@@ -45,21 +46,7 @@ namespace Zoo.Communication
                     return;
                 }
                 complete?.Invoke(task.Result.Data as string);
-            });
-        }
-
-        IEnumerator Fetch(IObserver<string> observer, UnityWebRequest request)
-        {
-            yield return request.SendWebRequest();
-
-            if(request.error != null)
-            {
-                observer.OnError(new Exception(request.error));
-            } else
-            {
-                observer.OnNext(request.downloadHandler.text);
-                observer.OnCompleted();
-            }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Firebase.Auth;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace Zoo.Auth
                 var user = task.Result;
                 Debug.Log($"User signed in successfully. name:[{user.DisplayName}] id:[{user.UserId}]");
                 complete?.Invoke();
-            });
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
     }
 }
