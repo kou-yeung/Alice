@@ -38,40 +38,31 @@ namespace Alice
     }
 
     /// <summary>
-    /// デッキ情報
-    /// </summary>
-    [Serializable]
-    public class UserDeck
-    {
-        public string characterId;
-        public int position;
-    }
-
-    /// <summary>
     /// バトル開始: CL -> SV
     /// </summary>
     public class BattleStartSend
     {
         public Player player;       // プレイヤー情報
+        public UserDeck deck;       // デッキ情報
         public UserUnit[] units;    // バトルに使用するユニット
-        public UserDeck[] decks;    // デッキの配置情報
+
         public UserUnit[] edited;  // 情報を更新したユニット
 
         // 推薦敵ユニット:サーバ上にヒットした相手がなければこちらを使って対戦させます
         public UserUnit[] recommendUnits;    // 推薦的ユニット
-        public UserDeck[] recommendDecks;    // 配置
+        public UserDeck recommendDeck;     // 配置
 
         public BattleStartSend()
         {
             var cache = UserData.cacheHomeRecv;
             this.player = cache.player;
-            this.decks = cache.decks;
-            this.units = cache.units.Where(v => Array.Exists(this.decks, deck => deck.characterId == v.characterId)).ToArray();
+            this.deck = cache.deck;
+            this.units = cache.units.Where(v => Array.Exists(cache.deck.ids, id => id == v.characterId)).ToArray();
             this.edited = UserData.editedUnit.Values.ToArray();
             // 推薦敵
             var recommend = BattleEnemy.Gen(this.units);
             this.recommendUnits = recommend.unit;
-            this.recommendDecks = recommend.deck;
+            this.recommendDeck = recommend.deck;
         }
     }
 
@@ -86,14 +77,13 @@ namespace Alice
         public string[] names;  // 名前
         // 味方のユニット情報
         public UserUnit[] playerUnit;
-        public UserDeck[] playerDeck;
+        public UserDeck playerDeck;
         // 相手のユニット情報
         public UserUnit[] enemyUnit;
-        public UserDeck[] enemyDeck;
+        public UserDeck enemyDeck;
         // 以下はクライアント側が生成する結果
         public BattleConst.Result result;
     }
-
 
     /// <summary>
     /// 宝箱
@@ -120,10 +110,18 @@ namespace Alice
         public string token;    // 認証トークン
         public long stamp;      // 最後ログインの日付
         public int loginCount;  // 累計ログイン日数
-
         public int totalBattleCount;    // 累計バトル回数
         public int todayBattleCount;    // 本日バトルした回数
         public int todayWinCount;       // 本日勝利した回数
+    }
+
+    /// <summary>
+    /// プレイヤー情報
+    /// </summary>
+    [Serializable]
+    public class UserDeck
+    {
+        public string[] ids;
     }
 
     /// <summary>
@@ -146,8 +144,8 @@ namespace Alice
     public class HomeRecv
     {
         public Player player;
+        public UserDeck deck;       // デッキ情報
         public UserUnit[] units;    // ユニット一覧
-        public UserDeck[] decks;    // デッキの配置情報
         public UserSkill[] skills;  // スキル一覧
         public UserChest[] chests;
     }

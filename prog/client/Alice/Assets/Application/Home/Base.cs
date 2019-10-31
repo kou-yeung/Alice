@@ -31,13 +31,13 @@ namespace Alice
             // ユニット
             for (int i = 0; i < cards.Length; i++)
             {
-                var deck = recv.decks.FirstOrDefault(v => v.position == i);
-                if (deck == null)
+                var id = recv.deck.ids[i];
+                if (string.IsNullOrEmpty(id))
                 {
                     cards[i].Setup(null);
                 } else
                 {
-                    var unit = recv.units.First(v => v.characterId == deck.characterId);
+                    var unit = recv.units.First(v => v.characterId == id);
                     cards[i].Setup(unit);
                 }
 

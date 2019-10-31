@@ -9,7 +9,7 @@ namespace Alice.Generic
     public class BattleEnemy
     {
         public UserUnit[] unit { get; private set; }
-        public UserDeck[] deck { get; private set; }
+        public UserDeck deck { get; private set; }
         /// <summary>
         /// 敵を生成
         /// </summary>
@@ -26,14 +26,15 @@ namespace Alice.Generic
             var skillNum = refUnit.Sum(v => v.skill.Count(s => !string.IsNullOrEmpty(s)));
 
             List<UserUnit> enemyUnit = new List<UserUnit>();
-            List<UserDeck> enemyDeck = new List<UserDeck>();
+            List<string> enemyDeck = new List<string>();
 
             var count = refUnit.Length;   // 同じ数の敵を用意する
             for (int i = 0; i < count; i++)
             {
+                enemyDeck.Add("");
                 // キャラ抽選
                 var character = characters[random.Next(0, characters.Length)];
-                if (enemyDeck.Exists(v => v.characterId == character.ID)) continue;
+                if (enemyDeck.Exists(id => id == character.ID)) continue;
 
                 var unit = new UserUnit();
                 unit.characterId = character.ID;
@@ -53,14 +54,10 @@ namespace Alice.Generic
                 var level = Mathf.Max(1, refUnit[i].Level() + random.Next(-1,2));
                 unit.exp = Mathf.FloorToInt((level - 1) * (level - 1));
                 enemyUnit.Add(unit);
-
-                var deck = new UserDeck();
-                deck.characterId = unit.characterId;
-                deck.position = i;
-                enemyDeck.Add(deck);
+                enemyDeck[i] = unit.characterId;
             }
             res.unit = enemyUnit.ToArray();
-            res.deck = enemyDeck.ToArray();
+            res.deck = new UserDeck { ids = enemyDeck.ToArray() };
 
             foreach (var v in res.unit)
             {

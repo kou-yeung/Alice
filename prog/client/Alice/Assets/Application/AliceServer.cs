@@ -19,8 +19,8 @@ namespace Alice
         class DB
         {
             public Player player;
+            public UserDeck deck;
             public UserUnit[] units;
-            public UserDeck[] decks;
             public UserChest[] chests;
             public UserSkill[] skills;
         }
@@ -49,10 +49,11 @@ namespace Alice
             var characters = MasterData.characters;
             var unit = new UserUnit();
             unit.characterId = characters[random.Next(0, characters.Length)].ID;
-            unit.skill = new string[0];
             db.units = new[] { unit };
-            // デッキにセットする
-            db.decks = new[] { new UserDeck { characterId = unit.characterId, position = 0 } };
+            // デッキ情報にセットする
+            db.deck = new UserDeck { ids = new[] { unit.characterId, "", "", "" } };
+            // 所持スキル
+            unit.skill = new string[0];
             // 所持スキル
             db.skills = new UserSkill[0];
             // 宝箱はなかった
@@ -143,19 +144,19 @@ namespace Alice
                 Debug.Log("ログインボーナスもらったよ～");
             }
 
-            HomeRecv recv = new HomeRecv();
+            HomeRecv s2c = new HomeRecv();
             // プレイヤー情報
-            recv.player = db.player;
-            // スキル
-            recv.skills = db.skills;
-            // ユニット
-            recv.units = db.units;
+            s2c.player = db.player;
             // デッキ情報
-            recv.decks = db.decks;
+            s2c.deck = db.deck;
+            // スキル
+            s2c.skills = db.skills;
+            // ユニット
+            s2c.units = db.units;
             // 宝箱一覧
-            recv.chests = db.chests;
+            s2c.chests = db.chests;
 
-            return JsonUtility.ToJson(recv);
+            return JsonUtility.ToJson(s2c);
         }
 
         /// <summary>
@@ -173,8 +174,9 @@ namespace Alice
             {
                 db.player.name = c2s.player.name;
             }
-            // デッキ情報とユニットのスキル情報を同期する
-            db.decks = c2s.decks;
+            // デッキ更新
+            db.deck = c2s.deck;
+
             // 情報更新したユニットを同期する
             foreach (var unit in c2s.edited)
             {
@@ -191,7 +193,7 @@ namespace Alice
 
             // プレイヤーユニット
             s2c.playerUnit = c2s.units;
-            s2c.playerDeck = c2s.decks;
+            s2c.playerDeck = db.deck;
             foreach (var v in s2c.playerUnit)
             {
                 v.skill = v.skill.Where(n => !string.IsNullOrEmpty(n)).ToArray();
@@ -206,7 +208,7 @@ namespace Alice
                 // 名前
                 s2c.names = new[] { c2s.player.name, "ゲスト" };
                 s2c.enemyUnit = c2s.recommendUnits;
-                s2c.enemyDeck = c2s.recommendDecks;
+                s2c.enemyDeck = c2s.recommendDeck;
             }
             else
             {
@@ -246,9 +248,9 @@ namespace Alice
 
             // デッキにセットしたユニットに経験値を与える
             List<UserUnit> modifiedUnit = new List<UserUnit>();
-            foreach (var deck in db.decks)
+            foreach (var deck in db.deck.ids.Where(v => !string.IsNullOrEmpty(v)))
             {
-                var index = Array.FindIndex(db.units, v => v.characterId == deck.characterId);
+                var index = Array.FindIndex(db.units, v => v.characterId == deck);
                 db.units[index].exp += 1;
                 modifiedUnit.Add(db.units[index]);
             }

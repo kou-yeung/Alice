@@ -92,11 +92,11 @@ namespace Alice
         UserUnit data;
         UnitState state;
 
-        public BattleUnit(string uniq, UserUnit data, UserDeck deck, BattleConst.Side side)
+        public BattleUnit(string uniq, UserUnit data, int position, BattleConst.Side side)
         {
             this.uniq = uniq;
             this.data = data;
-            this.Position = deck.position;
+            this.Position = position;
             this.characterData = MasterData.characters.First(v => v.ID == data.characterId);
             this.current = new Current(this.characterData, data.Level());
             this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;

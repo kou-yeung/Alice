@@ -85,16 +85,19 @@ namespace Alice
         /// </summary>
         void CreatePlayerUnit(BattleStartRecv recv)
         {
-            foreach(var data in recv.playerUnit)
+            for (int i = 0; i < recv.playerDeck.ids.Length; i++)
             {
-                var deck = recv.playerDeck.First(v => v.characterId == data.characterId);
-                var uniq = $"PLAYER:{deck.position}";
-                var unit = new BattleUnit(uniq, data, deck, BattleConst.Side.Player);
+                var id = recv.playerDeck.ids[i];
+                if (string.IsNullOrEmpty(id)) continue;
+
+                var data = recv.playerUnit.First(v => v.characterId == id);
+                var uniq = $"PLAYER:{i}";
+                var unit = new BattleUnit(uniq, data, i, BattleConst.Side.Player);
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform, false);
-                transform.localPosition = BattleConst.PlayerUnitPositions[deck.position];
+                transform.localPosition = BattleConst.PlayerUnitPositions[i];
 
                 // タイムラインアイコン登録
                 var icon = TimelineIcon.Gen(unit);
@@ -109,16 +112,19 @@ namespace Alice
         /// </summary>
         void CreateEnemyUnit(BattleStartRecv recv)
         {
-            foreach (var data in recv.enemyUnit)
+            for (int i = 0; i < recv.enemyDeck.ids.Length; i++)
             {
-                var deck = recv.enemyDeck.First(v => v.characterId == data.characterId);
-                var uniq = $"ENEMY:{deck.position}";
-                var unit = new BattleUnit(uniq, data, deck, BattleConst.Side.Enemy);
+                var id = recv.enemyDeck.ids[i];
+                if (string.IsNullOrEmpty(id)) continue;
+
+                var data = recv.enemyUnit.First(v => v.characterId == id);
+                var uniq = $"ENEMY:{i}";
+                var unit = new BattleUnit(uniq, data, i, BattleConst.Side.Enemy);
                 units.Add(uniq, unit);
 
                 var transform = unit.root.transform;
                 transform.SetParent(this.owner.transform, false);
-                transform.localPosition = BattleConst.EnemyUnitPositions[deck.position];
+                transform.localPosition = BattleConst.EnemyUnitPositions[i];
 
                 // タイムラインアイコン登録
                 var icon = TimelineIcon.Gen(unit);
