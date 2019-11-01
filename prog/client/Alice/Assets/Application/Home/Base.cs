@@ -7,6 +7,7 @@ using Zoo;
 using UnityEngine.Advertisements;
 using System;
 using Alice.Entities;
+using Zoo.Time;
 
 namespace Alice
 {
@@ -60,7 +61,7 @@ namespace Alice
         /// <param name="chest"></param>
         void ClickChest(UserChest chest)
         {
-            var remain = Math.Max(0, chest.end - DateTime.Now.Ticks);
+            var remain = Math.Max(0, chest.end - ServerTime.CurrentUnixTime);
             if (remain <= 0)
             {
                 var c2s = new ChestSend();

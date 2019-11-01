@@ -301,3 +301,47 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
     return JSON.stringify(s2c);
 });
 
+
+// 広告を観ました : c2s
+class AdsSend {
+    token:string="";        // 認証トークン
+    chest?:UserChest;       // 対象
+}
+// 広告を観ました : s2c
+class AdsRecv {
+    modified: Modified = new Modified();
+}
+
+/**
+ * proto:Ads:広告終了
+ */
+exports.Ads = functions.https.onCall(async (data, context) => {
+    const uid = context.auth!.uid;
+    const c2s: AdsSend = JSON.parse(data);
+    const s2c: AdsRecv = new AdsRecv();
+
+    const player = await Ref.snapshot<Player>(db.collection('player').doc(uid));
+
+    // トークンが無効、あるいは 回数がない
+    if (c2s.token != player.token || player.ads <= 0) {
+        return JSON.stringify(s2c);
+    }
+
+    const chest = await Ref.snapshot<UserChest>(db.collection('player').doc(uid).collection('chests').doc(c2s.chest!.uniq));
+    chest.start -= (10 * 60);
+    chest.end -= (10 * 60);
+
+    const batch = db.batch();
+    batch.set(db.collection('player').doc(uid).collection('chests').doc(c2s.chest!.uniq), chest);
+
+    player.token = Guid.NewGuid();
+    batch.set(db.collection('player').doc(uid), player);
+
+    await batch.commit();
+
+    s2c.modified.chest = [chest];
+    s2c.modified.player = player;
+
+    return JSON.stringify(s2c);
+
+});
