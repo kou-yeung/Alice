@@ -63,8 +63,9 @@ class UserUnit {
 // 宝箱
 class UserChest {
     uniq: string = "";    // アクセス用ID
-    start: number = 0; // 開始時間
-    end: number = 0;   // 終了時間
+    created: number = 0;    // 生成時間:変更しない
+    start: number = 0; // 開始時間:Adsより変更される可能性ある
+    end: number = 0;   // 終了時間:Adsより変更される可能性ある
     rate: number = 0;   // レアリティ
 }
 
@@ -287,12 +288,13 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
 
         const chest = {
             uniq: Guid.NewGuid(),
+            created: ServerTime.current,
             start: start,
             end: end,
             rate: 2
         }
         batch.set(db.collection('player').doc(uid).collection('chests').doc(chest.uniq), chest);
-        s2c.modified.chest = [chest]
+        s2c.modified.chest = [chest];
     }
 
     // 同期
@@ -335,6 +337,8 @@ exports.Ads = functions.https.onCall(async (data, context) => {
     batch.set(db.collection('player').doc(uid).collection('chests').doc(c2s.chest!.uniq), chest);
 
     player.token = Guid.NewGuid();
+    player.ads -= 1;    // 回数減らす
+
     batch.set(db.collection('player').doc(uid), player);
 
     await batch.commit();

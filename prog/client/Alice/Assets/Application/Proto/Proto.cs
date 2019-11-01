@@ -92,6 +92,7 @@ namespace Alice
     public class UserChest
     {
         public string uniq;    // アクセス用ID
+        public long created; // 生成時間:変更しない
         public long start; // 開始時間
         public long end;   // 終了時間
         public int rate;   // レアリティ
