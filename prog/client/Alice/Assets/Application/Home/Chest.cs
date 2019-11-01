@@ -59,8 +59,7 @@ namespace Alice
                 remainGauge.gameObject.SetActive(true);
                 remainGauge.value = (float)remain / (float)max;
                 // 残り時間
-                var span = new TimeSpan((long)remain);
-                remainTime.text = span.ToString("mm\\:ss");
+                remainTime.text = string.Format("{0:D2}:{1:D2}", remain / 60, remain % 60);
             }
         }
 

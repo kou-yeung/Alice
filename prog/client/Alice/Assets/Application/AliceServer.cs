@@ -145,7 +145,7 @@ namespace Alice
             }
 
             HomeRecv s2c = new HomeRecv();
-            s2c.svtime = DateTime.Now.Ticks;
+            s2c.svtime = DateTimeOffset.Now.ToUnixTimeSeconds();
             // プレイヤー情報
             s2c.player = db.player;
             // デッキ情報
@@ -258,13 +258,15 @@ namespace Alice
             // 宝箱追加
             if (db.chests.Length < 3)
             {
+                var now = DateTimeOffset.Now.ToUnixTimeSeconds();
+
                 var reward = new[]
                 {
                     new UserChest
                     {
                         uniq = Guid.NewGuid().ToString(),
-                        start = DateTime.Now.Ticks,
-                        end = (DateTime.Now + TimeSpan.FromMinutes(15)).Ticks,
+                        start = now,
+                        end = now + (15*60),
                         rate = c2s.result == BattleConst.Result.Win?2:1
                     }
                 };

@@ -161,7 +161,7 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     const batch = db.batch();
 
     // Player情報
-    const player = { name: "ゲスト", token: Guid.NewGuid() };
+    const player = { name: "ゲスト", token: Guid.NewGuid(), totalBattleCount:0 };
     batch.set(db.collection('player').doc(user.uid), player);
 
     // 初期ユニット情報
