@@ -11,13 +11,74 @@ class Guid {
     }
 }
 
+export class Ref {
+    static async snapshot<T>(ref: FirebaseFirestore.DocumentReference): Promise<T> {
+        return await ref.get().then(snap => <T>snap.data());
+    }
+    static async collection<T>(ref: FirebaseFirestore.CollectionReference | FirebaseFirestore.Query): Promise<T[]> {
+        return await ref.get().then(snap => {
+            const array: T[] = [];
+            snap.forEach(result => array.push(<T>result.data()));
+            return array;
+        });
+    }
+}
+
+//==============
+// Entity
+//==============
+// Player情報
+class  Player {
+    name: string = "";       // ユーザ名
+    alarm: number = 0;  // アラーム(時間短縮アイテム
+    rank: number = 0;        // プレイヤーランキング
+    ads: number = 0;         // 残り広告使用回数
+    token: string = "";    // 認証トークン
+    stamp: number = 0;      // 最後ログインの日付
+    loginCount: number = 0;  // 累計ログイン日数
+    totalBattleCount: number = 0;    // 累計バトル回数
+    todayBattleCount: number = 0;    // 本日バトルした回数
+    todayWinCount: number = 0;       // 本日勝利した回数
+}
+
+// スキルx1
+class UserSkill {
+    id: string = "";
+    count: number = 0;
+}
+// ユニットx1
+class UserUnit {
+    characterId: string = "";
+    skill: string[] = [];
+    exp: number = 0;
+}
+// 宝箱
+class UserChest {
+    uniq: string = "";    // アクセス用ID
+    start: number = 0; // 開始時間
+    end: number = 0;   // 終了時間
+    rate: number = 0;   // レアリティ
+}
+
+class UserDeck {
+    ids: string[] = [];
+}
+// 更新されたデータ
+class Modified {
+    player?:Player;                 // プレイヤー情報
+    skill: UserSkill[] = [];        // スキルデータ
+    unit: UserUnit[] = [];          // ユニットデータ
+    chest: UserChest[] = [];        // 宝箱データ
+    remove: UserChest[] = [];       // 削除した宝箱
+}
+
 /**
  * ログインボーナスチェック
  * return (null)ログインボーナス発生しない 
  * @param context
  * @param player
  */
-function LoginBonus(player: any) {
+function LoginBonus(player: Player) {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -56,52 +117,25 @@ function LoginBonus(player: any) {
     return bonus;
 }
 
-
-//class Documents {
-//    player: FirebaseFirestore.DocumentReference;
-
-//    constructor(uid: string) {
-//        this.player = db.collection('player').doc(uid);
-//    }
-//    async getPlayer(): Promise<FirebaseFirestore.DocumentData | undefined> {
-//        const doc = await this.player.get();
-//        return doc.data();
-//    }
-//    async setPlayer(data: any) {
-//        await this.player.set(data);
-//    }
-
-//    async getUnits(): Promise<any[]> {
-//        const doc = await this.player.collection('units').get();
-//        const units:any[] = [];
-//        doc.forEach(snap => units.push(snap.data()));
-//        return units;
-//    }
-//    async setUnits(units: any[]) {
-//        for (const unit of units) {
-//            const doc = await this.player.collection('units').doc(unit.characterId);
-//            await doc.set(unit);
-//        }
-//    }
-
-//    async getDeck(): Promise<any> {
-//        const doc = await this.player.collection('decks').doc("1").get();
-//        return JSON.parse(doc.get('json'));
-//    }
-//    async setDeck(deck: any) {
-//        const doc = this.player.collection('decks').doc("1");
-//        await doc.set({ json: JSON.stringify(deck) });
-//    }
-//}
-
 class HomeRecv {
-    debug: string = "";
-    player: any;
+    svtime: number = 0;
+    player?: Player;
     bonus: any;
-    deck: any;
-    units: any;
-    skills: any;
-    chests: any;
+    deck?: UserDeck;
+    units: UserUnit[] = [];
+    skills: UserSkill[] = [];
+    chests: UserChest[] = [];
+}
+
+class BattleStartRecv {
+    seed: any;
+    names: any;
+    // 味方情報
+    playerUnit: any;
+    playerDeck: any;
+    // 相手情報
+    enemyUnit: any;
+    enemyDeck: any;
 }
 
 //======================
@@ -110,17 +144,13 @@ class HomeRecv {
 admin.initializeApp();
 const db = admin.firestore();
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-    response.send("Hello from Firebase!!");
-});
-
 /**
  *
  * 新規ユーザ作成時
  */
 exports.onCreate = functions.auth.user().onCreate(async (user) => {
 
-    let batch = db.batch();
+    const batch = db.batch();
 
     // Player情報
     const player = { name: "ゲスト", token: Guid.NewGuid() };
@@ -145,19 +175,6 @@ exports.ping = functions.https.onCall((data, context) => {
     return JSON.stringify({ data:data, uid: context.auth!.uid });
 });
 
-exports.getItems = functions.https.onCall(async (data, context) => {
-
-    return await db.collection('items').get().then(snapshot => {
-
-        const res:any[] = [];
-        snapshot.forEach(doc => {
-            res.push(doc.data());
-        });
-        return JSON.stringify(res);
-    });
-});
-
-
 /**
  * proto:Home:画面の情報を取得する
  */ 
@@ -166,8 +183,7 @@ exports.Home = functions.https.onCall(async (data, context) => {
     const uid = context.auth!.uid;
 
     // プレイヤー情報取得
-    const playerDoc = await db.collection('player').doc(uid).get();
-    const player : any = playerDoc.data();
+    const player = await Ref.snapshot<Player>(db.collection('player').doc(uid));
 
     // ログインボーナスチェック
     const bonus = await LoginBonus(player);
@@ -176,32 +192,105 @@ exports.Home = functions.https.onCall(async (data, context) => {
     }
 
     // デッキ情報
-    const deckDoc = await db.collection('deck').doc(uid).get();
-
+    const deck = await Ref.snapshot<UserDeck>(db.collection('deck').doc(uid));
     // ユニット一覧
-    const unitsDoc = await db.collection('player').doc(uid).collection('units').get();
-    const units: any[] = [];
-    unitsDoc.forEach(snap => units.push(snap.data()));
-
+    const units = await Ref.collection<UserUnit>(db.collection('player').doc(uid).collection('units'));
     // スキル一覧
-    const skillsDoc = await db.collection('player').doc(uid).collection('skills').get();
-    const skills: any[] = [];
-    skillsDoc.forEach(snap => skills.push(snap.data()));
-
+    const skills = await Ref.collection<UserSkill>(db.collection('player').doc(uid).collection('skills'));
     // 宝箱一覧
-    const chestsDoc = await db.collection('player').doc(uid).collection('chests').get();
-    const chests: any[] = [];
-    chestsDoc.forEach(snap => chests.push(snap.data()));
+    const chests = await Ref.collection<UserChest>(db.collection('player').doc(uid).collection('chests'));
 
     // 返信を構築
     const s2c = new HomeRecv();
+    s2c.svtime = Date.now();
     s2c.bonus = bonus;
     s2c.player = player;
-    //s2c.debug = (snap.exists) ? "exists" : "not exists";
-    s2c.deck = deckDoc.data();
+    s2c.deck = deck;
     s2c.units = units;
     s2c.skills = skills;
     s2c.chests = chests;
 
     return JSON.stringify(s2c);
 });
+
+
+/**
+ * proto:Battle:バトル開始
+ */
+exports.Battle = functions.https.onCall(async (data, context) => {
+    const c2s = JSON.parse(data);
+
+    const s2c = new BattleStartRecv();
+
+    s2c.seed = 0;
+
+    s2c.names = ["PLAYER1", "PLAYER2"];
+    s2c.playerUnit = c2s.units;
+    s2c.playerDeck = c2s.deck;
+
+    s2c.enemyUnit = c2s.recommendUnits;
+    s2c.enemyDeck = c2s.recommendDeck;
+
+
+
+    return JSON.stringify(s2c);
+});
+
+
+export type dataUpdate<T> = Partial<T>;
+// c2s
+class GameSetSend {
+    ID?: string;
+    result: any;
+}
+// s2c
+class GameSetRecv {
+    modified: Modified = new Modified();
+}
+/**
+ * proto:GameSet:試合終了
+ */
+exports.GameSet = functions.https.onCall(async (data, context) => {
+
+    const uid = context.auth!.uid;
+    const Win = 1;
+
+    const c2s: GameSetSend = JSON.parse(data);
+    const s2c: GameSetRecv = new GameSetRecv();
+
+    // プレイヤーのバトル回数更新
+    const player = await Ref.snapshot<Player>(db.collection('player').doc(uid));
+    const batch = db.batch();
+
+    player.totalBattleCount += 1;   // 累計   
+    player.todayBattleCount += 1;   // 本日
+    if (c2s.result == Win) {
+        player.todayWinCount += 1;
+    }
+    batch.set(db.collection('player').doc(uid), player);
+    s2c.modified.player = player;
+
+    // 宝箱を追加します
+    const chests = await Ref.collection<UserChest>(db.collection('player').doc(uid).collection('chests'));
+    if (chests.length < 3) {
+
+        const start = new Date();
+        const end = new Date(start);
+        end.setMinutes(start.getMinutes() + 15);
+
+        const chest = {
+            uniq: Guid.NewGuid(),
+            start: start.getTime(),
+            end: end.getTime(),
+            rate: 2
+        }
+        batch.set(db.collection('player').doc(uid).collection('chests').doc(chest.uniq), chest);
+        s2c.modified.chest = [chest]
+    }
+
+    // 同期
+    await batch.commit();
+
+    return JSON.stringify(s2c);
+});
+

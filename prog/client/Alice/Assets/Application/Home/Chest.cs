@@ -45,7 +45,7 @@ namespace Alice
         {
             if (cacheUserChest == null) return;
 
-            var remain = Math.Max(0, cacheUserChest.end - DateTime.Now.Ticks);
+            var remain = Math.Max(0, cacheUserChest.end - UserData.serverTime.Now());
             var max = cacheUserChest.end - cacheUserChest.start;
 
             if(remain <= 0)

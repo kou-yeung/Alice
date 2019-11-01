@@ -45,6 +45,8 @@ namespace Zoo.Communication
                     error?.Invoke($"Request:{proto}[{data}] was Faulted!! {task.Exception}");
                     return;
                 }
+
+                Debug.Log($"Recv {task.Result.Data as string}");
                 complete?.Invoke(task.Result.Data as string);
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }

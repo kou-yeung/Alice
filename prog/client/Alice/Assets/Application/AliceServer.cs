@@ -145,6 +145,7 @@ namespace Alice
             }
 
             HomeRecv s2c = new HomeRecv();
+            s2c.svtime = DateTime.Now.Ticks;
             // プレイヤー情報
             s2c.player = db.player;
             // デッキ情報
@@ -217,8 +218,6 @@ namespace Alice
                 //s2c.enemyUnit = enemyUnit.ToArray();
                 //s2c.enemyDeck = enemyDeck.ToArray();
             }
-            var skills = MasterData.skills;
-            var characters = MasterData.characters;
             return JsonUtility.ToJson(s2c);
         }
 
@@ -244,7 +243,7 @@ namespace Alice
             {
                 db.player.todayWinCount += 1;    // 本日の勝利回数 + 1
             }
-            s2c.modified.player = new[] { db.player };
+            s2c.modified.player = db.player;
 
             // デッキにセットしたユニットに経験値を与える
             List<UserUnit> modifiedUnit = new List<UserUnit>();
@@ -319,7 +318,7 @@ namespace Alice
             var s2c = new AdsRecv();
             s2c.modified = new Modified
             {
-                player = new[] { db.player },
+                player = db.player,
                 chest = modifiedChest.ToArray(),
             };
             return JsonUtility.ToJson(s2c);

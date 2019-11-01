@@ -130,7 +130,7 @@ namespace Alice
     [Serializable]
     public class Modified
     {
-        public Player[] player;         // プレイヤー情報
+        public Player player;           // プレイヤー情報
         public UserSkill[] skill;       // スキルデータ
         public UserUnit[] unit;         // ユニットデータ
         public UserChest[] chest;       // 宝箱データ
@@ -143,6 +143,7 @@ namespace Alice
     [Serializable]
     public class HomeRecv
     {
+        public long svtime;         // サーバタイム
         public Player player;
         public UserDeck deck;       // デッキ情報
         public UserUnit[] units;    // ユニット一覧
