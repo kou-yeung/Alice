@@ -32,11 +32,12 @@ namespace Alice
                 );
                 return;
             }
-            Async.Waterflow(() =>
+            Async.Parallel(() =>
             {
                 // ホーム情報を取得し、シーンを遷移する
                 CommunicationService.Instance.Request("Home", "", (res) =>
                 {
+                    Debug.Log(res);
                     UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
                     SceneManager.LoadScene("Home");
                 });

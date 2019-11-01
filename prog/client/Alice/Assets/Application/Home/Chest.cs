@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zoo.Time;
 
 namespace Alice
 {
@@ -45,7 +46,7 @@ namespace Alice
         {
             if (cacheUserChest == null) return;
 
-            var remain = Math.Max(0, cacheUserChest.end - UserData.serverTime.Now());
+            var remain = Math.Max(0, cacheUserChest.end - ServerTime.CurrentUnixTime);
             var max = cacheUserChest.end - cacheUserChest.start;
 
             if(remain <= 0)

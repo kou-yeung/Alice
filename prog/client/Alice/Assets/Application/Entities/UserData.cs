@@ -4,30 +4,14 @@ using UnityEngine;
 using System.Linq;
 using System;
 using Zoo;
+using Zoo.Time;
 
 namespace Alice
 {
-    public class ServerTime
-    {
-        long svtime;
-        DateTime localtime;
-        public ServerTime(long svtime)
-        {
-            this.svtime = svtime;
-            this.localtime = DateTime.Now;// - new DateTime()).TotalMilliseconds;
-        }
-
-        public long Now()
-        {
-            return this.svtime;// (long)(DateTime.Now - localtime).TotalMilliseconds;
-        }
-    }
     public static class UserData
     {
         public static Dictionary<string, UserUnit> editedUnit = new Dictionary<string, UserUnit>();
         static Dictionary<string, int> skillCollections = new Dictionary<string, int>();
-
-        public static ServerTime serverTime { get; private set; }
 
         /// <summary>
         /// 所持情報からスキルの装備状態を割り出す
@@ -87,7 +71,7 @@ namespace Alice
         public static HomeRecv cacheHomeRecv { get; private set; }
         public static void CacheHomeRecv(HomeRecv homeRecv)
         {
-            serverTime = new ServerTime(homeRecv.svtime);
+            ServerTime.Init(homeRecv.svtime);
             cacheHomeRecv = homeRecv;
             SkillCollections();
             Observer.Notify("HomeRecv");

@@ -1,6 +1,14 @@
 ﻿import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+class ServerTime {
+    // サーバー時間を取得する
+    // MEMO : JavaScript では ミリ秒まで取得されるため、最後の3桁は削除しています!!
+    static get current(): number {
+        var str = Date.now().toString().slice(0, -3);
+        return parseInt(str);
+    }
+}
 // Guidを生成する
 class Guid {
     static NewGuid() {
@@ -202,7 +210,7 @@ exports.Home = functions.https.onCall(async (data, context) => {
 
     // 返信を構築
     const s2c = new HomeRecv();
-    s2c.svtime = Date.now();
+    s2c.svtime = ServerTime.current;
     s2c.bonus = bonus;
     s2c.player = player;
     s2c.deck = deck;
@@ -274,14 +282,13 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
     const chests = await Ref.collection<UserChest>(db.collection('player').doc(uid).collection('chests'));
     if (chests.length < 3) {
 
-        const start = new Date();
-        const end = new Date(start);
-        end.setMinutes(start.getMinutes() + 15);
+        const start = ServerTime.current;
+        const end = start + (15 * 60);
 
         const chest = {
             uniq: Guid.NewGuid(),
-            start: start.getTime(),
-            end: end.getTime(),
+            start: start,
+            end: end,
             rate: 2
         }
         batch.set(db.collection('player').doc(uid).collection('chests').doc(chest.uniq), chest);

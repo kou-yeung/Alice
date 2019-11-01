@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
-using UnityEngine.Networking;
 using Firebase.Functions;
-using System.Threading.Tasks;
+using Firebase.Extensions;
 
 namespace Zoo.Communication
 {
@@ -32,7 +28,7 @@ namespace Zoo.Communication
 
             var functions = FirebaseFunctions.DefaultInstance;
             
-            functions.GetHttpsCallable(proto).CallAsync(data).ContinueWith(task =>
+            functions.GetHttpsCallable(proto).CallAsync(data).ContinueWithOnMainThread(task =>
             {
                 // エラー処理
                 if (task.IsCanceled)
@@ -48,7 +44,7 @@ namespace Zoo.Communication
 
                 Debug.Log($"Recv {task.Result.Data as string}");
                 complete?.Invoke(task.Result.Data as string);
-            }, TaskScheduler.FromCurrentSynchronizationContext());
+            });
         }
     }
 }
