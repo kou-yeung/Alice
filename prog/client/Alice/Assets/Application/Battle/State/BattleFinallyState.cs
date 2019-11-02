@@ -12,7 +12,7 @@ namespace Alice
         {
             Debug.Log("Finally:Begin");
             // 新規バトルの場合、試合履歴に追加
-            if (!Battle.Instance.fromRecord)
+            if (!owner.fromRecord)
             {
                 UserData.GetBattleRecord().AddRecord(owner.recv);
             }

@@ -37,13 +37,16 @@ namespace Alice
 
             Async.Parallel(() =>
             {
-                // ホーム情報を取得し、シーンを遷移する
-                CommunicationService.Instance.Request("Home", "", (res) =>
-                {
-                    ScreenBlocker.Instance.Pop();
-                    UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                    SceneManager.LoadSceneAsync("Home");
-                });
+                //CommunicationService.Instance.Request("CreateShadowRoom", "", (a) =>
+                //{
+                    // ホーム情報を取得し、シーンを遷移する
+                    CommunicationService.Instance.Request("Home", "", (res) =>
+                    {
+                        UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
+                        ScreenBlocker.Instance.Pop();
+                        SceneManager.LoadScene("Home");
+                    });
+                //});
             },
             (end) => AuthService.Instance.SignInAnonymously(end),
             (end) => MasterData.Initialize(end),

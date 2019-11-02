@@ -67,12 +67,25 @@ class Documents {
         return this.chests().doc(uniq);
     }
     // 指定ランクの登録データ取得
-    colosseum(rank: number): FirebaseFirestore.DocumentReference {
-        return this.colosseumGroups().collection(rank.toString()).doc(this.uid);
+    colosseum(rank: number, index: number): FirebaseFirestore.DocumentReference {
+        return this.colosseumGroups().collection(rank.toString()).doc(index.toString());
     }
     colosseumGroups(): FirebaseFirestore.DocumentReference {
         return db.collection('colosseum').doc('groups');
     }
+    // シャドウ情報
+    shadowInfo(): FirebaseFirestore.DocumentReference {
+        return db.collection('shadow').doc('info');
+    }
+    // シャドウのフロア:ランダムでルームID一覧を保持するデータ
+    shadowFloor(floor: number): FirebaseFirestore.DocumentReference {
+        return db.collection('shadow').doc(floor.toString());
+    }
+    // シャドウのルーム取得
+    room(id: number): FirebaseFirestore.DocumentReference {
+        return db.collection('rooms').doc(id.toString());
+    }
+
     // Collection
     units(): FirebaseFirestore.CollectionReference {
         return this.player().collection("units");
@@ -119,6 +132,8 @@ class  Player {
     totalBattleCount: number = 0;    // 累計バトル回数
     todayBattleCount: number = 0;    // 本日バトルした回数
     todayWinCount: number = 0;       // 本日勝利した回数
+
+    colosseums: any;      // コロシアムにランクと番号のマップ colosseums[rank] = index
 }
 
 // スキルx1
@@ -144,6 +159,15 @@ class UserChest {
 class UserDeck {
     ids: string[] = [];
 }
+
+// ルーム
+class Room {
+    uid: string = "";   // 現在このルームを使用中のUID
+    name: string = "";  // 名前
+    unitJson: string = "";  // ユニットデータのJSON文字列
+    deckJson: string = "";  // デッキデータのJSON文字列
+}
+
 // 更新されたデータ
 class Modified {
     player :Player[] = [];                 // プレイヤー情報
@@ -238,11 +262,30 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     await batch.commit();
 });
 
+//// 管理者で登録時に使用します
+//exports.CreateShadowRoom = functions.https.onCall(async(data, context) => {
+//    const doc = new Documents(context.auth!.uid);
+//    const ids = [];
+//    // 10000個IDを生成する
+//    for (let i = 0; i < 100000; ++i) ids.push(i);
+
+//    for (let x = 0; x < 100; ++x) {
+//        const rooms = [];
+//        for (let y = 0; y < 1000; ++y) {
+//            const index = Random.Next(0, ids.length);
+//            rooms.push(index);
+//            ids.slice(index, 1);
+//        }
+//        await doc.shadowFloor(x).set({ ids: rooms });
+//    }
+//    return "";
+//});
+
 ///**
 // * proto:Temp:テンプレート
 // */
 //exports.Temp = functions.https.onCall(async (data, context) => {
-//    const uid = context.auth!.uid;
+//    const doc = new Documents(context.auth!.uid);
 //    const c2s: TempSend = JSON.parse(data); // c2s
 //    const s2c = new TempRecv();             // s2c
 //    return JSON.stringify(s2c);
@@ -296,7 +339,7 @@ class BattleStartSend {
 // バトル開始: s2c
 class BattleStartRecv {
     seed: number = 0;
-    type: number = 0;   // バトルタイプ
+    type: number = 0;   // バトルタイプ:0 通常 1:シャドウ
     names!: string[];   // 名前
     // 味方のユニット情報
     playerUnit!: UserUnit[];
@@ -344,26 +387,31 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     const groups = await Ref.snapshot<Groups>(doc.colosseumGroups());
 
     // 自分のデータをコロシアムに登録or更新
-    let colosseum = await Ref.snapshot<Colosseum>(doc.colosseum(player.rank));
-    if (colosseum) {
+    player.colosseums = player.colosseums || {};
+    if (player.colosseums[player.rank] != undefined) {
+        const colosseum = await Ref.snapshot<Colosseum>(doc.colosseum(player.rank, player.colosseums[player.rank]));
         colosseum.name = player.name;
         colosseum.unitJson = JSON.stringify(c2s.units);
         colosseum.deckJson = JSON.stringify(c2s.deck);
-        batch.set(doc.colosseum(player.rank), colosseum);
+        batch.set(doc.colosseum(player.rank, player.colosseums[player.rank]), colosseum);
     } else {
-        const count = groups.counter[player.rank] | 0;
+        const count = groups.counter[player.rank] || 0;
         // なかったので登録する
-        colosseum = {
+        let colosseum : Colosseum = {
             index: count,
-            uid: context.auth!.uid,
+            uid: doc.uid,
             name: player.name,
             unitJson: JSON.stringify(c2s.units),
             deckJson: JSON.stringify(c2s.deck),
         };
-        batch.set(doc.colosseum(player.rank), colosseum);
+
+        batch.set(doc.colosseum(player.rank, colosseum.index), colosseum);
         // 所属グループのデータ数をカウントアップする
         groups.counter[player.rank] = count + 1;    // インクリメント
         batch.set(doc.colosseumGroups(), groups);
+        // 自分がこのランクに登録した番号を記録する
+        player.colosseums[player.rank] = colosseum.index;
+        batch.update(doc.player(), { colosseums: player.colosseums });
     }
     // 一旦同期をとる
     await batch.commit();
@@ -570,3 +618,118 @@ exports.Chest = functions.https.onCall(async (data, context) => {
     await batch.commit();
     return JSON.stringify(s2c);
 });
+
+
+
+class ShadowInfo {
+    counter: number = 0;
+}
+class ShadowFloor {
+    ids: number[] = [];
+}
+
+// シャドウ生成: c2s
+class ShadowCreateSend {
+    player!: Player;             // 自分情報
+    deck!: UserDeck;             // デッキ情報
+    units: UserUnit[] = [];      // バトルに使用するユニット
+}
+// シャドウ生成: s2c
+class ShadowCreateRecv {
+    roomId: number = 0;              // ルームID
+}
+
+/**
+ * proto:CreateShadow:シャドウを生成する
+ */
+exports.CreateShadow = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s: ShadowCreateSend = JSON.parse(data); // c2s
+    const s2c = new ShadowCreateRecv();             // s2c
+    const batch = db.batch();
+
+    // 情報からカウンタを取得
+    const info = await Ref.snapshot<ShadowInfo>(doc.shadowInfo());
+    const floorId = Math.floor(info.counter / 1000);    // floor id
+    const index = info.counter % 1000;    // index
+    const floor = await Ref.snapshot<ShadowFloor>(doc.shadowFloor(floorId));
+    const roomid = floor.ids[index];    // floor の鍵からルームID取得
+
+    const room: Room = {
+        uid: doc.uid,
+        name: c2s.player.name,
+        deckJson: JSON.stringify(c2s.deck),
+        unitJson: JSON.stringify(c2s.units),
+    };
+    batch.set(doc.room(roomid), room);
+    // カウントアップ
+    batch.update(doc.shadowInfo(), { counter: (info.counter + 1) % 100000 });
+    await batch.commit();
+
+    s2c.roomId = roomid;
+    return JSON.stringify(s2c);
+});
+
+
+// シャドウバトル]c2s
+class ShadowBattleSend {
+    roomid:number = 0;       // 
+    player!:Player;         // 自分情報
+    deck!:UserDeck;         // デッキ情報
+    units: UserUnit[] = [];  // バトルに使用するユニット
+    edited:UserUnit[] =[];  // 同期必要ユニット
+}
+
+/**
+ * proto:BattleShadow:とバトルする
+ */
+exports.BattleShadow = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s: ShadowBattleSend = JSON.parse(data);
+    const s2c = new BattleStartRecv();
+
+    const batch = db.batch();
+    const room = await Ref.snapshot<Room>(doc.room(c2s.roomid));
+    // ルームが存在しない
+    if (room === undefined) {
+        s2c.type = -1;
+        return JSON.stringify(s2c);
+    }
+
+    // シャドウバトル
+    s2c.type = 1;
+
+    const player = await Ref.snapshot<Player>(doc.player());
+    // プレイヤー名が変更されたら更新する
+    if (c2s.player.name !== player.name) {
+        player.name = c2s.player.name;
+        batch.update(doc.player(), { name: player.name });
+    }
+    // デッキ更新
+    batch.set(doc.deck(), c2s.deck);
+    // 情報更新したユニットを同期する( スキルのみ
+    for (const unit of c2s.edited) {
+        batch.update(doc.unit(unit.characterId), { skill: unit.skill });
+    }
+
+    // TODO : ルームのホストにバトル情報を登録する
+
+    // 一旦同期をとる
+    await batch.commit();
+
+    s2c.seed = Random.Next();
+    // プレイヤーユニット
+    s2c.playerUnit = c2s.units;
+    s2c.playerDeck = c2s.deck;
+
+    // ルーム内情報
+    s2c.enemyUnit = JSON.parse(room.unitJson);
+    s2c.enemyDeck = JSON.parse(room.deckJson);
+
+    // 名前を設定する
+    s2c.names = [player.name, room.name];
+
+    return JSON.stringify(s2c);
+
+});
+

@@ -201,4 +201,57 @@ namespace Alice
     {
         public Modified modified;       // 更新したデータ
     }
+
+    /// <summary>
+    /// シャドウを生成 cl -> sv
+    /// </summary>
+    [Serializable]
+    public class ShadowCreateSend
+    {
+        public Player player;       // 自分情報
+        public UserDeck deck;       // デッキ情報
+        public UserUnit[] units;    // バトルに使用するユニット
+
+        public ShadowCreateSend()
+        {
+            var cache = UserData.cacheHomeRecv;
+            this.player = cache.player;
+            this.deck = cache.deck;
+            this.units = cache.units.Where(v => Array.Exists(cache.deck.ids, id => id == v.characterId)).ToArray();
+        }
+    }
+
+    /// <summary>
+    /// シャドウを生成 sv -> cl
+    /// </summary>
+    [Serializable]
+    public class ShadowCreateRecv
+    {
+        public string roomId;     // ルームID
+    }
+
+    /// <summary>
+    /// シャドウを生成 cl -> sv
+    /// 返信は BattleStartRecv です！！注意
+    /// </summary>
+    [Serializable]
+    public class ShadowBattleSend
+    {
+        public int roomid;
+        public Player player;       // 自分情報
+        public UserDeck deck;       // デッキ情報
+        public UserUnit[] units;    // バトルに使用するユニット
+        public UserUnit[] edited;  // 情報を更新したユニット
+
+        public ShadowBattleSend(int roomid)
+        {
+            this.roomid = roomid;
+            var cache = UserData.cacheHomeRecv;
+            this.player = cache.player;
+            this.deck = cache.deck;
+            this.units = cache.units.Where(v => Array.Exists(cache.deck.ids, id => id == v.characterId)).ToArray();
+            this.edited = UserData.editedUnit.Values.ToArray();
+        }
+    }
 }
+

@@ -8,8 +8,9 @@ namespace Alice
     {
         public enum BattleType
         {
-            Normal,     // 通常バトル
-            Shadow,     // シャドウバトル
+            NONE = -1,      // 
+            Normal,         // 通常バトル
+            Shadow,         // シャドウバトル
         }
 
         public enum State

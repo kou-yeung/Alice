@@ -23,7 +23,8 @@ namespace Alice
             }
             owner.controller.timeline.Clear();
 
-            if (owner.fromRecord)
+            // 「記録から再生」と「シャドウバトル」はGameSetを実行する必要ありません
+            if (owner.fromRecord || owner.recv.type == BattleConst.BattleType.Shadow)
             {
                 // MEMO : 将来はシェアなどの機能を追加すると思いますが、今は３秒待ったら終了する
                 Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { },
