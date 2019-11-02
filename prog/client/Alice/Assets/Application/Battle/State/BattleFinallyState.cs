@@ -10,8 +10,9 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
+            Debug.Log("Finally:Begin");
             // 新規バトルの場合、試合履歴に追加
-            if(!Battle.Instance.fromRecord)
+            if (!Battle.Instance.fromRecord)
             {
                 UserData.GetBattleRecord().AddRecord(owner.recv);
             }

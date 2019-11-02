@@ -26,6 +26,7 @@ namespace Zoo.Auth
                 // 成功処理
                 var user = task.Result;
                 Debug.Log($"User signed in successfully. name:[{user.DisplayName}] id:[{user.UserId}]");
+
                 complete?.Invoke();
             });
         }

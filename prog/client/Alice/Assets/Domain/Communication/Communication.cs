@@ -10,5 +10,9 @@ namespace Zoo.Communication
     /// <summary>
     /// コミュニケーションサービスを提供する
     /// </summary>
-    public class CommunicationService : ServiceLocator<ICommunication> {}
+    public class CommunicationService : ServiceLocator<ICommunication>
+    {
+        public static Action OnRequest;
+        public static Action OnComplete;
+    }
 }

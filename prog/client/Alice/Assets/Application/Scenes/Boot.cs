@@ -19,6 +19,10 @@ namespace Alice
         {
             InitializeServiceLocator();
             SceneManager.LoadSceneAsync("Title");
+
+            // ScreenBlockセットアップ:通信
+            CommunicationService.OnRequest = ()=> { ScreenBlocker.Instance.Push(); };
+            CommunicationService.OnComplete = () => { ScreenBlocker.Instance.Pop(); };
         }
 
         // サービスロケータの初期化

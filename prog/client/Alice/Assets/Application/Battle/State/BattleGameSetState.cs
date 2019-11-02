@@ -42,10 +42,12 @@ namespace Alice
                     var data = JsonUtility.FromJson<GameSetRecv>(recv);
                     UserData.Modify(data.modified);
 
+                    Debug.Log(recv);
                     // MEMO : 将来はシェアなどの機能を追加すると思いますが、今は３秒待ったら終了する
                     Observable.Timer(TimeSpan.FromSeconds(3)).Subscribe(_ => { },
                     () =>
                     {
+                        Debug.Log("=> Finally");
                         owner.controller.ChangeState(BattleConst.State.Finally);
                     });
                 });

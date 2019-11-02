@@ -9,5 +9,5 @@ namespace Zoo.Auth
     /// <summary>
     /// 認証サービスを提供する
     /// </summary>
-    public class AuthService : ServiceLocator<IAuth> { }
+    public class AuthService : ServiceLocator<IAuth>{}
 }

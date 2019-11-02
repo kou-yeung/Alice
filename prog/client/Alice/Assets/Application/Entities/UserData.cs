@@ -103,17 +103,23 @@ namespace Alice
         {
             if (modified == null) return;
 
-            if(modified.player != null)
-            {
-                cacheHomeRecv.player = modified.player;
-            }
+            Modify(modified.player);
             Modify(modified.unit);
             Modify(modified.skill);
             Modify(modified.chest);
             Remove(modified.remove);
+
             Observer.Notify("HomeRecv");
         }
-
+        /// <summary>
+        /// プレイヤー更新
+        /// </summary>
+        /// <param name="player"></param>
+        public static void Modify(Player[] player)
+        {
+            if (player.Length <= 0) return;
+            cacheHomeRecv.player = player[0];
+        }
         /// <summary>
         /// ユニット更新
         /// </summary>

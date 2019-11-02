@@ -131,7 +131,7 @@ namespace Alice
     [Serializable]
     public class Modified
     {
-        public Player player;           // プレイヤー情報
+        public Player[] player;         // プレイヤー情報
         public UserSkill[] skill;       // スキルデータ
         public UserUnit[] unit;         // ユニットデータ
         public UserChest[] chest;       // 宝箱データ

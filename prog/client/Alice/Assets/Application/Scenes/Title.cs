@@ -15,6 +15,7 @@ namespace Alice
     public class Title : MonoBehaviour
     {
         public Text wait;
+
         public void OnScreenButton()
         {
             // 通信状況を確認する
@@ -32,14 +33,16 @@ namespace Alice
                 );
                 return;
             }
+            ScreenBlocker.Instance.Push();
+
             Async.Parallel(() =>
             {
                 // ホーム情報を取得し、シーンを遷移する
                 CommunicationService.Instance.Request("Home", "", (res) =>
                 {
-                    Debug.Log(res);
+                    ScreenBlocker.Instance.Pop();
                     UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                    SceneManager.LoadScene("Home");
+                    SceneManager.LoadSceneAsync("Home");
                 });
             },
             (end) => AuthService.Instance.SignInAnonymously(end),

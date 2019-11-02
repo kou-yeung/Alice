@@ -243,7 +243,7 @@ namespace Alice
             {
                 db.player.todayWinCount += 1;    // 本日の勝利回数 + 1
             }
-            s2c.modified.player = db.player;
+            s2c.modified.player = new[] { db.player };
 
             // デッキにセットしたユニットに経験値を与える
             List<UserUnit> modifiedUnit = new List<UserUnit>();
@@ -320,7 +320,7 @@ namespace Alice
             var s2c = new AdsRecv();
             s2c.modified = new Modified
             {
-                player = db.player,
+                player = new[] { db.player },
                 chest = modifiedChest.ToArray(),
             };
             return JsonUtility.ToJson(s2c);
