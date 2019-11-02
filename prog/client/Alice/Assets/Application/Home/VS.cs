@@ -32,22 +32,7 @@ namespace Alice
             {
                 UserData.editedUnit.Clear();    // 同期しました
                 var s2c = JsonUtility.FromJson<BattleStartRecv>(res);
-                if(s2c.type == BattleConst.BattleType.Shadow)
-                {
-                    battle.Exec(s2c);
-                } else
-                {
-                    // ヒットしませんでした。
-                    PlatformDialog.SetButtonLabel("OK");
-                    PlatformDialog.Show(
-                        "確認",
-                        "指定されたIDが存在しません",
-                        PlatformDialog.Type.SubmitOnly,
-                        () => {
-                            Debug.Log("OK");
-                        }
-                    );
-                }
+                battle.Exec(s2c);
             });
         }
 

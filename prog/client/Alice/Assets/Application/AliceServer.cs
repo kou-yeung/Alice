@@ -6,6 +6,7 @@ using Zoo.Communication;
 using Alice.Entities;
 using System.Linq;
 using System.IO;
+using Zoo.Time;
 
 namespace Alice
 {
@@ -335,7 +336,7 @@ namespace Alice
         {
             var c2s = JsonUtility.FromJson<ChestSend>(data);
 
-            if(c2s.chest.end > DateTime.Now.Ticks && !c2s.useItem)
+            if (c2s.chest.end > ServerTime.CurrentUnixTime)
             {
                 throw new Exception("まだ開けません");
             }

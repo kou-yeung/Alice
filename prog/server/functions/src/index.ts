@@ -177,6 +177,17 @@ class Modified {
     remove: UserChest[] = [];       // 削除した宝箱
 }
 
+class Message {
+    error?: string;
+    warning?: string;
+
+    static Error(str: string): Message {
+        return { error: str };
+    }
+    static Warning(str: string): Message {
+        return { warning: str };
+    }
+}
 /**
  * ログインボーナスチェック
  * return (null)ログインボーナス発生しない 
@@ -535,8 +546,11 @@ exports.Ads = functions.https.onCall(async (data, context) => {
     const player = await Ref.snapshot<Player>(doc.player());
 
     // トークンが無効、あるいは 回数がない
-    if (c2s.token !== player.token || player.ads <= 0) {
-        return JSON.stringify(s2c);
+    if (c2s.token !== player.token) {
+        return JSON.stringify(Message.Error("トークンが無効です"));
+    }
+    if(player.ads <= 0) {
+        return JSON.stringify(Message.Warning("一日の広告使用回数制限を越えました"));
     }
 
     const chest = await Ref.snapshot<UserChest>(doc.chest(c2s.chest.uniq));
@@ -564,7 +578,6 @@ exports.Ads = functions.https.onCall(async (data, context) => {
 // 宝箱を開く: cl -> sv
 class ChestSend {
     chest!: UserChest;          // 宝箱
-    useItem: boolean = false;   // アイテム使用
 }
 
 // 宝箱を開く: sv -> cl
@@ -573,21 +586,37 @@ class ChestRecv {
 }
 
 /**
- * proto:Chest:テンプレート
+ * proto:Chest:宝箱を開く
  */
 exports.Chest = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
     const c2s: ChestSend = JSON.parse(data); // c2s
     const s2c = new ChestRecv();             // s2c
+    const batch = db.batch();
 
-    if (c2s.chest.end > ServerTime.current && !c2s.useItem) {
-        return JSON.stringify(s2c);
+    const player = await Ref.snapshot<Player>(doc.player());
+    const chest = await Ref.snapshot<UserChest>(doc.chest(c2s.chest.uniq));
+
+    if (chest == undefined) {
+        return JSON.stringify(Message.Error("指定の宝箱が存在しません"));
     }
 
-    const batch = db.batch();
+    // 残り時間
+    const remain = Math.max(0, chest.end - ServerTime.current);
+
+    if (remain > 0) {
+        const needItemCount = Math.ceil(remain / (5 * 60));   // 必要アイテム数:1アイテム : 5分
+        if (needItemCount > player.alarm) {
+            return JSON.stringify(Message.Error("アラームが足りません"));
+        }
+        // アイテムを減らす
+        player.alarm -= needItemCount;
+        batch.update(doc.player(), { alarm: player.alarm });
+    }
+
     // 宝箱を消す
-    batch.delete(doc.chest(c2s.chest.uniq));
-    s2c.modified.remove = [c2s.chest];
+    batch.delete(doc.chest(chest.uniq));
+    s2c.modified.remove = [chest];
 
     //// MEMO : 現在適当に1/2の確率で[Unit][Skill]分岐
     //if (random.Next() % 2 == 0 && db.units.Length < MasterData.characters.Length) {
@@ -692,8 +721,7 @@ exports.BattleShadow = functions.https.onCall(async (data, context) => {
     const room = await Ref.snapshot<Room>(doc.room(c2s.roomid));
     // ルームが存在しない
     if (room === undefined) {
-        s2c.type = -1;
-        return JSON.stringify(s2c);
+        return JSON.stringify(Message.Warning("指定されたIDが存在しません"));
     }
 
     // シャドウバトル

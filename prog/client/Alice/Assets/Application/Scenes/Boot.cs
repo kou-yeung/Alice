@@ -18,11 +18,27 @@ namespace Alice
         void Start()
         {
             InitializeServiceLocator();
-            SceneManager.LoadSceneAsync("Title");
 
             // ScreenBlockセットアップ:通信
-            CommunicationService.OnRequest = ()=> { ScreenBlocker.Instance.Push(); };
-            CommunicationService.OnComplete = () => { ScreenBlocker.Instance.Pop(); };
+            CommunicationService.ConnectionBegin = ()=> { ScreenBlocker.Instance.Push(); };
+            CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance.Pop(); };
+            CommunicationService.WarningMessage = (message) =>
+            {
+                PlatformDialog.SetButtonLabel("OK");
+                PlatformDialog.Show( "確認", message, PlatformDialog.Type.SubmitOnly,
+                    () => {}
+                );
+            };
+            CommunicationService.ErrorMessage = (message) =>
+            {
+                PlatformDialog.SetButtonLabel("OK");
+                PlatformDialog.Show("エラー", message, PlatformDialog.Type.SubmitOnly,
+                    () => {
+                        SceneManager.LoadSceneAsync("Title");
+                    }
+                );
+            };
+            SceneManager.LoadSceneAsync("Title");
         }
 
         // サービスロケータの初期化

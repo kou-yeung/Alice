@@ -24,7 +24,10 @@ namespace Alice
             Observer.AddObserver("HomeRecv", Setup);
             Setup();
         }
-
+        private void OnDestroy()
+        {
+            Observer.RemoveObserver("HomeRecv", Setup);
+        }
         public void Setup()
         {
             var recv = UserData.cacheHomeRecv;

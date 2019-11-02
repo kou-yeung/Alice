@@ -5,6 +5,12 @@ using Firebase.Extensions;
 
 namespace Zoo.Communication
 {
+    class Message
+    {
+        public string error;
+        public string warning;
+    }
+
     public class CommunicationFirebase : ICommunication
     {
         const string UrlFormat = @"https://us-central1-{0}.cloudfunctions.net/";
@@ -24,7 +30,7 @@ namespace Zoo.Communication
         /// <param name="error"></param>
         public void Request(string proto, string data, Action<string> complete = null, Action<string> error = null)
         {
-            CommunicationService.OnRequest?.Invoke();
+            CommunicationService.ConnectionBegin?.Invoke();
 
             Debug.Log($"Request proto({proto}) data({data})");
 
@@ -32,22 +38,37 @@ namespace Zoo.Communication
 
             functions.GetHttpsCallable(proto).CallAsync(data).ContinueWithOnMainThread(task =>
             {
+                CommunicationService.ConnectionEnd?.Invoke();
+
                 // エラー処理
                 if (task.IsCanceled)
                 {
+                    CommunicationService.WarningMessage?.Invoke("通信できませんでした");
                     error?.Invoke($"Request:{proto}[{data}] was Canceled!!");
                     return;
                 }
                 if (task.IsFaulted)
                 {
+                    CommunicationService.WarningMessage?.Invoke("通信できませんでした");
                     error?.Invoke($"Request:{proto}[{data}] was Faulted!! {task.Exception}");
                     return;
                 }
 
-                CommunicationService.OnComplete?.Invoke();
+                var recv = task.Result.Data as string;
+                Debug.Log($"Recv {recv}");
 
-                Debug.Log($"Recv {task.Result.Data as string}");
-                complete?.Invoke(task.Result.Data as string);
+                var message = JsonUtility.FromJson<Message>(recv);
+                if (!string.IsNullOrEmpty(message.error))
+                {
+                    CommunicationService.ErrorMessage?.Invoke(message.error);
+                }
+                else if(!string.IsNullOrEmpty(message.warning))
+                {
+                    CommunicationService.WarningMessage?.Invoke(message.warning);
+                } else
+                {
+                    complete?.Invoke(recv);
+                }
             });
         }
     }

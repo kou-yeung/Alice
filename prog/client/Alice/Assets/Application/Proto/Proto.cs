@@ -190,7 +190,6 @@ namespace Alice
     public class ChestSend
     {
         public UserChest chest;     // 宝箱
-        public bool useItem;        // アイテム使用
     }
 
     /// <summary>

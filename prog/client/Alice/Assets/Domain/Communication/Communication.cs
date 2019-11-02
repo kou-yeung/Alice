@@ -12,7 +12,9 @@ namespace Zoo.Communication
     /// </summary>
     public class CommunicationService : ServiceLocator<ICommunication>
     {
-        public static Action OnRequest;
-        public static Action OnComplete;
+        public static Action ConnectionBegin;
+        public static Action ConnectionEnd;
+        public static Action<string> WarningMessage;
+        public static Action<string> ErrorMessage; 
     }
 }

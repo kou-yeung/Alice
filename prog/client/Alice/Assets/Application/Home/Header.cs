@@ -15,11 +15,16 @@ namespace Alice
         public Text Alarm;
         public Text Ads;
 
-        void Awake()
+        void Start()
         {
             Instance = this;
             Observer.AddObserver("HomeRecv", Setup);
             Setup();
+        }
+
+        private void OnDestroy()
+        {
+            Observer.RemoveObserver("HomeRecv", Setup);
         }
 
         /// <summary>
