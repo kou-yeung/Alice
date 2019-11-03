@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zoo.Time;
 
 namespace Alice
 {
@@ -45,7 +46,7 @@ namespace Alice
         {
             if (cacheUserChest == null) return;
 
-            var remain = Math.Max(0, cacheUserChest.end - DateTime.Now.Ticks);
+            var remain = Math.Max(0, cacheUserChest.end - ServerTime.CurrentUnixTime);
             var max = cacheUserChest.end - cacheUserChest.start;
 
             if(remain <= 0)
@@ -58,8 +59,7 @@ namespace Alice
                 remainGauge.gameObject.SetActive(true);
                 remainGauge.value = (float)remain / (float)max;
                 // 残り時間
-                var span = new TimeSpan((long)remain);
-                remainTime.text = span.ToString("mm\\:ss");
+                remainTime.text = string.Format("{0:D2}:{1:D2}", remain / 60, remain % 60);
             }
         }
 

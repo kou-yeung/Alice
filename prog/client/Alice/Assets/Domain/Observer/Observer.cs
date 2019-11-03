@@ -24,12 +24,20 @@ namespace Zoo
             }
         }
 
+        public static void RemoveObserver(string name, Action cb)
+        {
+            if (observer.ContainsKey(name))
+            {
+                observer[name] -= cb;
+            }
+        }
+        
         public static void Notify(string name)
         {
             Action action;
             if (observer.TryGetValue(name, out action))
             {
-                action.Invoke();
+                action?.Invoke();
             }
         }
     }

@@ -10,13 +10,13 @@ namespace Alice
     /// </summary>
     public class BattleAction
     {
-        public BattleUnit behavioure { get; set; }
+        public BattleUnit behaviour { get; set; }
         public Skill skill { get; set; }
         public List<BattleEffect> effects { get; set; } = new List<BattleEffect>();
 
-        public BattleAction(BattleUnit behavioure, Skill skill)
+        public BattleAction(BattleUnit behaviour, Skill skill)
         {
-            this.behavioure = behavioure;
+            this.behaviour = behaviour;
             this.skill = skill;
         }
     }

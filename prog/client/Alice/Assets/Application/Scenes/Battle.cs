@@ -58,12 +58,12 @@ namespace Alice
             resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
 
             // 味方ユニットに必要なリソースをロード
-            foreach(var unit in this.recv.player)
+            foreach(var unit in this.recv.playerUnit)
             {
                 resourcePaths.AddRange(UserUnitPreloadPaths(unit));
             }
             // 相手ユニットに必要なリソースをロード
-            foreach (var unit in this.recv.enemy)
+            foreach (var unit in this.recv.enemyUnit)
             {
                 resourcePaths.AddRange(UserUnitPreloadPaths(unit));
             }
@@ -93,10 +93,10 @@ namespace Alice
             // アイコン
             paths.Add($"Character/{character.Image}/icon.asset");
             // エフェクト
-            foreach (var skill in unit.skill)
+            foreach (var skill in unit.skill.Where(v => !string.IsNullOrEmpty(v)))
             {
                 // スキルマスタデータ
-                var skillData = MasterData.skills.First(v => v.ID == skill);
+                var skillData = MasterData.FindSkillByID(skill);
                 foreach(var effect in skillData.Effects)
                 {
                     var effectData = MasterData.effects.First(v => v.ID == effect);

@@ -3,12 +3,6 @@ using UnityEngine.SceneManagement;
 using Zoo.Auth;
 using Zoo.Communication;
 using Zoo.IO;
-using Alice.Entities;
-using Zoo;
-using UnityEngine.Advertisements;
-using System;
-using System.Collections;
-
 namespace Alice
 {
     public class Boot : MonoBehaviour
@@ -18,26 +12,38 @@ namespace Alice
             Local,
             Firebase,
         }
-
+        public enum Scene
+        {
+            Title,
+            MasterDataUploader
+        }
         public Backend backend = Backend.Local;
+        public Scene scene = Scene.Title;
 
         void Start()
         {
             InitializeServiceLocator();
 
-            Async.Parallel(() =>
+            // ScreenBlockセットアップ:通信
+            CommunicationService.ConnectionBegin = ()=> { ScreenBlocker.Instance?.Push(); };
+            CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance?.Pop(); };
+            CommunicationService.WarningMessage = (message) =>
             {
-                // ホーム情報を取得し、シーンを遷移する
-                CommunicationService.Instance.Request("Home", "", (res) =>
-                {
-                    UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                    SceneManager.LoadSceneAsync("Home");
-                });
-            },
-                (end) => AuthService.Instance.SignInAnonymously(end),
-                (end) => MasterData.Initialize(end),
-                (end) => StartCoroutine(InitializeAds(end))
-            );
+                PlatformDialog.SetButtonLabel("OK");
+                PlatformDialog.Show( "確認", message, PlatformDialog.Type.SubmitOnly,
+                    () => {}
+                );
+            };
+            CommunicationService.ErrorMessage = (message) =>
+            {
+                PlatformDialog.SetButtonLabel("OK");
+                PlatformDialog.Show("エラー", message, PlatformDialog.Type.SubmitOnly,
+                    () => {
+                        SceneManager.LoadSceneAsync(scene.ToString());
+                    }
+                );
+            };
+            SceneManager.LoadSceneAsync(scene.ToString());
         }
 
         // サービスロケータの初期化
@@ -59,26 +65,6 @@ namespace Alice
                     CommunicationService.SetLocator(new CommunicationFirebase("alice-321c1"));    // 通信
                     break;
             }
-        }
-
-        /// <summary>
-        /// 広告APIの初期化
-        /// </summary>
-        IEnumerator InitializeAds(Action cb)
-        {
-#if UNITY_ADS
-            // https://github.com/unity3d-jp/unityads-help-jp/wiki/Integration-Guide-for-Unity
-            //Advertisement.Initialize("2788195");  // MEMO : 必要なくなったかも？
-
-            // Ads の初期化待ち
-            while (!Advertisement.isInitialized || !Advertisement.IsReady())
-            {
-                yield return null;
-            }
-#else
-            yield return null;
-#endif
-            cb?.Invoke();
         }
     }
 }

@@ -8,8 +8,9 @@ namespace Alice
     {
         public enum BattleType
         {
-            Normal,     // 通常バトル
-            Shadow,     // シャドウバトル
+            NONE = -1,      // 
+            Normal,         // 通常バトル
+            Shadow,         // シャドウバトル
         }
 
         public enum State
@@ -44,6 +45,11 @@ namespace Alice
             new Vector3(200,-115),
             new Vector3(280,-150),
         };
+
+        /// <summary>
+        /// 配置場所によるバトルロジックでの抽選重み
+        /// </summary>
+        public static readonly int[] PositionRaito = new[] { 130, 130, 100, 100 };
 
         /// <summary>
         /// 
@@ -101,7 +107,7 @@ namespace Alice
             BuffCancel_Wait,            // バフ解除:Wait
             BuffCancel_All = BuffCancel_Base, // バフ解除:すべて
 
-            // バフ解除
+            // デバフ解除
             DebuffCancel_Base = 500,      // 計算に使用する
             DebuffCancel_Atk,             // デバフ解除:ATK
             DebuffCancel_Def,             // デバフ解除:DEF
@@ -143,6 +149,32 @@ namespace Alice
         {
             Physics,    // 物理
             Magic,      // 魔法
+        }
+
+        /// <summary>
+        /// キャンセルに対応したエフェクトタイプを返す
+        /// </summary>
+        /// <param name="cancel"></param>
+        /// <returns></returns>
+        public static Effect Cancel2Effect(Effect cancel)
+        {
+            switch(cancel)
+            {
+                // バフキャンセル -> バフ
+                case Effect.BuffCancel_Atk: return Effect.Buff_Atk;
+                case Effect.BuffCancel_Def: return Effect.Buff_Def;
+                case Effect.BuffCancel_MAtk: return Effect.Buff_MAtk;
+                case Effect.BuffCancel_MDef: return Effect.Buff_MDef;
+                case Effect.BuffCancel_Wait: return Effect.Buff_Wait;
+                // デバフキャンセル -> デバフ
+                case Effect.DebuffCancel_Atk: return Effect.Debuff_Atk;
+                case Effect.DebuffCancel_Def: return Effect.Debuff_Def;
+                case Effect.DebuffCancel_MAtk: return Effect.Debuff_MAtk;
+                case Effect.DebuffCancel_MDef: return Effect.Debuff_MDef;
+                case Effect.DebuffCancel_Wait: return Effect.Debuff_Wait;
+                default:
+                    throw new System.Exception("what??");
+            }
         }
     }
 }

@@ -481,6 +481,14 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/190/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 3897744307ed1c34fbc0fbc0b395fed5
+    m_Address: Assets/AddressableAssets/Character/250/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 38c46f9ebc1baa249ab997da0f108942
+    m_Address: Assets/AddressableAssets/Character/253/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 3ba805f018b6d78438fbf1020ad81fa4
     m_Address: Assets/AddressableAssets/Character/241/icon.asset
     m_ReadOnly: 0
@@ -515,6 +523,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 3f80867474b97ef408c4324008da27fa
     m_Address: Assets/AddressableAssets/Character/089/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 40e4cc80c0c0fa54aa24d0ccc50cc4e9
+    m_Address: Assets/AddressableAssets/Prefab/Thumbnail.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 4106e0a849c15654a9c89db4b83fb158
@@ -655,6 +667,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 55f24c9ff8612124a8e54ec9f2367b1a
     m_Address: Assets/AddressableAssets/Character/063/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 56777ba42f870de41b4dea0af2f19f36
+    m_Address: Assets/AddressableAssets/Prefab/SkillItem.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 568a4483a9fe27848b3895ef03093259
@@ -1167,6 +1183,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 969ec650e4fe3074fbe44d23add5e5ad
     m_Address: Assets/AddressableAssets/Character/138/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 96cd941e3537e1747859bb4f6a0b1801
+    m_Address: Assets/AddressableAssets/Character/219/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 96f20b2c08111f44382111f27674fe53

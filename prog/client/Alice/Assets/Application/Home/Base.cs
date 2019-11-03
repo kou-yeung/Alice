@@ -5,6 +5,9 @@ using UnityEngine;
 using Zoo.Communication;
 using Zoo;
 using UnityEngine.Advertisements;
+using System;
+using Alice.Entities;
+using Zoo.Time;
 
 namespace Alice
 {
@@ -13,13 +16,18 @@ namespace Alice
         public Chest[] chests;
         public Card[] cards;
         public Battle battle;
+        public Edit edit;
+        public SkillView skill;
 
         void Start()
         {
             Observer.AddObserver("HomeRecv", Setup);
             Setup();
         }
-
+        private void OnDestroy()
+        {
+            Observer.RemoveObserver("HomeRecv", Setup);
+        }
         public void Setup()
         {
             var recv = UserData.cacheHomeRecv;
@@ -27,8 +35,18 @@ namespace Alice
             // ユニット
             for (int i = 0; i < cards.Length; i++)
             {
-                var unit = recv.units.FirstOrDefault(v => v.position == i);
-                cards[i].Setup(unit);
+                var id = recv.deck.ids[i];
+                if (string.IsNullOrEmpty(id))
+                {
+                    cards[i].Setup(null);
+                } else
+                {
+                    var unit = recv.units.First(v => v.characterId == id);
+                    cards[i].Setup(unit);
+                }
+
+                cards[i].OnEditEvent = OnEditEvent;
+                cards[i].OnSkillEvent = OnSkillEvent;
             }
 
             // 宝箱
@@ -46,17 +64,102 @@ namespace Alice
         /// <param name="chest"></param>
         void ClickChest(UserChest chest)
         {
-            //Debug.Log(JsonUtility.ToJson(chest));
-            //Advertisement.Show(new ShowOptions { resultCallback = ResultCallback });
-            Ads.Instance.Show(chest, (res) =>
+            var remain = Math.Max(0, chest.end - ServerTime.CurrentUnixTime);
+            if (remain <= 0)
             {
-            });
+                var c2s = new ChestSend();
+                c2s.chest = chest;
+                // 開く
+                CommunicationService.Instance.Request("Chest", JsonUtility.ToJson(c2s), (res) =>
+                {
+                    var s2c = JsonUtility.FromJson<ChestRecv>(res);
+                    UserData.Modify(s2c.modified);
+
+                    if (s2c.modified.unit.Length != 0)
+                    {
+                        foreach (var unit in s2c.modified.unit)
+                        {
+                            name = MasterData.characters.First(v => v.ID == unit.characterId).Name;
+                        }
+                    }
+                    if (s2c.modified.skill.Length != 0)
+                    {
+                        foreach (var skill in s2c.modified.skill)
+                        {
+                            name = MasterData.skills.First(v => v.ID == skill.id).Name;
+                        }
+                    }
+
+                    PlatformDialog.SetButtonLabel("OK");
+                    PlatformDialog.Show(
+                        "おめでとう",
+                        $"{name} を入手しました",
+                        PlatformDialog.Type.SubmitOnly,
+                        () => {
+                            Debug.Log("OK");
+                        }
+                    );
+                });
+            }
+            else
+            {
+                var player = UserData.cacheHomeRecv.player;
+
+                if (player.ads > 0)
+                {
+                    PlatformDialog.SetButtonLabel("Yes", "No");
+                    PlatformDialog.Show(
+                        "確認(仮)",
+                        "広告を観て時間短縮しますか？",
+                        PlatformDialog.Type.OKCancel,
+                        () => {
+                        // 広告
+                        Ads.Instance.Show(chest, (res) =>
+                            {
+                            });
+                        }
+                    );
+                } else
+                {
+                    PlatformDialog.SetButtonLabel("OK");
+                    PlatformDialog.Show(
+                        "MEMO",
+                        "広告回数は制限されますが、将来は時短アイテム購入可能にします",
+                        PlatformDialog.Type.SubmitOnly,
+                        () => {
+                            Debug.Log("OK");
+                        }
+                    );
+                }
+            }
         }
+
+        /// <summary>
+        /// 編集したい
+        /// </summary>
+        void OnEditEvent(int index)
+        {
+            edit.Open(index);
+        }
+
+        /// <summary>
+        /// スキルをセットしたい
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <param name="index"></param>
+        void OnSkillEvent(UserUnit unit, int index)
+        {
+            skill.Open(unit, index);
+        }
+
         public void OnBattle()
         {
+            var c2v = new BattleStartSend();
+
             // バトル情報を取得する
-            CommunicationService.Instance.Request("Battle", "", (res) =>
+            CommunicationService.Instance.Request("Battle", JsonUtility.ToJson(c2v), (res) =>
             {
+                UserData.editedUnit.Clear();
                 battle.Exec(JsonUtility.FromJson<BattleStartRecv>(res));
             });
         }

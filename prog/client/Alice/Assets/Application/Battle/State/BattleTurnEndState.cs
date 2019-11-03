@@ -11,7 +11,7 @@ namespace Alice
         public override void Begin(Battle owner)
         {
             // 行動後始末
-            owner.controller.currentAction.behavioure.PostAction();
+            owner.controller.currentAction.behaviour.PostAction();
 
             // 試合終了判定
             var playerCount = owner.controller.units.Count(kv => kv.Value.side == BattleConst.Side.Player);
@@ -46,9 +46,6 @@ namespace Alice
             }
             else
             {
-                // Wait加算
-                var behaviour = owner.controller.currentActionBattleUnit;
-                behaviour.current.Wait = behaviour.characterData.Wait;
                 // タイム更新
                 owner.controller.ChangeState(BattleConst.State.Timeline);
             }

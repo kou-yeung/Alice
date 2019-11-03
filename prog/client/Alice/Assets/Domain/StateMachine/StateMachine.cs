@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using UniRx;
 using System;
 
@@ -30,7 +29,7 @@ namespace Zoo.StateMachine
         public StateBehaviour(Owner owner)
         {
             this.owner = owner;
-            this.task = Observable.EveryUpdate().Subscribe(_ => Update(Time.deltaTime));
+            this.task = Observable.EveryUpdate().Subscribe(_ => Update(UnityEngine.Time.deltaTime));
         }
 
         void Update(float deltaTime)

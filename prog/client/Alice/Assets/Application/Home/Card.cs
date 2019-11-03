@@ -7,6 +7,7 @@ using Alice.Entities;
 using System.Linq;
 using Zoo.Assets;
 using System.Text;
+using System;
 
 namespace Alice
 {
@@ -15,57 +16,79 @@ namespace Alice
     /// </summary>
     public class Card : MonoBehaviour
     {
-        public TimelineIcon icon;
-        public Text level;
+        public Thumbnail thumbnail;
         public Text Param;
+        public GameObject info;
+        public Button[] skill;
 
-        UserUnit currentUnit;
-        Character characterData;
+        public Action<int> OnEditEvent;
+        public Action<UserUnit, int> OnSkillEvent;
 
-        string IconPath
-        {
-            get
-            {
-                return $"Character/{characterData.Image}/icon.asset";
-            }
-        }        
+        UserUnit cacheUnit;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="unit"></param>
         public void Setup(UserUnit unit)
         {
-            if(unit == null)
+            cacheUnit = unit;
+
+            if (unit == null)
             {
-                gameObject.SetActive(false);
+                info.SetActive(false);
+                return;
             }
-            gameObject.SetActive(true);
+            info.SetActive(true);
 
-            currentUnit = unit;
-            characterData = MasterData.characters.FirstOrDefault(v => v.ID == currentUnit.characterId);
-            // アイコン
-            LoaderService.Instance.Preload(new []{IconPath}, () =>
-            {
-                if (currentUnit != unit) return;
-                var sprites = LoaderService.Instance.Load<Sprites>(IconPath);
-                icon.Setup(characterData);
-            });
+            thumbnail.Setup(unit);
+
+            var data = MasterData.characters.FirstOrDefault(v => v.ID == unit.characterId);
             var lv = unit.Level();
-            // レベル
-            level.text = $"Lv.{lv}";
-
-            var b = characterData.Base;
-            var g = characterData.Grow;
+            var b = data.Base;
+            var g = data.Grow;
 
             var sb = new StringBuilder();
             sb.AppendLine($"ATK: {b.Atk + g.Atk * lv}");
             sb.AppendLine($"MATK: {b.MAtk + g.MAtk * lv}");
             sb.AppendLine($"Def: {b.Def + g.Def * lv}");
             sb.AppendLine($"MDef: {b.MDef + g.MDef * lv}");
-            sb.AppendLine($"WAIT: {characterData.Wait}");
+            sb.AppendLine($"WAIT: {data.Wait}");
             var next = (lv) * (lv) - unit.exp;
             sb.AppendLine($"LVUP: {next}");
+
+            // スキル設定
+            for (int i = 0; i < skill.Length; i++)
+            {
+                var text = skill[i].GetComponentInChildren<Text>();
+
+                if (i < unit.skill.Length)
+                {
+                    text.text = MasterData.FindSkillByID(unit.skill[i])?.Name;
+                }
+                else
+                {
+                    text.text = "+";
+                }
+            }
+
             Param.text = sb.ToString();
+        }
+
+        /// <summary>
+        /// 編集を押します
+        /// </summary>
+        public void OnEdit(int index)
+        {
+            OnEditEvent?.Invoke(index);
+        }
+
+        /// <summary>
+        /// スキルを押します
+        /// </summary>
+        public void OnSkill(int index)
+        {
+            OnSkillEvent?.Invoke(cacheUnit, index);
         }
     }
 }

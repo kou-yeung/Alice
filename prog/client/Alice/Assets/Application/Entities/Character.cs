@@ -16,12 +16,30 @@ namespace Alice.Entities
 
         public string ID;
         public string Name;
+        public int Rare;
         public string Image;
         public string Personality;
         public Param Base;
         public int Wait;
         public Param Grow;
         public int[] Trigger;   // 発動確率
+
+
+        /// <summary>
+        /// 指定のレベルのパラメータを取得する
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public Param ParamAtLevel(int level)
+        {
+            Param res;
+            res.HP = Base.HP + Grow.HP * level;
+            res.Atk = Base.Atk + Grow.Atk * level;
+            res.Def = Base.Def + Grow.Def * level;
+            res.MAtk = Base.MAtk + Grow.MAtk * level;
+            res.MDef = Base.MDef + Grow.MDef * level;
+            return res;
+        }
     }
 
     public sealed class CharacterMap : ClassMap<Character>
@@ -35,6 +53,7 @@ namespace Alice.Entities
         {
             Map(x => x.ID).Name("ID");
             Map(x => x.Name).Name("名前");
+            Map(x => x.Rare).Name("レア");
             Map(x => x.Image).Name("画像ID");
             Map(x => x.Personality).Name("性格");
             Map(x => x.Base.HP).Name("HP");

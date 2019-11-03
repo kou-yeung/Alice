@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
-using UnityEngine.Networking;
 using Firebase.Functions;
+using Firebase.Extensions;
 
 namespace Zoo.Communication
 {
+    class Message
+    {
+        public string error;
+        public string warning;
+    }
+
     public class CommunicationFirebase : ICommunication
     {
         const string UrlFormat = @"https://us-central1-{0}.cloudfunctions.net/";
@@ -27,39 +30,46 @@ namespace Zoo.Communication
         /// <param name="error"></param>
         public void Request(string proto, string data, Action<string> complete = null, Action<string> error = null)
         {
+            CommunicationService.ConnectionBegin?.Invoke();
+
             Debug.Log($"Request proto({proto}) data({data})");
 
             var functions = FirebaseFunctions.DefaultInstance;
-            
-            functions.GetHttpsCallable(proto).CallAsync(data).ContinueWith(task =>
+
+            functions.GetHttpsCallable(proto).CallAsync(data).ContinueWithOnMainThread(task =>
             {
+                CommunicationService.ConnectionEnd?.Invoke();
+
                 // エラー処理
                 if (task.IsCanceled)
                 {
+                    CommunicationService.WarningMessage?.Invoke("通信できませんでした");
                     error?.Invoke($"Request:{proto}[{data}] was Canceled!!");
                     return;
                 }
                 if (task.IsFaulted)
                 {
+                    CommunicationService.WarningMessage?.Invoke("通信できませんでした");
                     error?.Invoke($"Request:{proto}[{data}] was Faulted!! {task.Exception}");
                     return;
                 }
-                complete?.Invoke(task.Result.Data as string);
+
+                var recv = task.Result.Data as string;
+                Debug.Log($"Recv {recv}");
+
+                var message = JsonUtility.FromJson<Message>(recv);
+                if (!string.IsNullOrEmpty(message.error))
+                {
+                    CommunicationService.ErrorMessage?.Invoke(message.error);
+                }
+                else if(!string.IsNullOrEmpty(message.warning))
+                {
+                    CommunicationService.WarningMessage?.Invoke(message.warning);
+                } else
+                {
+                    complete?.Invoke(recv);
+                }
             });
-        }
-
-        IEnumerator Fetch(IObserver<string> observer, UnityWebRequest request)
-        {
-            yield return request.SendWebRequest();
-
-            if(request.error != null)
-            {
-                observer.OnError(new Exception(request.error));
-            } else
-            {
-                observer.OnNext(request.downloadHandler.text);
-                observer.OnCompleted();
-            }
         }
     }
 }

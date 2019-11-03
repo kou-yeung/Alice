@@ -30,6 +30,25 @@ namespace Alice
                 this.value = value;
                 this.remain = remain;
             }
+
+            /// <summary>
+            /// これはバフ効果か？
+            /// </summary>
+            /// <returns></returns>
+            public bool IsBuff()
+            {
+                var b = (BattleConst.Effect)(Mathf.FloorToInt((int)this.effect / 100) * 100);
+                return b == BattleConst.Effect.Buff_Base;
+            }
+            /// <summary>
+            /// これはデバフ効果か？
+            /// </summary>
+            /// <returns></returns>
+            public bool IsDebuff()
+            {
+                var b = (BattleConst.Effect)(Mathf.FloorToInt((int)this.effect / 100) * 100);
+                return b == BattleConst.Effect.Debuff_Base;
+            }
         }
 
         /// <summary>
@@ -67,16 +86,17 @@ namespace Alice
         public List<Skill> skills { get; private set; } = new List<Skill>();
         public string[] ais { get; private set; }
         public Dictionary<string, int> cooltimes = new Dictionary<string, int>();
-        public int Position { get { return data.position; } }
+        public int Position { get; private set; }
 
         List<Condition> conditions = new List<Condition>();
         UserUnit data;
         UnitState state;
 
-        public BattleUnit(string uniq, UserUnit data, BattleConst.Side side)
+        public BattleUnit(string uniq, UserUnit data, int position, BattleConst.Side side)
         {
             this.uniq = uniq;
             this.data = data;
+            this.Position = position;
             this.characterData = MasterData.characters.First(v => v.ID == data.characterId);
             this.current = new Current(this.characterData, data.Level());
             this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;
@@ -84,7 +104,8 @@ namespace Alice
             // スキルID -> スキルデータ
             foreach (var skill in data.skill)
             {
-                this.skills.Add(MasterData.skills.First(v => v.ID == skill));
+                if (string.IsNullOrEmpty(skill)) continue;
+                this.skills.Add(MasterData.FindSkillByID(skill));
                 this.cooltimes[skill] = -1;
             }
 
@@ -110,6 +131,8 @@ namespace Alice
                 root.transform.localScale = new Vector3(-1, 1, 1);
                 state.transform.localScale = new Vector3(-1, 1, 1);
             }
+
+            state.UpdateCooltime(this);
         }
 
         /// <summary>
@@ -195,6 +218,11 @@ namespace Alice
             // 効果の持続回数過ぎたものを削除する
             foreach (var v in conditions) { --v.remain; }
             conditions = conditions.Where(v => v.remain >= 0).ToList();
+
+            // 更新
+            state.UpdateCondition(this);
+            // クールタイム更新
+            state.UpdateCooltime(this);
         }
 
         /// <summary>
@@ -202,6 +230,13 @@ namespace Alice
         /// </summary>
         public void PostAction()
         {
+            // Wait加算
+            float buff = GetCondition(BattleConst.Effect.Buff_Wait);
+            float debuff = GetCondition(BattleConst.Effect.Debuff_Wait);
+            var ratio = Mathf.Max(0, 1 + ((debuff - buff) / 100f));
+            current.Wait = Mathf.FloorToInt(characterData.Wait * ratio);
+            // クールタイム更新
+            state.UpdateCooltime(this);
         }
 
         /// <summary>
@@ -213,6 +248,7 @@ namespace Alice
         {
             Debug.Log($"{uniq}: AddCondition({effect}, {value})");
             conditions.Add(new Condition(effect, value, remain));
+            state.UpdateCondition(this);
         }
 
         /// <summary>
@@ -240,6 +276,52 @@ namespace Alice
                 if (v.effect == effect) return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// バフの数を取得
+        /// </summary>
+        /// <returns></returns>
+        public int BuffCount()
+        {
+            return conditions.Count(v => v.IsBuff());
+        }
+        /// <summary>
+        /// デバフの数を取得
+        /// </summary>
+        /// <returns></returns>
+        public int DebuffCount()
+        {
+            return conditions.Count(v => v.IsDebuff());
+        }
+
+        /// <summary>
+        /// 指定した効果を消す
+        /// </summary>
+        public void CancenCondition(BattleConst.Effect effect)
+        {
+            switch (effect)
+            {
+                case BattleConst.Effect.BuffCancel_All:
+                    {
+                        var index = conditions.FindLastIndex(v => v.IsBuff());
+                        if (index != -1) conditions.RemoveAt(index);
+                    }
+                    break;
+                case BattleConst.Effect.DebuffCancel_All:
+                    {
+                        var index = conditions.FindLastIndex(v => v.IsDebuff());
+                        if (index != -1) conditions.RemoveAt(index);
+                    }
+                    break;
+                default:
+                    {
+                        var index = conditions.FindLastIndex(v => v.effect == BattleConst.Cancel2Effect(effect));
+                        if (index != -1) conditions.RemoveAt(index);
+                    }
+                    break;
+            }
+            state.UpdateCondition(this);
         }
     }
 }

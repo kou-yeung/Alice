@@ -16,12 +16,10 @@ namespace Alice
         public static Ads Instance { get; private set; }
         Image blocker;
 
-        // Start is called before the first frame update
         void Start()
         {
             Instance = this;
             blocker = GetComponent<Image>();
-            blocker.enabled = false;
         }
 
         /// <summary>
@@ -31,28 +29,33 @@ namespace Alice
         public void Show(UserChest chest, Action<ShowResult> cb)
         {
             blocker.enabled = true;
-            var send = new AdsBeginSend { chest = chest };
-            CommunicationService.Instance.Request("BeginAds", JsonUtility.ToJson(send), (begin) =>
+
+            Advertisement.Show(new ShowOptions { resultCallback = (showResult)=>
             {
-                Advertisement.Show(new ShowOptions { resultCallback = (showResult)=>
+                if(showResult == ShowResult.Finished)
                 {
-                    if(showResult == ShowResult.Finished)
-                    {
-                        blocker.enabled = false;
-                        CommunicationService.Instance.Request("EndAds", begin, (end) =>
-                        {
-                            var data = JsonUtility.FromJson<AdsEndRecv>(end);
-                            UserData.Modify(data.modifiedChest);
-                            blocker.enabled = false;
-                            cb?.Invoke(showResult);
-                        });
-                    }
-                    else
-                    {
-                        blocker.enabled = false;
-                        cb?.Invoke(showResult);
-                    }
-                }});
+                    Finished(chest, cb);
+                }
+                else
+                {
+                    blocker.enabled = false;
+                    cb?.Invoke(showResult);
+                }
+            }});
+        }
+
+        public void Finished(UserChest chest, Action<ShowResult> cb)
+        {
+            var c2v = new AdsSend();
+            c2v.token = UserData.cacheHomeRecv.player.token;
+            c2v.chest = chest;
+
+            CommunicationService.Instance.Request("Ads", JsonUtility.ToJson(c2v), (res) =>
+            {
+                var data = JsonUtility.FromJson<AdsRecv>(res);
+                UserData.Modify(data.modified);
+                blocker.enabled = false;
+                cb?.Invoke(ShowResult.Finished);
             });
         }
     }
