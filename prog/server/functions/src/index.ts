@@ -805,10 +805,12 @@ class ShadowCreateSend {
     player!: Player;             // 自分情報
     deck!: UserDeck;             // デッキ情報
     units: UserUnit[] = [];      // バトルに使用するユニット
+    edited: UserUnit[] = [];    // 同期必要ユニット
 }
 // シャドウ生成: s2c
 class ShadowCreateRecv {
     roomId: number = 0;              // ルームID
+    self: ShadowSelf = new ShadowSelf();    // 自分のシャドウ情報
 }
 
 /**
@@ -820,6 +822,19 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
     const s2c = new ShadowCreateRecv();             // s2c
 
     const batch = db.batch();
+
+    const player = await Ref.snapshot<Player>(doc.player());
+    // プレイヤー名が変更されたら更新する
+    if (c2s.player.name !== player.name) {
+        player.name = c2s.player.name;
+        batch.update(doc.player(), { name: player.name });
+    }
+    // デッキ更新
+    batch.set(doc.deck(), c2s.deck);
+    // 情報更新したユニットを同期する( スキルのみ
+    for (const unit of c2s.edited) {
+        batch.update(doc.unit(unit.characterId), { skill: unit.skill });
+    }
 
     // 情報からカウンタを取得
     const info = await Ref.snapshot<ShadowInfo>(doc.shadowInfo());
@@ -844,6 +859,11 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
 
     // 自分の最後に生成したシャドウを記録する
     batch.set(doc.shadowSelf(), room);
+
+    // 情報をそのまま返す
+    s2c.self.name = c2s.player.name;
+    s2c.self.unit = c2s.units;
+    s2c.self.deck = c2s.deck;
 
     await batch.commit();
     s2c.roomId = roomid;

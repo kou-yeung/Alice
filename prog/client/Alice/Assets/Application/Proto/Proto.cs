@@ -83,6 +83,21 @@ namespace Alice
         public UserDeck enemyDeck;
         // 以下はクライアント側が生成する結果
         public BattleConst.Result result;
+
+        // シャドウ情報から生成する
+        public static BattleStartRecv Conversion(ShadowSelf self, ShadowEnemy enemy)
+        {
+            var res = new BattleStartRecv();
+            res.seed = enemy.seed;
+            res.type = BattleConst.BattleType.Shadow;
+            res.names = new[] { self.name, enemy.name };
+            res.playerUnit = self.unit;
+            res.playerDeck = self.deck;
+            res.enemyUnit = enemy.unit;
+            res.enemyDeck = enemy.deck;
+            return res;
+        }
+
     }
 
     /// <summary>
@@ -211,6 +226,7 @@ namespace Alice
         public Player player;       // 自分情報
         public UserDeck deck;       // デッキ情報
         public UserUnit[] units;    // バトルに使用するユニット
+        public UserUnit[] edited;    // 同期必要ユニット
 
         public ShadowCreateSend()
         {
@@ -218,6 +234,7 @@ namespace Alice
             this.player = cache.player;
             this.deck = cache.deck;
             this.units = cache.units.Where(v => Array.Exists(cache.deck.ids, id => id == v.characterId)).ToArray();
+            this.edited = UserData.editedUnit.Values.ToArray();
         }
     }
 
@@ -227,7 +244,8 @@ namespace Alice
     [Serializable]
     public class ShadowCreateRecv
     {
-        public string roomId;     // ルームID
+        public int roomId;      // ルームID
+        public ShadowSelf self;
     }
 
     /// <summary>
@@ -261,7 +279,7 @@ namespace Alice
     public class ShadowEnemy
     {
         public int seed;        // 乱数シード
-        public string[] names;  // 名前
+        public string name;     // 名前
         public UserUnit[] unit;
         public UserDeck deck;
     }
@@ -272,7 +290,7 @@ namespace Alice
     [Serializable]
     public class ShadowSelf
     {
-        public string[] names;  // 名前
+        public string name;  // 名前
         public UserUnit[] unit;
         public UserDeck deck;
     }

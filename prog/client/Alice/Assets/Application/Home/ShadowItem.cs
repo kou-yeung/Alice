@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Alice
 {
@@ -9,8 +10,13 @@ namespace Alice
     /// </summary>
     public class ShadowItem : MonoBehaviour
     {
-        public void Setup()
+        public Text debugInfo;
+        ShadowEnemy cacheShadowEnemy;
+
+        public void Setup(ShadowEnemy shadowEnemy)
         {
+            this.cacheShadowEnemy = shadowEnemy;
+            debugInfo.text = shadowEnemy.name;
         }
     }
 }
