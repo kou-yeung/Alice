@@ -1,6 +1,20 @@
 ﻿import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
+// 定数
+class Const {
+    static PLAYER_RANK_MAX: number = 10;
+    static AdsRewardTimeSecond: number = (10 * 60);     // 10分
+    static AlarmTimeSecond: number = (15 * 60);         // 15分
+    static LoginBonusAlarm: number = 3;                 // 3個
+    static LoginBonusAds: number = 15;                  // 15回
+}
+
+// 宝箱のランクから必要の時間を算出します
+function RankToTimeSecond(rank: number) {
+    return ((rank + 1) * Math.floor((rank + 1) / 2) * 5 + 5) * 60;
+}
+
 class ServerTime {
     // サーバー時間を取得する
     // MEMO : JavaScript では ミリ秒まで取得されるため、最後の3桁は削除しています!!
@@ -88,6 +102,10 @@ class Documents {
     room(id: number): FirebaseFirestore.DocumentReference {
         return db.collection('rooms').doc(id.toString());
     }
+    // 自分の最後登録したシャドウ情報
+    shadowSelf(): FirebaseFirestore.DocumentReference {
+        return this.player().collection('shadow').doc('self');
+    }
     // マスタデータ:スキル
     masterdataSkill(lv: number): FirebaseFirestore.DocumentReference {
         return db.collection('masterdata').doc('skills' + lv.toString());
@@ -113,6 +131,11 @@ class Documents {
     }
     chests(): FirebaseFirestore.CollectionReference {
         return this.player().collection("chests");
+    }
+    // ルームID + 指定時間移行のバトルを指定件数のクエリを生成する
+    shadowEnemies(roomid: number, beforeTime: number, count: number): FirebaseFirestore.Query {
+        const collection = this.player().collection("shadow").doc(roomid.toString()).collection('enemies');
+        return collection.where('created', '>=', beforeTime).orderBy('created', 'desc').limit(count);
     }
 
     // コロシアムからランダム抽選
@@ -144,6 +167,7 @@ class  Player {
     todayWinCount: number = 0;       // 本日勝利した回数
 
     colosseums: any;      // コロシアムにランクと番号のマップ colosseums[rank] = index
+    roomid: number = -1;    // 最後に生成したシャドウ番号    
 }
 
 // スキルx1
@@ -173,8 +197,10 @@ class UserDeck {
 
 // ルーム
 class Room {
-    uid: string = "";   // 現在このルームを使用中のUID
-    name: string = "";  // 名前
+    uid: string = "";       // 現在このルームを使用中のUID
+    seed: number = 0;       // シャドウバトルを挑戦した側のみ発行します
+    created: number = 0;    // 生成時間
+    name: string = "";      // 名前
     unitJson: string = "";  // ユニットデータのJSON文字列
     deckJson: string = "";  // デッキデータのJSON文字列
 }
@@ -199,6 +225,7 @@ class Message {
         return { warning: str };
     }
 }
+
 /**
  * ログインボーナスチェック
  * return (null)ログインボーナス発生しない 
@@ -221,8 +248,8 @@ function LoginBonus(player: Player) {
     // 以下ログインボーナス付与
     //========================
     // 広告使用回数を回復
-    player.ads = 15;
-    const bonus = { alarm: 3, rankup : false };
+    player.ads = Const.LoginBonusAds;
+    const bonus = { alarm: Const.LoginBonusAlarm, rankup: false };
 
     player.alarm = (player.alarm || 0) + bonus.alarm;
     // 本日のバトル回数が１０回以上のみチェック
@@ -232,7 +259,7 @@ function LoginBonus(player: Player) {
 
         // 勝率が 65% 以上ならランクアップ
         if (win / count >= 0.65) {
-            player.rank = (player.rank || 0) + 1;
+            player.rank = Math.min(Const.PLAYER_RANK_MAX, (player.rank || 0) + 1);
             bonus.rankup = true;
         }
     }
@@ -538,6 +565,8 @@ class GameSetSend {
 // s2c
 class GameSetRecv {
     modified: Modified = new Modified();
+    chest?: UserChest;
+    alarm: number = 0;
 }
 /**
  * proto:GameSet:試合終了
@@ -559,8 +588,6 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
     if (c2s.result === Win) {
         player.todayWinCount += 1;
     }
-    batch.set(doc.player(), player);
-    s2c.modified.player = [player];
 
     // デッキにセットしたユニットに経験値を与える
     const deck = await Ref.snapshot<UserDeck>(doc.deck());
@@ -578,13 +605,18 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
         rares.push(Math.floor(Math.max(0, i) / 5));
     }
 
-    const rare = rares[Random.Next(0, rares.length)];
+    // 勝利した場合、確率でアラームドロップ
+    if (c2s.result === Win && Random.Next(0, 250) === 0) {
+        player.alarm += 1;
+    }
 
+    const rare = rares[Random.Next(0, rares.length)];
+    
     // 宝箱を追加します
     const chests = await Ref.collection<UserChest>(doc.chests());
     if (chests.length < 3) {
         const start = ServerTime.current;
-        const end = start + ((15 * 60) * (rare + 1));
+        const end = start + RankToTimeSecond(rare);
 
         const chest = {
             uniq: Guid.NewGuid(),
@@ -597,9 +629,11 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
         s2c.modified.chest = [chest];
     }
 
+    batch.set(doc.player(), player);
+    s2c.modified.player = [player];
+
     // 同期
     await batch.commit();
-
     return JSON.stringify(s2c);
 });
 
@@ -633,8 +667,8 @@ exports.Ads = functions.https.onCall(async (data, context) => {
     }
 
     const chest = await Ref.snapshot<UserChest>(doc.chest(c2s.chest.uniq));
-    chest.start -= (10 * 60);
-    chest.end -= (10 * 60);
+    chest.start -= Const.AdsRewardTimeSecond;
+    chest.end -= Const.AdsRewardTimeSecond;
 
     const batch = db.batch();
     batch.set(doc.chest(c2s.chest.uniq), chest);
@@ -689,7 +723,8 @@ exports.Chest = functions.https.onCall(async (data, context) => {
     const remain = Math.max(0, chest.end - ServerTime.current);
 
     if (remain > 0) {
-        const needItemCount = Math.ceil(remain / (5 * 60));   // 必要アイテム数:1アイテム : 5分
+        // 必要なアイテム数を算出
+        const needItemCount = Math.ceil(remain / Const.AlarmTimeSecond);
         if (needItemCount > player.alarm) {
             return JSON.stringify(Message.Error("アラームが足りません"));
         }
@@ -783,6 +818,7 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
     const c2s: ShadowCreateSend = JSON.parse(data); // c2s
     const s2c = new ShadowCreateRecv();             // s2c
+
     const batch = db.batch();
 
     // 情報からカウンタを取得
@@ -794,6 +830,8 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
 
     const room: Room = {
         uid: doc.uid,
+        seed:0,
+        created: ServerTime.current,
         name: c2s.player.name,
         deckJson: JSON.stringify(c2s.deck),
         unitJson: JSON.stringify(c2s.units),
@@ -801,12 +839,16 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
     batch.set(doc.room(roomid), room);
     // カウントアップ
     batch.update(doc.shadowInfo(), { counter: (info.counter + 1) % 100000 });
-    await batch.commit();
+    // シャドウIDを保持しておく
+    batch.update(doc.player(), { roomid: roomid });
 
+    // 自分の最後に生成したシャドウを記録する
+    batch.set(doc.shadowSelf(), room);
+
+    await batch.commit();
     s2c.roomId = roomid;
     return JSON.stringify(s2c);
 });
-
 
 // シャドウバトル]c2s
 class ShadowBattleSend {
@@ -834,6 +876,7 @@ exports.BattleShadow = functions.https.onCall(async (data, context) => {
 
     // シャドウバトル
     s2c.type = 1;
+    s2c.seed = Random.Next();   // シード生成
 
     const player = await Ref.snapshot<Player>(doc.player());
     // プレイヤー名が変更されたら更新する
@@ -847,13 +890,21 @@ exports.BattleShadow = functions.https.onCall(async (data, context) => {
     for (const unit of c2s.edited) {
         batch.update(doc.unit(unit.characterId), { skill: unit.skill });
     }
-
     // TODO : ルームのホストにバトル情報を登録する
+    const host = new Documents(room.uid);
+    const enemy2host: Room = {
+        created: ServerTime.current,
+        uid: doc.uid,
+        seed: s2c.seed,
+        name: player.name,
+        unitJson: JSON.stringify(c2s.units),
+        deckJson: JSON.stringify(c2s.deck)
+    };
+    batch.set(host.player().collection('shadow').doc(c2s.roomid.toString()).collection('enemies').doc(), enemy2host);
 
     // 一旦同期をとる
     await batch.commit();
 
-    s2c.seed = Random.Next();
     // プレイヤーユニット
     s2c.playerUnit = c2s.units;
     s2c.playerDeck = c2s.deck;
@@ -867,5 +918,67 @@ exports.BattleShadow = functions.https.onCall(async (data, context) => {
 
     return JSON.stringify(s2c);
 
+});
+
+
+class ShadowEnemy {
+    seed: number = 0;       // 乱数シード
+    name:string = '';       // 名前
+    unit:UserUnit[] = [];   // ユニット
+    deck!:UserDeck;         // デッキ情報
+}
+
+/// <summary>
+/// シャドウ自分情報
+/// </summary>
+class ShadowSelf {
+    name:string='';  // 名前
+    unit:UserUnit[] = [];
+    deck!:UserDeck;
+}
+// シャドウリスト:c2s
+class ShadowListSend {
+    roomid: number = 0;
+}
+// シャドウリスト: s2c
+class ShadowListRecv {
+    roomid: number = 0;                     // 再確認のため返すだけ
+    isActive: boolean = false;              // まだ有効なのか？
+    self: ShadowSelf = new ShadowSelf();    // 自分のシャドウ情報
+    enemies:ShadowEnemy[] = [];             // 敵のシャドウ情報一覧
+}
+/**
+ * proto:ShadowList:シャドウリスト取得
+ */
+exports.ShadowList = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s: ShadowListSend = JSON.parse(data); // c2s
+    const s2c = new ShadowListRecv();             // s2c
+
+    // ルームIDはまだ有効かをチェックする
+    const room = await Ref.snapshot<Room>(doc.room(c2s.roomid));
+    if (room === undefined) {
+        return JSON.stringify(Message.Warning('ルームが存在しませんでした'));
+    }
+    s2c.roomid = c2s.roomid;
+    s2c.isActive = room.uid === doc.uid;    // まだこのルームのオーナーか？
+
+    // 自分が登録した情報取得
+    const shadowSelf = await Ref.snapshot<Room>(doc.shadowSelf());
+    s2c.self.name = shadowSelf.name;
+    s2c.self.unit = JSON.parse(shadowSelf.unitJson);
+    s2c.self.deck = JSON.parse(shadowSelf.deckJson);
+
+    // ルーム生成後に登録したバトルのみ取得する
+    const enemies = await Ref.collection<Room>(doc.shadowEnemies(c2s.roomid, shadowSelf.created, 50));
+    for (const enemy of enemies) {
+        const v = new ShadowEnemy();
+        v.name = enemy.name;
+        v.seed = enemy.seed;
+        v.unit = JSON.parse(enemy.unitJson);
+        v.deck = JSON.parse(enemy.deckJson);
+        s2c.enemies.push(v);
+    }
+    return JSON.stringify(s2c);
 });
 

@@ -114,6 +114,7 @@ namespace Alice
         public int totalBattleCount;    // 累計バトル回数
         public int todayBattleCount;    // 本日バトルした回数
         public int todayWinCount;       // 本日勝利した回数
+        public int roomid = -1; // 最後に生成したシャドウのroomid
     }
 
     /// <summary>
@@ -252,5 +253,46 @@ namespace Alice
             this.edited = UserData.editedUnit.Values.ToArray();
         }
     }
-}
 
+    /// <summary>
+    /// シャドウ敵情報
+    /// </summary>
+    [Serializable]
+    public class ShadowEnemy
+    {
+        public int seed;        // 乱数シード
+        public string[] names;  // 名前
+        public UserUnit[] unit;
+        public UserDeck deck;
+    }
+
+    /// <summary>
+    /// シャドウ自分情報
+    /// </summary>
+    [Serializable]
+    public class ShadowSelf
+    {
+        public string[] names;  // 名前
+        public UserUnit[] unit;
+        public UserDeck deck;
+    }
+    /// <summary>
+    /// 自分が再生したシャドウのバトル一覧を取得する:c2s
+    /// </summary>
+    [Serializable]
+    public class ShadowListSend
+    {
+        public int roomid;
+    }
+    /// <summary>
+    /// 自分が再生したシャドウのバトル一覧を取得する:s2c
+    /// </summary>
+    [Serializable]
+    public class ShadowListRecv
+    {
+        public int roomid;
+        public bool isActive;           // まだ有効なのか？
+        public ShadowSelf self;         // 自分のシャドウ情報
+        public ShadowEnemy[] enemies;   // 敵のシャドウ情報一覧
+    }
+}
