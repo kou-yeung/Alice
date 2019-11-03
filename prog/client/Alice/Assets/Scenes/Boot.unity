@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backend: 1
+  scene: 0
 --- !u!4 &1797134025
 Transform:
   m_ObjectHideFlags: 0

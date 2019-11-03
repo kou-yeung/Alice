@@ -10,6 +10,7 @@ namespace Alice.Entities
     {
         public string ID;
         public string Name;
+        public int Rare;
         public string Image;
         public bool Passive;    // パッシブスキルかどうか
         public int CoolTime;
@@ -51,6 +52,7 @@ namespace Alice.Entities
         {
             Map(x => x.ID).Name("ID");
             Map(x => x.Name).Name("名前");
+            Map(x => x.Rare).Name("レア");
             Map(x => x.Image).Name("画像ID");
             Map(x => x.Passive).ConvertUsing(row => row.GetField<string>("種類") == "パッシブ");
             Map(x => x.CoolTime).Name("CT");

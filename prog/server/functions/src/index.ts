@@ -51,6 +51,9 @@ class Documents {
     constructor(uid: string) {
         this.uid = uid;
     }
+    admin(): FirebaseFirestore.DocumentReference {
+        return db.collection('admin').doc(this.uid);
+    }
     player(): FirebaseFirestore.DocumentReference {
         return db.collection('player').doc(this.uid);
     }
@@ -85,7 +88,14 @@ class Documents {
     room(id: number): FirebaseFirestore.DocumentReference {
         return db.collection('rooms').doc(id.toString());
     }
-
+    // マスタデータ:スキル
+    masterdataSkill(lv: number): FirebaseFirestore.DocumentReference {
+        return db.collection('masterdata').doc('skills' + lv.toString());
+    }
+    // マスタデータ:キャラクタ
+    masterdataCharacter(lv: number): FirebaseFirestore.DocumentReference {
+        return db.collection('masterdata').doc('characters' + lv.toString());
+    }
     // Collection
     units(): FirebaseFirestore.CollectionReference {
         return this.player().collection("units");
@@ -146,6 +156,7 @@ class UserUnit {
     characterId: string = "";
     skill: string[] = [];
     exp: number = 0;
+    rare: number = 0;
 }
 // 宝箱
 class UserChest {
@@ -273,24 +284,84 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     await batch.commit();
 });
 
-//// 管理者で登録時に使用します
-//exports.CreateShadowRoom = functions.https.onCall(async(data, context) => {
-//    const doc = new Documents(context.auth!.uid);
-//    const ids = [];
-//    // 10000個IDを生成する
-//    for (let i = 0; i < 100000; ++i) ids.push(i);
+// 管理者:ルームID登録時に使用します
+exports.CreateShadowRoom = functions.https.onCall(async(data, context) => {
+    const doc = new Documents(context.auth!.uid);
 
-//    for (let x = 0; x < 100; ++x) {
-//        const rooms = [];
-//        for (let y = 0; y < 1000; ++y) {
-//            const index = Random.Next(0, ids.length);
-//            rooms.push(index);
-//            ids.slice(index, 1);
-//        }
-//        await doc.shadowFloor(x).set({ ids: rooms });
-//    }
-//    return "";
-//});
+    // 権限をチェックする
+    if (await Ref.snapshot(doc.admin()) == undefined) {
+        return JSON.stringify(Message.Warning('管理者権限レベルが低い'));
+    }
+    const ids = [];
+    // 10000個IDを生成する
+    for (let i = 0; i < 100000; ++i) ids.push(i);
+    for (let x = 0; x < 100; ++x) {
+        const rooms = [];
+        for (let y = 0; y < 1000; ++y) {
+            const index = Random.Next(0, ids.length);
+            rooms.push(index);
+            ids.slice(index, 1);
+        }
+        await doc.shadowFloor(x).set({ ids: rooms });
+    }
+    return JSON.stringify(Message.Warning('登録完了しました'));
+});
+
+class MasterDataSkill {
+    rare: number = 0;
+    id: string = "";
+}
+class MasterDataCharacter {
+    rare: number = 0;
+    id: string = "";
+}
+class MasterDataIds {
+    ids: string[] = [];
+}
+
+class MasterDataSend {
+    skills?: MasterDataSkill[];
+    characters?: MasterDataCharacter[];
+}
+// 管理者:マスタデータ登録
+exports.MasterData = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s: MasterDataSend = JSON.parse(data);
+
+    // 権限をチェックする
+    if (await Ref.snapshot(doc.admin()) == undefined) {
+        return JSON.stringify(Message.Warning('管理者権限レベルが低い'));
+    }
+    const batch = db.batch();
+
+    // スキル登録
+    if (c2s.skills) {
+        const map = new Map();
+        for (let i = 0; i < c2s.skills.length; ++i) {
+            const skill = c2s.skills[i]; 
+            if (!map.has(skill.rare)) map.set(skill.rare, []);
+            map.get(skill.rare).push(skill.id);
+        }
+        for (const [k, v] of map) {
+            batch.set(doc.masterdataSkill(k), { ids: v });
+        }
+    }
+    // キャラ登録
+    if (c2s.characters) {
+        const map = new Map();
+        for (let i = 0; i < c2s.characters.length; ++i) {
+            const character = c2s.characters[i];
+            if (!map.has(character.rare)) map.set(character.rare, []);
+            map.get(character.rare).push(character.id);
+        }
+        for (const [k, v] of map) {
+            batch.set(doc.masterdataCharacter(k), { ids: v });
+        }
+    }
+
+    await batch.commit();
+    return JSON.stringify(Message.Warning('登録完了しました'));
+});
 
 ///**
 // * proto:Temp:テンプレート
@@ -501,18 +572,26 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
         s2c.modified.unit.push(unit);
     }
 
+    // レアリティの抽選テーブルを作る
+    const rares = [];
+    for (let i = player.rank - 5; i < player.rank + 5; ++i) {
+        rares.push(Math.floor(Math.max(0, i) / 5));
+    }
+
+    const rare = rares[Random.Next(0, rares.length)];
+
     // 宝箱を追加します
     const chests = await Ref.collection<UserChest>(doc.chests());
     if (chests.length < 3) {
         const start = ServerTime.current;
-        const end = start + (15 * 60);
+        const end = start + ((15 * 60) * (rare + 1));
 
         const chest = {
             uniq: Guid.NewGuid(),
             created: ServerTime.current,
             start: start,
             end: end,
-            rate: 2
+            rate: rare,
         }
         batch.set(doc.chest(chest.uniq), chest);
         s2c.modified.chest = [chest];
@@ -585,6 +664,11 @@ class ChestRecv {
     modified: Modified = new Modified();       // 更新したデータ
 }
 
+class ChestLots {
+    type: string = '';   // skill / character
+    id: string = '';     // id
+}
+
 /**
  * proto:Chest:宝箱を開く
  */
@@ -614,27 +698,51 @@ exports.Chest = functions.https.onCall(async (data, context) => {
         batch.update(doc.player(), { alarm: player.alarm });
     }
 
+    const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(chest.rate));
+    const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(chest.rate));
+    const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', chest.rate));
+
+
+    const lots: ChestLots[] = [];
+    // スキルの抽選一覧
+    for (const skill of skillIds.ids) {
+        const lot = new ChestLots();
+        lot.id = skill;
+        lot.type = 'skill';
+        lots.push(lot);
+    }
+    // キャラの抽選一覧
+    const hasUnits = units.map(v => v.characterId);
+    for (const character of characterIds.ids) {
+        if (hasUnits.includes(character)) continue; // すでに持ってるため抽選から外す
+        const lot = new ChestLots();
+        lot.id = character;
+        lot.type = 'character';
+        lots.push(lot);
+    }
+
     // 宝箱を消す
     batch.delete(doc.chest(chest.uniq));
     s2c.modified.remove = [chest];
 
-    //// MEMO : 現在適当に1/2の確率で[Unit][Skill]分岐
-    //if (random.Next() % 2 == 0 && db.units.Length < MasterData.characters.Length) {
-    //    var character = MasterData.characters;
-    //    var lots = character.Where(v => !Array.Exists(db.units, u => u.characterId == v.ID)).ToArray();
-    //    var id = lots[random.Next(0, lots.Length)].ID;
-    //    var add = new UserUnit();
-    //    add.characterId = id;
-    //    add.skill = new string[0];
-    //    db.units = db.units.Concat(new [] { add }).ToArray();
-    //    s2c.modified.unit = new [] { add };
-    //}
-    //else
+    // 抽選
+    const res = lots[Random.Next(0, lots.length)];
+
+    if (res.type === 'character') {
+        // キャラ
+        var add: UserUnit = {
+            characterId: res.id,
+            skill:[],
+            exp:0,
+            rare:chest.rate
+        }
+        batch.set(doc.unit(add.characterId), add);
+        s2c.modified.unit = [add];
+    }
+    else if (res.type === 'skill')
     {
         // スキル
-        //var skill = MasterData.skills;
-        const id = "Skill_999_002";//skill[random.Next(0, skill.Length)];
-
+        const id = res.id;
         let skill = await Ref.snapshot<UserSkill>(doc.skill(id));
         // なければ生成する
         if (!skill) skill = { id: id, count: 0 };

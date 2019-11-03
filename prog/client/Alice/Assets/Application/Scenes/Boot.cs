@@ -12,16 +12,21 @@ namespace Alice
             Local,
             Firebase,
         }
-
+        public enum Scene
+        {
+            Title,
+            MasterDataUploader
+        }
         public Backend backend = Backend.Local;
+        public Scene scene = Scene.Title;
 
         void Start()
         {
             InitializeServiceLocator();
 
             // ScreenBlockセットアップ:通信
-            CommunicationService.ConnectionBegin = ()=> { ScreenBlocker.Instance.Push(); };
-            CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance.Pop(); };
+            CommunicationService.ConnectionBegin = ()=> { ScreenBlocker.Instance?.Push(); };
+            CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance?.Pop(); };
             CommunicationService.WarningMessage = (message) =>
             {
                 PlatformDialog.SetButtonLabel("OK");
@@ -34,11 +39,11 @@ namespace Alice
                 PlatformDialog.SetButtonLabel("OK");
                 PlatformDialog.Show("エラー", message, PlatformDialog.Type.SubmitOnly,
                     () => {
-                        SceneManager.LoadSceneAsync("Title");
+                        SceneManager.LoadSceneAsync(scene.ToString());
                     }
                 );
             };
-            SceneManager.LoadSceneAsync("Title");
+            SceneManager.LoadSceneAsync(scene.ToString());
         }
 
         // サービスロケータの初期化
