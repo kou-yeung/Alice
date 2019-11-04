@@ -18,35 +18,16 @@ namespace Alice
 
         public void OnScreenButton()
         {
-            // 通信状況を確認する
-            if (Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show(
-                    "警告",
-                    "ネット接続できません。通信環境を確認してください",
-                    PlatformDialog.Type.SubmitOnly,
-                    () =>
-                    {
-                        Debug.Log("OK");
-                    }
-                );
-                return;
-            }
             ScreenBlocker.Instance.Push();
-
             Async.Parallel(() =>
             {
-                //CommunicationService.Instance.Request("CreateShadowRoom", "", (a) =>
-                //{
-                    // ホーム情報を取得し、シーンを遷移する
-                    CommunicationService.Instance.Request("Home", "", (res) =>
-                    {
-                        UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                        ScreenBlocker.Instance.Pop();
-                        SceneManager.LoadScene("Home");
-                    });
-                //});
+                // ホーム情報を取得し、シーンを遷移する
+                CommunicationService.Instance.Request("Home", "", (res) =>
+                {
+                    UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
+                    ScreenBlocker.Instance.Pop();
+                    SceneManager.LoadScene("Home");
+                });
             },
             (end) => AuthService.Instance.SignInAnonymously(end),
             (end) => MasterData.Initialize(end),

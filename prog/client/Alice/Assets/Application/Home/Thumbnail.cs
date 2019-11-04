@@ -48,7 +48,7 @@ namespace Alice
             skillBase.SetActive(showSkill);
             for (int i = 0; i < skill.Length; i++)
             {
-                if(i < unit.skill?.Length)
+                if(i < unit.skill.Length && !string.IsNullOrEmpty(unit.skill[i]))
                 {
                     skill[i].color = Color.red;
                 }

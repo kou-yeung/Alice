@@ -45,10 +45,7 @@ namespace Alice.Tools
             }
 
             c2s.skills = skills.ToArray();
-
-            CommunicationService.Instance.Request("MasterData", JsonUtility.ToJson(c2s), res =>
-            {
-            });
+            CommunicationService.Instance.Request("MasterData", JsonUtility.ToJson(c2s));
         }
 
         public void OnCharacter()
@@ -61,9 +58,18 @@ namespace Alice.Tools
             }
 
             c2s.characters = characters.ToArray();
+            CommunicationService.Instance.Request("MasterData", JsonUtility.ToJson(c2s));
+        }
 
-            CommunicationService.Instance.Request("MasterData", JsonUtility.ToJson(c2s), res =>
+        /// <summary>
+        /// 部屋IDを初期化する
+        /// </summary>
+        public void OnGenRoomIds()
+        {
+            // 確認します
+            PlatformDialog.Show("サーバ負荷が高いですが、本当に実行しますか？", PlatformDialog.Type.OKCancel, () =>
             {
+                CommunicationService.Instance.Request("GenRoomIds", "");
             });
         }
     }

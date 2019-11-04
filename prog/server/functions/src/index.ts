@@ -8,6 +8,9 @@ class Const {
     static AlarmTimeSecond: number = (15 * 60);         // 15分
     static LoginBonusAlarm: number = 3;                 // 3個
     static LoginBonusAds: number = 15;                  // 15回
+    static RoomOfFloot: number = 100;                   // １フロアのルーム数
+    static FLOOR_MAX: number = 1000;                   // フロア数数
+    static ROOM_MAX: number = Const.RoomOfFloot * Const.FLOOR_MAX;// ルームの最大数
 }
 
 // 宝箱のランクから必要の時間を算出します
@@ -118,14 +121,14 @@ class Documents {
     units(): FirebaseFirestore.CollectionReference {
         return this.player().collection("units");
     }
-    unitsWith(ids: string[]): FirebaseFirestore.Query {
-        let query : any = undefined;
-        for (const id of ids.filter(v => v)) {
-            if (!query) query = this.units().where('characterId', '==', id);
-            else query.where('characterId', '==', id);
-        }
-        return query;
-    }
+    //unitsWith(ids: string[]): FirebaseFirestore.Query {
+    //    let query : any = undefined;
+    //    for (const id of ids.filter(v => v)) {
+    //        if (!query) query = this.units().where('characterId', '==', id);
+    //        else query = query.where('characterId', '==', id);
+    //    }
+    //    return query;
+    //}
     skills(): FirebaseFirestore.CollectionReference {
         return this.player().collection("skills");
     }
@@ -312,7 +315,7 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
 });
 
 // 管理者:ルームID登録時に使用します
-exports.CreateShadowRoom = functions.https.onCall(async(data, context) => {
+exports.GenRoomIds = functions.https.onCall(async(data, context) => {
     const doc = new Documents(context.auth!.uid);
 
     // 権限をチェックする
@@ -320,17 +323,28 @@ exports.CreateShadowRoom = functions.https.onCall(async(data, context) => {
         return JSON.stringify(Message.Warning('管理者権限レベルが低い'));
     }
     const ids = [];
+
+    let batch = db.batch();
+
     // 10000個IDを生成する
-    for (let i = 0; i < 100000; ++i) ids.push(i);
-    for (let x = 0; x < 100; ++x) {
+    for (let i = 0; i < Const.ROOM_MAX; ++i) ids.push(i);
+    for (let x = 0; x < Const.FLOOR_MAX; ++x) {
         const rooms = [];
-        for (let y = 0; y < 1000; ++y) {
+        for (let y = 0; y < Const.RoomOfFloot; ++y) {
             const index = Random.Next(0, ids.length);
             rooms.push(index);
             ids.slice(index, 1);
         }
-        await doc.shadowFloor(x).set({ ids: rooms });
+        batch.set(doc.shadowFloor(x), { ids: rooms });
+        if (x % 200 == 0) {
+            await batch.commit();
+            batch = db.batch();
+        }
     }
+
+    batch.set(doc.shadowInfo(), { counter: 0 });
+    await batch.commit();
+
     return JSON.stringify(Message.Warning('登録完了しました'));
 });
 
@@ -591,9 +605,9 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
 
     // デッキにセットしたユニットに経験値を与える
     const deck = await Ref.snapshot<UserDeck>(doc.deck());
-    const units = await Ref.collection<UserUnit>(doc.unitsWith(deck.ids));
     s2c.modified.unit = [];
-    for (const unit of units) {
+    for (const id of deck.ids.filter(v => v)) {
+        const unit = await Ref.snapshot<UserUnit>(doc.unit(id));
         unit.exp += 1;  // 経験値付与する
         batch.update(doc.unit(unit.characterId), { exp: unit.exp });
         s2c.modified.unit.push(unit);
@@ -838,8 +852,8 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
 
     // 情報からカウンタを取得
     const info = await Ref.snapshot<ShadowInfo>(doc.shadowInfo());
-    const floorId = Math.floor(info.counter / 1000);    // floor id
-    const index = info.counter % 1000;    // index
+    const floorId = Math.floor(info.counter / Const.RoomOfFloot);    // floor id
+    const index = info.counter % Const.RoomOfFloot;    // index
     const floor = await Ref.snapshot<ShadowFloor>(doc.shadowFloor(floorId));
     const roomid = floor.ids[index];    // floor の鍵からルームID取得
 
@@ -853,7 +867,7 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
     };
     batch.set(doc.room(roomid), room);
     // カウントアップ
-    batch.update(doc.shadowInfo(), { counter: (info.counter + 1) % 100000 });
+    batch.update(doc.shadowInfo(), { counter: (info.counter + 1) % Const.ROOM_MAX });
     // シャドウIDを保持しておく
     batch.update(doc.player(), { roomid: roomid });
 

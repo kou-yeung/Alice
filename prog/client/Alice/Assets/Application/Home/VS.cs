@@ -124,7 +124,6 @@ namespace Alice
             {
                 list = JsonUtility.FromJson<ShadowListRecv>(res);
                 SetupCreateTab();
-                shadowTable.ReloadData();
             });
         }
 
@@ -142,7 +141,8 @@ namespace Alice
                 deck = list.self.deck;
                 units = list.self.unit;
                 var active = list.isActive ? "有効" : "無効";
-                roominfo.text = $"シャドウID:<color=red>{list.roomid}</color> ({active})";
+                var roomid = string.Format("{0:D5}", list.roomid);
+                roominfo.text = $"シャドウID:<color=red>{roomid}</color> ({active})";
             }
             else
             {
@@ -160,9 +160,10 @@ namespace Alice
                 else
                 {
                     thumbnails[i].gameObject.SetActive(true);
-                    thumbnails[i].Setup(Array.Find(units, v => v.characterId == id));
+                    thumbnails[i].Setup(Array.Find(units, v => v.characterId == id), true);
                 }
             }
+            shadowTable.ReloadData();
         }
     }
 }
