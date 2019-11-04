@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using Zoo.Auth;
 using Zoo.Communication;
 using Zoo.IO;
+using Zoo.Crypto;
+
 namespace Alice
 {
     public class Boot : MonoBehaviour
@@ -25,6 +27,7 @@ namespace Alice
             InitializeServiceLocator();
 
             // ScreenBlockセットアップ:通信
+            CommunicationService.Crypto = new CryptoBase64();
             CommunicationService.ConnectionBegin = ()=> { ScreenBlocker.Instance?.Push(); };
             CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance?.Pop(); };
             CommunicationService.WarningMessage = (message) =>

@@ -121,14 +121,6 @@ class Documents {
     units(): FirebaseFirestore.CollectionReference {
         return this.player().collection("units");
     }
-    //unitsWith(ids: string[]): FirebaseFirestore.Query {
-    //    let query : any = undefined;
-    //    for (const id of ids.filter(v => v)) {
-    //        if (!query) query = this.units().where('characterId', '==', id);
-    //        else query = query.where('characterId', '==', id);
-    //    }
-    //    return query;
-    //}
     skills(): FirebaseFirestore.CollectionReference {
         return this.player().collection("skills");
     }
@@ -153,6 +145,26 @@ class Documents {
     }
 }
 
+class Crypto {
+    // 復号する
+    static Decrypt(cipher: string): string {
+        return Buffer.from(cipher, 'base64').toString();
+        //return cipher;
+    }
+    // 暗号化する
+    static Encrypt(text: string): string {
+        return Buffer.from(text).toString('base64');
+        //return text;
+    }
+}
+class Proto {
+    static parse<T>(data: string): T {
+        return <T>JSON.parse(Crypto.Decrypt(data));
+    }
+    static stringify<T>(data: T): string {
+        return Crypto.Encrypt(JSON.stringify(data));
+    }
+}
 //==============
 // Entity
 //==============
@@ -320,7 +332,7 @@ exports.GenRoomIds = functions.https.onCall(async(data, context) => {
 
     // 権限をチェックする
     if (await Ref.snapshot(doc.admin()) == undefined) {
-        return JSON.stringify(Message.Warning('管理者権限レベルが低い'));
+        return Proto.stringify(Message.Warning('管理者権限レベルが低い'));
     }
     const ids = [];
 
@@ -345,7 +357,7 @@ exports.GenRoomIds = functions.https.onCall(async(data, context) => {
     batch.set(doc.shadowInfo(), { counter: 0 });
     await batch.commit();
 
-    return JSON.stringify(Message.Warning('登録完了しました'));
+    return Proto.stringify(Message.Warning('登録完了しました'));
 });
 
 class MasterDataSkill {
@@ -367,11 +379,11 @@ class MasterDataSend {
 // 管理者:マスタデータ登録
 exports.MasterData = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
-    const c2s: MasterDataSend = JSON.parse(data);
+    const c2s = Proto.parse<MasterDataSend>(data);
 
     // 権限をチェックする
     if (await Ref.snapshot(doc.admin()) == undefined) {
-        return JSON.stringify(Message.Warning('管理者権限レベルが低い'));
+        return Proto.stringify(Message.Warning('管理者権限レベルが低い'));
     }
     const batch = db.batch();
 
@@ -401,7 +413,7 @@ exports.MasterData = functions.https.onCall(async (data, context) => {
     }
 
     await batch.commit();
-    return JSON.stringify(Message.Warning('登録完了しました'));
+    return Proto.stringify(Message.Warning('登録完了しました'));
 });
 
 ///**
@@ -409,16 +421,16 @@ exports.MasterData = functions.https.onCall(async (data, context) => {
 // */
 //exports.Temp = functions.https.onCall(async (data, context) => {
 //    const doc = new Documents(context.auth!.uid);
-//    const c2s: TempSend = JSON.parse(data); // c2s
+//    const c2s: Proto.parse<TempSend>(data); // c2s
 //    const s2c = new TempRecv();             // s2c
-//    return JSON.stringify(s2c);
+//    return Proto.stringify(s2c);
 //});
 
 /**
  * proto:ping
  */
 exports.ping = functions.https.onCall((data, context) => {
-    return JSON.stringify({ data:data, uid: context.auth!.uid });
+    return Proto.stringify({ data:data, uid: context.auth!.uid });
 });
 
 /**
@@ -444,7 +456,7 @@ exports.Home = functions.https.onCall(async (data, context) => {
     s2c.skills = await Ref.collection<UserSkill>(doc.skills());
     s2c.chests = await Ref.collection<UserChest>(doc.chests().orderBy('created'));
 
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 });
 
 // バトル開始: c2s
@@ -488,7 +500,7 @@ class Groups {
  */
 exports.Battle = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
-    const c2s: BattleStartSend = JSON.parse(data);
+    const c2s = Proto.parse<BattleStartSend>(data);
     const s2c = new BattleStartRecv();
     const batch = db.batch();
 
@@ -566,7 +578,7 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     // 名前を設定する
     s2c.names = [player.name, enemy.name];
 
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 });
 
 
@@ -589,8 +601,7 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
 
     const doc = new Documents(context.auth!.uid);
     const Win = 1;
-
-    const c2s: GameSetSend = JSON.parse(data);
+    const c2s = Proto.parse<GameSetSend>(data);
     const s2c: GameSetRecv = new GameSetRecv();
 
     // プレイヤーのバトル回数更新
@@ -648,7 +659,7 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
 
     // 同期
     await batch.commit();
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 });
 
 
@@ -667,17 +678,17 @@ class AdsRecv {
  */
 exports.Ads = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
-    const c2s: AdsSend = JSON.parse(data);
+    const c2s = Proto.parse<AdsSend>(data);
     const s2c = new AdsRecv();
 
     const player = await Ref.snapshot<Player>(doc.player());
 
     // トークンが無効、あるいは 回数がない
     if (c2s.token !== player.token) {
-        return JSON.stringify(Message.Error("トークンが無効です"));
+        return Proto.stringify(Message.Error("トークンが無効です"));
     }
     if(player.ads <= 0) {
-        return JSON.stringify(Message.Warning("一日の広告使用回数制限を越えました"));
+        return Proto.stringify(Message.Warning("一日の広告使用回数制限を越えました"));
     }
 
     const chest = await Ref.snapshot<UserChest>(doc.chest(c2s.chest.uniq));
@@ -697,7 +708,7 @@ exports.Ads = functions.https.onCall(async (data, context) => {
     s2c.modified.chest = [chest];
     s2c.modified.player = [player];
 
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 
 });
 
@@ -722,7 +733,7 @@ class ChestLots {
  */
 exports.Chest = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
-    const c2s: ChestSend = JSON.parse(data); // c2s
+    const c2s = Proto.parse<ChestSend>(data);
     const s2c = new ChestRecv();             // s2c
     const batch = db.batch();
 
@@ -730,7 +741,7 @@ exports.Chest = functions.https.onCall(async (data, context) => {
     const chest = await Ref.snapshot<UserChest>(doc.chest(c2s.chest.uniq));
 
     if (chest == undefined) {
-        return JSON.stringify(Message.Error("指定の宝箱が存在しません"));
+        return Proto.stringify(Message.Error("指定の宝箱が存在しません"));
     }
 
     // 残り時間
@@ -740,7 +751,7 @@ exports.Chest = functions.https.onCall(async (data, context) => {
         // 必要なアイテム数を算出
         const needItemCount = Math.ceil(remain / Const.AlarmTimeSecond);
         if (needItemCount > player.alarm) {
-            return JSON.stringify(Message.Error("アラームが足りません"));
+            return Proto.stringify(Message.Error("アラームが足りません"));
         }
         // アイテムを減らす
         player.alarm -= needItemCount;
@@ -802,7 +813,7 @@ exports.Chest = functions.https.onCall(async (data, context) => {
         s2c.modified.skill = [skill];
     }
     await batch.commit();
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 });
 
 
@@ -832,7 +843,7 @@ class ShadowCreateRecv {
  */
 exports.CreateShadow = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
-    const c2s: ShadowCreateSend = JSON.parse(data); // c2s
+    const c2s = Proto.parse<ShadowCreateSend>(data);
     const s2c = new ShadowCreateRecv();             // s2c
 
     const batch = db.batch();
@@ -881,7 +892,7 @@ exports.CreateShadow = functions.https.onCall(async (data, context) => {
 
     await batch.commit();
     s2c.roomId = roomid;
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 });
 
 // シャドウバトル]c2s
@@ -898,14 +909,14 @@ class ShadowBattleSend {
  */
 exports.BattleShadow = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
-    const c2s: ShadowBattleSend = JSON.parse(data);
+    const c2s = Proto.parse<ShadowBattleSend>(data);
     const s2c = new BattleStartRecv();
 
     const batch = db.batch();
     const room = await Ref.snapshot<Room>(doc.room(c2s.roomid));
     // ルームが存在しない
     if (room === undefined) {
-        return JSON.stringify(Message.Warning("指定されたIDが存在しません"));
+        return Proto.stringify(Message.Warning("指定されたIDが存在しません"));
     }
 
     // シャドウバトル
@@ -950,7 +961,7 @@ exports.BattleShadow = functions.https.onCall(async (data, context) => {
     // 名前を設定する
     s2c.names = [player.name, room.name];
 
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 
 });
 
@@ -986,13 +997,14 @@ class ShadowListRecv {
  */
 exports.ShadowList = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
-    const c2s: ShadowListSend = JSON.parse(data); // c2s
+    const c2s = Proto.parse<ShadowListSend>(data);
+
     const s2c = new ShadowListRecv();             // s2c
 
     // ルームIDはまだ有効かをチェックする
     const room = await Ref.snapshot<Room>(doc.room(c2s.roomid));
     if (room === undefined) {
-        return JSON.stringify(Message.Warning('ルームが存在しませんでした'));
+        return Proto.stringify(Message.Warning('ルームが存在しませんでした'));
     }
     s2c.roomid = c2s.roomid;
     s2c.isActive = room.uid === doc.uid;    // まだこのルームのオーナーか？
@@ -1013,6 +1025,6 @@ exports.ShadowList = functions.https.onCall(async (data, context) => {
         v.deck = JSON.parse(enemy.deckJson);
         s2c.enemies.push(v);
     }
-    return JSON.stringify(s2c);
+    return Proto.stringify(s2c);
 });
 
