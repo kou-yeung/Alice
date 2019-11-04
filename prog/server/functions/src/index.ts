@@ -133,15 +133,16 @@ class Documents {
         return collection.where('created', '>=', beforeTime).orderBy('created', 'desc').limit(count);
     }
 
-    // コロシアムからランダム抽選
-    colosseumRandom(rank: number, count: number, max: number): FirebaseFirestore.Query {
-        let query: any = undefined;
+    // 特別ヘルパー
+    // コロシアムからランダム取得する
+    async colosseumRandom(rank: number, count: number, max: number): Promise<Colosseum[]> {
+        const res: Colosseum[] = [];
         for (let i = 0; i < count; ++i) {
             const index = Random.Next(0, max);
-            if (!query) query = this.colosseumGroups().collection(rank.toString()).where('index', '==', index);
-            else query.where('index', '==', index);
+            const colosseum = await Ref.snapshot<Colosseum>(this.colosseum(rank, index));
+            if (colosseum !== undefined) res.push(colosseum);
         }
-        return query;
+        return res;
     }
 }
 
@@ -558,8 +559,8 @@ exports.Battle = functions.https.onCall(async (data, context) => {
 
     // 同じランクのユーザランダム取得
     const max = groups.counter[player.rank];
-    let enemys = await Ref.collection<Colosseum>(doc.colosseumRandom(player.rank, 5, max));
-    enemys = enemys.filter(v => v.uid != context.auth!.uid); // 自分を除く
+    let enemys = await doc.colosseumRandom(player.rank, 5, max);
+    enemys = enemys.filter(v => v.uid != doc.uid); // 自分を除く
 
     // HACK : １０人以下の場合、おすすめ敵を入れる
     if (max <= 10) {
