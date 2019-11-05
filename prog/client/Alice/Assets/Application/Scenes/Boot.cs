@@ -35,19 +35,13 @@ namespace Alice
             CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance?.Pop(); };
             CommunicationService.WarningMessage = (message) =>
             {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show( "確認", message, PlatformDialog.Type.SubmitOnly,
-                    () => {}
-                );
+                Dialog.Show(message, Dialog.Type.SubmitOnly);
             };
             CommunicationService.ErrorMessage = (message) =>
             {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show("エラー", message, PlatformDialog.Type.SubmitOnly,
-                    () => {
-                        SceneManager.LoadSceneAsync(scene.ToString());
-                    }
-                );
+                Dialog.Show(message, Dialog.Type.SubmitOnly, ()=> {
+                    SceneManager.LoadSceneAsync(scene.ToString());
+                });
             };
 
             // 登録

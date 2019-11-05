@@ -174,16 +174,7 @@ namespace Alice
             // 最低１体セットしないとだめのチェック
             if (UserData.cacheHomeRecv.deck.ids.Count(id => !string.IsNullOrEmpty(id)) <= 1 && from.cacheUnit == to.cacheUnit)
             {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show(
-                    "警告",
-                    "最低１体が必要",
-                    PlatformDialog.Type.SubmitOnly,
-                    () =>
-                    {
-                        Debug.Log("OK");
-                    }
-                );
+                Dialog.Show("最低１体が必要", Dialog.Type.SubmitOnly);
                 return;
             }
 

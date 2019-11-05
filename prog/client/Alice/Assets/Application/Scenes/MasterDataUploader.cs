@@ -67,7 +67,7 @@ namespace Alice.Tools
         public void OnGenRoomIds()
         {
             // 確認します
-            PlatformDialog.Show("サーバ負荷が高いですが、本当に実行しますか？", PlatformDialog.Type.OKCancel, () =>
+            Dialog.Show("サーバ負荷が高いですが、本当に実行しますか？", Dialog.Type.OKCancel, () =>
             {
                 CommunicationService.Instance.Request("GenRoomIds", "");
             });
