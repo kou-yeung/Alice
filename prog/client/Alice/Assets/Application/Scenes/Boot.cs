@@ -4,6 +4,7 @@ using Zoo.Auth;
 using Zoo.Communication;
 using Zoo.IO;
 using Zoo.Crypto;
+using Zoo;
 
 namespace Alice
 {
@@ -21,6 +22,8 @@ namespace Alice
         }
         public Backend backend = Backend.Local;
         public Scene scene = Scene.Title;
+
+        public GameObject[] poolPrefabs;
 
         void Start()
         {
@@ -46,6 +49,12 @@ namespace Alice
                     }
                 );
             };
+
+            // 登録
+            foreach(var prefab in poolPrefabs)
+            {
+                PrefabPool.Regist(prefab.name, prefab);
+            }
             SceneManager.LoadSceneAsync(scene.ToString());
         }
 

@@ -17,7 +17,15 @@ namespace Alice
             var playerCount = owner.controller.units.Count(kv => kv.Value.side == BattleConst.Side.Player);
             var enemyCount = owner.controller.units.Count(kv => kv.Value.side == BattleConst.Side.Enemy);
 
-            if(playerCount <= 0 && enemyCount <= 0)
+            // ユーザ操作によるスキップ
+            if(owner.controller.skip)
+            {
+                owner.controller.phase.Change("スキップ", () =>
+                {
+                    owner.controller.ChangeState(BattleConst.State.Finally);
+                });
+            }
+            else if(playerCount <= 0 && enemyCount <= 0)
             {
                 owner.SetBattleResult(BattleConst.Result.Draw);
                 // 引き分け:ダメージ反射による全滅の可能性を考える

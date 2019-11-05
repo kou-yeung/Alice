@@ -90,11 +90,7 @@ namespace Alice
                         }
                     }
 
-                    PlatformDialog.SetButtonLabel("OK");
-                    PlatformDialog.Show(
-                        "おめでとう",
-                        $"{name} を入手しました",
-                        PlatformDialog.Type.SubmitOnly,
+                    Dialog.Show($"{name} を入手しました", Dialog.Type.SubmitOnly,
                         () => {
                             Debug.Log("OK");
                         }
@@ -107,25 +103,17 @@ namespace Alice
 
                 if (player.ads > 0)
                 {
-                    PlatformDialog.SetButtonLabel("Yes", "No");
-                    PlatformDialog.Show(
-                        "確認(仮)",
-                        "広告を観て時間短縮しますか？",
-                        PlatformDialog.Type.OKCancel,
-                        () => {
+                    Dialog.Show("広告を観て時間短縮しますか？", Dialog.Type.OKCancel, () =>
+                    {
                         // 広告
                         Ads.Instance.Show(chest, (res) =>
-                            {
-                            });
-                        }
-                    );
+                        {
+                        });
+                    });
                 } else
                 {
-                    PlatformDialog.SetButtonLabel("OK");
-                    PlatformDialog.Show(
-                        "MEMO",
-                        "広告回数は制限されますが、将来は時短アイテム購入可能にします",
-                        PlatformDialog.Type.SubmitOnly,
+                    Dialog.Show( "広告回数は制限されますが、将来は時短アイテム購入可能にします",
+                        Dialog.Type.SubmitOnly,
                         () => {
                             Debug.Log("OK");
                         }

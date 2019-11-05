@@ -64,9 +64,14 @@ namespace Alice
         /// <param name="recv"></param>
         public void AddRecord(BattleStartRecv recv)
         {
-            records.Insert(0, recv);
-            recordStrings.Insert(0, JsonUtility.ToJson(recv));
-            needSave = true;
+            var json = JsonUtility.ToJson(recv);
+            // 存在しているレコードなら弾く
+            if(!recordStrings.Contains(json))
+            {
+                records.Insert(0, recv);
+                recordStrings.Insert(0, json);
+                needSave = true;
+            }
         }
 
         /// <summary>

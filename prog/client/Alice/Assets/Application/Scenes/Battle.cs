@@ -27,6 +27,7 @@ namespace Alice
             public Transform[] nodes;
         }
         public Timeline timeline;
+        public Button btnSkip;
 
         void Awake()
         {
@@ -74,6 +75,8 @@ namespace Alice
                 controller.Setup(this.recv);
                 // ステート開始
                 controller.ChangeState(BattleConst.State.Init);
+                // スキップボタン
+                btnSkip.gameObject.SetActive(this.fromRecord);
             });
         }
 
@@ -113,6 +116,16 @@ namespace Alice
         public void SetBattleResult(BattleConst.Result result)
         {
             this.recv.result = result;
+        }
+
+
+        /// <summary>
+        /// 演出スキップボタン
+        /// </summary>
+        public void OnSkip()
+        {
+            controller.skip = true;
+            btnSkip.gameObject.SetActive(false);
         }
     }
 }

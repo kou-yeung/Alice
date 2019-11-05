@@ -420,6 +420,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backend: 1
   scene: 0
+  poolPrefabs:
+  - {fileID: 1907061385678558431, guid: 90e333d75fa7f8b40ac07602a459d75b, type: 3}
 --- !u!4 &1797134025
 Transform:
   m_ObjectHideFlags: 0

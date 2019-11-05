@@ -22,6 +22,7 @@ namespace Alice
         public BattleAction currentAction { get; private set; }
         public Phase phase { get; private set; }
         public Dictionary<string, TimelineIcon> timeline { get; private set; } = new Dictionary<string, TimelineIcon>();
+        public bool skip { get; set; } = false;
 
         public BattleController(Battle owner)
         {
