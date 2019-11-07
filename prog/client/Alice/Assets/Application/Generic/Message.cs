@@ -57,8 +57,8 @@ namespace Alice.Generic
             {BattleConst.Effect.DebuffCancel_MDef, new Map("魔法防御ダウン効果を解除", "する") },
             {BattleConst.Effect.DebuffCancel_Wait, new Map("素早さダウン効果を解除", "する") },
             {BattleConst.Effect.DebuffCancel_All, new Map("すべてダウン効果を解除", "する") },
-
         };
+
         /// <summary>
         /// スキルの説明文
         /// </summary>

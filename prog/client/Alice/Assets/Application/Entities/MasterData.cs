@@ -64,5 +64,15 @@ namespace Alice.Entities
         {
             return characters.First(v => v.ID == unit.characterId);
         }
+
+        /// <summary>
+        /// IDからエフェクト情報を取得する
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Effect FindEffectByID(string id)
+        {
+            return effects.FirstOrDefault(v => v.ID == id);
+        }
     }
 }
