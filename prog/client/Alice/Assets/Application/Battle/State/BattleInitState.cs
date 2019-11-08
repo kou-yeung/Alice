@@ -13,7 +13,10 @@ namespace Alice
             // バトル開始時はスリープしないように
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            owner.controller.ChangeState(BattleConst.State.Passive);
+            owner.controller.versus.Show(owner.recv.names[0], owner.recv.names[1], () =>
+            {
+                owner.controller.ChangeState(BattleConst.State.Passive);
+            });
         }
     }
 }

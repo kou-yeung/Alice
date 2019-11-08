@@ -14,14 +14,15 @@ namespace Alice.Generic
         /// 敵を生成
         /// </summary>
         /// <returns></returns>
-        public static BattleEnemy Gen(UserUnit[] refUnit)
+        public static BattleEnemy Gen(Player player, UserUnit[] refUnit)
         {
             var res = new BattleEnemy();
             var random = new System.Random();
 
+            var rare = player.rank / 5;
             // 相手ユニット
-            var skills = MasterData.skills;
-            var characters = MasterData.characters;
+            var skills = MasterData.skills.Where(v=>v.Rare <= rare).ToArray();
+            var characters = MasterData.characters.Where(v => v.Rare <= rare).ToArray();
 
             var skillNum = refUnit.Sum(v => v.skill.Count(s => !string.IsNullOrEmpty(s)));
 

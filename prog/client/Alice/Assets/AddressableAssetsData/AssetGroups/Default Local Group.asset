@@ -1029,6 +1029,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/172/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 8209ba71bb98abe4781d53e606fab35d
+    m_Address: Assets/AddressableAssets/Prefab/Versus.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 8280475bbeadab142ae0c373c3323b16
     m_Address: Assets/AddressableAssets/Character/159/icon.asset
     m_ReadOnly: 0

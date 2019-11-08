@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Zoo.IO;
 using System;
 using UniRx;
+using Zoo.IO;
 
 namespace Alice
 {
-    public class Phase : MonoBehaviour
+    public class Versus : MonoBehaviour
     {
         [SerializeField]
-        Animation Animation = null;
+        Text leftSide;
         [SerializeField]
-        Text text = null;
+        Text rightSide;
+        [SerializeField]
+        Animation Animation;
 
-        public void Change(string phase, Action cb = null)
+        public void Show(string leftSide, string rightSide, Action cb)
         {
-            text.text = phase;
-            Animation.Play("Change");
+            this.leftSide.text = leftSide;
+            this.rightSide.text = rightSide;
+
             this.gameObject.SetActive(true);
+            Animation.Play("Start");
             Observable
                 .EveryUpdate()
                 .Where(_ => !Animation.isPlaying)
@@ -30,7 +34,6 @@ namespace Alice
                     cb?.Invoke();
                 });
         }
-
         /// <summary>
         /// 後始末
         /// </summary>
@@ -38,13 +41,13 @@ namespace Alice
         {
             GameObject.Destroy(this.gameObject);
         }
-        public static Phase Gen(Transform parent)
+        public static Versus Gen(Transform parent)
         {
-            var prefab = LoaderService.Instance.Load<GameObject>("Prefab/Phase.prefab");
+            var prefab = LoaderService.Instance.Load<GameObject>("Prefab/Versus.prefab");
             var go = GameObject.Instantiate(prefab);
             go.transform.SetParent(parent);
             go.transform.localPosition = Vector3.zero;
-            return go.GetComponent<Phase>();
+            return go.GetComponent<Versus>();
         }
     }
 }

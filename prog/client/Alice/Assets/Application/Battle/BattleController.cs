@@ -21,6 +21,7 @@ namespace Alice
         public BattleUnit currentActionBattleUnit { get { return sortedBattleUnits[0]; } }
         public BattleAction currentAction { get; private set; }
         public Phase phase { get; private set; }
+        public Versus versus { get; private set; }
         public Dictionary<string, TimelineIcon> timeline { get; private set; } = new Dictionary<string, TimelineIcon>();
         public bool skip { get; set; } = false;
 
@@ -61,6 +62,7 @@ namespace Alice
             CreatePlayerUnit(recv);
             CreateEnemyUnit(recv);
             phase = Phase.Gen(this.owner.transform);
+            versus = Versus.Gen(this.owner.transform);
         }
 
         /// <summary>

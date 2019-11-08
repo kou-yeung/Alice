@@ -54,6 +54,7 @@ namespace Alice
             resourcePaths.Add("Prefab/Actor.prefab");
             resourcePaths.Add("Prefab/FX.prefab");
             resourcePaths.Add("Prefab/Phase.prefab");
+            resourcePaths.Add("Prefab/Versus.prefab");
             resourcePaths.Add("Prefab/UnitState.prefab");
             resourcePaths.Add("Prefab/TimelineIcon.prefab");
             resourcePaths.Add($"Effect/{Effect.Empty.FX}.asset");
