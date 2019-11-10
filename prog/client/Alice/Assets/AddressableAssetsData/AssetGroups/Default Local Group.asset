@@ -665,6 +665,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/179/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 55c8a1f2a8667334e84896f337044a96
+    m_Address: Assets/AddressableAssets/Entities/MasterData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 55f24c9ff8612124a8e54ec9f2367b1a
     m_Address: Assets/AddressableAssets/Character/063/walk.asset
     m_ReadOnly: 0

@@ -39,7 +39,7 @@ namespace Alice.Tools
         {
             var c2s = new MasterDataSend();
             List<MasterDataSkill> skills = new List<MasterDataSkill>();
-            foreach(var skill in MasterData.skills)
+            foreach(var skill in MasterData.Instance.skills)
             {
                 skills.Add(new MasterDataSkill { id = skill.ID, rare = skill.Rare });
             }
@@ -52,7 +52,7 @@ namespace Alice.Tools
         {
             var c2s = new MasterDataSend();
             List<MasterDataCharacter> characters = new List<MasterDataCharacter>();
-            foreach (var character in MasterData.characters)
+            foreach (var character in MasterData.Instance.characters)
             {
                 characters.Add(new MasterDataCharacter { id = character.ID, rare = character.Rare });
             }

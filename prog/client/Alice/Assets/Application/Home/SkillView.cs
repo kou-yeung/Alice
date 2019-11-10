@@ -43,11 +43,11 @@ namespace Alice
 
         bool FilterCheck(UserSkill skill)
         {
-            var data = MasterData.Find(skill);
+            var data = MasterData.Instance.Find(skill);
             Filter filter = Filter.None;
             foreach (var effect in data.Effects)
             {
-                var type = MasterData.FindEffectByID(effect).Type;
+                var type = MasterData.Instance.FindEffectByID(effect).Type;
                 switch(type)
                 {
                     case BattleConst.Effect.Damage:

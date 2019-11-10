@@ -79,14 +79,14 @@ namespace Alice
                     {
                         foreach (var unit in s2c.modified.unit)
                         {
-                            name = MasterData.characters.First(v => v.ID == unit.characterId).Name;
+                            name = MasterData.Instance.characters.First(v => v.ID == unit.characterId).Name;
                         }
                     }
                     if (s2c.modified.skill.Length != 0)
                     {
                         foreach (var skill in s2c.modified.skill)
                         {
-                            name = MasterData.skills.First(v => v.ID == skill.id).Name;
+                            name = MasterData.Instance.skills.First(v => v.ID == skill.id).Name;
                         }
                     }
 

@@ -66,7 +66,7 @@ namespace Alice.Generic
         /// <returns></returns>
         public static string Desc(UserSkill data)
         {
-            var skill = MasterData.FindSkillByID(data.id);
+            var skill = MasterData.Instance.FindSkillByID(data.id);
             var effects = skill.Effects;
 
             sb.Clear();
@@ -75,7 +75,7 @@ namespace Alice.Generic
 
             foreach (var id in effects)
             {
-                var effect = MasterData.effects.First(v => v.ID == id);
+                var effect = MasterData.Instance.effects.First(v => v.ID == id);
 
                 if(sb.Length != 0)
                 {

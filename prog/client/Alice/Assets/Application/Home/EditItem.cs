@@ -31,7 +31,7 @@ namespace Alice
             var sb = new StringBuilder();
 
             var level = unit.Level();
-            var data = MasterData.Find(unit);
+            var data = MasterData.Instance.Find(unit);
             var param = data.ParamAtLevel(level);
 
             sb.AppendLine($"ATK:{param.Atk} MATK:{param.MAtk}");

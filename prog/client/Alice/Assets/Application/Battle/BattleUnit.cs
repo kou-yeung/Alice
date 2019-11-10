@@ -97,15 +97,15 @@ namespace Alice
             this.uniq = uniq;
             this.data = data;
             this.Position = position;
-            this.characterData = MasterData.characters.First(v => v.ID == data.characterId);
+            this.characterData = MasterData.Instance.characters.First(v => v.ID == data.characterId);
             this.current = new Current(this.characterData, data.Level());
-            this.ais = MasterData.personalities.First(v => v.Name == this.characterData.Personality).AI;
+            this.ais = MasterData.Instance.personalities.First(v => v.Name == this.characterData.Personality).AI;
 
             // スキルID -> スキルデータ
             foreach (var skill in data.skill)
             {
                 if (string.IsNullOrEmpty(skill)) continue;
-                this.skills.Add(MasterData.FindSkillByID(skill));
+                this.skills.Add(MasterData.Instance.FindSkillByID(skill));
                 this.cooltimes[skill] = -1;
             }
 

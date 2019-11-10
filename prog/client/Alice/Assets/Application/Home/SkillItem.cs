@@ -20,7 +20,7 @@ namespace Alice
 
         public void Setup(UserSkill skill)
         {
-            var data = MasterData.Find(skill);
+            var data = MasterData.Instance.Find(skill);
             Name.text = data.Name;
             Desc.text = Generic.Message.Desc(skill);
 
@@ -41,7 +41,7 @@ namespace Alice
                 if (i < data.Effects.Length)
                 {
                     effects[i].gameObject.SetActive(true);
-                    var effect = MasterData.FindEffectByID(data.Effects[i]);
+                    var effect = MasterData.Instance.FindEffectByID(data.Effects[i]);
                     // 継承以外は更新する
                     if (effect.Target != BattleConst.Target.Accession)
                     {

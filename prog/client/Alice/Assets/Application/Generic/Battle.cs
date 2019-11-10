@@ -21,8 +21,8 @@ namespace Alice.Generic
 
             var rare = player.rank / 5;
             // 相手ユニット
-            var skills = MasterData.skills.Where(v=>v.Rare <= rare).ToArray();
-            var characters = MasterData.characters.Where(v => v.Rare <= rare).ToArray();
+            var skills = MasterData.Instance.skills.Where(v=>v.Rare <= rare).ToArray();
+            var characters = MasterData.Instance.characters.Where(v => v.Rare <= rare).ToArray();
 
             var skillNum = refUnit.Sum(v => v.skill.Count(s => !string.IsNullOrEmpty(s)));
 

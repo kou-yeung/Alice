@@ -32,7 +32,7 @@ namespace Alice
         public void Setup(UserUnit unit, bool showSkill = false)
         {
             currentUnit = unit;
-            characterData = MasterData.characters.FirstOrDefault(v => v.ID == currentUnit.characterId);
+            characterData = MasterData.Instance.characters.FirstOrDefault(v => v.ID == currentUnit.characterId);
             // アイコン
             LoaderService.Instance.Preload(new[] { IconPath }, () =>
             {

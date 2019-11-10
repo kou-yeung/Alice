@@ -47,7 +47,7 @@ namespace Alice
             // 情報を設定する
             db.player = new Player { name = "ゲスト", token = Guid.NewGuid().ToString() };
             //　ユニットの適当に抽選する
-            var characters = MasterData.characters;
+            var characters = MasterData.Instance.characters;
             var unit = new UserUnit();
             unit.characterId = characters[random.Next(0, characters.Length)].ID;
             db.units = new[] { unit };
@@ -350,9 +350,9 @@ namespace Alice
             s2c.modified.remove = new[] { c2s.chest };
 
             // MEMO : 現在適当に1/2の確率で[Unit][Skill]分岐
-            if (random.Next() % 2 == 0 && db.units.Length < MasterData.characters.Length)
+            if (random.Next() % 2 == 0 && db.units.Length < MasterData.Instance.characters.Length)
             {
-                var character = MasterData.characters;
+                var character = MasterData.Instance.characters;
                 var lots = character.Where(v => !Array.Exists(db.units, u => u.characterId == v.ID)).ToArray();
                 var id = lots[random.Next(0, lots.Length)].ID;
                 var add = new UserUnit();
@@ -365,7 +365,7 @@ namespace Alice
             else
             {
                 // スキル
-                var skill = MasterData.skills;
+                var skill = MasterData.Instance.skills;
                 var id = skill[random.Next(0, skill.Length)].ID;
 
                 var index = Array.FindIndex(db.skills, v => v.id == id);

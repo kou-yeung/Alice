@@ -91,7 +91,7 @@ namespace Alice
             List<string> paths = new List<string>();
 
             // キャラマスタデータ
-            var character = MasterData.characters.First(v => v.ID == unit.characterId);
+            var character = MasterData.Instance.characters.First(v => v.ID == unit.characterId);
             // キャラセルアニメーション
             paths.Add($"Character/{character.Image}/walk.asset");
             // アイコン
@@ -100,10 +100,10 @@ namespace Alice
             foreach (var skill in unit.skill.Where(v => !string.IsNullOrEmpty(v)))
             {
                 // スキルマスタデータ
-                var skillData = MasterData.FindSkillByID(skill);
+                var skillData = MasterData.Instance.FindSkillByID(skill);
                 foreach(var effect in skillData.Effects)
                 {
-                    var effectData = MasterData.effects.First(v => v.ID == effect);
+                    var effectData = MasterData.Instance.effects.First(v => v.ID == effect);
                     paths.Add($"Effect/{effectData.FX}.asset");
                 }
             }

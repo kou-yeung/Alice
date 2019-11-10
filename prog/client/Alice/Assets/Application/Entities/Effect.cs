@@ -1,10 +1,12 @@
 ﻿using CsvHelper.Configuration;
+using System;
 
 namespace Alice.Entities
 {
     /// <summary>
     /// スキル効果x1
     /// </summary>
+    [Serializable]
     public class Effect
     {
         public static readonly Effect Empty = new Effect { ID = "", Type = BattleConst.Effect.Damage, FX= "火5" };
