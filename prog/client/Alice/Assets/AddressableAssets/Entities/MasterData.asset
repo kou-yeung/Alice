@@ -18,105 +18,285 @@ MonoBehaviour:
     Rare: 0
     Image: 001
     Personality: "\u4E71\u66B4"
+    Base:
+      HP: 70
+      Atk: 19
+      Def: 17
+      MAtk: 15
+      MDef: 18
     Wait: 139
+    Grow:
+      HP: 3
+      Atk: 2
+      Def: 2
+      MAtk: 3
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_002
     Name: "\u30A2\u30CA\u30B9\u30BF\u30B7\u30E4"
     Rare: 0
     Image: 002
     Personality: "\u4EF2\u9593\u601D\u3044"
+    Base:
+      HP: 66
+      Atk: 15
+      Def: 17
+      MAtk: 15
+      MDef: 11
     Wait: 124
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 2
+      MAtk: 1
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_003
     Name: "\u30C6\u30AA\u30FC\u30C7\u30EA\u30D2 "
     Rare: 0
     Image: 003
     Personality: "\u6C17\u304C\u5F37\u3044"
+    Base:
+      HP: 59
+      Atk: 14
+      Def: 15
+      MAtk: 14
+      MDef: 14
     Wait: 116
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 2
+      MAtk: 2
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_004
     Name: "\u30B0\u30CB\u30E9"
     Rare: 0
     Image: 004
     Personality: "\u77E5\u7684"
+    Base:
+      HP: 39
+      Atk: 12
+      Def: 9
+      MAtk: 9
+      MDef: 13
     Wait: 82
+    Grow:
+      HP: 2
+      Atk: 1
+      Def: 1
+      MAtk: 2
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_005
     Name: "\u30CA\u30A4\u30EF"
     Rare: 0
     Image: 005
     Personality: "\u6C17\u304C\u5F37\u3044"
+    Base:
+      HP: 58
+      Atk: 13
+      Def: 15
+      MAtk: 8
+      MDef: 15
     Wait: 109
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 1
+      MAtk: 2
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_006
     Name: "\u30A8\u30B9\u30C6\u30EB"
     Rare: 1
     Image: 006
     Personality: "\u4E71\u66B4"
+    Base:
+      HP: 56
+      Atk: 17
+      Def: 13
+      MAtk: 11
+      MDef: 7
     Wait: 104
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 1
+      MAtk: 1
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_007
     Name: "\u30B5\u30EB\u30D0"
     Rare: 1
     Image: 007
     Personality: "\u4E71\u66B4"
+    Base:
+      HP: 47
+      Atk: 14
+      Def: 11
+      MAtk: 17
+      MDef: 18
     Wait: 107
+    Grow:
+      HP: 2
+      Atk: 1
+      Def: 2
+      MAtk: 3
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_008
     Name: "\u30AB\u30BF\u30EA\u30FC\u30CA"
     Rare: 1
     Image: 008
     Personality: "\u4E71\u66B4"
+    Base:
+      HP: 83
+      Atk: 20
+      Def: 21
+      MAtk: 22
+      MDef: 19
     Wait: 165
+    Grow:
+      HP: 3
+      Atk: 3
+      Def: 3
+      MAtk: 3
+      MDef: 1
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_009
     Name: "\u30A4\u30A7\u30B9\u30BF"
     Rare: 1
     Image: 009
     Personality: "\u4EF2\u9593\u601D\u3044"
+    Base:
+      HP: 68
+      Atk: 17
+      Def: 17
+      MAtk: 20
+      MDef: 11
     Wait: 133
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 3
+      MAtk: 3
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_010
     Name: "\u30D3\u30EB\u30AE\u30C3\u30C8"
     Rare: 1
     Image: 010
     Personality: "\u6C17\u304C\u5F37\u3044"
+    Base:
+      HP: 76
+      Atk: 19
+      Def: 19
+      MAtk: 19
+      MDef: 21
     Wait: 154
+    Grow:
+      HP: 3
+      Atk: 3
+      Def: 2
+      MAtk: 3
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_011
     Name: "\u30A8\u30C7"
     Rare: 2
     Image: 011
     Personality: "\u4EF2\u9593\u601D\u3044"
+    Base:
+      HP: 51
+      Atk: 12
+      Def: 13
+      MAtk: 17
+      MDef: 15
     Wait: 108
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 2
+      MAtk: 2
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_012
     Name: "\u30C9\u30EA\u30A2\u30FC\u30CC"
     Rare: 2
     Image: 012
     Personality: "\u6C17\u304C\u5F37\u3044"
+    Base:
+      HP: 68
+      Atk: 11
+      Def: 19
+      MAtk: 16
+      MDef: 11
     Wait: 125
+    Grow:
+      HP: 1
+      Atk: 3
+      Def: 2
+      MAtk: 1
+      MDef: 1
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_013
     Name: "\u30A4\u30E4\u30C1\u30F3\u30C8"
     Rare: 2
     Image: 013
     Personality: "\u4EF2\u9593\u601D\u3044"
+    Base:
+      HP: 50
+      Atk: 11
+      Def: 13
+      MAtk: 15
+      MDef: 13
     Wait: 102
+    Grow:
+      HP: 1
+      Atk: 2
+      Def: 2
+      MAtk: 2
+      MDef: 3
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_014
     Name: "\u30EC\u30E1\u30A4"
     Rare: 2
     Image: 014
     Personality: "\u4E71\u66B4"
+    Base:
+      HP: 66
+      Atk: 15
+      Def: 17
+      MAtk: 17
+      MDef: 10
     Wait: 125
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 2
+      MAtk: 1
+      MDef: 1
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   - ID: Character_001_015
     Name: "\u30D5\u30A3\u30AA\u30FC\u30EC"
     Rare: 2
     Image: 015
     Personality: "\u4E71\u66B4"
+    Base:
+      HP: 67
+      Atk: 19
+      Def: 16
+      MAtk: 15
+      MDef: 15
     Wait: 132
+    Grow:
+      HP: 3
+      Atk: 2
+      Def: 2
+      MAtk: 2
+      MDef: 2
     Trigger: 3c0000003c0000003c0000003c0000003c0000003c000000
   skills:
   - ID: Skill_001_001
@@ -129,7 +309,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_001_001
-    _EffectsRef: []
   - ID: Skill_001_002
     Name: "\u8E0A\u308B Lv1"
     Rare: 0
@@ -140,7 +319,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_002_001
-    _EffectsRef: []
   - ID: Skill_001_003
     Name: "\u5FDC\u63F4 Lv1"
     Rare: 0
@@ -152,7 +330,6 @@ MonoBehaviour:
     Effects:
     - Effect_002_003
     - Effect_003_202
-    _EffectsRef: []
   - ID: Skill_001_004
     Name: "\u30A6\u30A9\u30FC\u30E0\u30A2\u30C3\u30D7 Lv1"
     Rare: 0
@@ -164,7 +341,6 @@ MonoBehaviour:
     Effects:
     - Effect_003_101
     - Effect_003_201
-    _EffectsRef: []
   - ID: Skill_001_005
     Name: "\u30B9\u30D4\u30FC\u30C9\u30AA\u30FC\u30E9 Lv1"
     Rare: 0
@@ -175,7 +351,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_003_502
-    _EffectsRef: []
   - ID: Skill_002_001
     Name: "\u5504\u3046 Lv1"
     Rare: 1
@@ -186,7 +361,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_004_202
-    _EffectsRef: []
   - ID: Skill_002_002
     Name: "\u53EC\u559A Lv1"
     Rare: 1
@@ -197,7 +371,6 @@ MonoBehaviour:
     Attribute: 1
     Effects:
     - Effect_001_002
-    _EffectsRef: []
   - ID: Skill_003_001
     Name: "\u5FDC\u63F4 Lv2"
     Rare: 1
@@ -209,7 +382,6 @@ MonoBehaviour:
     Effects:
     - Effect_002_004
     - Effect_003_203
-    _EffectsRef: []
   - ID: Skill_003_002
     Name: "\u4E7E\u5764\u4E00\u64F2 Lv2"
     Rare: 1
@@ -220,7 +392,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_001_002
-    _EffectsRef: []
   - ID: Skill_003_003
     Name: "\u30B9\u30D4\u30FC\u30C9\u30AA\u30FC\u30E9 Lv2"
     Rare: 1
@@ -231,7 +402,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_003_503
-    _EffectsRef: []
   - ID: Skill_999_001
     Name: "\u30C0\u30E1\u30FC\u30B8"
     Rare: 99
@@ -242,7 +412,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_001_001
-    _EffectsRef: []
   - ID: Skill_999_002
     Name: "\u5272\u5408\u30C0\u30E1\u30FC\u30B8"
     Rare: 99
@@ -253,7 +422,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_001_101
-    _EffectsRef: []
   - ID: Skill_999_003
     Name: "\u56DE\u5FA9"
     Rare: 99
@@ -264,7 +432,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_002_001
-    _EffectsRef: []
   - ID: Skill_999_004
     Name: "\u5272\u5408\u56DE\u5FA9"
     Rare: 99
@@ -275,7 +442,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_002_101
-    _EffectsRef: []
   - ID: Skill_999_005
     Name: "\u30D0\u30D5\uFF1A\u7269\u7406\u653B\u6483"
     Rare: 99
@@ -286,7 +452,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_003_101
-    _EffectsRef: []
   - ID: Skill_999_006
     Name: "\u30D0\u30D5\uFF1A\u7269\u7406\u9632\u5FA1"
     Rare: 99
@@ -297,7 +462,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_003_201
-    _EffectsRef: []
   - ID: Skill_999_007
     Name: "\u30D0\u30D5\uFF1A\u9B54\u6CD5\u653B\u6483"
     Rare: 99
@@ -308,7 +472,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_003_301
-    _EffectsRef: []
   - ID: Skill_999_008
     Name: "\u30D0\u30D5\uFF1A\u9B54\u6CD5\u9632\u5FA1"
     Rare: 99
@@ -319,7 +482,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_003_401
-    _EffectsRef: []
   - ID: Skill_999_009
     Name: "\u30D0\u30D5\uFF1AWAIT"
     Rare: 99
@@ -330,7 +492,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_003_501
-    _EffectsRef: []
   - ID: Skill_999_010
     Name: "\u30C7\u30D0\u30D5\uFF1A\u7269\u7406\u653B\u6483"
     Rare: 99
@@ -341,7 +502,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_004_101
-    _EffectsRef: []
   - ID: Skill_999_011
     Name: "\u30C7\u30D0\u30D5\uFF1A\u7269\u7406\u9632\u5FA1"
     Rare: 99
@@ -352,7 +512,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_004_201
-    _EffectsRef: []
   - ID: Skill_999_012
     Name: "\u30C7\u30D0\u30D5\uFF1A\u9B54\u6CD5\u653B\u6483"
     Rare: 99
@@ -363,7 +522,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_004_301
-    _EffectsRef: []
   - ID: Skill_999_013
     Name: "\u30C7\u30D0\u30D5\uFF1A\u9B54\u6CD5\u9632\u5FA1"
     Rare: 99
@@ -374,7 +532,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_004_401
-    _EffectsRef: []
   - ID: Skill_999_014
     Name: "\u30C7\u30D0\u30D5\uFF1AWAIT"
     Rare: 99
@@ -385,7 +542,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_004_501
-    _EffectsRef: []
   - ID: Skill_999_015
     Name: "(\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u7269\u7406\u653B\u6483"
     Rare: 99
@@ -396,7 +552,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_005_101
-    _EffectsRef: []
   - ID: Skill_999_016
     Name: "(\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u7269\u7406\u9632\u5FA1"
     Rare: 99
@@ -407,7 +562,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_005_201
-    _EffectsRef: []
   - ID: Skill_999_017
     Name: "(\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u9B54\u6CD5\u653B\u6483"
     Rare: 99
@@ -418,7 +572,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_005_301
-    _EffectsRef: []
   - ID: Skill_999_018
     Name: "(\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u9B54\u6CD5\u9632\u5FA1"
     Rare: 99
@@ -429,7 +582,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_005_401
-    _EffectsRef: []
   - ID: Skill_999_019
     Name: "(\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1AWAIT"
     Rare: 99
@@ -440,7 +592,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_005_501
-    _EffectsRef: []
   - ID: Skill_999_020
     Name: "(\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u3059\u3079\u3066"
     Rare: 99
@@ -451,7 +602,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_005_601
-    _EffectsRef: []
   - ID: Skill_999_021
     Name: "(\u30C7\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u7269\u7406\u653B\u6483"
     Rare: 99
@@ -462,7 +612,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_006_101
-    _EffectsRef: []
   - ID: Skill_999_022
     Name: "(\u30C7\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u7269\u7406\u9632\u5FA1"
     Rare: 99
@@ -473,7 +622,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_006_201
-    _EffectsRef: []
   - ID: Skill_999_023
     Name: "(\u30C7\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u9B54\u6CD5\u653B\u6483"
     Rare: 99
@@ -484,7 +632,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_006_301
-    _EffectsRef: []
   - ID: Skill_999_024
     Name: "(\u30C7\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u9B54\u6CD5\u9632\u5FA1"
     Rare: 99
@@ -495,7 +642,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_006_401
-    _EffectsRef: []
   - ID: Skill_999_025
     Name: "(\u30C7\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1AWAIT"
     Rare: 99
@@ -506,7 +652,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_006_501
-    _EffectsRef: []
   - ID: Skill_999_026
     Name: "(\u30C7\u30D0\u30D5\u30AD\u30E3\u30F3\u30BB\u30EB)\uFF1A\u3059\u3079\u3066"
     Rare: 99
@@ -517,7 +662,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_006_601
-    _EffectsRef: []
   - ID: Skill_999_027
     Name: "\u56DE\u5FA9(\u8907\u6570\u4F53)"
     Rare: 99
@@ -528,7 +672,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_002_002
-    _EffectsRef: []
   - ID: Skill_999_028
     Name: "\u5272\u5408\u56DE\u5FA9(\u8907\u6570\u4F53)"
     Rare: 99
@@ -539,7 +682,6 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_002_102
-    _EffectsRef: []
   effects:
   - ID: Effect_001_001
     Type: 101

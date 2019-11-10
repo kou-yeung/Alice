@@ -20,6 +20,7 @@ namespace Alice.Entities
         public BattleConst.Attribute Attribute;
         public string[] Effects;
 
+        [NonSerialized]
         public List<Effect> _EffectsRef;
         public List<Effect> EffectsRef
         {
