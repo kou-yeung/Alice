@@ -336,7 +336,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: -15min
+  m_Text: -10min
 --- !u!114 &814127434939795988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 814127435410222776}
   - component: {fileID: 814127435410222777}
   m_Layer: 5
-  m_Name: Alaram
+  m_Name: Alarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chest: {fileID: 910871029684650323}
   background: {fileID: 814127436198200809}
-  ads: {fileID: 0}
+  alarm: {fileID: 814127435410222776}
 --- !u!1 &814127436067919467
 GameObject:
   m_ObjectHideFlags: 0

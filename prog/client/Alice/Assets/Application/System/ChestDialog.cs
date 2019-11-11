@@ -13,6 +13,7 @@ namespace Alice
     {
         public Chest chest;
         public RectTransform background;
+        public Text alarm;
 
         /// <summary>
         /// 広告ボタンをクリックした
@@ -94,7 +95,8 @@ namespace Alice
         public static void Show(UserChest chest)
         {
             var dialog = PrefabPool.Get("ChestDialog").GetComponent<ChestDialog>();
-            dialog.chest.Setup(chest);
+            dialog.chest.Setup(chest, false);
+            dialog.alarm.text = chest.NeedAlarmNum().ToString();
             Open(dialog);
         }
         /// <summary>

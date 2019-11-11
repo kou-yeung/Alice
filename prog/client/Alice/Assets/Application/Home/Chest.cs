@@ -23,9 +23,11 @@ namespace Alice
 
         public Action CliceEvent;
         public UserChest cacheUserChest { get; private set; }
+        bool showAlarm;
 
-        public void Setup(UserChest chest)
+        public void Setup(UserChest chest, bool showAlarm = true)
         {
+            this.showAlarm = showAlarm;
             cacheUserChest = chest;
             if (chest == null)
             {
@@ -57,7 +59,7 @@ namespace Alice
             else
             {
                 remainGauge.gameObject.SetActive(true);
-                alarm.transform.parent.gameObject.SetActive(true);
+                alarm.transform.parent.gameObject.SetActive(this.showAlarm);
                 remainGauge.value = cacheUserChest.RemainRatio();
                 // 残り時間
                 remainTime.text = cacheUserChest.RemainText();
