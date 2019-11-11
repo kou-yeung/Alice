@@ -757,12 +757,12 @@ exports.Chest = functions.https.onCall(async (data, context) => {
         // アイテムを減らす
         player.alarm -= needItemCount;
         batch.update(doc.player(), { alarm: player.alarm });
+        s2c.modified.player = [player];
     }
 
     const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(chest.rate));
     const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(chest.rate));
     const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', chest.rate));
-
 
     const lots: ChestLots[] = [];
     // スキルの抽選一覧
