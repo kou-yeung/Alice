@@ -31,10 +31,6 @@ namespace Alice
             dialog.message.text = message;
             dialog.negative.gameObject.SetActive(type == Type.OKCancel);
 
-            // Canvasに追加する
-            dialog.transform.SetParent(GameObject.Find("Canvas").transform, false);
-            dialog.transform.SetAsLastSibling();
-
             Open(dialog);
         }
 
@@ -43,6 +39,10 @@ namespace Alice
         /// </summary>
         static void Open(Dialog dialog)
         {
+            // Canvasに追加する
+            dialog.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            dialog.transform.SetAsLastSibling();
+
             dialog.background.localScale = Vector3.one * .75f;
             dialog.background.LeanScale(Vector3.one, 0.25f).setEaseOutBounce();
         }

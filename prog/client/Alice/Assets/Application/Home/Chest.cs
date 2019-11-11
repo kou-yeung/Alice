@@ -22,7 +22,7 @@ namespace Alice
         Text alarm;
 
         public Action CliceEvent;
-        UserChest cacheUserChest;
+        public UserChest cacheUserChest { get; private set; }
 
         public void Setup(UserChest chest)
         {
@@ -48,10 +48,7 @@ namespace Alice
         {
             if (cacheUserChest == null) return;
 
-            var remain = Math.Max(0, cacheUserChest.end - ServerTime.CurrentUnixTime);
-            var max = cacheUserChest.end - cacheUserChest.start;
-
-            if(remain <= 0)
+            if(cacheUserChest.IsReady())
             {
                 remainGauge.gameObject.SetActive(false);
                 remainTime.text = "★READY★";
@@ -61,11 +58,11 @@ namespace Alice
             {
                 remainGauge.gameObject.SetActive(true);
                 alarm.transform.parent.gameObject.SetActive(true);
-                remainGauge.value = (float)remain / (float)max;
+                remainGauge.value = cacheUserChest.RemainRatio();
                 // 残り時間
-                remainTime.text = string.Format("{0:D2}:{1:D2}", remain / 60, remain % 60);
+                remainTime.text = cacheUserChest.RemainText();
                 // 必要なアラーム数
-                var needAlarm = Mathf.CeilToInt(remain / (float)Const.AlarmTimeSecond);
+                var needAlarm = cacheUserChest.NeedAlarmNum();
                 alarm.text = needAlarm.ToString();
             }
         }

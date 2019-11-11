@@ -99,26 +99,27 @@ namespace Alice
             }
             else
             {
-                var player = UserData.cacheHomeRecv.player;
+                ChestDialog.Show(chest);
+                //var player = UserData.cacheHomeRecv.player;
 
-                if (player.ads > 0)
-                {
-                    Dialog.Show("広告を観て時間短縮しますか？", Dialog.Type.OKCancel, () =>
-                    {
-                        // 広告
-                        Ads.Instance.Show(chest, (res) =>
-                        {
-                        });
-                    });
-                } else
-                {
-                    Dialog.Show( "広告回数は制限されますが、将来は時短アイテム購入可能にします",
-                        Dialog.Type.SubmitOnly,
-                        () => {
-                            Debug.Log("OK");
-                        }
-                    );
-                }
+                //if (player.ads > 0)
+                //{
+                //    Dialog.Show("広告を観て時間短縮しますか？", Dialog.Type.OKCancel, () =>
+                //    {
+                //        // 広告
+                //        Ads.Instance.Show(chest, (res) =>
+                //        {
+                //        });
+                //    });
+                //} else
+                //{
+                //    Dialog.Show( "広告回数は制限されますが、将来は時短アイテム購入可能にします",
+                //        Dialog.Type.SubmitOnly,
+                //        () => {
+                //            Debug.Log("OK");
+                //        }
+                //    );
+                //}
             }
         }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using Alice.Generic;
+using Zoo.Time;
 
 namespace Alice
 {
@@ -111,6 +112,52 @@ namespace Alice
         public long start; // 開始時間
         public long end;   // 終了時間
         public int rate;   // レアリティ
+
+        /// <summary>
+        /// 開ける準備ができた？
+        /// </summary>
+        /// <returns></returns>
+        public bool IsReady()
+        {
+            return Remain() <= 0;
+        }
+        /// <summary>
+        /// 残り時間
+        /// </summary>
+        /// <returns></returns>
+        public long Remain()
+        {
+            return Math.Max(0, end - ServerTime.CurrentUnixTime);
+        }
+
+        /// <summary>
+        /// 残り時間文字列
+        /// </summary>
+        /// <returns></returns>
+        public string RemainText()
+        {
+            var remain = Remain();
+            return string.Format("{0:D2}:{1:D2}", remain / 60, remain % 60);
+        }
+
+        /// <summary>
+        /// 残り時間の割合
+        /// </summary>
+        /// <returns></returns>
+        public float RemainRatio()
+        {
+            var max = end - start;
+            return (float)Remain() / (float)max;
+        }
+
+        /// <summary>
+        /// 必要なアラーム数
+        /// </summary>
+        /// <returns></returns>
+        public int NeedAlarmNum()
+        {
+            return Mathf.CeilToInt(Remain() / (float)Const.AlarmTimeSecond);
+        }
     }
 
     /// <summary>
