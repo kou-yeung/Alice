@@ -57,8 +57,8 @@ namespace Alice.Generic
             {BattleConst.Effect.DebuffCancel_MDef, new Map("魔法防御ダウン効果を解除", "する") },
             {BattleConst.Effect.DebuffCancel_Wait, new Map("素早さダウン効果を解除", "する") },
             {BattleConst.Effect.DebuffCancel_All, new Map("すべてダウン効果を解除", "する") },
-
         };
+
         /// <summary>
         /// スキルの説明文
         /// </summary>
@@ -66,7 +66,7 @@ namespace Alice.Generic
         /// <returns></returns>
         public static string Desc(UserSkill data)
         {
-            var skill = MasterData.FindSkillByID(data.id);
+            var skill = MasterData.Instance.FindSkillByID(data.id);
             var effects = skill.Effects;
 
             sb.Clear();
@@ -75,7 +75,7 @@ namespace Alice.Generic
 
             foreach (var id in effects)
             {
-                var effect = MasterData.effects.First(v => v.ID == id);
+                var effect = MasterData.Instance.effects.First(v => v.ID == id);
 
                 if(sb.Length != 0)
                 {

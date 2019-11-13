@@ -1,12 +1,14 @@
 ﻿using CsvHelper.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Alice.Entities
 {
     /// <summary>
     /// 性格:AIのチェック順に影響します
     /// </summary>
+    [Serializable]
     public class Personality
     {
         public string Name;     // 性格名

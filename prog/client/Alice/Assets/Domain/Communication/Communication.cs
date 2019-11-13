@@ -1,4 +1,5 @@
 ﻿using System;
+using Zoo.Crypto;
 
 namespace Zoo.Communication
 {
@@ -15,6 +16,9 @@ namespace Zoo.Communication
         public static Action ConnectionBegin;
         public static Action ConnectionEnd;
         public static Action<string> WarningMessage;
-        public static Action<string> ErrorMessage; 
+        public static Action<string> ErrorMessage;
+
+        // 暗号化・復号化
+        public static ICrypto Crypto = new EmptyCrypto();
     }
 }

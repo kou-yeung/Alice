@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 using Zoo.Auth;
 using Zoo.Communication;
 using Zoo.IO;
+using Zoo.Crypto;
+using Zoo;
+
 namespace Alice
 {
     public class Boot : MonoBehaviour
@@ -20,29 +23,32 @@ namespace Alice
         public Backend backend = Backend.Local;
         public Scene scene = Scene.Title;
 
+        public GameObject[] poolPrefabs;
+
         void Start()
         {
             InitializeServiceLocator();
 
             // ScreenBlockセットアップ:通信
+            CommunicationService.Crypto = new CryptoBase64();
             CommunicationService.ConnectionBegin = ()=> { ScreenBlocker.Instance?.Push(); };
             CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance?.Pop(); };
             CommunicationService.WarningMessage = (message) =>
             {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show( "確認", message, PlatformDialog.Type.SubmitOnly,
-                    () => {}
-                );
+                Dialog.Show(message, Dialog.Type.SubmitOnly);
             };
             CommunicationService.ErrorMessage = (message) =>
             {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show("エラー", message, PlatformDialog.Type.SubmitOnly,
-                    () => {
-                        SceneManager.LoadSceneAsync(scene.ToString());
-                    }
-                );
+                Dialog.Show(message, Dialog.Type.SubmitOnly, ()=> {
+                    SceneManager.LoadSceneAsync(scene.ToString());
+                });
             };
+
+            // 登録
+            foreach(var prefab in poolPrefabs)
+            {
+                PrefabPool.Regist(prefab.name, prefab);
+            }
             SceneManager.LoadSceneAsync(scene.ToString());
         }
 

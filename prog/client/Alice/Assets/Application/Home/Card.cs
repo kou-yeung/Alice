@@ -43,7 +43,7 @@ namespace Alice
 
             thumbnail.Setup(unit);
 
-            var data = MasterData.characters.FirstOrDefault(v => v.ID == unit.characterId);
+            var data = MasterData.Instance.characters.FirstOrDefault(v => v.ID == unit.characterId);
             var lv = unit.Level();
             var b = data.Base;
             var g = data.Grow;
@@ -64,7 +64,7 @@ namespace Alice
 
                 if (i < unit.skill.Length)
                 {
-                    text.text = MasterData.FindSkillByID(unit.skill[i])?.Name;
+                    text.text = MasterData.Instance.FindSkillByID(unit.skill[i])?.Name;
                 }
                 else
                 {

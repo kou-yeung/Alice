@@ -20,4 +20,20 @@ namespace Zoo.Crypto
         /// <returns></returns>
         string Encrypt(string text);
     }
+
+    /// <summary>
+    /// 空き実装
+    /// </summary>
+    public class EmptyCrypto : ICrypto
+    {
+        public string Decrypt(string cipher)
+        {
+            return cipher;
+        }
+
+        public string Encrypt(string text)
+        {
+            return text;
+        }
+    }
 }

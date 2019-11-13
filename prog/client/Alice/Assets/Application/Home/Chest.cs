@@ -18,12 +18,16 @@ namespace Alice
         Slider remainGauge;
         [SerializeField]
         Text remainTime;
+        [SerializeField]
+        Text alarm;
 
         public Action CliceEvent;
-        UserChest cacheUserChest;
+        public UserChest cacheUserChest { get; private set; }
+        bool showAlarm;
 
-        public void Setup(UserChest chest)
+        public void Setup(UserChest chest, bool showAlarm = true)
         {
+            this.showAlarm = showAlarm;
             cacheUserChest = chest;
             if (chest == null)
             {
@@ -46,20 +50,22 @@ namespace Alice
         {
             if (cacheUserChest == null) return;
 
-            var remain = Math.Max(0, cacheUserChest.end - ServerTime.CurrentUnixTime);
-            var max = cacheUserChest.end - cacheUserChest.start;
-
-            if(remain <= 0)
+            if(cacheUserChest.IsReady())
             {
                 remainGauge.gameObject.SetActive(false);
                 remainTime.text = "★READY★";
+                alarm.transform.parent.gameObject.SetActive(false);
             }
             else
             {
                 remainGauge.gameObject.SetActive(true);
-                remainGauge.value = (float)remain / (float)max;
+                alarm.transform.parent.gameObject.SetActive(this.showAlarm);
+                remainGauge.value = cacheUserChest.RemainRatio();
                 // 残り時間
-                remainTime.text = string.Format("{0:D2}:{1:D2}", remain / 60, remain % 60);
+                remainTime.text = cacheUserChest.RemainText();
+                // 必要なアラーム数
+                var needAlarm = cacheUserChest.NeedAlarmNum();
+                alarm.text = needAlarm.ToString();
             }
         }
 

@@ -665,6 +665,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/179/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 55c8a1f2a8667334e84896f337044a96
+    m_Address: Assets/AddressableAssets/Entities/MasterData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 55f24c9ff8612124a8e54ec9f2367b1a
     m_Address: Assets/AddressableAssets/Character/063/walk.asset
     m_ReadOnly: 0
@@ -1029,6 +1033,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/172/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 8209ba71bb98abe4781d53e606fab35d
+    m_Address: Assets/AddressableAssets/Prefab/Versus.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 8280475bbeadab142ae0c373c3323b16
     m_Address: Assets/AddressableAssets/Character/159/icon.asset
     m_ReadOnly: 0
@@ -1143,6 +1151,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 90e08fb67cfee9349848660cd59ecfa1
     m_Address: Assets/AddressableAssets/Character/222/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 90e333d75fa7f8b40ac07602a459d75b
+    m_Address: Assets/AddressableAssets/Prefab/Dialog.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 912a589d3b52f66448b9de5066ee691c

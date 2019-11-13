@@ -9,36 +9,58 @@ using Zoo.Communication;
 using Alice.Entities;
 using UnityEngine.Advertisements;
 using System;
+using UnityEngine.Purchasing;
 
 namespace Alice
 {
-    public class Title : MonoBehaviour
+    public class Title : MonoBehaviour, IStoreListener
     {
         public Text wait;
+        IStoreController controller;
+        IExtensionProvider extensions;
+
+        void Start()
+        {
+            StandardPurchasingModule module = StandardPurchasingModule.Instance();
+            var build = ConfigurationBuilder.Instance(module);
+            List<ProductDefinition> products = new List<ProductDefinition>();
+            products.Add(new ProductDefinition("alram_100", ProductType.Consumable));
+            products.Add(new ProductDefinition("alram_200", ProductType.Consumable));
+            build.AddProducts(products);
+            UnityPurchasing.Initialize(this, build);
+        }
+        public void OnInitializeFailed(InitializationFailureReason error)
+        {
+            Debug.Log($"OnInitializeFailed:{error.ToString()}");
+        }
+
+        public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
+        {
+            Debug.Log($"ProcessPurchase:{e.ToString()}");
+            return PurchaseProcessingResult.Complete;   // とりあえず完了とします
+        }
+
+        public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
+        {
+            Debug.Log($"OnPurchaseFailed[{i}]:{p.ToString()}");
+        }
+
+        public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+        {
+            this.controller = controller;
+            this.extensions = extensions;
+        }
+
 
         public void OnScreenButton()
         {
-            // 通信状況を確認する
-            if (Application.internetReachability == NetworkReachability.NotReachable)
-            {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show(
-                    "警告",
-                    "ネット接続できません。通信環境を確認してください",
-                    PlatformDialog.Type.SubmitOnly,
-                    () =>
-                    {
-                        Debug.Log("OK");
-                    }
-                );
-                return;
-            }
-            ScreenBlocker.Instance.Push();
+            //var product = controller.products.WithID("alram_200");
+            //controller.InitiatePurchase(product);
 
+            //return;
+            ScreenBlocker.Instance.Push();
             Async.Parallel(() =>
             {
-                //CommunicationService.Instance.Request("CreateShadowRoom", "", (a) =>
-                //{
                     // ホーム情報を取得し、シーンを遷移する
                     CommunicationService.Instance.Request("Home", "", (res) =>
                     {
@@ -46,7 +68,6 @@ namespace Alice
                         ScreenBlocker.Instance.Pop();
                         SceneManager.LoadScene("Home");
                     });
-                //});
             },
             (end) => AuthService.Instance.SignInAnonymously(end),
             (end) => MasterData.Initialize(end),
@@ -71,5 +92,6 @@ namespace Alice
 #endif
             cb?.Invoke();
         }
+
     }
 }

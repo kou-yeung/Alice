@@ -16,13 +16,6 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
-            // タイムラインアイコンを回収する
-            foreach(var kv in owner.controller.timeline)
-            {
-                kv.Value.Destroy();
-            }
-            owner.controller.timeline.Clear();
-
             // 「記録から再生」と「シャドウバトル」はGameSetを実行する必要ありません
             if (owner.fromRecord || owner.recv.type == BattleConst.BattleType.Shadow)
             {

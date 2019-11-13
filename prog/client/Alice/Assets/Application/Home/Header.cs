@@ -61,15 +61,7 @@ namespace Alice
             // NG ワードのチェック
             if(str.Length < 2)
             {
-                PlatformDialog.SetButtonLabel("OK");
-                PlatformDialog.Show(
-                    "確認",
-                    $"最低２文字が必要です",
-                    PlatformDialog.Type.SubmitOnly,
-                    () => {
-                        Debug.Log("OK");
-                    }
-                );
+                Dialog.Show($"最低２文字が必要です", Dialog.Type.SubmitOnly);
                 var player = UserData.cacheHomeRecv.player;
                 Name.text = player.name;
                 return;

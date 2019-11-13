@@ -36,6 +36,7 @@ namespace Zoo.Communication
 
             var functions = FirebaseFunctions.DefaultInstance;
 
+            data = CommunicationService.Crypto.Encrypt(data);
             functions.GetHttpsCallable(proto).CallAsync(data).ContinueWithOnMainThread(task =>
             {
                 CommunicationService.ConnectionEnd?.Invoke();
@@ -54,7 +55,7 @@ namespace Zoo.Communication
                     return;
                 }
 
-                var recv = task.Result.Data as string;
+                var recv = CommunicationService.Crypto.Decrypt(task.Result.Data as string);
                 Debug.Log($"Recv {recv}");
 
                 var message = JsonUtility.FromJson<Message>(recv);

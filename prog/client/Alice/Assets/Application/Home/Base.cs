@@ -77,60 +77,17 @@ namespace Alice
 
                     if (s2c.modified.unit.Length != 0)
                     {
-                        foreach (var unit in s2c.modified.unit)
-                        {
-                            name = MasterData.characters.First(v => v.ID == unit.characterId).Name;
-                        }
+                        UnitDialog.Show(s2c.modified.unit[0]);
                     }
                     if (s2c.modified.skill.Length != 0)
                     {
-                        foreach (var skill in s2c.modified.skill)
-                        {
-                            name = MasterData.skills.First(v => v.ID == skill.id).Name;
-                        }
+                        SkillDialog.Show(s2c.modified.skill[0]);
                     }
-
-                    PlatformDialog.SetButtonLabel("OK");
-                    PlatformDialog.Show(
-                        "おめでとう",
-                        $"{name} を入手しました",
-                        PlatformDialog.Type.SubmitOnly,
-                        () => {
-                            Debug.Log("OK");
-                        }
-                    );
                 });
             }
             else
             {
-                var player = UserData.cacheHomeRecv.player;
-
-                if (player.ads > 0)
-                {
-                    PlatformDialog.SetButtonLabel("Yes", "No");
-                    PlatformDialog.Show(
-                        "確認(仮)",
-                        "広告を観て時間短縮しますか？",
-                        PlatformDialog.Type.OKCancel,
-                        () => {
-                        // 広告
-                        Ads.Instance.Show(chest, (res) =>
-                            {
-                            });
-                        }
-                    );
-                } else
-                {
-                    PlatformDialog.SetButtonLabel("OK");
-                    PlatformDialog.Show(
-                        "MEMO",
-                        "広告回数は制限されますが、将来は時短アイテム購入可能にします",
-                        PlatformDialog.Type.SubmitOnly,
-                        () => {
-                            Debug.Log("OK");
-                        }
-                    );
-                }
+                ChestDialog.Show(chest);
             }
         }
 

@@ -17,6 +17,13 @@ namespace Alice
                 UserData.GetBattleRecord().AddRecord(owner.recv);
             }
 
+            // タイムラインアイコンを回収する
+            foreach (var kv in owner.controller.timeline)
+            {
+                kv.Value.Destroy();
+            }
+            owner.controller.timeline.Clear();
+
             // 必要なくなったものの後始末
             foreach (var unit in owner.controller.units)
             {
@@ -30,6 +37,8 @@ namespace Alice
             owner.gameObject.SetActive(false);
             // フェーズを破棄
             owner.controller.phase.Destory();
+            // VS.を破棄
+            owner.controller.versus.Destory();
 
             // 自動スリープはシステム値に戻す
             Screen.sleepTimeout = SleepTimeout.SystemSetting;

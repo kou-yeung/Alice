@@ -1,10 +1,13 @@
 ﻿using CsvHelper.Configuration;
 using System.Collections.Generic;
+using System;
 
 namespace Alice.Entities
 {
+    [Serializable]
     public class Character
     {
+        [Serializable]
         public struct Param
         {
             public int HP;

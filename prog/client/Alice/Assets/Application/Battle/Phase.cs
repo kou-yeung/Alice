@@ -19,14 +19,16 @@ namespace Alice
         {
             text.text = phase;
             Animation.Play("Change");
-            if (cb != null)
-            {
-                Observable
-                    .EveryUpdate()
-                    .Where(_ => !Animation.isPlaying)
-                    .Take(1)
-                    .Subscribe(_ => { }, cb);
-            }
+            this.gameObject.SetActive(true);
+            Observable
+                .EveryUpdate()
+                .Where(_ => !Animation.isPlaying)
+                .Take(1)
+                .Subscribe(_ => { }, ()=>
+                {
+                    this.gameObject.SetActive(false);
+                    cb?.Invoke();
+                });
         }
 
         /// <summary>

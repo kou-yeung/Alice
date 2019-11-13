@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using CsvHelper.Configuration;
 using System.Linq;
+using System;
 
 namespace Alice.Entities
 {
+    [Serializable]
     public class Skill
     {
         public string ID;
@@ -18,6 +20,7 @@ namespace Alice.Entities
         public BattleConst.Attribute Attribute;
         public string[] Effects;
 
+        [NonSerialized]
         public List<Effect> _EffectsRef;
         public List<Effect> EffectsRef
         {
@@ -28,7 +31,7 @@ namespace Alice.Entities
                     _EffectsRef = new List<Effect>();
                     foreach(var effect in Effects)
                     {
-                        _EffectsRef.Add(MasterData.effects.First(v => v.ID == effect));
+                        _EffectsRef.Add(MasterData.Instance.effects.First(v => v.ID == effect));
                     }
                 }
                 return _EffectsRef;
