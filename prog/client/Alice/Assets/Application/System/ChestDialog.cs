@@ -9,10 +9,9 @@ using System.Linq;
 
 namespace Alice
 {
-    public class ChestDialog : MonoBehaviour
+    public class ChestDialog : BaseDialog
     {
         public Chest chest;
-        public RectTransform background;
         public Text alarm;
 
         /// <summary>
@@ -28,7 +27,7 @@ namespace Alice
                 {
                     // TODO : 表示の情報を更新する?そのまま閉じる
                     // HACK : とりあえず現在は閉じる
-                    Close(this);
+                    Close();
                 });
             }
             else
@@ -57,24 +56,14 @@ namespace Alice
 
                     if (s2c.modified.unit.Length != 0)
                     {
-                        foreach (var unit in s2c.modified.unit)
-                        {
-                            name = MasterData.Instance.characters.First(v => v.ID == unit.characterId).Name;
-                        }
+                        Close();
+                        UnitDialog.Show(s2c.modified.unit[0]);
                     }
                     if (s2c.modified.skill.Length != 0)
                     {
-                        foreach (var skill in s2c.modified.skill)
-                        {
-                            name = MasterData.Instance.skills.First(v => v.ID == skill.id).Name;
-                        }
+                        Close();
+                        SkillDialog.Show(s2c.modified.skill[0]);
                     }
-
-                    Dialog.Show($"{name} を入手しました", Dialog.Type.SubmitOnly,
-                        () => {
-                            Close(this);
-                        }
-                    );
                 });
 
             }
@@ -84,44 +73,21 @@ namespace Alice
             }
         }
 
-        /// <summary>
-        /// 閉じるボタンをクリックした
-        /// </summary>
-        public void OnClickClose()
-        {
-            Close(this);
-        }
-
         public static void Show(UserChest chest)
         {
             var dialog = PrefabPool.Get("ChestDialog").GetComponent<ChestDialog>();
             dialog.chest.Setup(chest, false);
             dialog.alarm.text = chest.NeedAlarmNum().ToString();
-            Open(dialog);
-        }
-        /// <summary>
-        /// 開く演出
-        /// </summary>
-        static void Open(ChestDialog dialog)
-        {
-            // Canvasに追加する
-            dialog.transform.SetParent(GameObject.Find("Canvas").transform, false);
-            dialog.transform.SetAsLastSibling();
-
-            dialog.background.localScale = Vector3.one * .75f;
-            dialog.background.LeanScale(Vector3.one, 0.25f).setEaseOutBounce();
+            dialog.Open();
         }
 
         /// <summary>
         /// 閉じる演出
         /// </summary>
-        static void Close(ChestDialog dialog)
+        protected override void OnClosed()
         {
-            dialog.background.LeanScale(Vector3.one * .8f, 0.2f).setEaseInBack().setOnComplete(() =>
-            {
-                PrefabPool.Release("ChestDialog", dialog.gameObject);
-            });
+            PrefabPool.Release("ChestDialog", this.gameObject);
+            base.OnClosed();
         }
-
     }
 }

@@ -7,7 +7,7 @@ using Zoo;
 
 namespace Alice
 {
-    public class Dialog : MonoBehaviour
+    public class Dialog : BaseDialog
     {
         public enum Type
         {
@@ -15,7 +15,6 @@ namespace Alice
             OKCancel = 1,
         }
 
-        public RectTransform background;
         public Text message;
         public Button positive;
         public Button negative;
@@ -30,32 +29,16 @@ namespace Alice
             dialog.negativeDelegate = negativeDelegate;
             dialog.message.text = message;
             dialog.negative.gameObject.SetActive(type == Type.OKCancel);
-
-            Open(dialog);
+            dialog.Open();
         }
 
         /// <summary>
-        /// 開く演出
+        /// 閉じる
         /// </summary>
-        static void Open(Dialog dialog)
+        protected override void OnClosed()
         {
-            // Canvasに追加する
-            dialog.transform.SetParent(GameObject.Find("Canvas").transform, false);
-            dialog.transform.SetAsLastSibling();
-
-            dialog.background.localScale = Vector3.one * .75f;
-            dialog.background.LeanScale(Vector3.one, 0.25f).setEaseOutBounce();
-        }
-
-        /// <summary>
-        /// 閉じる演出
-        /// </summary>
-        static void Close(Dialog dialog)
-        {
-            dialog.background.LeanScale(Vector3.one * .8f, 0.2f).setEaseInBack().setOnComplete(() =>
-            {
-                PrefabPool.Release("Dialog", dialog.gameObject);
-            });
+            PrefabPool.Release("Dialog", this.gameObject);
+            base.OnClosed();
         }
 
         /// <summary>
@@ -64,7 +47,7 @@ namespace Alice
         public void OnPositive()
         {
             positiveDelegate?.Invoke();
-            Close(this);
+            Close();
         }
 
         /// <summary>
@@ -72,9 +55,8 @@ namespace Alice
         /// </summary>
         public void OnNegative()
         {
-
             negativeDelegate?.Invoke();
-            Close(this);
+            Close();
         }
     }
 }

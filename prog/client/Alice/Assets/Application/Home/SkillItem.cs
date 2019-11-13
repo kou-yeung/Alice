@@ -8,21 +8,26 @@ using System;
 
 namespace Alice
 {
-
     public class SkillItem : MonoBehaviour
     {
-        public Text Name;
-        public Text Desc;
-        public Text Num;
-        public SkillItemEffect[] effects;
-        public Sprites sprites;
+        [Serializable]
+        public class Effect
+        {
+            public GameObject gameObject;
+            public Image accession; // 継承アイコン
+            public Image side;      // サイト
+            public Text desc;       // 説明
+        }
 
+        public Text Name;
+        public Text Num;
+        public Sprites sprites;
+        public Effect[] effects;
 
         public void Setup(UserSkill skill)
         {
             var data = MasterData.Instance.Find(skill);
             Name.text = data.Name;
-            Desc.text = Generic.Message.Desc(skill);
 
             var remain = UserData.RemainSkill(skill.id);
             var count = skill.count;

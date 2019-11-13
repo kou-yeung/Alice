@@ -77,49 +77,17 @@ namespace Alice
 
                     if (s2c.modified.unit.Length != 0)
                     {
-                        foreach (var unit in s2c.modified.unit)
-                        {
-                            name = MasterData.Instance.characters.First(v => v.ID == unit.characterId).Name;
-                        }
+                        UnitDialog.Show(s2c.modified.unit[0]);
                     }
                     if (s2c.modified.skill.Length != 0)
                     {
-                        foreach (var skill in s2c.modified.skill)
-                        {
-                            name = MasterData.Instance.skills.First(v => v.ID == skill.id).Name;
-                        }
+                        SkillDialog.Show(s2c.modified.skill[0]);
                     }
-
-                    Dialog.Show($"{name} を入手しました", Dialog.Type.SubmitOnly,
-                        () => {
-                            Debug.Log("OK");
-                        }
-                    );
                 });
             }
             else
             {
                 ChestDialog.Show(chest);
-                //var player = UserData.cacheHomeRecv.player;
-
-                //if (player.ads > 0)
-                //{
-                //    Dialog.Show("広告を観て時間短縮しますか？", Dialog.Type.OKCancel, () =>
-                //    {
-                //        // 広告
-                //        Ads.Instance.Show(chest, (res) =>
-                //        {
-                //        });
-                //    });
-                //} else
-                //{
-                //    Dialog.Show( "広告回数は制限されますが、将来は時短アイテム購入可能にします",
-                //        Dialog.Type.SubmitOnly,
-                //        () => {
-                //            Debug.Log("OK");
-                //        }
-                //    );
-                //}
             }
         }
 
