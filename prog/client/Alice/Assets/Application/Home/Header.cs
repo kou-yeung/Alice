@@ -68,5 +68,13 @@ namespace Alice
             }
             UserData.EditPlayerName(str);
         }
+
+        /// <summary>
+        /// アラームをクリックした
+        /// </summary>
+        public void OnClickAlarm()
+        {
+            PurchasingDialog.Show();
+        }
     }
 }
