@@ -36,7 +36,7 @@ namespace Alice
         }
         public void Pop()
         {
-            --count;
+            count = Mathf.Max(0, count - 1);
             Setup();
         }
 

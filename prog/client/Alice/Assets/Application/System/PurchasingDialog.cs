@@ -85,7 +85,6 @@ namespace Alice
         public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
         {
             Debug.Log($"OnPurchaseFailed[{i}]:{p.ToString()}");
-            ScreenBlocker.Instance.Pop();
             Dialog.Show(p.ToString(), Dialog.Type.SubmitOnly);
         }
 
