@@ -90,6 +90,9 @@ class Documents {
     product(id: string, platform: string): FirebaseFirestore.DocumentReference {
         return this.products().doc(id + ':' + platform);
     }
+    purchase(transaction: string): FirebaseFirestore.DocumentReference {
+        return this.purchases().doc(transaction);
+    }
     // 指定ランクの登録データ取得
     colosseum(rank: number, index: number): FirebaseFirestore.DocumentReference {
         return this.colosseumGroups().collection(rank.toString()).doc(index.toString());
@@ -135,8 +138,13 @@ class Documents {
     chests(): FirebaseFirestore.CollectionReference {
         return this.player().collection("chests");
     }
+    // 課金アイテム
     products(): FirebaseFirestore.CollectionReference {
         return db.collection("products");
+    }
+    // 購入履歴
+    purchases(): FirebaseFirestore.CollectionReference {
+        return db.collection("purchases");
     }
     // ルームID + 指定時間移行のバトルを指定件数のクエリを生成する
     shadowEnemies(roomid: number, beforeTime: number, count: number): FirebaseFirestore.Query {
@@ -1074,6 +1082,11 @@ class Product {
     bonus: number = 0;
     admin: boolean = true;
 }
+class Receipt {
+    Store: string = "";
+    TransactionID: string = "";
+    Payload: string = "";
+}
 /*
  * 購入処理
  */
@@ -1092,12 +1105,36 @@ exports.Purchasing = functions.https.onCall(async (data, context) => {
         }
     }
 
+    // レシートをオブジェクトに
+    const receipt: Receipt = JSON.parse(c2s.receipt);
+
+    // TransactionIDはまだ存在していないのを確認する
+    if (await Ref.snapshot(doc.purchase(receipt.TransactionID)) != undefined) {
+        return Proto.stringify(Message.Warning('使用済のレシートです'));
+    }
+    const batch = db.batch();
+
+    const now = new Date();
+    // レシートを登録
+    batch.set(doc.purchase(receipt.TransactionID), {
+        date: now.toDateString(),
+        time: now.toTimeString(),
+        timezoneOffset: now.getTimezoneOffset(),
+        id: c2s.id,
+        platform: c2s.platform,
+        uid: doc.uid,
+        receipt: c2s.receipt,
+        alarm: product.alarm,
+        bonus: product.bonus,
+    });
+
+    // アイテム付与
     const player = await Ref.snapshot<Player>(doc.player());
     player.alarm += product.alarm + product.bonus;
-    const batch = db.batch();
     batch.update(doc.player(), { alarm: player.alarm });
-    await batch.commit();
 
+    // 同期
+    await batch.commit();
     s2c.modified.player = [player];
     return Proto.stringify(s2c);
 });
