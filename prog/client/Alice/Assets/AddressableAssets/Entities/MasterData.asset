@@ -932,3 +932,19 @@ MonoBehaviour:
     - "\u30C7\u30D0\u30D5"
     - "\u30D0\u30D5\u89E3\u9664"
     - "\u30C7\u30D0\u30D5\u89E3\u9664"
+  products:
+  - ID: alarm_15
+    Platform: 3
+    Alarm: 15
+    Bonus: 0
+    AdminOnly: 0
+  - ID: alarm_15
+    Platform: 2
+    Alarm: 15
+    Bonus: 0
+    AdminOnly: 0
+  - ID: alarm_15
+    Platform: 1
+    Alarm: 15
+    Bonus: 0
+    AdminOnly: 1

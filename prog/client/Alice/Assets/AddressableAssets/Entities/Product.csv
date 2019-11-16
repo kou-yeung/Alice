@@ -1,0 +1,4 @@
+ID,Platform,増加量,おまけ,管理者専用,
+alarm_15,Android,15,0,FALSE,
+alarm_15,iOS,15,0,FALSE,
+alarm_15,UnityEditor,15,0,TRUE,

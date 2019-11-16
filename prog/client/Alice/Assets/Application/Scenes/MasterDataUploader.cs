@@ -20,12 +20,22 @@ namespace Alice.Tools
         public int rare;
         public string id;
     }
+    [Serializable]
+    class MasterDataProduct
+    {
+        public string id;
+        public string platform;
+        public int alarm;
+        public int bonus;
+        public bool admin;
+    }
 
     [Serializable]
     class MasterDataSend
     {
         public MasterDataSkill[] skills;
         public MasterDataCharacter[] characters;
+        public MasterDataProduct[] products;
     }
     public class MasterDataUploader : MonoBehaviour
     {
@@ -58,6 +68,25 @@ namespace Alice.Tools
             }
 
             c2s.characters = characters.ToArray();
+            CommunicationService.Instance.Request("MasterData", JsonUtility.ToJson(c2s));
+        }
+
+        public void OnProduct()
+        {
+            var c2s = new MasterDataSend();
+            List<MasterDataProduct> products = new List<MasterDataProduct>();
+            foreach (var product in MasterData.Instance.products)
+            {
+                products.Add(new MasterDataProduct
+                {
+                    id = product.ID,
+                    platform = product.Platform.ToString(),
+                    alarm = product.Alarm,
+                    bonus = product.Bonus,
+                    admin = product.AdminOnly,
+                });
+            }
+            c2s.products = products.ToArray();
             CommunicationService.Instance.Request("MasterData", JsonUtility.ToJson(c2s));
         }
 

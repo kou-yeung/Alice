@@ -1,5 +1,6 @@
 ﻿import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as rp from 'request-promise';
 
 // 定数
 class Const {
@@ -86,6 +87,9 @@ class Documents {
     chest(uniq: string): FirebaseFirestore.DocumentReference {
         return this.chests().doc(uniq);
     }
+    product(id: string, platform: string): FirebaseFirestore.DocumentReference {
+        return this.products().doc(id + ':' + platform);
+    }
     // 指定ランクの登録データ取得
     colosseum(rank: number, index: number): FirebaseFirestore.DocumentReference {
         return this.colosseumGroups().collection(rank.toString()).doc(index.toString());
@@ -117,6 +121,10 @@ class Documents {
     masterdataCharacter(lv: number): FirebaseFirestore.DocumentReference {
         return db.collection('masterdata').doc('characters' + lv.toString());
     }
+    // マスタデータ:キャラクタ
+    masterdataProduct(): FirebaseFirestore.DocumentReference {
+        return db.collection('masterdata').doc('product');
+    }
     // Collection
     units(): FirebaseFirestore.CollectionReference {
         return this.player().collection("units");
@@ -126,6 +134,9 @@ class Documents {
     }
     chests(): FirebaseFirestore.CollectionReference {
         return this.player().collection("chests");
+    }
+    products(): FirebaseFirestore.CollectionReference {
+        return db.collection("products");
     }
     // ルームID + 指定時間移行のバトルを指定件数のクエリを生成する
     shadowEnemies(roomid: number, beforeTime: number, count: number): FirebaseFirestore.Query {
@@ -369,13 +380,20 @@ class MasterDataCharacter {
     rare: number = 0;
     id: string = "";
 }
+class MasterDataProduct {
+    id: string = "";
+    platform: string = "";
+    alarm: number = 0;
+    bonus: number = 0;
+    admin: boolean = true;
+}
 class MasterDataIds {
     ids: string[] = [];
 }
-
 class MasterDataSend {
     skills?: MasterDataSkill[];
     characters?: MasterDataCharacter[];
+    products?: MasterDataProduct[];
 }
 // 管理者:マスタデータ登録
 exports.MasterData = functions.https.onCall(async (data, context) => {
@@ -412,7 +430,17 @@ exports.MasterData = functions.https.onCall(async (data, context) => {
             batch.set(doc.masterdataCharacter(k), { ids: v });
         }
     }
-
+    // 課金アイテム
+    if (c2s.products) {
+        for (const product of c2s.products) {
+            batch.set(doc.product(product.id, product.platform),
+                {
+                    alarm: product.alarm,
+                    bonus: product.bonus,
+                    admin: product.admin
+                });
+        }
+    }
     await batch.commit();
     return Proto.stringify(Message.Warning('登録完了しました'));
 });
@@ -422,7 +450,7 @@ exports.MasterData = functions.https.onCall(async (data, context) => {
 // */
 //exports.Temp = functions.https.onCall(async (data, context) => {
 //    const doc = new Documents(context.auth!.uid);
-//    const c2s: Proto.parse<TempSend>(data); // c2s
+//    const c2s = Proto.parse<TempSend>(data); // c2s
 //    const s2c = new TempRecv();             // s2c
 //    return Proto.stringify(s2c);
 //});
@@ -1029,3 +1057,59 @@ exports.ShadowList = functions.https.onCall(async (data, context) => {
     return Proto.stringify(s2c);
 });
 
+// 購入処理:c2s
+class PurchasingSend {
+    id: string = "";
+    platform: string = "";
+    receipt: string = "";
+
+}
+// 購入処理: s2c
+class PurchasingRecv {
+    modified: Modified = new Modified();
+}
+
+class Product {
+    alarm: number = 0;
+    bonus: number = 0;
+    admin: boolean = true;
+}
+/*
+ * 購入処理
+ */
+exports.Purchasing = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s = Proto.parse<PurchasingSend>(data); // c2s
+    const s2c = new PurchasingRecv();             // s2c
+
+    // 課金アイテムの情報を取得する
+    const product = await Ref.snapshot<Product>(doc.product(c2s.id, c2s.platform));
+    // 管理者チェック
+    if (product.admin) {
+        // 権限をチェックする
+        if (await Ref.snapshot(doc.admin()) == undefined) {
+            return Proto.stringify(Message.Warning('購入できませんでした'));
+        }
+    }
+
+    const player = await Ref.snapshot<Player>(doc.player());
+    player.alarm += product.alarm + product.bonus;
+    const batch = db.batch();
+    batch.update(doc.player(), { alarm: player.alarm });
+    await batch.commit();
+
+    s2c.modified.player = [player];
+    return Proto.stringify(s2c);
+});
+
+/*
+ * request-test
+ */
+exports.RequestTest = functions.https.onCall(async (data, context) => {
+    const html = await rp('http://www.google.com');
+    var s2c =
+    {
+        html: html
+    };
+    return Proto.stringify(s2c);
+});

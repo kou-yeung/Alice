@@ -26,6 +26,7 @@ namespace Alice.Entities
         public Skill[] skills;
         public Effect[] effects;
         public Personality[] personalities;
+        public Product[] products;
 
         /// <summary>
         /// 初期化
@@ -120,6 +121,9 @@ namespace Alice.Entities
                             break;
                         case "Effect":
                             asset.effects = Load<Effect>(path);
+                            break;
+                        case "Product":
+                            asset.products = Load<Product>(path);
                             break;
                     }
                 }

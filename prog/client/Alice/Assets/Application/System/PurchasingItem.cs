@@ -16,6 +16,7 @@ namespace Alice
         public void Setup(Product product)
         {
             this.product = product;
+            this.text.text = $"{product.definition.id}\nPrice:{product.metadata.localizedPrice}";
         }
         public void OnClick()
         {

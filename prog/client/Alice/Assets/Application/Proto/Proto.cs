@@ -360,4 +360,24 @@ namespace Alice
         public ShadowSelf self;         // 自分のシャドウ情報
         public ShadowEnemy[] enemies;   // 敵のシャドウ情報一覧
     }
+
+    /// <summary>
+    /// 購入確認 : c2s
+    /// </summary>
+    [Serializable]
+    public class PurchasingSend
+    {
+        public string id;
+        public string platform;
+        public string receipt;
+    }
+    /// <summary>
+    /// 購入確認 : s2c
+    /// </summary>
+    [Serializable]
+    public class PurchasingRecv
+    {
+        public Modified modified;       // 更新したデータ
+    }
+
 }

@@ -13,42 +13,17 @@ using UnityEngine.Purchasing;
 
 namespace Alice
 {
-    public class Title : MonoBehaviour//, IStoreListener
+    public class Title : MonoBehaviour
     {
         public Text wait;
-        //IStoreController controller;
-        //IExtensionProvider extensions;
 
         void Start()
         {
-            //StandardPurchasingModule module = StandardPurchasingModule.Instance();
-            //var build = ConfigurationBuilder.Instance(module);
-            //List<ProductDefinition> products = new List<ProductDefinition>();
-            //products.Add(new ProductDefinition("alram_15", ProductType.Consumable));
-            //build.AddProducts(products);
-            //UnityPurchasing.Initialize(this, build);
+            //CommunicationService.Instance.Request("RequestTest", "", (res) =>
+            //{
+            //    Debug.Log($"RequestTest:{res}");
+            //});
         }
-        //public void OnInitializeFailed(InitializationFailureReason error)
-        //{
-        //    Debug.Log($"OnInitializeFailed:{error.ToString()}");
-        //}
-
-        //public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
-        //{
-        //    Debug.Log($"ProcessPurchase:{e.ToString()}");
-        //    return PurchaseProcessingResult.Complete;   // とりあえず完了とします
-        //}
-
-        //public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
-        //{
-        //    Debug.Log($"OnPurchaseFailed[{i}]:{p.ToString()}");
-        //}
-
-        //public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
-        //{
-        //    this.controller = controller;
-        //    this.extensions = extensions;
-        //}
 
 
         public void OnScreenButton()

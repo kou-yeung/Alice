@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Xyz.AnzFactory.UI;
 using Zoo;
+using Zoo.Communication;
 using UnityEngine.Purchasing;
 using System;
 using UniRx;
@@ -16,6 +17,29 @@ namespace Alice
         public IStoreController controller { get; private set; }
         IExtensionProvider extensions;
 
+        public static Const.Platform Platform
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return Const.Platform.UnityEditor;
+#elif UNITY_ANDROID
+                return Const.Platform.Android;
+#elif UNITY_IPHONE
+                return Const.Platform.iOS;
+#else
+                return Const.Platform.Unknown;
+#endif
+            }
+        }
+        static Entities.Product[] Products
+        {
+            get
+            {
+                return Entities.MasterData.Instance.products.Where(v => v.Platform == Platform).ToArray();
+            }
+        }
+
         public static void Initialize(Action cb)
         {
             ScreenBlocker.Instance.Push();
@@ -26,10 +50,13 @@ namespace Alice
             var build = ConfigurationBuilder.Instance(module);
             List<ProductDefinition> products = new List<ProductDefinition>();
 
-            // リスト CSV から取得するように対応
-            products.Add(new ProductDefinition("alram_15", ProductType.Consumable));
-
+            // 起動中のストアの課金アイテムで初期化する
+            foreach (var item in Products)
+            {
+                products.Add(new ProductDefinition(item.ID, ProductType.Consumable));
+            }
             build.AddProducts(products);
+
             UnityPurchasing.Initialize(Instance, build);
 
             Observable.EveryUpdate()
@@ -51,17 +78,32 @@ namespace Alice
         public void OnInitializeFailed(InitializationFailureReason error)
         {
             Debug.Log($"OnInitializeFailed:{error.ToString()}");
+            ScreenBlocker.Instance.Pop();
+            Dialog.Show(error.ToString(), Dialog.Type.SubmitOnly);
         }
 
         public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
         {
             Debug.Log($"OnPurchaseFailed[{i}]:{p.ToString()}");
+            ScreenBlocker.Instance.Pop();
+            Dialog.Show(p.ToString(), Dialog.Type.SubmitOnly);
         }
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
         {
+            //Dialog.Show(e.purchasedProduct.receipt, Dialog.Type.SubmitOnly);
             Debug.Log($"ProcessPurchase:{e.ToString()} : {e.purchasedProduct.receipt}");
-            return PurchaseProcessingResult.Complete;   // とりあえず完了とします
+            var c2s = new PurchasingSend();
+            c2s.id = e.purchasedProduct.definition.id;
+            c2s.platform = StoreController.Platform.ToString();
+            c2s.receipt = e.purchasedProduct.receipt;
+            CommunicationService.Instance.Request("Purchasing", JsonUtility.ToJson(c2s), (res) =>
+            {
+                var data = JsonUtility.FromJson<PurchasingRecv>(res);
+                UserData.Modify(data.modified);
+                controller.ConfirmPendingPurchase(e.purchasedProduct);
+            });
+            return PurchaseProcessingResult.Pending;   // 確認中
         }
     }
 
@@ -124,6 +166,7 @@ namespace Alice
 
         public void OnClickItem(Product product)
         {
+            Close();
             StoreController.Instance.controller.InitiatePurchase(product);
         }
     }
