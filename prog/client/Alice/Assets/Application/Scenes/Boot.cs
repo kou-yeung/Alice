@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zoo.Auth;
 using Zoo.Communication;
 using Zoo.IO;
 using Zoo.Crypto;
 using Zoo;
+using Zoo.Sound;
 
 namespace Alice
 {
@@ -58,6 +60,9 @@ namespace Alice
             Debug.Log("サービスロケータの初期化");
             // ローダー
             LoaderService.SetLocator(new LoaderAddressableAssets("Assets/AddressableAssets/"));
+
+            // Sound
+            SoundService.SetLocator(new SoundClip());
 
             // サーババックエンド
             switch (backend)

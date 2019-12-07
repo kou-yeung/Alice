@@ -49,6 +49,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/020/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 0380923ecb52ec04ea3a1639e5689f8b
+    m_Address: Assets/AddressableAssets/Sound/battle-start.ogg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 057866945326d8f41bb09e32685fe116
     m_Address: Assets/AddressableAssets/Character/111/icon.asset
     m_ReadOnly: 0
@@ -519,6 +523,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 3ef011447373e9145a20f52c2793b662
     m_Address: Assets/AddressableAssets/Character/095/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3ef844069bf4f8b4bac0e0aa5c77bc62
+    m_Address: Assets/AddressableAssets/Sound/bgm_maoudamashii_neorock01.mp3
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 3f80867474b97ef408c4324008da27fa

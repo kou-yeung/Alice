@@ -10,6 +10,7 @@ using Alice.Entities;
 using UnityEngine.Advertisements;
 using System;
 using UnityEngine.Purchasing;
+using Zoo.Sound;
 
 namespace Alice
 {
@@ -23,6 +24,7 @@ namespace Alice
             //{
             //    Debug.Log($"RequestTest:{res}");
             //});
+            SoundService.Instance.PlayBGM("Sound/bgm_maoudamashii_neorock01.mp3");
         }
 
 
@@ -30,6 +32,8 @@ namespace Alice
         {
             //var product = controller.products.WithID("alram_200");
             //controller.InitiatePurchase(product);
+
+            //SoundService.Instance.PlaySE("Sound/battle-start.ogg");
 
             //return;
             ScreenBlocker.Instance.Push();

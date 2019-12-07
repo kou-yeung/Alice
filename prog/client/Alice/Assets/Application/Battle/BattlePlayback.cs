@@ -5,6 +5,7 @@ using UnityEngine;
 using Zoo.StateMachine;
 using UniRx;
 using Zoo;
+using Zoo.Sound;
 using System.Linq;
 
 namespace Alice
@@ -132,6 +133,7 @@ namespace Alice
         {
             if(action.skill != null)
             {
+                SoundService.Instance.PlaySE("Sound/battle-start.ogg");
                 var owner = Battle.Instance.controller;
                 owner.phase.Change($"{action.skill.Name}", cb);
             }

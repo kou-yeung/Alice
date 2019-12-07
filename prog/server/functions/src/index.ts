@@ -595,8 +595,8 @@ exports.Battle = functions.https.onCall(async (data, context) => {
 
     // 同じランクのユーザランダム取得
     const max = groups.counter[player.rank];
-    let enemys = await doc.colosseumRandom(player.rank, 5, max);
-    enemys = enemys.filter(v => v.uid != doc.uid); // 自分を除く
+    let enemies = await doc.colosseumRandom(player.rank, 5, max);
+    enemies = enemies.filter(v => v.uid != doc.uid); // 自分を除く
 
     // HACK : １０人以下の場合、おすすめ敵を入れる
     if (max <= 10) {
@@ -604,11 +604,21 @@ exports.Battle = functions.https.onCall(async (data, context) => {
         recommend.name = 'ゲスト';
         recommend.unitJson = JSON.stringify(c2s.recommendUnits);
         recommend.deckJson = JSON.stringify(c2s.recommendDeck);
-        enemys.push(recommend);
+        enemies.push(recommend);
+    }
+
+    // HACK : 初めの２０バトルはおすすめユニットのみ出現します
+    if (player.totalBattleCount <= 20) {
+        const name = enemies[Random.Next(0, enemies.length)].name;
+        const recommend = new Colosseum();
+        recommend.name = name;  // 名前を借用する
+        recommend.unitJson = JSON.stringify(c2s.recommendUnits);
+        recommend.deckJson = JSON.stringify(c2s.recommendDeck);
+        enemies = [recommend];
     }
 
     // 候補から抽選
-    const enemy = enemys[Random.Next(0, enemys.length)];
+    const enemy = enemies[Random.Next(0, enemies.length)];
     s2c.enemyUnit = JSON.parse(enemy.unitJson);
     s2c.enemyDeck = JSON.parse(enemy.deckJson);
 

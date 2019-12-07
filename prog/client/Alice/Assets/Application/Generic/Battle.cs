@@ -29,7 +29,9 @@ namespace Alice.Generic
             List<UserUnit> enemyUnit = new List<UserUnit>();
             List<string> enemyDeck = new List<string>();
 
-            var count = refUnit.Length;   // 同じ数の敵を用意する
+            // 合計バトル回数で敵の数を調整します
+            // MEMO : 15回バトルするごとで敵の数を増やす(調整予定
+            var count = Mathf.Min((player.totalBattleCount / 15) + 1, 4); 
             for (int i = 0; i < count; i++)
             {
                 enemyDeck.Add("");
