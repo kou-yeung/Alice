@@ -20,38 +20,24 @@ namespace Alice
 
         void Start()
         {
-            //CommunicationService.Instance.Request("RequestTest", "", (res) =>
-            //{
-            //    Debug.Log($"RequestTest:{res}");
-            //});
             SoundService.Instance.PlayBGM("Sound/bgm_maoudamashii_neorock01.mp3");
-        }
 
-
-        public void OnScreenButton()
-        {
-            //var product = controller.products.WithID("alram_200");
-            //controller.InitiatePurchase(product);
-
-            //SoundService.Instance.PlaySE("Sound/battle-start.ogg");
-
-            //return;
-            ScreenBlocker.Instance.Push();
+            // 初期化を実行
             Async.Parallel(() =>
             {
-                    // ホーム情報を取得し、シーンを遷移する
-                    CommunicationService.Instance.Request("Home", "", (res) =>
-                    {
-                        UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                        ScreenBlocker.Instance.Pop();
-                        SceneManager.LoadScene("Home");
-                    });
+                // ホーム情報を取得し、シーンを遷移する
+                CommunicationService.Instance.Request("Home", "", (res) =>
+                {
+                    UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
+                    SceneManager.LoadScene("Home");
+                });
             },
             (end) => AuthService.Instance.SignInAnonymously(end),
             (end) => MasterData.Initialize(end),
             (end) => StartCoroutine(InitializeAds(end))
             );
         }
+
         /// <summary>
         /// 広告APIの初期化
         /// </summary>

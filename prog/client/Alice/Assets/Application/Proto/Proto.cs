@@ -218,7 +218,6 @@ namespace Alice
     [Serializable]
     public class GameSetSend
     {
-        public string ID;    // バトルID
         public BattleConst.Result result; // 試合結果
     }
 
