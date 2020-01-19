@@ -54,7 +54,7 @@ namespace Alice.Generic
                 }
                 unit.skill = skill.ToArray();
 
-                var level = Mathf.Max(1, refUnit[i].Level() + random.Next(-1,2));
+                var level = Mathf.Max(1, refUnit[Mathf.Min(i, refUnit.Length - 1)].Level() + random.Next(-1,2));
                 unit.exp = Mathf.FloorToInt((level - 1) * (level - 1));
                 enemyUnit.Add(unit);
                 enemyDeck[i] = unit.characterId;

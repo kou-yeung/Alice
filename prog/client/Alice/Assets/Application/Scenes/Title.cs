@@ -20,7 +20,7 @@ namespace Alice
 
         void Start()
         {
-            SoundService.Instance.PlayBGM("Sound/bgm_maoudamashii_neorock01.mp3");
+            SoundService.Instance.PlayBGM(Const.BGM.Home);
 
             // 初期化を実行
             Async.Parallel(() =>

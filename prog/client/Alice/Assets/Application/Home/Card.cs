@@ -17,6 +17,9 @@ namespace Alice
     public class Card : MonoBehaviour
     {
         public Thumbnail thumbnail;
+        [SerializeField]
+        Slider gauge = null;
+
         public Text Param;
         public GameObject info;
         public Button[] skill;
@@ -43,19 +46,18 @@ namespace Alice
 
             thumbnail.Setup(unit);
 
-            var data = MasterData.Instance.characters.FirstOrDefault(v => v.ID == unit.characterId);
-            var lv = unit.Level();
-            var b = data.Base;
-            var g = data.Grow;
+
+            var data = MasterData.Instance.Find(unit);
+            var param = data.ParamAtLevel(unit.Level());
 
             var sb = new StringBuilder();
-            sb.AppendLine($"ATK: {b.Atk + g.Atk * lv}");
-            sb.AppendLine($"MATK: {b.MAtk + g.MAtk * lv}");
-            sb.AppendLine($"Def: {b.Def + g.Def * lv}");
-            sb.AppendLine($"MDef: {b.MDef + g.MDef * lv}");
+            sb.AppendLine($"ATK: {param.Atk}");
+            sb.AppendLine($"Def: {param.Def}");
+            sb.AppendLine($"MATK: {param.MAtk}");
+            sb.AppendLine($"MDef: {param.MDef}");
             sb.AppendLine($"WAIT: {data.Wait}");
-            var next = (lv) * (lv) - unit.exp;
-            sb.AppendLine($"LVUP: {next}");
+
+            gauge.value = unit.Ratio2Levelup();
 
             // スキル設定
             for (int i = 0; i < skill.Length; i++)

@@ -129,7 +129,7 @@ namespace Alice
         public void TapCellItem(int index, GameObject listItem)
         {
             var unit = sortedUserUnit[index];
-            to.Setup(unit);
+            to.Setup(unit, from.cacheUnit);
 
             if (from.cacheUnit == to.cacheUnit)
             {

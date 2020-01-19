@@ -417,6 +417,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/155/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 30a3e028ea47058438294255577b41fc
+    m_Address: Assets/AddressableAssets/Sound/BGM/bgm_maoudamashii_8bit15.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 318272a3ccc2cef48958af0f9753f086
     m_Address: Assets/AddressableAssets/Character/189/walk.asset
     m_ReadOnly: 0
@@ -1897,6 +1901,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/250/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: e837359268429604196602951bc95307
+    m_Address: Assets/AddressableAssets/Sound/BGM/bgm_maoudamashii_8bit16.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: e86783f035a75434caaf1f9d811803d1
     m_Address: Assets/AddressableAssets/Character/071/icon.asset
     m_ReadOnly: 0
@@ -2011,6 +2019,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: f3b5fd9fc479b334b875750d7e495ea9
     m_Address: Assets/AddressableAssets/Character/161/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f4037dab2fab20e488c97645cec390cd
+    m_Address: Assets/AddressableAssets/Sound/BGM/bgm_maoudamashii_8bit13.mp3
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: f4a5d5993e5ce0642bf64a3d761029c1

@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Alice.Generic;
 using Zoo.Time;
+using Alice.Logic;
 
 namespace Alice
 {
@@ -34,7 +35,19 @@ namespace Alice
         /// <returns></returns>
         public int Level()
         {
-            return Mathf.FloorToInt(Mathf.Sqrt(exp)) + 1;
+            return LevelTable.Exp2Level(exp);
+        }
+
+        /// <summary>
+        /// 経験値割合
+        /// </summary>
+        /// <returns></returns>
+        public float Ratio2Levelup()
+        {
+            var level = Level();
+            var start = LevelTable.LevelExp(level - 1);
+            var end = LevelTable.LevelExp(level);
+            return (float)(exp - start) / (float)(end - start);
         }
     }
 
