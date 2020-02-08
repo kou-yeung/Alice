@@ -74,7 +74,7 @@ namespace Alice
             this.units = cache.units.Where(v => Array.Exists(cache.deck.ids, id => id == v.characterId)).ToArray();
             this.edited = UserData.editedUnit.Values.ToArray();
             // 推薦敵
-            var recommend = BattleEnemy.Gen(this.player, this.units);
+            var recommend = BattleEnemy.Gen(this.player/*, this.units*/);
             this.recommendUnits = recommend.unit;
             this.recommendDeck = recommend.deck;
         }

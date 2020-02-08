@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Alice.Entities;
 using System.Linq;
+using System;
 
 namespace Alice.Generic
 {
@@ -14,31 +15,34 @@ namespace Alice.Generic
         /// 敵を生成
         /// </summary>
         /// <returns></returns>
-        public static BattleEnemy Gen(Player player, UserUnit[] refUnit)
+        public static BattleEnemy Gen(Player player/*, UserUnit[] refUnit*/)
         {
             var res = new BattleEnemy();
             var random = new System.Random();
 
-            var rare = player.rank / 5;
-            // 相手ユニット
-            var skills = MasterData.Instance.skills.Where(v=>v.Rare <= rare).ToArray();
-            var characters = MasterData.Instance.characters.Where(v => v.Rare <= rare).ToArray();
+            // 合計バトル回数で敵の数を調整します
+            // MEMO : 15回バトルするごとで敵の数を増やす(調整予定
+            var count = Mathf.Min((player.totalBattleCount / 15) + 1, 4);
 
-            var skillNum = refUnit.Sum(v => v.skill.Count(s => !string.IsNullOrEmpty(s)));
+            var rare = player.rank / 5;
+            // 相手ユニット候補、ついでにキャラ抽選する
+            var characters = MasterData.Instance.characters.Where(v => v.Rare <= rare).OrderBy(v => Guid.NewGuid()).Take(count);
+            var skills = MasterData.Instance.skills.Where(v=>v.Rare <= rare).ToArray();
+
+            // 自分の所持ユニット内、最大レベルの４体の取得し平均をとる
+            var maxLevel = UserData.cacheHomeRecv.units.Max(v => v.Level());
+            var averageLevel = Mathf.RoundToInt((float)UserData.cacheHomeRecv.units.Select(v => v.Level()).Take(4).Average());
+            var enemyLevel = Mathf.RoundToInt((maxLevel + averageLevel) / 2.0f);
+
+            Debug.Log($"averageLevel:{averageLevel}, enemyLevel:{enemyLevel}");
+            // 自分のスキル所持数
+            var skillNum = UserData.cacheHomeRecv.skills.Count();
 
             List<UserUnit> enemyUnit = new List<UserUnit>();
             List<string> enemyDeck = new List<string>();
 
-            // 合計バトル回数で敵の数を調整します
-            // MEMO : 15回バトルするごとで敵の数を増やす(調整予定
-            var count = Mathf.Min((player.totalBattleCount / 15) + 1, 4); 
-            for (int i = 0; i < count; i++)
+            foreach(var character in characters)
             {
-                enemyDeck.Add("");
-                // キャラ抽選
-                var character = characters[random.Next(0, characters.Length)];
-                if (enemyDeck.Exists(id => id == character.ID)) continue;
-
                 var unit = new UserUnit();
                 unit.characterId = character.ID;
 
@@ -53,11 +57,9 @@ namespace Alice.Generic
                     skillNum -= sCount;
                 }
                 unit.skill = skill.ToArray();
-
-                var level = Mathf.Max(1, refUnit[Mathf.Min(i, refUnit.Length - 1)].Level() + random.Next(-1,2));
-                unit.exp = Mathf.FloorToInt((level - 1) * (level - 1));
+                unit.exp = Mathf.FloorToInt((enemyLevel - 1) * (enemyLevel - 1));
                 enemyUnit.Add(unit);
-                enemyDeck[i] = unit.characterId;
+                enemyDeck.Add(unit.characterId);
             }
             res.unit = enemyUnit.ToArray();
             res.deck = new UserDeck { ids = enemyDeck.ToArray() };
