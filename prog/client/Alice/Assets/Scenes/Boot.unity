@@ -313,7 +313,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955075504}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -377,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backend: 1
   scene: 0
+  enableSound: 0
   poolPrefabs:
   - {fileID: 1907061385678558431, guid: 90e333d75fa7f8b40ac07602a459d75b, type: 3}
   - {fileID: 814127435464660691, guid: 9611d020b477cdf4a847861fd0a14742, type: 3}

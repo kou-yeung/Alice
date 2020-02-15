@@ -22,8 +22,10 @@ namespace Alice
             Title,
             MasterDataUploader
         }
+
         public Backend backend = Backend.Local;
         public Scene scene = Scene.Title;
+        public bool enableSound = true;
 
         public GameObject[] poolPrefabs;
 
@@ -62,8 +64,13 @@ namespace Alice
             LoaderService.SetLocator(new LoaderAddressableAssets("Assets/AddressableAssets/"));
 
             // Sound
-            SoundService.SetLocator(new SoundClip());
-
+            if(enableSound)
+            {
+                SoundService.SetLocator(new SoundClip());
+            } else
+            {
+                SoundService.SetLocator(new SoundMute());
+            }
             // サーババックエンド
             switch (backend)
             {
