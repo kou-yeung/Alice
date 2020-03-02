@@ -677,8 +677,8 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
 
     // レアリティの抽選テーブルを作る
     const rares = [];
-    for (let i = player.rank - 5; i < player.rank + 5; ++i) {
-        rares.push(Math.floor(Math.max(0, i) / 5));
+    for (let i = player.rank - 3; i < player.rank + 3; ++i) {
+        rares.push(Math.floor(Math.max(0, i) / 3));
     }
 
     // 勝利した場合、確率でアラームドロップ
