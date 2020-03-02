@@ -334,8 +334,12 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     const player = { name: "ゲスト", token: Guid.NewGuid(), totalBattleCount: 0, rank: 0 };
     batch.set(doc.player(), player);
 
+    // 初期ユニット抽選:レアリティ0の中にランダム
+    const mst = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(0));
+    const id = mst.ids[Random.Next(0, mst.ids.length)];
+
     // 初期ユニット情報
-    const unit = { characterId: "Character_001_001", exp:0, skill: [] };
+    const unit = { characterId: id, exp: 0, skill: [] };
     batch.set(doc.unit(unit.characterId), unit);
 
     // 初期デッキ設定
@@ -530,7 +534,7 @@ class Colosseum {
 }
 
 class Groups {
-    counter: any; // 該当グループ
+    counter: any = []; // 該当グループ
 }
 /**
  * proto:Battle:バトル開始
@@ -556,7 +560,7 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     }
 
     // コロシアムグループのデータを取得する
-    const groups = await Ref.snapshot<Groups>(doc.colosseumGroups());
+    const groups = await Ref.snapshot<Groups>(doc.colosseumGroups()) || { counter:[] };
 
     // 自分のデータをコロシアムに登録or更新
     player.colosseums = player.colosseums || {};

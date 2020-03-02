@@ -2,7 +2,9 @@
 using Firebase.Auth;
 using Firebase.Extensions;
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 namespace Zoo.Auth
 {
     public class AuthFirebase : IAuth
@@ -30,5 +32,19 @@ namespace Zoo.Auth
                 complete?.Invoke();
             });
         }
+
+
+#if UNITY_EDITOR
+        [MenuItem("Auth/Firebase/Clear")]
+        public static void Clear()
+        {
+            FirebaseAuth.DefaultInstance.SignOut();
+        }
+        [MenuItem("Auth/Firebase/SignIn")]
+        public static void SignIn()
+        {
+            new AuthFirebase().SignInAnonymously();
+        }
+#endif
     }
 }
