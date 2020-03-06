@@ -27,7 +27,7 @@ namespace Alice
         public void Setup(UserSkill skill)
         {
             var data = MasterData.Instance.Find(skill);
-            Name.text = data.Name;
+            Name.text = data.NameWithInfo;
 
             var remain = UserData.RemainSkill(skill.id);
             var count = skill.count;

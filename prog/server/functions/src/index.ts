@@ -755,7 +755,7 @@ exports.Ads = functions.https.onCall(async (data, context) => {
     batch.set(doc.player(), player);
 
     await batch.commit();
-
+    
     s2c.modified.chest = [chest];
     s2c.modified.player = [player];
 
@@ -778,6 +778,36 @@ class ChestLots {
     type: string = '';   // skill / character
     id: string = '';     // id
 }
+
+exports.ChestTest = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+
+    const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(0));
+    const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(0));    // マスタデータからキャラID一覧取得
+    const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', 0));      // 自分の所持キャラ一覧取得
+
+    const lots: ChestLots[] = [];
+    // スキルの抽選一覧
+    for (const skill of skillIds.ids) {
+        const lot = new ChestLots();
+        lot.id = skill;
+        lot.type = 'skill';
+        lots.push(lot);
+    }
+    // キャラの抽選一覧
+    const hasUnits = units.map(v => v.characterId);
+    for (const character of characterIds.ids) {
+        if (hasUnits.includes(character)) continue; // すでに持ってるため抽選から外す
+        const lot = new ChestLots();
+        lot.id = character;
+        lot.type = 'character';
+        lots.push(lot);
+    }
+    // 抽選
+    //const res = lots[Random.Next(0, lots.length)];
+    return Proto.stringify(Message.Error(JSON.stringify(lots)));
+});
+
 
 /**
  * proto:Chest:宝箱を開く
@@ -810,9 +840,10 @@ exports.Chest = functions.https.onCall(async (data, context) => {
         s2c.modified.player = [player];
     }
 
-    const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(chest.rate));
-    const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(chest.rate));
-    const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', chest.rate));
+    const rate = chest.rate;
+    const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(rate));
+    const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(rate));    // マスタデータからキャラID一覧取得
+    const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', rate));      // 自分の所持キャラ一覧取得
 
     const lots: ChestLots[] = [];
     // スキルの抽選一覧

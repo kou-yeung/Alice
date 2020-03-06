@@ -66,7 +66,7 @@ namespace Alice
 
                 if (i < unit.skill.Length)
                 {
-                    text.text = MasterData.Instance.FindSkillByID(unit.skill[i])?.Name;
+                    text.text = MasterData.Instance.FindSkillByID(unit.skill[i])?.NameWithInfo;
                 }
                 else
                 {

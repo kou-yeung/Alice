@@ -663,27 +663,17 @@ MonoBehaviour:
     Trigger: 400000004000000040000000400000004000000040000000
   skills:
   - ID: Skill_001_001
-    Name: "\u4E7E\u5764\u4E00\u64F2 Lv1"
+    Name: "\u5F37\u6253"
     Rare: 0
     Image: 001
     Passive: 0
-    CoolTime: 2
+    CoolTime: 3
     Remain: 2
     Attribute: 0
     Effects:
     - Effect_001_001
   - ID: Skill_001_002
-    Name: "\u8E0A\u308B Lv1"
-    Rare: 0
-    Image: 001
-    Passive: 0
-    CoolTime: 2
-    Remain: 2
-    Attribute: 0
-    Effects:
-    - Effect_002_001
-  - ID: Skill_001_003
-    Name: "\u5FDC\u63F4 Lv1"
+    Name: "\u9B54\u6CD5"
     Rare: 0
     Image: 001
     Passive: 0
@@ -691,21 +681,39 @@ MonoBehaviour:
     Remain: 2
     Attribute: 1
     Effects:
-    - Effect_002_003
-    - Effect_003_202
-  - ID: Skill_001_004
-    Name: "\u30A6\u30A9\u30FC\u30E0\u30A2\u30C3\u30D7 Lv1"
+    - Effect_001_001
+  - ID: Skill_001_003
+    Name: "\u56DE\u5FA9"
     Rare: 0
     Image: 001
-    Passive: 1
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 1
+    Effects:
+    - Effect_002_001
+  - ID: Skill_001_004
+    Name: "\u7269\u653B\u5F37\u5316"
+    Rare: 0
+    Image: 001
+    Passive: 0
     CoolTime: 3
     Remain: 2
     Attribute: 0
     Effects:
     - Effect_003_101
-    - Effect_003_201
   - ID: Skill_001_005
-    Name: "\u30B9\u30D4\u30FC\u30C9\u30AA\u30FC\u30E9 Lv1"
+    Name: "\u9B54\u653B\u5F37\u5316"
+    Rare: 0
+    Image: 001
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 0
+    Effects:
+    - Effect_003_301
+  - ID: Skill_001_006
+    Name: "\u99FF\u8DB3"
     Rare: 0
     Image: 001
     Passive: 1
@@ -713,58 +721,27 @@ MonoBehaviour:
     Remain: 2
     Attribute: 0
     Effects:
-    - Effect_003_502
-  - ID: Skill_002_001
-    Name: "\u5504\u3046 Lv1"
-    Rare: 1
-    Image: 001
-    Passive: 0
-    CoolTime: 2
-    Remain: 2
-    Attribute: 0
-    Effects:
-    - Effect_004_202
-  - ID: Skill_002_002
-    Name: "\u53EC\u559A Lv1"
-    Rare: 1
-    Image: 001
-    Passive: 0
-    CoolTime: 2
-    Remain: 2
-    Attribute: 1
-    Effects:
-    - Effect_001_002
-  - ID: Skill_003_001
-    Name: "\u5FDC\u63F4 Lv2"
-    Rare: 1
-    Image: 001
-    Passive: 0
-    CoolTime: 3
-    Remain: 2
-    Attribute: 1
-    Effects:
-    - Effect_002_004
-    - Effect_003_203
-  - ID: Skill_003_002
-    Name: "\u4E7E\u5764\u4E00\u64F2 Lv2"
-    Rare: 1
+    - Effect_003_501
+  - ID: Skill_001_007
+    Name: "\u7269\u9632\u5F37\u5316"
+    Rare: 0
     Image: 001
     Passive: 1
     CoolTime: 3
     Remain: 2
     Attribute: 0
     Effects:
-    - Effect_001_002
-  - ID: Skill_003_003
-    Name: "\u30B9\u30D4\u30FC\u30C9\u30AA\u30FC\u30E9 Lv2"
-    Rare: 1
+    - Effect_003_201
+  - ID: Skill_001_008
+    Name: "\u9B54\u9632\u5F37\u5316"
+    Rare: 0
     Image: 001
     Passive: 1
     CoolTime: 3
     Remain: 2
     Attribute: 0
     Effects:
-    - Effect_003_503
+    - Effect_003_401
   - ID: Skill_999_001
     Name: "\u30C0\u30E1\u30FC\u30B8"
     Rare: 99
@@ -1050,218 +1027,44 @@ MonoBehaviour:
     Type: 101
     Target: 2
     Count: 1
-    Value: 15
-    FX: "\u706B5"
-  - ID: Effect_001_002
-    Type: 101
-    Target: 2
-    Count: 2
-    Value: 20
-    FX: "\u706B5"
-  - ID: Effect_001_101
-    Type: 102
-    Target: 2
-    Count: 1
-    Value: 10
+    Value: 5
     FX: "\u706B5"
   - ID: Effect_002_001
     Type: 103
     Target: 0
     Count: 1
-    Value: 15
-    FX: "\u56DE\u5FA914"
-  - ID: Effect_002_002
-    Type: 103
-    Target: 1
-    Count: 3
-    Value: 10
-    FX: "\u56DE\u5FA914"
-  - ID: Effect_002_003
-    Type: 103
-    Target: 1
-    Count: 2
-    Value: 15
-    FX: "\u56DE\u5FA914"
-  - ID: Effect_002_004
-    Type: 103
-    Target: 1
-    Count: 2
-    Value: 25
-    FX: "\u56DE\u5FA914"
-  - ID: Effect_002_101
-    Type: 104
-    Target: 0
-    Count: 1
-    Value: 10
-    FX: "\u56DE\u5FA914"
-  - ID: Effect_002_102
-    Type: 104
-    Target: 1
-    Count: 3
-    Value: 20
+    Value: 5
     FX: "\u56DE\u5FA914"
   - ID: Effect_003_101
     Type: 201
-    Target: 1
+    Target: 0
     Count: 1
-    Value: 10
+    Value: 5
     FX: "\u95C78"
   - ID: Effect_003_201
     Type: 202
-    Target: 1
+    Target: 0
     Count: 1
-    Value: 10
-    FX: "\u95C78"
-  - ID: Effect_003_202
-    Type: 202
-    Target: 3
-    Count: 1
-    Value: 15
-    FX: "\u95C78"
-  - ID: Effect_003_203
-    Type: 202
-    Target: 3
-    Count: 2
-    Value: 20
+    Value: 5
     FX: "\u95C78"
   - ID: Effect_003_301
     Type: 203
-    Target: 1
+    Target: 0
     Count: 1
-    Value: 10
+    Value: 5
     FX: "\u95C78"
   - ID: Effect_003_401
     Type: 204
-    Target: 1
+    Target: 0
     Count: 1
-    Value: 10
+    Value: 5
     FX: "\u95C78"
   - ID: Effect_003_501
     Type: 205
-    Target: 1
+    Target: 0
     Count: 1
-    Value: 10
+    Value: 5
     FX: "\u95C78"
-  - ID: Effect_003_502
-    Type: 205
-    Target: 1
-    Count: 3
-    Value: 10
-    FX: "\u95C78"
-  - ID: Effect_003_503
-    Type: 205
-    Target: 1
-    Count: 3
-    Value: 20
-    FX: "\u95C78"
-  - ID: Effect_004_101
-    Type: 301
-    Target: 2
-    Count: 1
-    Value: 10
-    FX: "\u95C78"
-  - ID: Effect_004_201
-    Type: 302
-    Target: 2
-    Count: 1
-    Value: 10
-    FX: "\u95C78"
-  - ID: Effect_004_202
-    Type: 302
-    Target: 2
-    Count: 2
-    Value: 15
-    FX: "\u95C78"
-  - ID: Effect_004_301
-    Type: 303
-    Target: 2
-    Count: 1
-    Value: 10
-    FX: "\u95C78"
-  - ID: Effect_004_401
-    Type: 304
-    Target: 2
-    Count: 1
-    Value: 10
-    FX: "\u95C78"
-  - ID: Effect_004_501
-    Type: 305
-    Target: 2
-    Count: 1
-    Value: 10
-    FX: "\u95C78"
-  - ID: Effect_005_101
-    Type: 401
-    Target: 2
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_005_201
-    Type: 402
-    Target: 2
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_005_301
-    Type: 403
-    Target: 2
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_005_401
-    Type: 404
-    Target: 2
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_005_501
-    Type: 405
-    Target: 2
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_005_601
-    Type: 400
-    Target: 2
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_006_101
-    Type: 501
-    Target: 1
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_006_201
-    Type: 502
-    Target: 1
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_006_301
-    Type: 503
-    Target: 1
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_006_401
-    Type: 504
-    Target: 1
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_006_501
-    Type: 505
-    Target: 1
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
-  - ID: Effect_006_601
-    Type: 500
-    Target: 1
-    Count: 1
-    Value: 1
-    FX: "\u8A60\u55316"
   personalities:
   - Name: "\u4E71\u66B4"
     AI:

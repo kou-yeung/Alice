@@ -101,5 +101,11 @@ namespace Alice.Tools
                 CommunicationService.Instance.Request("GenRoomIds", "");
             });
         }
+
+        //[UnityEditor.MenuItem("TEST/TEST")]
+        //public static void Test()
+        //{
+        //    CommunicationService.Instance.Request("ChestTest", "");
+        //}
     }
 }

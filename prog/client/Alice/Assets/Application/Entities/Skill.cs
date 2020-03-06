@@ -47,6 +47,24 @@ namespace Alice.Entities
         {
             return EffectsRef.Where(v => effects.Contains(v.Type)).Count() != 0;
         }
+
+        /// <summary>
+        /// (P)スキル名 + レベル
+        /// </summary>
+        public string NameWithInfo
+        {
+            get
+            {
+                if(Passive)
+                {
+                    return $"[P]{Name} Lv{Rare + 1}";
+                }
+                else
+                {
+                    return $"{Name} Lv{Rare + 1}";
+                }
+            }
+        }
     }
 
     public sealed class SkillMap : ClassMap<Skill>
