@@ -457,6 +457,54 @@ exports.MasterData = functions.https.onCall(async (data, context) => {
     return Proto.stringify(Message.Warning('登録完了しました'));
 });
 
+
+class AdminCommandSend {
+    command: string = "";
+    param: string[] = [];
+}
+
+class AdminCommandRecv {
+    modified: Modified = new Modified();
+}
+
+// 管理者:チートコマンド
+exports.AdminCommand = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s = Proto.parse<AdminCommandSend>(data);
+
+    // 権限をチェックする
+    if (await Ref.snapshot(doc.admin()) == undefined) {
+        return Proto.stringify(Message.Warning('管理者権限レベルが低い'));
+    }
+
+    const s2c = new AdminCommandRecv();
+    const batch = db.batch();
+
+    switch (c2s.command) {
+        case "AddCharacter":
+            {
+                for (var i = 0; i < c2s.param.length; i += 2)
+                {
+                    var id = c2s.param[i];
+                    var rare = parseInt(c2s.param[i + 1]);
+                    var add: UserUnit = {
+                        characterId: id,
+                        skill: [],
+                        exp: 0,
+                        rare: rare
+                    }
+                    batch.set(doc.unit(add.characterId), add);
+                    s2c.modified.unit.push(add);
+                }
+            }
+            break;
+    }
+
+    await batch.commit();
+
+    return Proto.stringify(s2c);
+});
+
 ///**
 // * proto:Temp:テンプレート
 // */

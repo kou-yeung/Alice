@@ -391,5 +391,4 @@ namespace Alice
     {
         public Modified modified;       // 更新したデータ
     }
-
 }
