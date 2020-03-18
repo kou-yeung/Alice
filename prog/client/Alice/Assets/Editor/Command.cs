@@ -50,5 +50,26 @@ namespace Alice.Admin
                 });
             }
         }
+
+        [MenuItem("デバッグコマンド/スキルすべて入手")]
+        public static void GetAllSkill()
+        {
+            var ids = new List<string>();
+
+            foreach (var data in MasterData.Instance.skills)
+            {
+                ids.Add(data.ID);
+            }
+
+            if (ids.Any())
+            {
+                var c2s = new AdminCommandSend { command = "AddSkill", param = ids.ToArray() };
+                CommunicationService.Instance.Request("AdminCommand", JsonUtility.ToJson(c2s), res =>
+                {
+                    UserData.Modify(JsonUtility.FromJson<AdminCommandRecv>(res).modified);
+                });
+            }
+        }
+
     }
 }

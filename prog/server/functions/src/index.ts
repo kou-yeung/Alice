@@ -7,7 +7,7 @@ class Const {
     static PLAYER_RANK_MAX: number = 10;
     static AdsRewardTimeSecond: number = (10 * 60);     // 10分
     static AlarmTimeSecond: number = (15 * 60);         // 15分
-    static LoginBonusAlarm: number = 3;                 // 3個
+    static LoginBonusAlarm: number = 0;                 // 3個
     static LoginBonusAds: number = 15;                  // 15回
     static RoomOfFloot: number = 100;                   // １フロアのルーム数
     static FLOOR_MAX: number = 1000;                   // フロア数数
@@ -483,11 +483,11 @@ exports.AdminCommand = functions.https.onCall(async (data, context) => {
     switch (c2s.command) {
         case "AddCharacter":
             {
-                for (var i = 0; i < c2s.param.length; i += 2)
+                for (let i = 0; i < c2s.param.length; i += 2)
                 {
-                    var id = c2s.param[i];
-                    var rare = parseInt(c2s.param[i + 1]);
-                    var add: UserUnit = {
+                    let id = c2s.param[i];
+                    let rare = parseInt(c2s.param[i + 1]);
+                    let add: UserUnit = {
                         characterId: id,
                         skill: [],
                         exp: 0,
@@ -498,10 +498,23 @@ exports.AdminCommand = functions.https.onCall(async (data, context) => {
                 }
             }
             break;
+
+        case "AddSkill":
+            {
+                for (const id of c2s.param) {
+                    // スキル
+                    let skill = await Ref.snapshot<UserSkill>(doc.skill(id));
+                    // なければ生成する
+                    if (!skill) skill = { id: id, count: 0 };
+                    // 数を + 1
+                    skill.count += 1;
+                    // 更新
+                    batch.set(doc.skill(id), skill);
+                    s2c.modified.skill.push(skill);
+                }
+            } break;
     }
-
     await batch.commit();
-
     return Proto.stringify(s2c);
 });
 
@@ -690,7 +703,6 @@ class GameSetSend {
 // s2c
 class GameSetRecv {
     modified: Modified = new Modified();
-    chest?: UserChest;
     alarm: number = 0;
 }
 /**
@@ -730,7 +742,7 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
     }
 
     // 勝利した場合、確率でアラームドロップ
-    if (c2s.result === Win && Random.Next(0, 250) === 0) {
+    if (c2s.result === Win && Random.Next(0, 100) === 0) {
         player.alarm += 1;
     }
 
