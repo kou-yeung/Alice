@@ -238,6 +238,7 @@ namespace Alice
     public class GameSetRecv
     {
         public Modified modified;
+        public int alarm;           // ボーナスアラーム
     }
 
     /// <summary>

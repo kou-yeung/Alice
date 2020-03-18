@@ -29,7 +29,15 @@ namespace Alice
                 {
                     var data = JsonUtility.FromJson<GameSetRecv>(recv);
                     UserData.Modify(data.modified);
-                    OnNext(owner);
+
+                    if (data.alarm > 0)
+                    {
+                        Dialog.Show($"アラームx{data.alarm} 発見しました", Dialog.Type.SubmitOnly, () => OnNext(owner));
+                    }
+                    else
+                    {
+                        OnNext(owner);
+                    }
                 });
             }
         }
