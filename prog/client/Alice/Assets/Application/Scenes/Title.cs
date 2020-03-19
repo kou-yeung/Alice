@@ -16,12 +16,9 @@ namespace Alice
 {
     public class Title : MonoBehaviour
     {
-        public Text wait;
-
         void Start()
         {
             SoundService.Instance.PlayBGM(Const.BGM.Home);
-
             // 初期化を実行
             Async.Parallel(() =>
             {
