@@ -150,7 +150,11 @@ namespace Alice
         public string RemainText()
         {
             var remain = Remain();
-            return string.Format("{0:D2}:{1:D2}", remain / 60, remain % 60);
+
+            var hh = remain / 3600;
+            var mm = (remain % 3600) / 60;
+            var ss = (remain % 60);
+            return string.Format("{0:D2}:{1:D2}:{2:D2}", hh, mm, ss);
         }
 
         /// <summary>

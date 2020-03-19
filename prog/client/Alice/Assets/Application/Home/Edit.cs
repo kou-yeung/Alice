@@ -7,6 +7,7 @@ using Zoo;
 using System;
 using System.Linq;
 using UnityEngine.Assertions;
+using Alice.Entities;
 
 namespace Alice
 {
@@ -72,6 +73,11 @@ namespace Alice
                 if (bPosition == editIndex) bPosition = -1;
 
                 var res = aPosition.CompareTo(bPosition);
+
+                // 場所が同じの場合、レア高い順
+                var aChara = MasterData.Instance.Find(a);
+                var bChara = MasterData.Instance.Find(b);
+                if (res == 0) res = bChara.Rare.CompareTo(aChara.Rare);
                 if (res == 0) res = a.characterId.CompareTo(b.characterId); // 場所が同じ場合、IDでソードします(ユーザにソート条件指定を実装かも
                 return res;
             });

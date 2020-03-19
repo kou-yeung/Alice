@@ -480,6 +480,96 @@ MonoBehaviour:
     Attribute: 0
     Effects:
     - Effect_004_501
+  - ID: Skill_004_001
+    Name: "\u5F37\u6253"
+    Rare: 3
+    Image: 001
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 0
+    Effects:
+    - Effect_001_002
+  - ID: Skill_004_002
+    Name: "\u9B54\u6CD5"
+    Rare: 3
+    Image: 001
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 1
+    Effects:
+    - Effect_001_002
+  - ID: Skill_004_003
+    Name: "\u6CBB\u7642"
+    Rare: 3
+    Image: 001
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 1
+    Effects:
+    - Effect_002_002
+  - ID: Skill_004_004
+    Name: "\u7269\u653B\u5F37\u5316"
+    Rare: 3
+    Image: 001
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 0
+    Effects:
+    - Effect_003_102
+  - ID: Skill_004_005
+    Name: "\u9B54\u653B\u5F37\u5316"
+    Rare: 3
+    Image: 001
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 0
+    Effects:
+    - Effect_003_302
+  - ID: Skill_004_006
+    Name: "\u99FF\u8DB3"
+    Rare: 3
+    Image: 001
+    Passive: 0
+    CoolTime: 3
+    Remain: 2
+    Attribute: 0
+    Effects:
+    - Effect_003_502
+  - ID: Skill_004_007
+    Name: "\u7269\u9632\u5F31\u5316"
+    Rare: 3
+    Image: 001
+    Passive: 1
+    CoolTime: 3
+    Remain: 2
+    Attribute: 0
+    Effects:
+    - Effect_004_201
+  - ID: Skill_004_008
+    Name: "\u9B54\u9632\u5F31\u5316"
+    Rare: 3
+    Image: 001
+    Passive: 1
+    CoolTime: 3
+    Remain: 3
+    Attribute: 0
+    Effects:
+    - Effect_004_401
+  - ID: Skill_004_009
+    Name: "\u59A8\u5BB3"
+    Rare: 3
+    Image: 001
+    Passive: 1
+    CoolTime: 3
+    Remain: 2
+    Attribute: 0
+    Effects:
+    - Effect_004_501
   effects:
   - ID: Effect_001_001
     Type: 101

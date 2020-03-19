@@ -13,7 +13,9 @@ namespace Alice
     public class Chest : MonoBehaviour
     {
         [SerializeField]
-        Image[] rare;
+        Image[] stars;
+        [SerializeField]
+        Text num;
         [SerializeField]
         Slider remainGauge;
         [SerializeField]
@@ -35,10 +37,26 @@ namespace Alice
                 return;
             }
             gameObject.SetActive(true);
-            // レアリティを設定する
-            for (int i = 0; i < rare.Length; i++)
+
+            var rare = chest.rate + 1;
+            if (rare > stars.Length)
             {
-                rare[i].gameObject.SetActive(i < chest.rate);
+                num.gameObject.SetActive(true);
+                num.text = rare.ToString();
+                // レアリティを設定する
+                for (int i = 0; i < stars.Length; i++)
+                {
+                    stars[i].gameObject.SetActive(i < 1);
+                }
+            }
+            else
+            {
+                num.gameObject.SetActive(false);
+                // レアリティを設定する
+                for (int i = 0; i < stars.Length; i++)
+                {
+                    stars[i].gameObject.SetActive(i < rare);
+                }
             }
             Update();
         }

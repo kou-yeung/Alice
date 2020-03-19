@@ -24,7 +24,7 @@ namespace Alice.Generic
             // MEMO : 15回バトルするごとで敵の数を増やす(調整予定
             var count = Mathf.Min((player.totalBattleCount / 15) + 1, 4);
 
-            var rare = player.rank / 5;
+            var rare = player.rank / 3;
             // 相手ユニット候補、ついでにキャラ抽選する
             var characters = MasterData.Instance.characters.Where(v => v.Rare <= rare).OrderBy(v => Guid.NewGuid()).Take(count);
             var skills = MasterData.Instance.skills.Where(v=>v.Rare <= rare).ToArray();

@@ -96,7 +96,7 @@ namespace Alice
                 var bSkill = MasterData.Instance.Find(b);
 
                 var res = bSkill.Rare.CompareTo(aSkill.Rare);
-                if (res == 0) res = aSkill.Attribute.CompareTo(bSkill.Attribute);
+                if (res == 0) res = aSkill.Passive.CompareTo(bSkill.Passive);
                 if(res == 0) res = a.id.CompareTo(b.id);
                 return res;
             });

@@ -7,8 +7,8 @@ class Const {
     static PLAYER_RANK_MAX: number = 10;
     static AdsRewardTimeSecond: number = (10 * 60);     // 10分
     static AlarmTimeSecond: number = (15 * 60);         // 15分
-    static LoginBonusAlarm: number = 0;                 // 3個
-    static LoginBonusAds: number = 15;                  // 15回
+    static LoginBonusAlarm: number = 2;                 // アラーム数
+    static LoginBonusAds: number = 15;                  // 観れる広告回数
     static RoomOfFloot: number = 100;                   // １フロアのルーム数
     static FLOOR_MAX: number = 1000;                   // フロア数数
     static ROOM_MAX: number = Const.RoomOfFloot * Const.FLOOR_MAX;// ルームの最大数
@@ -294,7 +294,7 @@ function LoginBonus(player: Player) {
 
         // 勝率が 65% 以上ならランクアップ
         if (win / count >= 0.65) {
-            player.rank = Math.min(Const.PLAYER_RANK_MAX, (player.rank || 0) + 1);
+            player.rank = Math.min(Const.PLAYER_RANK_MAX - 1, (player.rank || 0) + 1);
             bonus.rankup = true;
         }
     }
@@ -602,6 +602,7 @@ class Groups {
  */
 exports.Battle = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
+
     const c2s = Proto.parse<BattleStartSend>(data);
     const s2c = new BattleStartRecv();
     const batch = db.batch();
@@ -621,7 +622,7 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     }
 
     // コロシアムグループのデータを取得する
-    const groups = await Ref.snapshot<Groups>(doc.colosseumGroups()) || { counter:[] };
+    const groups = await Ref.snapshot<Groups>(doc.colosseumGroups()) || { counter: [] };
 
     // 自分のデータをコロシアムに登録or更新
     player.colosseums = player.colosseums || {};
@@ -645,6 +646,11 @@ exports.Battle = functions.https.onCall(async (data, context) => {
         batch.set(doc.colosseum(player.rank, colosseum.index), colosseum);
         // 所属グループのデータ数をカウントアップする
         groups.counter[player.rank] = count + 1;    // インクリメント
+
+        /// HACK : 本来は必要ないが、テストでランク設定された場合、null ができてしまうための対応です
+        for (var i = 0; i < groups.counter.length; i++) {
+            if (groups.counter[i] == null) groups.counter[i] = 0;
+        }
         batch.set(doc.colosseumGroups(), groups);
         // 自分がこのランクに登録した番号を記録する
         player.colosseums[player.rank] = colosseum.index;
@@ -657,6 +663,7 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     // プレイヤーユニット
     s2c.playerUnit = c2s.units;
     s2c.playerDeck = c2s.deck;
+
 
     // 同じランクのユーザランダム取得
     const max = groups.counter[player.rank];
@@ -742,8 +749,9 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
     }
 
     // 勝利した場合、確率でアラームドロップ
-    if (c2s.result === Win && Random.Next(0, 100) === 0) {
-        player.alarm += 1;
+    if (c2s.result === Win && Random.Next(0, 50) === 0) {
+        s2c.alarm = 1;
+        player.alarm += s2c.alarm;
     }
 
     const rare = rares[Random.Next(0, rares.length)];

@@ -512,7 +512,9 @@ MonoBehaviour:
   gauge: {fileID: 3415711272412850596}
   Param: {fileID: 2848288561737262345}
   info: {fileID: 6340381803224351034}
-  skill: []
+  skill:
+  - {fileID: 7196041574502324143}
+  - {fileID: 8467619637842690158}
 --- !u!1 &5769930793814614581
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,8 +590,10 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1.5
+    m_LineSpacing: 1.25
   m_Text: 'ATK: 180
+
+    ATK: 180
 
     DEF: 180
 

@@ -40,6 +40,7 @@ namespace Alice
                 var diffData = MasterData.Instance.Find(diff);
                 var diffParam = diffData.ParamAtLevel(diff.Level());
 
+                sb.AppendLine($"HP:{param.HP}{Diff(diffParam.HP, param.HP)}");
                 sb.AppendLine($"ATK:{param.Atk}{Diff(diffParam.Atk, param.Atk)}");
                 sb.AppendLine($"DEF:{param.Def}{Diff(diffParam.Def, param.Def)}");
                 sb.AppendLine($"MATK:{param.MAtk}{Diff(diffParam.MAtk, param.MAtk)}");
@@ -48,6 +49,7 @@ namespace Alice
             }
             else
             {
+                sb.AppendLine($"HP:{param.HP}");
                 sb.AppendLine($"ATK:{param.Atk}");
                 sb.AppendLine($"DEF:{param.Def}");
                 sb.AppendLine($"MATK:{param.MAtk}");

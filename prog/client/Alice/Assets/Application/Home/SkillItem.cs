@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Alice.Entities;
 using Zoo.Assets;
 using System;
+using Alice.Logic;
 
 namespace Alice
 {
@@ -19,6 +20,7 @@ namespace Alice
             public Text desc;       // 説明
         }
 
+        public Image Background;
         public Text Name;
         public Text Num;
         public Sprites sprites;
@@ -39,6 +41,8 @@ namespace Alice
             {
                 Num.text = $"{remain}/{count}";
             }
+
+            Background.color = ColorGen.Rare(data.Rare);
 
             BattleConst.Target? target = null;
             for (int i = 0; i < effects.Length; i++)

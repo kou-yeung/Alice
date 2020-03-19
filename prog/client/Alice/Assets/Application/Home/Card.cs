@@ -8,6 +8,7 @@ using System.Linq;
 using Zoo.Assets;
 using System.Text;
 using System;
+using Alice.Logic;
 
 namespace Alice
 {
@@ -51,6 +52,7 @@ namespace Alice
             var param = data.ParamAtLevel(unit.Level());
 
             var sb = new StringBuilder();
+            sb.AppendLine($"HP: {param.HP}");
             sb.AppendLine($"ATK: {param.Atk}");
             sb.AppendLine($"Def: {param.Def}");
             sb.AppendLine($"MATK: {param.MAtk}");
@@ -63,14 +65,20 @@ namespace Alice
             for (int i = 0; i < skill.Length; i++)
             {
                 var text = skill[i].GetComponentInChildren<Text>();
+                var bg = skill[i].GetComponent<Image>();
+
+                // 初期設定
+                text.text = "+";
+                bg.color = Color.gray;
 
                 if (i < unit.skill.Length)
                 {
-                    text.text = MasterData.Instance.FindSkillByID(unit.skill[i])?.NameWithInfo;
-                }
-                else
-                {
-                    text.text = "+";
+                    var mst = MasterData.Instance.FindSkillByID(unit.skill[i]);
+                    if(mst != null)
+                    {
+                        text.text = mst.NameWithInfo;
+                        bg.color = ColorGen.Rare(mst.Rare);
+                    }
                 }
             }
 

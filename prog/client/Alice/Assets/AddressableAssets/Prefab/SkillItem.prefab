@@ -1687,8 +1687,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db1bb44fa739469449082a883d7026ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Background: {fileID: 9137294819037965489}
   Name: {fileID: 4354734898624835347}
-  Desc: {fileID: 0}
   Num: {fileID: 4491503240653158247}
   sprites: {fileID: 11400000, guid: b6d67d9f5ff0e57429b88677810f91ab, type: 2}
   effects:
