@@ -23,6 +23,7 @@ namespace Alice
         public Image Background;
         public Text Name;
         public Text Num;
+        public Text CT;
         public Sprites sprites;
         public Effect[] effects;
 
@@ -43,6 +44,10 @@ namespace Alice
             }
 
             Background.color = ColorGen.Rare(data.Rare);
+
+            // CT
+            CT.text = $"CT:{data.CoolTime}";
+            CT.gameObject.SetActive(!data.Passive);
 
             BattleConst.Target? target = null;
             for (int i = 0; i < effects.Length; i++)
