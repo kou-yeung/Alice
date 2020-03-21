@@ -700,13 +700,46 @@ MonoBehaviour:
     Alarm: 15
     Bonus: 0
     AdminOnly: 0
+  - ID: alarm_30
+    Platform: 3
+    Alarm: 30
+    Bonus: 10
+    AdminOnly: 0
+  - ID: alarm_60
+    Platform: 3
+    Alarm: 60
+    Bonus: 30
+    AdminOnly: 0
   - ID: alarm_15
     Platform: 2
     Alarm: 15
     Bonus: 0
+    AdminOnly: 0
+  - ID: alarm_30
+    Platform: 2
+    Alarm: 30
+    Bonus: 10
+    AdminOnly: 0
+  - ID: alarm_60
+    Platform: 2
+    Alarm: 60
+    Bonus: 30
     AdminOnly: 0
   - ID: alarm_15
     Platform: 1
     Alarm: 15
     Bonus: 0
     AdminOnly: 1
+  - ID: alarm_30
+    Platform: 1
+    Alarm: 30
+    Bonus: 10
+    AdminOnly: 1
+  - ID: alarm_60
+    Platform: 1
+    Alarm: 60
+    Bonus: 30
+    AdminOnly: 1
+  texts:
+  - ID: ALARM_DESC
+    Text: "\u30A2\u30E9\u30FC\u30E01\u500B\u3092\u4F7F\u7528\u3059\u308C\u3070\u3001\n\u5B9D\u7BB1\u306E\u6642\u9593\u304C15\u5206\u77ED\u7E2E\u3067\u304D\u307E\u3059"

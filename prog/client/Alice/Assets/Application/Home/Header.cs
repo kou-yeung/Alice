@@ -59,9 +59,9 @@ namespace Alice
         public void OnEndEdit(string str)
         {
             // NG ワードのチェック
-            if(str.Length < 2)
+            if(str.Length < 1)
             {
-                Dialog.Show($"最低２文字が必要です", Dialog.Type.SubmitOnly);
+                Dialog.Show("NAME_EDIT_ERROR".TextData(), Dialog.Type.SubmitOnly);
                 var player = UserData.cacheHomeRecv.player;
                 Name.text = player.name;
                 return;
@@ -75,6 +75,22 @@ namespace Alice
         public void OnClickAlarm()
         {
             PurchasingDialog.Show();
+        }
+
+        /// <summary>
+        /// 広告の説明文
+        /// </summary>
+        public void OnClickAds()
+        {
+            Dialog.Show("ADS_DESC".TextData(), Dialog.Type.SubmitOnly);
+        }
+
+        /// <summary>
+        /// ランクの説明文
+        /// </summary>
+        public void OnClickRank()
+        {
+            Dialog.Show("RANK_DESC".TextData(), Dialog.Type.SubmitOnly);
         }
     }
 }

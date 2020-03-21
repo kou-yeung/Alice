@@ -38,6 +38,7 @@ namespace CsvHelper
             configuration.RegisterClassMap<EffectMap>();
             configuration.RegisterClassMap<PersonalityMap>();
             configuration.RegisterClassMap<ProductMap>();
+            configuration.RegisterClassMap<TextDataMap>();
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using CsvHelper.Configuration;
-using UnityEngine;
+﻿using CsvHelper.Configuration;
 using System;
 
 namespace Alice.Entities

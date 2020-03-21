@@ -6,6 +6,7 @@ using System.IO;
 using CsvHelper;
 using Zoo;
 using System.Text.RegularExpressions;
+using UnityEngine.Assertions;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,6 +28,7 @@ namespace Alice.Entities
         public Effect[] effects;
         public Personality[] personalities;
         public Product[] products;
+        public TextData[] texts;
 
         /// <summary>
         /// 初期化
@@ -74,6 +76,30 @@ namespace Alice.Entities
         {
             return effects.FirstOrDefault(v => v.ID == id);
         }
+
+        /// <summary>
+        /// IDから商品の情報を取得する
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Product FindProductByID(string id)
+        {
+            return products.FirstOrDefault(v => v.ID == id);
+        }
+
+
+        /// <summary>
+        /// IDからテキストを取得する
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public TextData FindTextDataByID(string id)
+        {
+            var res = texts.FirstOrDefault(v => v.ID == id);
+            Assert.IsNotNull(res, $"FindTextDataByID Error:{id}");
+            return res;
+        }
+
 
 #if UNITY_EDITOR
         public class MasterDataPostprocessor : AssetPostprocessor
@@ -124,6 +150,9 @@ namespace Alice.Entities
                             break;
                         case "Product":
                             asset.products = Load<Product>(path);
+                            break;
+                        case "TextData":
+                            asset.texts = Load<TextData>(path);
                             break;
                     }
                 }
