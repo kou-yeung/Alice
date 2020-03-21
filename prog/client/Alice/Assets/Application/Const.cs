@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Alice
 {
@@ -27,6 +28,13 @@ namespace Alice
         {
             public const string Home = "Sound/BGM/bgm_maoudamashii_8bit16.mp3";
             public const string Battle = "Sound/BGM/bgm_maoudamashii_8bit15.mp3";
+        }
+
+        [Flags]
+        public enum TutorialFlag
+        {
+            None,           // なし
+            UserNameInput,  //  ユーザ名入力
         }
     }
 }

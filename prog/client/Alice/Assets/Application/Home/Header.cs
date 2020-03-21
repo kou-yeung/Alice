@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zoo;
+using Zoo.Communication;
 
 namespace Alice
 {

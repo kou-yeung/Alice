@@ -400,4 +400,20 @@ namespace Alice
     {
         public Modified modified;       // 更新したデータ
     }
+
+    /// <summary>
+    /// 同期情報
+    /// </summary>
+    [Serializable]
+    public class SyncSend
+    {
+        public Player player;         // 自分情報
+    }
+
+    [Serializable]
+    class SyncRecv
+    {
+        public Modified modified;       // 更新したデータ
+    }
+
 }

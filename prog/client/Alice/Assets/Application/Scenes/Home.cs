@@ -8,6 +8,15 @@ namespace Alice
     {
         public GameObject[] tab;
 
+        private void Start()
+        {
+            //var flag = (Const.TutorialFlag)UserData.cacheHomeRecv.player.tutorialFlag;
+            //if (!flag.HasFlag(Const.TutorialFlag.UserNameInput))
+            //{
+            //    NameEditDialog.Show();
+            //}
+        }
+
         /// <summary>
         /// フッターのタップをクリックした
         /// </summary>

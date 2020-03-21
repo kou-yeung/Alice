@@ -25,8 +25,10 @@ namespace Alice
                 // ホーム情報を取得し、シーンを遷移する
                 CommunicationService.Instance.Request("Home", "", (res) =>
                 {
-                    UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                    SceneManager.LoadScene("Home");
+                    if(UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res)))
+                    {
+                        SceneManager.LoadScene("Home");
+                    }
                 });
             },
             (end) => AuthService.Instance.SignInAnonymously(end),

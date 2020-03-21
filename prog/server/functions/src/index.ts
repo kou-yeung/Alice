@@ -554,13 +554,6 @@ exports.AdminCommand = functions.https.onCall(async (data, context) => {
 //});
 
 /**
- * proto:ping
- */
-exports.ping = functions.https.onCall((data, context) => {
-    return Proto.stringify({ data:data, uid: context.auth!.uid });
-});
-
-/**
  * proto:Home:画面の情報を取得する
  */ 
 exports.Home = functions.https.onCall(async (data, context) => {
@@ -571,7 +564,7 @@ exports.Home = functions.https.onCall(async (data, context) => {
 
     const doc = new Documents(context.auth!.uid);
     // プレイヤー情報取得
-    const player = await Ref.snapshot<Player>(doc.player());
+    const player = await Ref.snapshot<Player>(doc.player()) || {};
 
     const s2c = new HomeRecv();
 
@@ -997,8 +990,6 @@ exports.Chest = functions.https.onCall(async (data, context) => {
     await batch.commit();
     return Proto.stringify(s2c);
 });
-
-
 
 class ShadowInfo {
     counter: number = 0;
