@@ -12,6 +12,7 @@ class Const {
     static RoomOfFloot: number = 100;                   // １フロアのルーム数
     static FLOOR_MAX: number = 1000;                   // フロア数数
     static ROOM_MAX: number = Const.RoomOfFloot * Const.FLOOR_MAX;// ルームの最大数
+    static APP_VERSION: string = "0.0.2";               // アプリバージョン
 }
 
 // 宝箱のランクから必要の時間を算出します
@@ -71,6 +72,9 @@ class Documents {
     }
     admin(): FirebaseFirestore.DocumentReference {
         return db.collection('admin').doc(this.uid);
+    }
+    configs(): FirebaseFirestore.DocumentReference {
+        return db.collection('admin').doc("configs");
     }
     player(): FirebaseFirestore.DocumentReference {
         return db.collection('player').doc(this.uid);
@@ -185,6 +189,23 @@ class Proto {
         return Crypto.Encrypt(JSON.stringify(data));
     }
 }
+
+class Configs {
+    maintain: boolean = false;
+    app_version: string = "";
+}
+
+async function CommonCheck(data: any, context: functions.https.CallableContext) {
+    //return "メンテナンス中です";
+    const doc = new Documents(context.auth!.uid);
+    var configs = await Ref.snapshot<Configs>(doc.configs());
+
+    // メンテナンス中で管理者ではない場合
+    if (configs.maintain/* && await Ref.snapshot(doc.admin()) == undefined*/) {
+        return "メンテナンス中です";
+    }
+    return null;
+}
 //==============
 // Entity
 //==============
@@ -203,6 +224,8 @@ class  Player {
 
     colosseums: any;      // コロシアムにランクと番号のマップ colosseums[rank] = index
     roomid: number = -1;    // 最後に生成したシャドウ番号    
+
+    tutorialFlag: number = 0;   // チュートリアルフラグ
 }
 
 // スキルx1
@@ -242,11 +265,12 @@ class Room {
 
 // 更新されたデータ
 class Modified {
-    player :Player[] = [];                 // プレイヤー情報
+    player :Player[] = [];          // プレイヤー情報
     skill: UserSkill[] = [];        // スキルデータ
     unit: UserUnit[] = [];          // ユニットデータ
     chest: UserChest[] = [];        // 宝箱データ
     remove: UserChest[] = [];       // 削除した宝箱
+    appVersion: string = Const.APP_VERSION;
 }
 
 class Message {
@@ -314,6 +338,7 @@ class HomeRecv {
     units: UserUnit[] = [];
     skills: UserSkill[] = [];
     chests: UserChest[] = [];
+    appVersion: string = Const.APP_VERSION;
 }
 
 //======================
@@ -331,7 +356,7 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     const batch = db.batch();
 
     // Player情報
-    const player = { name: "ゲスト", token: Guid.NewGuid(), totalBattleCount: 0, rank: 0 };
+    const player = { name: "", token: Guid.NewGuid(), totalBattleCount: 0, rank: 0, tutorialFlag: 0 };
     batch.set(doc.player(), player);
 
     // 初期ユニット抽選:レアリティ0の中にランダム
@@ -540,8 +565,11 @@ exports.ping = functions.https.onCall((data, context) => {
  */ 
 exports.Home = functions.https.onCall(async (data, context) => {
 
-    const doc = new Documents(context.auth!.uid);
+    // 基本のチェックを行う
+    var error = await CommonCheck(data, context);
+    if (error) return Proto.stringify(Message.Error(error));
 
+    const doc = new Documents(context.auth!.uid);
     // プレイヤー情報取得
     const player = await Ref.snapshot<Player>(doc.player());
 
@@ -601,6 +629,10 @@ class Groups {
  * proto:Battle:バトル開始
  */
 exports.Battle = functions.https.onCall(async (data, context) => {
+    // 基本のチェックを行う
+    var error = await CommonCheck(data, context);
+    if (error) return Proto.stringify(Message.Error(error));
+
     const doc = new Documents(context.auth!.uid);
 
     const c2s = Proto.parse<BattleStartSend>(data);

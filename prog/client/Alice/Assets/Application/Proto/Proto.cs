@@ -194,6 +194,7 @@ namespace Alice
         public int todayBattleCount;    // 本日バトルした回数
         public int todayWinCount;       // 本日勝利した回数
         public int roomid = -1; // 最後に生成したシャドウのroomid
+        public int tutorialFlag;    // チュートリアルフラグ
     }
 
     /// <summary>
@@ -216,6 +217,7 @@ namespace Alice
         public UserUnit[] unit;         // ユニットデータ
         public UserChest[] chest;       // 宝箱データ
         public UserChest[] remove;      // 削除した宝箱
+        public string appVersion;       // アプリバージョン
     }
 
     /// <summary>
@@ -230,6 +232,8 @@ namespace Alice
         public UserUnit[] units;    // ユニット一覧
         public UserSkill[] skills;  // スキル一覧
         public UserChest[] chests;
+
+        public string appVersion;   // アプリバージョン
     }
 
     [Serializable]

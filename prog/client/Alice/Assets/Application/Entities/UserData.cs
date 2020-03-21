@@ -103,6 +103,12 @@ namespace Alice
         {
             if (modified == null) return;
 
+            if (new Version(Application.version) < new Version(modified.appVersion))
+            {
+                Dialog.Show("APP_UPDATED".TextData(), Dialog.Type.SubmitOnly);
+                return;
+            }
+
             Modify(modified.player);
             Modify(modified.unit);
             Modify(modified.skill);
