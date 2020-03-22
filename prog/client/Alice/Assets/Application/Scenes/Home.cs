@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zoo.Communication;
 
 namespace Alice
 {
@@ -10,11 +11,11 @@ namespace Alice
 
         private void Start()
         {
-            //var flag = (Const.TutorialFlag)UserData.cacheHomeRecv.player.tutorialFlag;
-            //if (!flag.HasFlag(Const.TutorialFlag.UserNameInput))
-            //{
-            //    NameEditDialog.Show();
-            //}
+            var flag = (Const.TutorialFlag)UserData.cacheHomeRecv.player.tutorialFlag;
+            if (!flag.HasFlag(Const.TutorialFlag.UserNameInput))
+            {
+                NameEditDialog.Show();
+            }
         }
 
         /// <summary>
@@ -39,6 +40,15 @@ namespace Alice
             if (!pause) return;
             // 実行したバトル履歴を保持する
             UserData.SaveBattleRecord();
+
+            var c2s = new SyncSend { player = UserData.cacheHomeRecv.player };
+            // 同期する
+            CommunicationService.Instance.Request("PlayerSync", JsonUtility.ToJson(c2s), (res) =>
+            {
+                UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
+            });
+
+
         }
         /// <summary>
         /// アプリ終了

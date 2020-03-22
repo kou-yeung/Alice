@@ -1286,3 +1286,45 @@ exports.RequestTest = functions.https.onCall(async (data, context) => {
     };
     return Proto.stringify(s2c);
 });
+
+class SyncSend {
+    player!:Player;         // 自分情報
+}
+
+class SyncRecv {
+    modified: Modified = new Modified();       // 更新したデータ
+}
+
+/**
+ * proto:PlayerSync
+ */
+exports.PlayerSync = functions.https.onCall(async (data, context) => {
+
+    // 基本のチェックを行う
+    var error = await CommonCheck(data, context);
+    if (error) return Proto.stringify(Message.Error(error));
+
+    const doc = new Documents(context.auth!.uid);
+    const c2s = Proto.parse<SyncSend>(data); // c2s
+    const s2c = new SyncRecv();             // s2c
+    const batch = db.batch();
+
+    const player = await Ref.snapshot<Player>(doc.player());
+
+    // 名前同期
+    if (player.name != c2s.player.name) {
+        player.name = c2s.player.name;
+        batch.update(doc.player(), { name: player.name });
+    }
+    // チュートリアルフラグ
+    if (player.tutorialFlag != c2s.player.tutorialFlag) {
+        player.tutorialFlag = c2s.player.tutorialFlag;
+        batch.update(doc.player(), { tutorialFlag: player.tutorialFlag });
+    }
+
+    // コミット
+    await batch.commit();
+    s2c.modified.player = [player];
+
+    return Proto.stringify(s2c);
+});

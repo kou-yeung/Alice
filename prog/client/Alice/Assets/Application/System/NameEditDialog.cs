@@ -37,8 +37,10 @@ namespace Alice
                 message.text = "";
 
                 var player = UserData.cacheHomeRecv.player;
-                player.name = input.name;
-                //player.tutorialFlag = ;
+                player.name = input.text;
+
+                var flag = (Const.TutorialFlag)player.tutorialFlag;
+                player.tutorialFlag = (int)(flag | Const.TutorialFlag.UserNameInput);
                 button.interactable = true;
             }
 
