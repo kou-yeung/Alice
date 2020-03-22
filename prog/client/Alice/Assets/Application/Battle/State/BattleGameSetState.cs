@@ -32,7 +32,7 @@ namespace Alice
 
                     if (data.alarm > 0)
                     {
-                        Dialog.Show($"アラームx{data.alarm} 発見しました", Dialog.Type.SubmitOnly, () => OnNext(owner));
+                        Dialog.Show("BATTLE_GET_ALARM".TextData(), Dialog.Type.SubmitOnly, () => OnNext(owner));
                     }
                     else
                     {

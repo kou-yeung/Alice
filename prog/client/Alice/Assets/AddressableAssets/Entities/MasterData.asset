@@ -67,6 +67,114 @@ MonoBehaviour:
       MAtk: 1
       MDef: 1
     Trigger: 140000001400000014000000140000001400000014000000
+  - ID: Character_001_004
+    Rare: 0
+    Image: 004
+    Personality: "\u77E5\u7684"
+    Base:
+      HP: 41
+      Atk: 17
+      Def: 8
+      MAtk: 8
+      MDef: 12
+    Wait: 86
+    Grow:
+      HP: 1
+      Atk: 1
+      Def: 2
+      MAtk: 1
+      MDef: 1
+    Trigger: 140000001400000014000000140000001400000014000000
+  - ID: Character_001_005
+    Rare: 0
+    Image: 005
+    Personality: "\u6C17\u304C\u5F37\u3044"
+    Base:
+      HP: 46
+      Atk: 16
+      Def: 10
+      MAtk: 9
+      MDef: 11
+    Wait: 92
+    Grow:
+      HP: 1
+      Atk: 1
+      Def: 1
+      MAtk: 2
+      MDef: 1
+    Trigger: 140000001400000014000000140000001400000014000000
+  - ID: Character_001_006
+    Rare: 0
+    Image: 006
+    Personality: "\u4E71\u66B4"
+    Base:
+      HP: 51
+      Atk: 15
+      Def: 12
+      MAtk: 12
+      MDef: 8
+    Wait: 98
+    Grow:
+      HP: 1
+      Atk: 1
+      Def: 1
+      MAtk: 1
+      MDef: 2
+    Trigger: 140000001400000014000000140000001400000014000000
+  - ID: Character_001_007
+    Rare: 0
+    Image: 007
+    Personality: "\u4E71\u66B4"
+    Base:
+      HP: 55
+      Atk: 13
+      Def: 14
+      MAtk: 10
+      MDef: 11
+    Wait: 103
+    Grow:
+      HP: 2
+      Atk: 1
+      Def: 2
+      MAtk: 1
+      MDef: 1
+    Trigger: 140000001400000014000000140000001400000014000000
+  - ID: Character_001_008
+    Rare: 0
+    Image: 008
+    Personality: "\u4E71\u66B4"
+    Base:
+      HP: 52
+      Atk: 13
+      Def: 13
+      MAtk: 9
+      MDef: 12
+    Wait: 99
+    Grow:
+      HP: 1
+      Atk: 2
+      Def: 1
+      MAtk: 2
+      MDef: 1
+    Trigger: 140000001400000014000000140000001400000014000000
+  - ID: Character_001_009
+    Rare: 0
+    Image: 009
+    Personality: "\u4EF2\u9593\u601D\u3044"
+    Base:
+      HP: 47
+      Atk: 11
+      Def: 12
+      MAtk: 12
+      MDef: 11
+    Wait: 93
+    Grow:
+      HP: 1
+      Atk: 1
+      Def: 2
+      MAtk: 1
+      MDef: 2
+    Trigger: 140000001400000014000000140000001400000014000000
   - ID: Character_001_010
     Rare: 1
     Image: 010
@@ -120,6 +228,42 @@ MonoBehaviour:
       Def: 1
       MAtk: 2
       MDef: 2
+    Trigger: 180000001800000018000000180000001800000018000000
+  - ID: Character_001_018
+    Rare: 1
+    Image: 018
+    Personality: "\u4E71\u66B4"
+    Base:
+      HP: 68
+      Atk: 17
+      Def: 17
+      MAtk: 18
+      MDef: 19
+    Wait: 139
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 2
+      MAtk: 3
+      MDef: 2
+    Trigger: 180000001800000018000000180000001800000018000000
+  - ID: Character_001_019
+    Rare: 1
+    Image: 019
+    Personality: "\u4E71\u66B4"
+    Base:
+      HP: 62
+      Atk: 20
+      Def: 14
+      MAtk: 20
+      MDef: 14
+    Wait: 130
+    Grow:
+      HP: 2
+      Atk: 2
+      Def: 2
+      MAtk: 2
+      MDef: 3
     Trigger: 180000001800000018000000180000001800000018000000
   - ID: Character_001_020
     Rare: 2
@@ -753,3 +897,5 @@ MonoBehaviour:
     Text: "\u30A2\u30D7\u30EA\u30D0\u30FC\u30B8\u30E7\u30F3\u304C\u66F4\u65B0\u3057\u307E\u3057\u305F\u3002\n\u30B9\u30C8\u30A2\u306B\u9077\u79FB\u3057\u307E\u3059"
   - ID: USERNAME_INPUT
     Text: "\u30E6\u30FC\u30B6\u540D\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044"
+  - ID: BATTLE_GET_ALARM
+    Text: "\u300C\u30A2\u30E9\u30FC\u30E0\u300D\u767A\u898B\u3057\u307E\u3057\u305F"

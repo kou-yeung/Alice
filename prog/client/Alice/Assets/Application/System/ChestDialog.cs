@@ -69,7 +69,7 @@ namespace Alice
             }
             else
             {
-                Dialog.Show("TODO:アラーム補充ダイアログ", Dialog.Type.SubmitOnly);
+                PurchasingDialog.Show();
             }
         }
 

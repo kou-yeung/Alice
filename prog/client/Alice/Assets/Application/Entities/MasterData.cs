@@ -36,8 +36,10 @@ namespace Alice.Entities
         /// <param name="cb"></param>
         public static void Initialize(Action cb)
         {
+            ScreenBlocker.Instance?.Push();
             LoaderService.Instance.Preload(new[] { Path }, () =>
             {
+                ScreenBlocker.Instance?.Pop();
                 Instance = LoaderService.Instance.Load<MasterData>(Path);
                 cb?.Invoke();
             });

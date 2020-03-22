@@ -53,10 +53,6 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/020/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 0380923ecb52ec04ea3a1639e5689f8b
-    m_Address: Assets/AddressableAssets/Sound/battle-start.ogg
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 052947a35bb100041a293b7a5642c97d
     m_Address: Assets/AddressableAssets/Character/268/icon.asset
     m_ReadOnly: 0
@@ -669,10 +665,6 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/095/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 3ef844069bf4f8b4bac0e0aa5c77bc62
-    m_Address: Assets/AddressableAssets/Sound/bgm_maoudamashii_neorock01.mp3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 3f80867474b97ef408c4324008da27fa
     m_Address: Assets/AddressableAssets/Character/089/icon.asset
     m_ReadOnly: 0
@@ -929,6 +921,14 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/305/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 5cfcacd5508d05c47a8155f7ed489b86
+    m_Address: Assets/AddressableAssets/Sound/SE/se_maoudamashii_magical30.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5d1b88ac666b08345911b66c5b1de169
+    m_Address: Assets/AddressableAssets/Sound/SE/se_maoudamashii_magical05.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 5d3268dcee943d64f8474936b950227c
     m_Address: Assets/AddressableAssets/Character/268/walk.asset
     m_ReadOnly: 0
@@ -1117,6 +1117,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/240/walk.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 6fe41009962be484e845dcef081687a0
+    m_Address: Assets/AddressableAssets/Sound/SE/se_maoudamashii_element_wind02.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 6ff28facf5b835c4683a5b79eb4482f8
     m_Address: Assets/AddressableAssets/Character/123/walk.asset
     m_ReadOnly: 0
@@ -1287,6 +1291,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 7f73925608c28e14e92bea27dfdb3ee0
     m_Address: Assets/AddressableAssets/Character/256/icon.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7fdca23b79515d04789ae86f760fa6b4
+    m_Address: Assets/AddressableAssets/Sound/SE/se_maoudamashii_se_sound08.mp3
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 80089b8684d702745a3a60d25ac3db5d
@@ -2097,6 +2105,10 @@ MonoBehaviour:
     m_Address: Assets/AddressableAssets/Character/325/icon.asset
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: ca141a456e73a724fa00441f4fa0cadb
+    m_Address: Assets/AddressableAssets/Sound/BGM/game_maoudamashii_6_dangeon01.mp3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: cb15ac6e6f321ac4aa62bfe8f7b4c6ab
     m_Address: Assets/AddressableAssets/Character/281/icon.asset
     m_ReadOnly: 0
@@ -2391,6 +2403,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: e5005853e55d8ba4093440694191ff6a
     m_Address: Assets/AddressableAssets/Character/109/walk.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e524a6fac467abb41b55d9209f893979
+    m_Address: Assets/AddressableAssets/Sound/SE/se_maoudamashii_battle01.mp3
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: e6e3a852978375f48ad8d69d1585dfce

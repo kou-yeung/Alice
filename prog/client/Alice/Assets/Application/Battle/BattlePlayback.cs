@@ -86,6 +86,8 @@ namespace Alice
             var effects = GetBattleEffectByTypes(action.effects, types);
             if(effects.Length > 0)
             {
+                SoundService.Instance.PlaySE("Sound/SE/se_maoudamashii_battle01.mp3");
+
                 var function = Async.Passive(cb, effects.Length);
                 foreach (var effect in effects)
                 {
@@ -110,6 +112,8 @@ namespace Alice
             var effects = GetBattleEffectByTypes(action.effects, types);
             if (effects.Length > 0)
             {
+                SoundService.Instance.PlaySE("Sound/SE/se_maoudamashii_element_wind02.mp3");
+
                 var function = Async.Passive(cb, effects.Length);
                 foreach (var effect in effects)
                 {
@@ -133,7 +137,7 @@ namespace Alice
         {
             if(action.skill != null)
             {
-                SoundService.Instance.PlaySE("Sound/battle-start.ogg");
+                SoundService.Instance.PlaySE("Sound/SE/se_maoudamashii_se_sound08.mp3");
                 var owner = Battle.Instance.controller;
                 owner.phase.Change($"{action.skill.Name}", cb);
             }
@@ -156,6 +160,8 @@ namespace Alice
             
             foreach (var dead in deads)
             {
+                SoundService.Instance.PlaySE("Sound/SE/se_maoudamashii_magical30.mp3");
+                
                 Battle.Instance.controller.units.Remove(dead.uniq);
                 dead.actor.setAnimation("Dead", () =>
                 {
@@ -180,6 +186,8 @@ namespace Alice
             var effects = GetBattleEffectByTypes(action.effects, new[] { type });
             if (effects.Length > 0)
             {
+                SoundService.Instance.PlaySE("Sound/SE/se_maoudamashii_magical05.mp3");
+                
                 var function = Async.Passive(cb, effects.Length);
                 foreach (var effect in effects)
                 {
@@ -204,6 +212,7 @@ namespace Alice
             var effects = GetBattleEffectByTypes(action.effects, new[] { type });
             if (effects.Length > 0)
             {
+                SoundService.Instance.PlaySE("Sound/SE/se_maoudamashii_magical05.mp3");
                 var function = Async.Passive(cb, effects.Length);
                 foreach (var effect in effects)
                 {

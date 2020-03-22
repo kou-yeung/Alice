@@ -13,6 +13,8 @@ class Const {
     static FLOOR_MAX: number = 1000;                   // フロア数数
     static ROOM_MAX: number = Const.RoomOfFloot * Const.FLOOR_MAX;// ルームの最大数
     static APP_VERSION: string = "0.0.2";               // アプリバージョン
+
+    static NPC_NAMES: string[] = ["ハルト", "キリル", "ユーリ", "メクセス", "ヨンソン", "ニッキー", "イムリー"];
 }
 
 // 宝箱のランクから必要の時間を算出します
@@ -201,7 +203,7 @@ async function CommonCheck(data: any, context: functions.https.CallableContext) 
     var configs = await Ref.snapshot<Configs>(doc.configs());
 
     // メンテナンス中で管理者ではない場合
-    if (configs.maintain/* && await Ref.snapshot(doc.admin()) == undefined*/) {
+    if (configs.maintain && await Ref.snapshot(doc.admin()) == undefined) {
         return "メンテナンス中です";
     }
     return null;
@@ -360,11 +362,12 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     batch.set(doc.player(), player);
 
     // 初期ユニット抽選:レアリティ0の中にランダム
-    const mst = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(0));
+    const rare = 0;
+    const mst = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(rare));
     const id = mst.ids[Random.Next(0, mst.ids.length)];
 
     // 初期ユニット情報
-    const unit = { characterId: id, exp: 0, skill: [] };
+    const unit = { characterId: id, exp: 0, skill: [], rare: rare };
     batch.set(doc.unit(unit.characterId), unit);
 
     // 初期デッキ設定
@@ -695,10 +698,12 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     let enemies = await doc.colosseumRandom(player.rank, 5, max);
     enemies = enemies.filter(v => v.uid != doc.uid); // 自分を除く
 
+    const npc_name = Const.NPC_NAMES[Random.Next(0, Const.NPC_NAMES.length)];
+
     // HACK : １０人以下の場合、おすすめ敵を入れる
     if (max <= 10) {
         const recommend = new Colosseum();
-        recommend.name = 'ゲスト';
+        recommend.name = npc_name;
         recommend.unitJson = JSON.stringify(c2s.recommendUnits);
         recommend.deckJson = JSON.stringify(c2s.recommendDeck);
         enemies.push(recommend);
@@ -706,9 +711,8 @@ exports.Battle = functions.https.onCall(async (data, context) => {
 
     // HACK : 初めの２０バトルはおすすめユニットのみ出現します
     if (player.totalBattleCount <= 20) {
-        const name = enemies[Random.Next(0, enemies.length)].name;
         const recommend = new Colosseum();
-        recommend.name = name;  // 名前を借用する
+        recommend.name = npc_name;
         recommend.unitJson = JSON.stringify(c2s.recommendUnits);
         recommend.deckJson = JSON.stringify(c2s.recommendDeck);
         enemies = [recommend];

@@ -26,7 +26,7 @@ namespace Alice
 
         public class BGM
         {
-            public const string Home = "Sound/BGM/bgm_maoudamashii_8bit16.mp3";
+            public const string Home = "Sound/BGM/game_maoudamashii_6_dangeon01.mp3";
             public const string Battle = "Sound/BGM/bgm_maoudamashii_8bit15.mp3";
         }
 

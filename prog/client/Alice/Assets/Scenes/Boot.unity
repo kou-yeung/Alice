@@ -463,7 +463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backend: 1
   scene: 0
-  enableSound: 0
+  enableSound: 1
   poolPrefabs:
   - {fileID: 1907061385678558431, guid: 90e333d75fa7f8b40ac07602a459d75b, type: 3}
   - {fileID: 814127435464660691, guid: 9611d020b477cdf4a847861fd0a14742, type: 3}

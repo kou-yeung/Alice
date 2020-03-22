@@ -19,6 +19,7 @@ namespace Alice
         void Start()
         {
             SoundService.Instance.PlayBGM(Const.BGM.Home);
+
             // 初期化を実行
             Async.Parallel(() =>
             {
@@ -27,6 +28,7 @@ namespace Alice
                 {
                     if(UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res)))
                     {
+
                         SceneManager.LoadScene("Home");
                     }
                 });

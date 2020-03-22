@@ -56,17 +56,17 @@ namespace Alice
             }
 
             // 自分のユニット情報設定
-            for (int i = 0; i < this.recv.playerDeck.ids.Length; i++)
+            for (int i = 0; i < self.thumbnails.Length; i++)
             {
-                var id = this.recv.playerDeck.ids[i];
+                var id = this.recv.playerDeck.ids.ElementAtOrDefault(i);
                 var data = this.recv.playerUnit.FirstOrDefault(v => v.characterId == id);
                 SetupThumbnail(self.thumbnails[i], data);
             }
 
             // 相手のユニット情報設定
-            for (int i = 0; i < this.recv.enemyDeck.ids.Length; i++)
+            for (int i = 0; i < enemy.thumbnails.Length; i++)
             {
-                var id = this.recv.enemyDeck.ids[i];
+                string id = this.recv.enemyDeck.ids.ElementAtOrDefault(i);
                 var data = this.recv.enemyUnit.FirstOrDefault(v => v.characterId == id);
                 SetupThumbnail(enemy.thumbnails[i], data);
             }
