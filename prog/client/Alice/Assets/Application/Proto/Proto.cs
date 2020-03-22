@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Alice.Generic;
 using Zoo.Time;
+using Alice.Logic;
 
 namespace Alice
 {
@@ -34,7 +35,19 @@ namespace Alice
         /// <returns></returns>
         public int Level()
         {
-            return Mathf.FloorToInt(Mathf.Sqrt(exp)) + 1;
+            return LevelTable.Exp2Level(exp);
+        }
+
+        /// <summary>
+        /// 経験値割合
+        /// </summary>
+        /// <returns></returns>
+        public float Ratio2Levelup()
+        {
+            var level = Level();
+            var start = LevelTable.LevelExp(level - 1);
+            var end = LevelTable.LevelExp(level);
+            return (float)(exp - start) / (float)(end - start);
         }
     }
 
@@ -61,7 +74,7 @@ namespace Alice
             this.units = cache.units.Where(v => Array.Exists(cache.deck.ids, id => id == v.characterId)).ToArray();
             this.edited = UserData.editedUnit.Values.ToArray();
             // 推薦敵
-            var recommend = BattleEnemy.Gen(this.player, this.units);
+            var recommend = BattleEnemy.Gen(this.player/*, this.units*/);
             this.recommendUnits = recommend.unit;
             this.recommendDeck = recommend.deck;
         }
@@ -137,7 +150,11 @@ namespace Alice
         public string RemainText()
         {
             var remain = Remain();
-            return string.Format("{0:D2}:{1:D2}", remain / 60, remain % 60);
+
+            var hh = remain / 3600;
+            var mm = (remain % 3600) / 60;
+            var ss = (remain % 60);
+            return string.Format("{0:D2}:{1:D2}:{2:D2}", hh, mm, ss);
         }
 
         /// <summary>
@@ -177,6 +194,7 @@ namespace Alice
         public int todayBattleCount;    // 本日バトルした回数
         public int todayWinCount;       // 本日勝利した回数
         public int roomid = -1; // 最後に生成したシャドウのroomid
+        public int tutorialFlag;    // チュートリアルフラグ
     }
 
     /// <summary>
@@ -199,6 +217,7 @@ namespace Alice
         public UserUnit[] unit;         // ユニットデータ
         public UserChest[] chest;       // 宝箱データ
         public UserChest[] remove;      // 削除した宝箱
+        public string appVersion;       // アプリバージョン
     }
 
     /// <summary>
@@ -213,12 +232,13 @@ namespace Alice
         public UserUnit[] units;    // ユニット一覧
         public UserSkill[] skills;  // スキル一覧
         public UserChest[] chests;
+
+        public string appVersion;   // アプリバージョン
     }
 
     [Serializable]
     public class GameSetSend
     {
-        public string ID;    // バトルID
         public BattleConst.Result result; // 試合結果
     }
 
@@ -226,6 +246,7 @@ namespace Alice
     public class GameSetRecv
     {
         public Modified modified;
+        public int alarm;           // ボーナスアラーム
     }
 
     /// <summary>
@@ -360,4 +381,39 @@ namespace Alice
         public ShadowSelf self;         // 自分のシャドウ情報
         public ShadowEnemy[] enemies;   // 敵のシャドウ情報一覧
     }
+
+    /// <summary>
+    /// 購入確認 : c2s
+    /// </summary>
+    [Serializable]
+    public class PurchasingSend
+    {
+        public string id;
+        public string platform;
+        public string receipt;
+    }
+    /// <summary>
+    /// 購入確認 : s2c
+    /// </summary>
+    [Serializable]
+    public class PurchasingRecv
+    {
+        public Modified modified;       // 更新したデータ
+    }
+
+    /// <summary>
+    /// 同期情報
+    /// </summary>
+    [Serializable]
+    public class SyncSend
+    {
+        public Player player;         // 自分情報
+    }
+
+    [Serializable]
+    class SyncRecv
+    {
+        public Modified modified;       // 更新したデータ
+    }
+
 }

@@ -18,7 +18,7 @@ namespace Alice.Entities
         }
 
         public string ID;
-        public string Name;
+        //public string Name;
         public int Rare;
         public string Image;
         public string Personality;
@@ -55,7 +55,7 @@ namespace Alice.Entities
         public CharacterMap()
         {
             Map(x => x.ID).Name("ID");
-            Map(x => x.Name).Name("名前");
+            //Map(x => x.Name).Name("名前");
             Map(x => x.Rare).Name("レア");
             Map(x => x.Image).Name("画像ID");
             Map(x => x.Personality).Name("性格");

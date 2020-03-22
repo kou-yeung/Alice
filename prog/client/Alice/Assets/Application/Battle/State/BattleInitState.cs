@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Zoo.StateMachine;
+using Zoo.Sound;
 
 namespace Alice
 {
@@ -13,6 +14,7 @@ namespace Alice
             // バトル開始時はスリープしないように
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
+            SoundService.Instance.PlayBGM(Const.BGM.Battle);
             owner.controller.versus.Show(owner.recv.names[0], owner.recv.names[1], () =>
             {
                 owner.controller.ChangeState(BattleConst.State.Passive);

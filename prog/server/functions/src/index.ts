@@ -1,16 +1,20 @@
 ﻿import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import * as rp from 'request-promise';
 
 // 定数
 class Const {
     static PLAYER_RANK_MAX: number = 10;
     static AdsRewardTimeSecond: number = (10 * 60);     // 10分
     static AlarmTimeSecond: number = (15 * 60);         // 15分
-    static LoginBonusAlarm: number = 3;                 // 3個
-    static LoginBonusAds: number = 15;                  // 15回
+    static LoginBonusAlarm: number = 2;                 // アラーム数
+    static LoginBonusAds: number = 15;                  // 観れる広告回数
     static RoomOfFloot: number = 100;                   // １フロアのルーム数
     static FLOOR_MAX: number = 1000;                   // フロア数数
     static ROOM_MAX: number = Const.RoomOfFloot * Const.FLOOR_MAX;// ルームの最大数
+    static APP_VERSION: string = "0.0.2";               // アプリバージョン
+
+    static NPC_NAMES: string[] = ["ハルト", "キリル", "ユーリ", "メクセス", "ヨンソン", "ニッキー", "イムリー"];
 }
 
 // 宝箱のランクから必要の時間を算出します
@@ -71,6 +75,9 @@ class Documents {
     admin(): FirebaseFirestore.DocumentReference {
         return db.collection('admin').doc(this.uid);
     }
+    configs(): FirebaseFirestore.DocumentReference {
+        return db.collection('admin').doc("configs");
+    }
     player(): FirebaseFirestore.DocumentReference {
         return db.collection('player').doc(this.uid);
     }
@@ -85,6 +92,12 @@ class Documents {
     }
     chest(uniq: string): FirebaseFirestore.DocumentReference {
         return this.chests().doc(uniq);
+    }
+    product(id: string, platform: string): FirebaseFirestore.DocumentReference {
+        return this.products().doc(id + ':' + platform);
+    }
+    purchase(transaction: string): FirebaseFirestore.DocumentReference {
+        return this.purchases().doc(transaction);
     }
     // 指定ランクの登録データ取得
     colosseum(rank: number, index: number): FirebaseFirestore.DocumentReference {
@@ -117,6 +130,10 @@ class Documents {
     masterdataCharacter(lv: number): FirebaseFirestore.DocumentReference {
         return db.collection('masterdata').doc('characters' + lv.toString());
     }
+    // マスタデータ:キャラクタ
+    masterdataProduct(): FirebaseFirestore.DocumentReference {
+        return db.collection('masterdata').doc('product');
+    }
     // Collection
     units(): FirebaseFirestore.CollectionReference {
         return this.player().collection("units");
@@ -126,6 +143,14 @@ class Documents {
     }
     chests(): FirebaseFirestore.CollectionReference {
         return this.player().collection("chests");
+    }
+    // 課金アイテム
+    products(): FirebaseFirestore.CollectionReference {
+        return db.collection("products");
+    }
+    // 購入履歴
+    purchases(): FirebaseFirestore.CollectionReference {
+        return db.collection("purchases");
     }
     // ルームID + 指定時間移行のバトルを指定件数のクエリを生成する
     shadowEnemies(roomid: number, beforeTime: number, count: number): FirebaseFirestore.Query {
@@ -166,6 +191,23 @@ class Proto {
         return Crypto.Encrypt(JSON.stringify(data));
     }
 }
+
+class Configs {
+    maintain: boolean = false;
+    app_version: string = "";
+}
+
+async function CommonCheck(data: any, context: functions.https.CallableContext) {
+    //return "メンテナンス中です";
+    const doc = new Documents(context.auth!.uid);
+    var configs = await Ref.snapshot<Configs>(doc.configs());
+
+    // メンテナンス中で管理者ではない場合
+    if (configs.maintain && await Ref.snapshot(doc.admin()) == undefined) {
+        return "メンテナンス中です";
+    }
+    return null;
+}
 //==============
 // Entity
 //==============
@@ -184,6 +226,8 @@ class  Player {
 
     colosseums: any;      // コロシアムにランクと番号のマップ colosseums[rank] = index
     roomid: number = -1;    // 最後に生成したシャドウ番号    
+
+    tutorialFlag: number = 0;   // チュートリアルフラグ
 }
 
 // スキルx1
@@ -223,11 +267,12 @@ class Room {
 
 // 更新されたデータ
 class Modified {
-    player :Player[] = [];                 // プレイヤー情報
+    player :Player[] = [];          // プレイヤー情報
     skill: UserSkill[] = [];        // スキルデータ
     unit: UserUnit[] = [];          // ユニットデータ
     chest: UserChest[] = [];        // 宝箱データ
     remove: UserChest[] = [];       // 削除した宝箱
+    appVersion: string = Const.APP_VERSION;
 }
 
 class Message {
@@ -275,7 +320,7 @@ function LoginBonus(player: Player) {
 
         // 勝率が 65% 以上ならランクアップ
         if (win / count >= 0.65) {
-            player.rank = Math.min(Const.PLAYER_RANK_MAX, (player.rank || 0) + 1);
+            player.rank = Math.min(Const.PLAYER_RANK_MAX - 1, (player.rank || 0) + 1);
             bonus.rankup = true;
         }
     }
@@ -295,6 +340,7 @@ class HomeRecv {
     units: UserUnit[] = [];
     skills: UserSkill[] = [];
     chests: UserChest[] = [];
+    appVersion: string = Const.APP_VERSION;
 }
 
 //======================
@@ -312,11 +358,16 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     const batch = db.batch();
 
     // Player情報
-    const player = { name: "ゲスト", token: Guid.NewGuid(), totalBattleCount: 0, rank: 0 };
+    const player = { name: "", token: Guid.NewGuid(), totalBattleCount: 0, rank: 0, tutorialFlag: 0 };
     batch.set(doc.player(), player);
 
+    // 初期ユニット抽選:レアリティ0の中にランダム
+    const rare = 0;
+    const mst = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(rare));
+    const id = mst.ids[Random.Next(0, mst.ids.length)];
+
     // 初期ユニット情報
-    const unit = { characterId: "Character_001_001", exp:0, skill: [] };
+    const unit = { characterId: id, exp: 0, skill: [], rare: rare };
     batch.set(doc.unit(unit.characterId), unit);
 
     // 初期デッキ設定
@@ -369,13 +420,20 @@ class MasterDataCharacter {
     rare: number = 0;
     id: string = "";
 }
+class MasterDataProduct {
+    id: string = "";
+    platform: string = "";
+    alarm: number = 0;
+    bonus: number = 0;
+    admin: boolean = true;
+}
 class MasterDataIds {
     ids: string[] = [];
 }
-
 class MasterDataSend {
     skills?: MasterDataSkill[];
     characters?: MasterDataCharacter[];
+    products?: MasterDataProduct[];
 }
 // 管理者:マスタデータ登録
 exports.MasterData = functions.https.onCall(async (data, context) => {
@@ -412,9 +470,80 @@ exports.MasterData = functions.https.onCall(async (data, context) => {
             batch.set(doc.masterdataCharacter(k), { ids: v });
         }
     }
-
+    // 課金アイテム
+    if (c2s.products) {
+        for (const product of c2s.products) {
+            batch.set(doc.product(product.id, product.platform),
+                {
+                    alarm: product.alarm,
+                    bonus: product.bonus,
+                    admin: product.admin
+                });
+        }
+    }
     await batch.commit();
     return Proto.stringify(Message.Warning('登録完了しました'));
+});
+
+
+class AdminCommandSend {
+    command: string = "";
+    param: string[] = [];
+}
+
+class AdminCommandRecv {
+    modified: Modified = new Modified();
+}
+
+// 管理者:チートコマンド
+exports.AdminCommand = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s = Proto.parse<AdminCommandSend>(data);
+
+    // 権限をチェックする
+    if (await Ref.snapshot(doc.admin()) == undefined) {
+        return Proto.stringify(Message.Warning('管理者権限レベルが低い'));
+    }
+
+    const s2c = new AdminCommandRecv();
+    const batch = db.batch();
+
+    switch (c2s.command) {
+        case "AddCharacter":
+            {
+                for (let i = 0; i < c2s.param.length; i += 2)
+                {
+                    let id = c2s.param[i];
+                    let rare = parseInt(c2s.param[i + 1]);
+                    let add: UserUnit = {
+                        characterId: id,
+                        skill: [],
+                        exp: 0,
+                        rare: rare
+                    }
+                    batch.set(doc.unit(add.characterId), add);
+                    s2c.modified.unit.push(add);
+                }
+            }
+            break;
+
+        case "AddSkill":
+            {
+                for (const id of c2s.param) {
+                    // スキル
+                    let skill = await Ref.snapshot<UserSkill>(doc.skill(id));
+                    // なければ生成する
+                    if (!skill) skill = { id: id, count: 0 };
+                    // 数を + 1
+                    skill.count += 1;
+                    // 更新
+                    batch.set(doc.skill(id), skill);
+                    s2c.modified.skill.push(skill);
+                }
+            } break;
+    }
+    await batch.commit();
+    return Proto.stringify(s2c);
 });
 
 ///**
@@ -422,27 +551,23 @@ exports.MasterData = functions.https.onCall(async (data, context) => {
 // */
 //exports.Temp = functions.https.onCall(async (data, context) => {
 //    const doc = new Documents(context.auth!.uid);
-//    const c2s: Proto.parse<TempSend>(data); // c2s
+//    const c2s = Proto.parse<TempSend>(data); // c2s
 //    const s2c = new TempRecv();             // s2c
 //    return Proto.stringify(s2c);
 //});
-
-/**
- * proto:ping
- */
-exports.ping = functions.https.onCall((data, context) => {
-    return Proto.stringify({ data:data, uid: context.auth!.uid });
-});
 
 /**
  * proto:Home:画面の情報を取得する
  */ 
 exports.Home = functions.https.onCall(async (data, context) => {
 
-    const doc = new Documents(context.auth!.uid);
+    // 基本のチェックを行う
+    var error = await CommonCheck(data, context);
+    if (error) return Proto.stringify(Message.Error(error));
 
+    const doc = new Documents(context.auth!.uid);
     // プレイヤー情報取得
-    const player = await Ref.snapshot<Player>(doc.player());
+    const player = await Ref.snapshot<Player>(doc.player()) || {};
 
     const s2c = new HomeRecv();
 
@@ -494,13 +619,18 @@ class Colosseum {
 }
 
 class Groups {
-    counter: any; // 該当グループ
+    counter: any = []; // 該当グループ
 }
 /**
  * proto:Battle:バトル開始
  */
 exports.Battle = functions.https.onCall(async (data, context) => {
+    // 基本のチェックを行う
+    var error = await CommonCheck(data, context);
+    if (error) return Proto.stringify(Message.Error(error));
+
     const doc = new Documents(context.auth!.uid);
+
     const c2s = Proto.parse<BattleStartSend>(data);
     const s2c = new BattleStartRecv();
     const batch = db.batch();
@@ -520,7 +650,7 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     }
 
     // コロシアムグループのデータを取得する
-    const groups = await Ref.snapshot<Groups>(doc.colosseumGroups());
+    const groups = await Ref.snapshot<Groups>(doc.colosseumGroups()) || { counter: [] };
 
     // 自分のデータをコロシアムに登録or更新
     player.colosseums = player.colosseums || {};
@@ -544,6 +674,11 @@ exports.Battle = functions.https.onCall(async (data, context) => {
         batch.set(doc.colosseum(player.rank, colosseum.index), colosseum);
         // 所属グループのデータ数をカウントアップする
         groups.counter[player.rank] = count + 1;    // インクリメント
+
+        /// HACK : 本来は必要ないが、テストでランク設定された場合、null ができてしまうための対応です
+        for (var i = 0; i < groups.counter.length; i++) {
+            if (groups.counter[i] == null) groups.counter[i] = 0;
+        }
         batch.set(doc.colosseumGroups(), groups);
         // 自分がこのランクに登録した番号を記録する
         player.colosseums[player.rank] = colosseum.index;
@@ -557,22 +692,34 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     s2c.playerUnit = c2s.units;
     s2c.playerDeck = c2s.deck;
 
+
     // 同じランクのユーザランダム取得
     const max = groups.counter[player.rank];
-    let enemys = await doc.colosseumRandom(player.rank, 5, max);
-    enemys = enemys.filter(v => v.uid != doc.uid); // 自分を除く
+    let enemies = await doc.colosseumRandom(player.rank, 5, max);
+    enemies = enemies.filter(v => v.uid != doc.uid); // 自分を除く
+
+    const npc_name = Const.NPC_NAMES[Random.Next(0, Const.NPC_NAMES.length)];
 
     // HACK : １０人以下の場合、おすすめ敵を入れる
     if (max <= 10) {
         const recommend = new Colosseum();
-        recommend.name = 'ゲスト';
+        recommend.name = npc_name;
         recommend.unitJson = JSON.stringify(c2s.recommendUnits);
         recommend.deckJson = JSON.stringify(c2s.recommendDeck);
-        enemys.push(recommend);
+        enemies.push(recommend);
+    }
+
+    // HACK : 初めの２０バトルはおすすめユニットのみ出現します
+    if (player.totalBattleCount <= 20) {
+        const recommend = new Colosseum();
+        recommend.name = npc_name;
+        recommend.unitJson = JSON.stringify(c2s.recommendUnits);
+        recommend.deckJson = JSON.stringify(c2s.recommendDeck);
+        enemies = [recommend];
     }
 
     // 候補から抽選
-    const enemy = enemys[Random.Next(0, enemys.length)];
+    const enemy = enemies[Random.Next(0, enemies.length)];
     s2c.enemyUnit = JSON.parse(enemy.unitJson);
     s2c.enemyDeck = JSON.parse(enemy.deckJson);
 
@@ -592,7 +739,6 @@ class GameSetSend {
 // s2c
 class GameSetRecv {
     modified: Modified = new Modified();
-    chest?: UserChest;
     alarm: number = 0;
 }
 /**
@@ -627,13 +773,14 @@ exports.GameSet = functions.https.onCall(async (data, context) => {
 
     // レアリティの抽選テーブルを作る
     const rares = [];
-    for (let i = player.rank - 5; i < player.rank + 5; ++i) {
-        rares.push(Math.floor(Math.max(0, i) / 5));
+    for (let i = player.rank - 3; i < player.rank + 3; ++i) {
+        rares.push(Math.floor(Math.max(0, i) / 3));
     }
 
     // 勝利した場合、確率でアラームドロップ
-    if (c2s.result === Win && Random.Next(0, 250) === 0) {
-        player.alarm += 1;
+    if (c2s.result === Win && Random.Next(0, 50) === 0) {
+        s2c.alarm = 1;
+        player.alarm += s2c.alarm;
     }
 
     const rare = rares[Random.Next(0, rares.length)];
@@ -705,7 +852,7 @@ exports.Ads = functions.https.onCall(async (data, context) => {
     batch.set(doc.player(), player);
 
     await batch.commit();
-
+    
     s2c.modified.chest = [chest];
     s2c.modified.player = [player];
 
@@ -728,6 +875,36 @@ class ChestLots {
     type: string = '';   // skill / character
     id: string = '';     // id
 }
+
+exports.ChestTest = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+
+    const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(0));
+    const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(0));    // マスタデータからキャラID一覧取得
+    const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', 0));      // 自分の所持キャラ一覧取得
+
+    const lots: ChestLots[] = [];
+    // スキルの抽選一覧
+    for (const skill of skillIds.ids) {
+        const lot = new ChestLots();
+        lot.id = skill;
+        lot.type = 'skill';
+        lots.push(lot);
+    }
+    // キャラの抽選一覧
+    const hasUnits = units.map(v => v.characterId);
+    for (const character of characterIds.ids) {
+        if (hasUnits.includes(character)) continue; // すでに持ってるため抽選から外す
+        const lot = new ChestLots();
+        lot.id = character;
+        lot.type = 'character';
+        lots.push(lot);
+    }
+    // 抽選
+    //const res = lots[Random.Next(0, lots.length)];
+    return Proto.stringify(Message.Error(JSON.stringify(lots)));
+});
+
 
 /**
  * proto:Chest:宝箱を開く
@@ -760,9 +937,10 @@ exports.Chest = functions.https.onCall(async (data, context) => {
         s2c.modified.player = [player];
     }
 
-    const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(chest.rate));
-    const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(chest.rate));
-    const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', chest.rate));
+    const rate = chest.rate;
+    const skillIds = await Ref.snapshot<MasterDataIds>(doc.masterdataSkill(rate));
+    const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(rate));    // マスタデータからキャラID一覧取得
+    const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', rate));      // 自分の所持キャラ一覧取得
 
     const lots: ChestLots[] = [];
     // スキルの抽選一覧
@@ -816,8 +994,6 @@ exports.Chest = functions.https.onCall(async (data, context) => {
     await batch.commit();
     return Proto.stringify(s2c);
 });
-
-
 
 class ShadowInfo {
     counter: number = 0;
@@ -1029,3 +1205,130 @@ exports.ShadowList = functions.https.onCall(async (data, context) => {
     return Proto.stringify(s2c);
 });
 
+// 購入処理:c2s
+class PurchasingSend {
+    id: string = "";
+    platform: string = "";
+    receipt: string = "";
+
+}
+// 購入処理: s2c
+class PurchasingRecv {
+    modified: Modified = new Modified();
+}
+
+class Product {
+    alarm: number = 0;
+    bonus: number = 0;
+    admin: boolean = true;
+}
+class Receipt {
+    Store: string = "";
+    TransactionID: string = "";
+    Payload: string = "";
+}
+/*
+ * 購入処理
+ */
+exports.Purchasing = functions.https.onCall(async (data, context) => {
+    const doc = new Documents(context.auth!.uid);
+    const c2s = Proto.parse<PurchasingSend>(data); // c2s
+    const s2c = new PurchasingRecv();             // s2c
+
+    // 課金アイテムの情報を取得する
+    const product = await Ref.snapshot<Product>(doc.product(c2s.id, c2s.platform));
+    // 管理者チェック
+    if (product.admin) {
+        // 権限をチェックする
+        if (await Ref.snapshot(doc.admin()) == undefined) {
+            return Proto.stringify(Message.Warning('購入できませんでした'));
+        }
+    }
+
+    // レシートをオブジェクトに
+    const receipt: Receipt = JSON.parse(c2s.receipt);
+
+    // TransactionIDはまだ存在していないのを確認する
+    if (await Ref.snapshot(doc.purchase(receipt.TransactionID)) != undefined) {
+        return Proto.stringify(Message.Warning('使用済のレシートです'));
+    }
+    const batch = db.batch();
+
+    const now = new Date();
+    // レシートを登録
+    batch.set(doc.purchase(receipt.TransactionID), {
+        date: now.toDateString(),
+        time: now.toTimeString(),
+        timezoneOffset: now.getTimezoneOffset(),
+        id: c2s.id,
+        platform: c2s.platform,
+        uid: doc.uid,
+        receipt: c2s.receipt,
+        alarm: product.alarm,
+        bonus: product.bonus,
+    });
+
+    // アイテム付与
+    const player = await Ref.snapshot<Player>(doc.player());
+    player.alarm += product.alarm + product.bonus;
+    batch.update(doc.player(), { alarm: player.alarm });
+
+    // 同期
+    await batch.commit();
+    s2c.modified.player = [player];
+    return Proto.stringify(s2c);
+});
+
+/*
+ * request-test
+ */
+exports.RequestTest = functions.https.onCall(async (data, context) => {
+    const html = await rp('http://www.google.com');
+    var s2c =
+    {
+        html: html
+    };
+    return Proto.stringify(s2c);
+});
+
+class SyncSend {
+    player!:Player;         // 自分情報
+}
+
+class SyncRecv {
+    modified: Modified = new Modified();       // 更新したデータ
+}
+
+/**
+ * proto:PlayerSync
+ */
+exports.PlayerSync = functions.https.onCall(async (data, context) => {
+
+    // 基本のチェックを行う
+    var error = await CommonCheck(data, context);
+    if (error) return Proto.stringify(Message.Error(error));
+
+    const doc = new Documents(context.auth!.uid);
+    const c2s = Proto.parse<SyncSend>(data); // c2s
+    const s2c = new SyncRecv();             // s2c
+    const batch = db.batch();
+
+    const player = await Ref.snapshot<Player>(doc.player());
+
+    // 名前同期
+    if (player.name != c2s.player.name) {
+        player.name = c2s.player.name;
+        batch.update(doc.player(), { name: player.name });
+    }
+    // チュートリアルフラグ
+    if (player.tutorialFlag != c2s.player.tutorialFlag) {
+        player.tutorialFlag = c2s.player.tutorialFlag;
+        batch.update(doc.player(), { tutorialFlag: player.tutorialFlag });
+    }
+
+    // コミット
+    await batch.commit();
+    s2c.modified.player = [player];
+
+    return Proto.stringify(s2c);
+});

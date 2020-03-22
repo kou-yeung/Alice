@@ -25,6 +25,7 @@ namespace CsvHelper
             //configuration.TypeConverterCache.AddConverter<Vector2Int>(new Vector2IntTypeConverter());
             configuration.TypeConverterCache.AddConverter<BattleConst.Effect>(new EnumTypeConverter<BattleConst.Effect>());
             configuration.TypeConverterCache.AddConverter<BattleConst.Target>(new EnumTypeConverter<BattleConst.Target>());
+            configuration.TypeConverterCache.AddConverter<Const.Platform>(new EnumTypeConverter<Const.Platform>());
         }
 
         /// <summary>
@@ -36,6 +37,8 @@ namespace CsvHelper
             configuration.RegisterClassMap<SkillMap>();
             configuration.RegisterClassMap<EffectMap>();
             configuration.RegisterClassMap<PersonalityMap>();
+            configuration.RegisterClassMap<ProductMap>();
+            configuration.RegisterClassMap<TextDataMap>();
         }
     }
 }

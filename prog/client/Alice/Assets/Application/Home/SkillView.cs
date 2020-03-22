@@ -92,7 +92,13 @@ namespace Alice
             }
             sortedSkill.Sort((a, b) =>
             {
-                return a.id.CompareTo(b.id);
+                var aSkill = MasterData.Instance.Find(a);
+                var bSkill = MasterData.Instance.Find(b);
+
+                var res = bSkill.Rare.CompareTo(aSkill.Rare);
+                if (res == 0) res = aSkill.Passive.CompareTo(bSkill.Passive);
+                if(res == 0) res = a.id.CompareTo(b.id);
+                return res;
             });
             cellView.ReloadData();
         }

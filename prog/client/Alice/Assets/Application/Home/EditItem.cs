@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
 using Alice.Entities;
+using Alice.Logic;
 
 namespace Alice
 {
@@ -20,7 +21,7 @@ namespace Alice
         Text info = null;
 
         public UserUnit cacheUnit { get; private set; }
-        public void Setup(UserUnit unit)
+        public void Setup(UserUnit unit, UserUnit diff = null)
         {
             this.cacheUnit = unit;
             gameObject.SetActive(unit != null);
@@ -34,17 +35,50 @@ namespace Alice
             var data = MasterData.Instance.Find(unit);
             var param = data.ParamAtLevel(level);
 
-            sb.AppendLine($"ATK:{param.Atk} MATK:{param.MAtk}");
-            sb.AppendLine($"DEF:{param.Def} MDEF:{param.MDef}");
-            sb.AppendLine($"WAIT:{data.Wait}");
+            if (diff != null)
+            {
+                var diffData = MasterData.Instance.Find(diff);
+                var diffParam = diffData.ParamAtLevel(diff.Level());
+
+                sb.AppendLine($"HP:{param.HP}{Diff(diffParam.HP, param.HP)}");
+                sb.AppendLine($"ATK:{param.Atk}{Diff(diffParam.Atk, param.Atk)}");
+                sb.AppendLine($"DEF:{param.Def}{Diff(diffParam.Def, param.Def)}");
+                sb.AppendLine($"MATK:{param.MAtk}{Diff(diffParam.MAtk, param.MAtk)}");
+                sb.AppendLine($"MDEF:{param.MDef}{Diff(diffParam.MDef, param.MDef)}");
+                sb.AppendLine($"WAIT:{data.Wait}{Diff(diffData.Wait, data.Wait, true)}");
+            }
+            else
+            {
+                sb.AppendLine($"HP:{param.HP}");
+                sb.AppendLine($"ATK:{param.Atk}");
+                sb.AppendLine($"DEF:{param.Def}");
+                sb.AppendLine($"MATK:{param.MAtk}");
+                sb.AppendLine($"MDEF:{param.MDef}");
+                sb.AppendLine($"WAIT:{data.Wait}");
+            }
+
             info.text = sb.ToString();
+            gauge.value = unit.Ratio2Levelup();
+        }
 
-            var start = (level-1) * (level - 1);
-            var end = (level) * (level);
+        string Diff(int from, int to, bool re = false)
+        {
+            var diff = from - to;
 
-            Debug.Log($"start({start}) end({end}) exp({unit.exp})");
-            var ratio = (float)(unit.exp-start) / (float)(end - start);
-            gauge.value = ratio;
+            if (diff > 0)
+            {
+                var color = re ? "blue" : "red";
+                return $"<color={color}>(↓{Mathf.Abs(diff)})</color>";
+            }
+            else if (diff < 0)
+            {
+                var color = re ? "red": "blue";
+                return $"<color={color}>(↑{Mathf.Abs(diff)})</color>";
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 using Zoo.Assets;
 using System.Text;
 using System;
+using Alice.Logic;
 
 namespace Alice
 {
@@ -17,6 +18,9 @@ namespace Alice
     public class Card : MonoBehaviour
     {
         public Thumbnail thumbnail;
+        [SerializeField]
+        Slider gauge = null;
+
         public Text Param;
         public GameObject info;
         public Button[] skill;
@@ -43,32 +47,38 @@ namespace Alice
 
             thumbnail.Setup(unit);
 
-            var data = MasterData.Instance.characters.FirstOrDefault(v => v.ID == unit.characterId);
-            var lv = unit.Level();
-            var b = data.Base;
-            var g = data.Grow;
+
+            var data = MasterData.Instance.Find(unit);
+            var param = data.ParamAtLevel(unit.Level());
 
             var sb = new StringBuilder();
-            sb.AppendLine($"ATK: {b.Atk + g.Atk * lv}");
-            sb.AppendLine($"MATK: {b.MAtk + g.MAtk * lv}");
-            sb.AppendLine($"Def: {b.Def + g.Def * lv}");
-            sb.AppendLine($"MDef: {b.MDef + g.MDef * lv}");
+            sb.AppendLine($"HP: {param.HP}");
+            sb.AppendLine($"ATK: {param.Atk}");
+            sb.AppendLine($"Def: {param.Def}");
+            sb.AppendLine($"MATK: {param.MAtk}");
+            sb.AppendLine($"MDef: {param.MDef}");
             sb.AppendLine($"WAIT: {data.Wait}");
-            var next = (lv) * (lv) - unit.exp;
-            sb.AppendLine($"LVUP: {next}");
+
+            gauge.value = unit.Ratio2Levelup();
 
             // スキル設定
             for (int i = 0; i < skill.Length; i++)
             {
                 var text = skill[i].GetComponentInChildren<Text>();
+                var bg = skill[i].GetComponent<Image>();
+
+                // 初期設定
+                text.text = "+";
+                bg.color = Color.gray;
 
                 if (i < unit.skill.Length)
                 {
-                    text.text = MasterData.Instance.FindSkillByID(unit.skill[i])?.Name;
-                }
-                else
-                {
-                    text.text = "+";
+                    var mst = MasterData.Instance.FindSkillByID(unit.skill[i]);
+                    if(mst != null)
+                    {
+                        text.text = mst.NameWithInfo;
+                        bg.color = ColorGen.Rare(mst.Rare);
+                    }
                 }
             }
 

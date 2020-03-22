@@ -560,8 +560,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 123.060005, y: -8.5}
-  m_SizeDelta: {x: 129.88, y: 30}
+  m_AnchoredPosition: {x: 119.060005, y: -8.5}
+  m_SizeDelta: {x: 121.88, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4454376536281106517
 CanvasRenderer:
@@ -711,8 +711,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75.1, y: -38.5}
-  m_SizeDelta: {x: 129.88, y: 30}
+  m_AnchoredPosition: {x: 119.06002, y: -38.5}
+  m_SizeDelta: {x: 121.880005, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3955602370176506962
 CanvasRenderer:
@@ -747,7 +747,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 8
+    m_Alignment: 6
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -1687,9 +1687,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db1bb44fa739469449082a883d7026ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Background: {fileID: 9137294819037965489}
   Name: {fileID: 4354734898624835347}
-  Desc: {fileID: 0}
   Num: {fileID: 4491503240653158247}
+  CT: {fileID: 142803608775454918}
   sprites: {fileID: 11400000, guid: b6d67d9f5ff0e57429b88677810f91ab, type: 2}
   effects:
   - gameObject: {fileID: 3870366598736255067}

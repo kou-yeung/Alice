@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Alice.Entities;
 using Zoo.Assets;
 using System;
+using Alice.Logic;
 
 namespace Alice
 {
@@ -19,15 +20,17 @@ namespace Alice
             public Text desc;       // 説明
         }
 
+        public Image Background;
         public Text Name;
         public Text Num;
+        public Text CT;
         public Sprites sprites;
         public Effect[] effects;
 
         public void Setup(UserSkill skill)
         {
             var data = MasterData.Instance.Find(skill);
-            Name.text = data.Name;
+            Name.text = data.NameWithInfo;
 
             var remain = UserData.RemainSkill(skill.id);
             var count = skill.count;
@@ -39,6 +42,12 @@ namespace Alice
             {
                 Num.text = $"{remain}/{count}";
             }
+
+            Background.color = ColorGen.Rare(data.Rare);
+
+            // CT
+            CT.text = $"CT:{data.CoolTime}";
+            CT.gameObject.SetActive(!data.Passive);
 
             BattleConst.Target? target = null;
             for (int i = 0; i < effects.Length; i++)

@@ -9,6 +9,7 @@ namespace Alice
     public class Record : MonoBehaviour, ANZListView.IDataSource, ANZListView.IActionDelegate
     {
         public Battle battle;
+        public GameObject title;
         public ANZListView recordTable;
         public GameObject recordItemPrefab;
 
@@ -24,6 +25,7 @@ namespace Alice
         /// </summary>
         public void ReloadData()
         {
+            title.SetActive(UserData.GetBattleRecord().Count <= 0);
             recordTable.ReloadData();
         }
 

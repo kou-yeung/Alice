@@ -10,70 +10,35 @@ using Alice.Entities;
 using UnityEngine.Advertisements;
 using System;
 using UnityEngine.Purchasing;
+using Zoo.Sound;
 
 namespace Alice
 {
-    public class Title : MonoBehaviour, IStoreListener
+    public class Title : MonoBehaviour
     {
-        public Text wait;
-        IStoreController controller;
-        IExtensionProvider extensions;
-
         void Start()
         {
-            StandardPurchasingModule module = StandardPurchasingModule.Instance();
-            var build = ConfigurationBuilder.Instance(module);
-            List<ProductDefinition> products = new List<ProductDefinition>();
-            products.Add(new ProductDefinition("alram_100", ProductType.Consumable));
-            products.Add(new ProductDefinition("alram_200", ProductType.Consumable));
-            build.AddProducts(products);
-            UnityPurchasing.Initialize(this, build);
-        }
-        public void OnInitializeFailed(InitializationFailureReason error)
-        {
-            Debug.Log($"OnInitializeFailed:{error.ToString()}");
-        }
+            SoundService.Instance.PlayBGM(Const.BGM.Home);
 
-        public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
-        {
-            Debug.Log($"ProcessPurchase:{e.ToString()}");
-            return PurchaseProcessingResult.Complete;   // とりあえず完了とします
-        }
-
-        public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
-        {
-            Debug.Log($"OnPurchaseFailed[{i}]:{p.ToString()}");
-        }
-
-        public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
-        {
-            this.controller = controller;
-            this.extensions = extensions;
-        }
-
-
-        public void OnScreenButton()
-        {
-            //var product = controller.products.WithID("alram_200");
-            //controller.InitiatePurchase(product);
-
-            //return;
-            ScreenBlocker.Instance.Push();
+            // 初期化を実行
             Async.Parallel(() =>
             {
-                    // ホーム情報を取得し、シーンを遷移する
-                    CommunicationService.Instance.Request("Home", "", (res) =>
+                // ホーム情報を取得し、シーンを遷移する
+                CommunicationService.Instance.Request("Home", "", (res) =>
+                {
+                    if(UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res)))
                     {
-                        UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res));
-                        ScreenBlocker.Instance.Pop();
+
                         SceneManager.LoadScene("Home");
-                    });
+                    }
+                });
             },
             (end) => AuthService.Instance.SignInAnonymously(end),
             (end) => MasterData.Initialize(end),
             (end) => StartCoroutine(InitializeAds(end))
             );
         }
+
         /// <summary>
         /// 広告APIの初期化
         /// </summary>

@@ -13,6 +13,22 @@ namespace Alice
         public static Dictionary<string, UserUnit> editedUnit = new Dictionary<string, UserUnit>();
         static Dictionary<string, int> skillCollections = new Dictionary<string, int>();
 
+
+        /// <summary>
+        /// true:有効
+        /// false:無効(ストアへ遷移
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        static bool VersionCheck(string version)
+        {
+            if (new Version(Application.version) < new Version(version))
+            {
+                Dialog.Show("APP_UPDATED".TextData(), Dialog.Type.SubmitOnly);
+                return false;
+            }
+            return true;
+        }
         /// <summary>
         /// 所持情報からスキルの装備状態を割り出す
         /// </summary>
@@ -69,12 +85,16 @@ namespace Alice
         /// ホーム情報をキャッシュする
         /// </summary>
         public static HomeRecv cacheHomeRecv { get; private set; }
-        public static void CacheHomeRecv(HomeRecv homeRecv)
+        public static bool CacheHomeRecv(HomeRecv homeRecv)
         {
+            if (!VersionCheck(homeRecv.appVersion)) return false;
+
             ServerTime.Init(homeRecv.svtime);
             cacheHomeRecv = homeRecv;
             SkillCollections();
             Observer.Notify("HomeRecv");
+
+            return true;
         }
 
         static BattleRecord battleRecord;
@@ -102,6 +122,8 @@ namespace Alice
         public static void Modify(Modified modified)
         {
             if (modified == null) return;
+
+            if (!VersionCheck(modified.appVersion)) return;
 
             Modify(modified.player);
             Modify(modified.unit);

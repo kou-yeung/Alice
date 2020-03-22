@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zoo.StateMachine;
 using System.Linq;
+using Zoo.Sound;
 
 namespace Alice
 {
@@ -10,7 +11,8 @@ namespace Alice
     {
         public override void Begin(Battle owner)
         {
-            Debug.Log("Finally:Begin");
+            SoundService.Instance.PlayBGM(Const.BGM.Home);
+
             // 新規バトルの場合、試合履歴に追加
             if (!owner.fromRecord)
             {

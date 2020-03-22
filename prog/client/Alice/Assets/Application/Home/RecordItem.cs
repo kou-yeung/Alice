@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zoo;
 using System.Text;
+using System;
+using System.Linq;
 
 namespace Alice
 {
@@ -13,7 +15,17 @@ namespace Alice
     public class RecordItem : MonoBehaviour
     {
         public static readonly string PrefabKey = "RecordItem";
-        public Text title;
+        public Text result; // バトル結果
+
+        [Serializable]
+        public class PlayInfo
+        {
+            public Text name;
+            public Thumbnail[] thumbnails;
+        }
+
+        public PlayInfo self;
+        public PlayInfo enemy;
 
         BattleStartRecv recv;
         /// <summary>
@@ -25,29 +37,51 @@ namespace Alice
             this.recv = recv;
 
             sb.Clear();
-            if(this.recv.names != null)
-            {
-                sb.AppendLine($"{this.recv.names[0]} vs. {this.recv.names[1]}");
-            }
+
+            self.name.text = this.recv.names[0];
+            enemy.name.text = this.recv.names[1];
+
             switch (this.recv.result)
             {
                 case BattleConst.Result.Unknown:
                 case BattleConst.Result.Draw:
-                    sb.AppendLine($"{this.recv.result}");
+                    result.text = $"{this.recv.result}";
                     break;
                 case BattleConst.Result.Win:
-                    sb.AppendLine($"<color=red>WIN</color>");
+                    result.text = $"<color=red>WIN</color>";
                     break;
                 case BattleConst.Result.Lose:
-                    sb.AppendLine($"<color=blue>LOSE</color>");
+                    result.text = $"<color=blue>LOSE</color>";
                     break;
             }
-            sb.AppendLine($"----------------------------");
-            sb.AppendLine($"ID:{this.recv.seed}");
 
-            title.text = sb.ToString();
+            // 自分のユニット情報設定
+            for (int i = 0; i < self.thumbnails.Length; i++)
+            {
+                var id = this.recv.playerDeck.ids.ElementAtOrDefault(i);
+                var data = this.recv.playerUnit.FirstOrDefault(v => v.characterId == id);
+                SetupThumbnail(self.thumbnails[i], data);
+            }
+
+            // 相手のユニット情報設定
+            for (int i = 0; i < enemy.thumbnails.Length; i++)
+            {
+                string id = this.recv.enemyDeck.ids.ElementAtOrDefault(i);
+                var data = this.recv.enemyUnit.FirstOrDefault(v => v.characterId == id);
+                SetupThumbnail(enemy.thumbnails[i], data);
+            }
         }
 
+        /// <summary>
+        /// ユニットアイコンを設定します
+        /// </summary>
+        /// <param name="thumbnail"></param>
+        /// <param name="unit"></param>
+        void SetupThumbnail(Thumbnail thumbnail, UserUnit unit)
+        {
+            thumbnail.gameObject.SetActive(unit != null);
+            if (unit != null) thumbnail.Setup(unit, true);
+        }
         /// <summary>
         /// RecordItem生成
         /// </summary>
