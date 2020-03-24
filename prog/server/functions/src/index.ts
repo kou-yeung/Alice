@@ -709,8 +709,8 @@ exports.Battle = functions.https.onCall(async (data, context) => {
         enemies.push(recommend);
     }
 
-    // HACK : 初めの２０バトルはおすすめユニットのみ出現します
-    if (player.totalBattleCount <= 20) {
+    // HACK : 初めのバトルはおすすめユニットのみ出現します
+    if (player.totalBattleCount <= 7) {
         const recommend = new Colosseum();
         recommend.name = npc_name;
         recommend.unitJson = JSON.stringify(c2s.recommendUnits);
@@ -906,6 +906,14 @@ exports.ChestTest = functions.https.onCall(async (data, context) => {
 });
 
 
+function shuffle(array: any[]){
+    for (let i = array.length - 1; i >= 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 /**
  * proto:Chest:宝箱を開く
  */
@@ -942,12 +950,13 @@ exports.Chest = functions.https.onCall(async (data, context) => {
     const characterIds = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(rate));    // マスタデータからキャラID一覧取得
     const units = await Ref.collection<UserUnit>(doc.units().where('rare', '==', rate));      // 自分の所持キャラ一覧取得
 
-    const lots: ChestLots[] = [];
+    let lots: ChestLots[] = [];
     // スキルの抽選一覧
     for (const skill of skillIds.ids) {
         const lot = new ChestLots();
         lot.id = skill;
         lot.type = 'skill';
+        lots.push(lot);
         lots.push(lot);
     }
     // キャラの抽選一覧
@@ -960,12 +969,15 @@ exports.Chest = functions.https.onCall(async (data, context) => {
         lots.push(lot);
     }
 
+
     // 宝箱を消す
     batch.delete(doc.chest(chest.uniq));
     s2c.modified.remove = [chest];
 
-    // 抽選
-    const res = lots[Random.Next(0, lots.length)];
+    // ランダムシャッフル
+    lots = shuffle(lots);
+    // シャッフルしたので、先頭のものを取得
+    const res = lots[0];
 
     if (res.type === 'character') {
         // キャラ
