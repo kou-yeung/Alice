@@ -6,6 +6,7 @@ using Zoo;
 using Zoo.Communication;
 using Xyz.AnzFactory.UI;
 using System;
+using UnityEngine.Networking;
 
 namespace Alice
 {
@@ -52,6 +53,16 @@ namespace Alice
                 list.isActive = true;
                 // 更新する
                 SetupCreateTab();
+
+                // 共有確認
+                var idText = string.Format("{0:D5}", list.roomid);
+                Dialog.Show(string.Format("TWITTER_CONFIRM".TextData(), idText), Dialog.Type.OKCancel, () =>
+                {
+                    string esctext = UnityWebRequest.EscapeURL(string.Format("TWITTER_TEXT".TextData(), idText));
+                    string url = "https://twitter.com/intent/tweet?text=" + esctext;
+                    //Twitter投稿画面の起動
+                    Application.OpenURL(url);
+                });
             });
         }
 

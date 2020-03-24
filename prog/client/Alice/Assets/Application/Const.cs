@@ -33,8 +33,11 @@ namespace Alice
         [Flags]
         public enum TutorialFlag
         {
-            None,           // なし
-            UserNameInput,  //  ユーザ名入力
+            None = 0,           // なし
+            UserNameInput = 1,  // ユーザ名入力
+            Room = 2,           // シャドウ
+            Record = 4,         // 戦歴
+            Shadow = 8,         // シャドウ
         }
     }
 }
