@@ -26,6 +26,7 @@ namespace Alice
         public Action CliceEvent;
         public UserChest cacheUserChest { get; private set; }
         bool showAlarm;
+        LTDescr descr;
 
         public void Setup(UserChest chest, bool showAlarm = true)
         {
@@ -70,6 +71,10 @@ namespace Alice
 
             if(cacheUserChest.IsReady())
             {
+                if (descr == null)
+                {
+                    descr = LeanTween.moveLocalY(this.gameObject, 5f, 0.3f).setEase(LeanTween.shake).setDelay(1).setOnComplete(()=> descr = null);
+                }
                 remainGauge.gameObject.SetActive(false);
                 remainTime.text = "★READY★";
                 alarm.transform.parent.gameObject.SetActive(false);
