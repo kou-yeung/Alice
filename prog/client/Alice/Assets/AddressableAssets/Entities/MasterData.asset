@@ -856,17 +856,17 @@ MonoBehaviour:
     AdminOnly: 0
   - ID: alarm_15
     Platform: 2
-    Alarm: 15
+    Alarm: 18
     Bonus: 0
     AdminOnly: 0
   - ID: alarm_30
     Platform: 2
-    Alarm: 30
+    Alarm: 38
     Bonus: 10
     AdminOnly: 0
   - ID: alarm_60
     Platform: 2
-    Alarm: 60
+    Alarm: 64
     Bonus: 30
     AdminOnly: 0
   - ID: alarm_15
