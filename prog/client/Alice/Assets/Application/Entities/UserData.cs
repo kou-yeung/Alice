@@ -24,7 +24,13 @@ namespace Alice
         {
             if (new Version(Application.version) < new Version(version))
             {
-                Dialog.Show("APP_UPDATED".TextData(), Dialog.Type.SubmitOnly);
+                Dialog.Show("APP_UPDATED".TextData(), Dialog.Type.SubmitOnly, ()=>
+                {
+#if UNITY_ANDROID
+                    string url = "market://details?id=com.zoo.alice";
+                    Application.OpenURL(url);
+#endif
+                });
                 return false;
             }
             return true;

@@ -12,7 +12,7 @@ class Const {
     static RoomOfFloot: number = 100;                   // １フロアのルーム数
     static FLOOR_MAX: number = 1000;                   // フロア数数
     static ROOM_MAX: number = Const.RoomOfFloot * Const.FLOOR_MAX;// ルームの最大数
-    static APP_VERSION: string = "0.0.2";               // アプリバージョン
+    static APP_VERSION: string = "0.1.2";               // アプリバージョン
 
     static NPC_NAMES: string[] = ["ハルト", "キリル", "ユーリ", "メクセス", "ヨンソン", "ニッキー", "イムリー"];
 }
@@ -341,6 +341,7 @@ class HomeRecv {
     skills: UserSkill[] = [];
     chests: UserChest[] = [];
     appVersion: string = Const.APP_VERSION;
+    waitCreate: boolean = false;
 }
 
 //======================
@@ -357,14 +358,14 @@ exports.onCreate = functions.auth.user().onCreate(async (user) => {
     const doc = new Documents(user.uid);
     const batch = db.batch();
 
-    // Player情報
-    const player = { name: "", token: Guid.NewGuid(), totalBattleCount: 0, rank: 0, tutorialFlag: 0 };
-    batch.set(doc.player(), player);
-
     // 初期ユニット抽選:レアリティ0の中にランダム
     const rare = 0;
     const mst = await Ref.snapshot<MasterDataIds>(doc.masterdataCharacter(rare));
     const id = mst.ids[Random.Next(0, mst.ids.length)];
+
+    // Player情報
+    const player = { name: "", token: Guid.NewGuid(), totalBattleCount: 0, rank: 0, tutorialFlag: 0 };
+    batch.set(doc.player(), player);
 
     // 初期ユニット情報
     const unit = { characterId: id, exp: 0, skill: [], rare: rare };
@@ -567,9 +568,14 @@ exports.Home = functions.https.onCall(async (data, context) => {
 
     const doc = new Documents(context.auth!.uid);
     // プレイヤー情報取得
-    const player = await Ref.snapshot<Player>(doc.player()) || {};
-
+    const player = await Ref.snapshot<Player>(doc.player());
     const s2c = new HomeRecv();
+
+    // プレイヤーデータまだ作成中
+    if (!player) {
+        s2c.waitCreate = true;
+        return Proto.stringify(s2c);
+    }
 
     s2c.svtime = ServerTime.current;
     // ログインボーナスチェック

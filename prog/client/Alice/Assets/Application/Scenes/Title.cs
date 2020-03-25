@@ -23,12 +23,10 @@ namespace Alice
             // 初期化を実行
             Async.Parallel(() =>
             {
-                // ホーム情報を取得し、シーンを遷移する
-                CommunicationService.Instance.Request("Home", "", (res) =>
+                GetHome((data) =>
                 {
-                    if(UserData.CacheHomeRecv(JsonUtility.FromJson<HomeRecv>(res)))
+                    if (UserData.CacheHomeRecv(data))
                     {
-
                         SceneManager.LoadScene("Home");
                     }
                 });
@@ -58,5 +56,22 @@ namespace Alice
             cb?.Invoke();
         }
 
+        void GetHome(Action<HomeRecv> cb)
+        {
+            // ホーム情報を取得し、シーンを遷移する
+            CommunicationService.Instance.Request("Home", "", (res) =>
+            {
+                var data = JsonUtility.FromJson<HomeRecv>(res);
+                if (data.waitCreate)
+                {
+                    // 再帰呼び出し
+                    GetHome(cb);
+                }
+                else
+                {
+                    cb?.Invoke(data);
+                }
+            });
+        }
     }
 }

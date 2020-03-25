@@ -234,6 +234,7 @@ namespace Alice
         public UserChest[] chests;
 
         public string appVersion;   // アプリバージョン
+        public bool waitCreate;     // プレイヤーデータ作成待ち
     }
 
     [Serializable]
