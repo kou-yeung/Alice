@@ -42,9 +42,13 @@ namespace Alice
         /// </summary>
         IEnumerator InitializeAds(Action cb)
         {
+#if UNITY_IOS
+            var id = "3335719";
+#else
+            var id = "3335718";
+#endif
 #if UNITY_ADS
-            // https://github.com/unity3d-jp/unityads-help-jp/wiki/Integration-Guide-for-Unity
-            //Advertisement.Initialize("2788195");  // MEMO : 必要なくなったかも？
+            Advertisement.Initialize(id);
             // Ads の初期化待ち
             while (!Advertisement.isInitialized || !Advertisement.IsReady())
             {
