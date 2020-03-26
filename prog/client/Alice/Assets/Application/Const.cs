@@ -23,7 +23,6 @@ namespace Alice
             Android,            // Android
         }
 
-
         public class BGM
         {
             public const string Home = "Sound/BGM/game_maoudamashii_6_dangeon01.mp3";
@@ -38,6 +37,8 @@ namespace Alice
             Room = 2,           // シャドウ
             Record = 4,         // 戦歴
             Shadow = 8,         // シャドウ
+
+            //Battle = 16,        // バトル誘導
         }
     }
 }

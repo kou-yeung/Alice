@@ -195,6 +195,19 @@ namespace Alice
         public int todayWinCount;       // 本日勝利した回数
         public int roomid = -1; // 最後に生成したシャドウのroomid
         public int tutorialFlag;    // チュートリアルフラグ
+
+        public bool HasTutorialFlag(Const.TutorialFlag flag)
+        {
+            var flags = (Const.TutorialFlag)this.tutorialFlag;
+            return flags.HasFlag(flag);
+        }
+
+        public void AddTutorialFlag(Const.TutorialFlag flag)
+        {
+            var flags = (Const.TutorialFlag)this.tutorialFlag;
+            this.tutorialFlag = (int)(flags | flag);
+        }
+
     }
 
     /// <summary>

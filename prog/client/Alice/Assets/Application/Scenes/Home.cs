@@ -12,11 +12,8 @@ namespace Alice
 
         private void Start()
         {
-            var flag = (Const.TutorialFlag)UserData.cacheHomeRecv.player.tutorialFlag;
-            if (!flag.HasFlag(Const.TutorialFlag.UserNameInput))
-            {
-                NameEditDialog.Show();
-            }
+            // チュートリアル実行確認
+            ShowTutorial((int)Const.TutorialFlag.UserNameInput);
         }
 
         /// <summary>
@@ -68,12 +65,20 @@ namespace Alice
         /// <param name="flag"></param>
         public void ShowTutorial(int index)
         {
+            var player = UserData.cacheHomeRecv.player;
+
             var flag = (Const.TutorialFlag)index;
-            var flags = (Const.TutorialFlag)UserData.cacheHomeRecv.player.tutorialFlag;
-            if (flags.HasFlag(flag)) return;
+            if (player.HasTutorialFlag(flag)) return;
 
             switch (flag)
             {
+                case Const.TutorialFlag.UserNameInput:
+                    NameEditDialog.Show(() =>
+                    {
+                        var tutorialData = new TutorialData { Desc = "バトルを実行してみよう", TargetButton = "Base/Battle" };
+                        TutorialDialog.Show(tutorialData);
+                    });
+                    break;
                 case Const.TutorialFlag.Room:
                     Dialog.Show("ROOM_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
                     break;
@@ -85,7 +90,7 @@ namespace Alice
                     break;
             }
             // フラグ更新
-            UserData.cacheHomeRecv.player.tutorialFlag = (int)(flags | flag);
+            player.AddTutorialFlag(flag);
             // 同期する
             PlayerSync();
         }

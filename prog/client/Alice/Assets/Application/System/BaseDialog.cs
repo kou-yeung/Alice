@@ -21,8 +21,11 @@ namespace Alice
             this.transform.SetParent(GameObject.Find("Canvas").transform, false);
             this.transform.SetAsLastSibling();
 
-            this.background.localScale = Vector3.one * .75f;
-            this.background.LeanScale(Vector3.one, 0.25f).setEaseOutBounce();
+            if(this.background)
+            {
+                this.background.localScale = Vector3.one * .75f;
+                this.background.LeanScale(Vector3.one, 0.25f).setEaseOutBounce();
+            }
         }
 
         /// <summary>
@@ -30,10 +33,16 @@ namespace Alice
         /// </summary>
         public void Close()
         {
-            this.background.LeanScale(Vector3.one * .8f, 0.2f).setEaseInBack().setOnComplete(() =>
+            if(this.background)
+            {
+                this.background.LeanScale(Vector3.one * .8f, 0.2f).setEaseInBack().setOnComplete(() =>
+                {
+                    this.OnClosed();
+                });
+            } else
             {
                 this.OnClosed();
-            });
+            }
         }
     }
 }

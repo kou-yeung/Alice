@@ -57,12 +57,36 @@ namespace Alice
                     if (s2c.modified.unit.Length != 0)
                     {
                         Close();
-                        UnitDialog.Show(s2c.modified.unit[0]);
+                        UnitDialog.Show(s2c.modified.unit[0], ()=>
+                        {
+                            // 初回の場合、編成画面に誘導します
+                            var ids = UserData.cacheHomeRecv.deck.ids;
+                            for (int i = 0; i < ids.Length; i++)
+                            {
+                                if (!string.IsNullOrEmpty(ids[i])) continue;
+                                var target = $"Base/UnitList/Card{i + 1}";
+                                var tutorialData = new TutorialData { Desc = "キャラが入手しました\nパーティーに入れてみよう", TargetButton = target };
+                                TutorialDialog.Show(tutorialData);
+                                break;
+                            }
+                        });
                     }
                     if (s2c.modified.skill.Length != 0)
                     {
                         Close();
-                        SkillDialog.Show(s2c.modified.skill[0]);
+                        SkillDialog.Show(s2c.modified.skill[0], ()=>
+                        {
+                            // 初回の場合、スキルセット画面に誘導します
+                            var ids = UserData.cacheHomeRecv.deck.ids;
+                            for (int i = 0; i < ids.Length; i++)
+                            {
+                                if (string.IsNullOrEmpty(ids[i])) continue;
+                                var target = $"Base/UnitList/Card{i + 1}/Info/Skill0";
+                                var tutorialData = new TutorialData { Desc = "スキルが入手しました\nキャラにスキルを付けましょう", TargetButton = target };
+                                TutorialDialog.Show(tutorialData);
+                                break;
+                            }
+                        });
                     }
                 });
 
