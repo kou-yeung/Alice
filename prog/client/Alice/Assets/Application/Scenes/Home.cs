@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zoo.Auth;
 using Zoo.Communication;
 
 namespace Alice
@@ -29,6 +30,14 @@ namespace Alice
                 if (v == null) continue;
                 v.SetActive(v == target);
             }
+        }
+
+        /// <summary>
+        /// デバッグボタンをクリックした
+        /// </summary>
+        public void OnClickDebug()
+        {
+            AuthService.Instance.SignOut();
         }
 
         /// <summary>

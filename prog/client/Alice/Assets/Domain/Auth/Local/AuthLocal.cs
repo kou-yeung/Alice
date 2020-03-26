@@ -9,5 +9,10 @@ namespace Zoo.Auth
             // 必ず成功にする
             complete?.Invoke();
         }
+
+        public void SignOut()
+        {
+            // 空き実装
+        }
     }
 }

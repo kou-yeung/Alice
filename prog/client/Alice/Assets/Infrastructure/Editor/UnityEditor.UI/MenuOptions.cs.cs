@@ -16,7 +16,9 @@ namespace UnityEditor.UI
 {
     public static class MenuOptions
     {
-#if UNITY_2019_1_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
+        static readonly string Path2DLL = Path.Combine(Path.GetDirectoryName(EditorApplication.applicationPath), @"Data\Resources\PackageManager\ProjectTemplates\libcache\com.unity.template.2d-3.3.0\ScriptAssemblies\UnityEditor.UI.dll");
+#elif UNITY_2019_1_OR_NEWER
         static readonly string Path2DLL = Path.Combine(Path.GetDirectoryName(EditorApplication.applicationPath), @"Data\Resources\PackageManager\ProjectTemplates\libcache\com.unity.template.2d-3.2.0\ScriptAssemblies\UnityEditor.UI.dll");
 #else
         static readonly string Path2DLL = Path.Combine(Path.GetDirectoryName(EditorApplication.applicationPath), @"Data\UnityExtensions\Unity\GUISystem\Editor\UnityEditor.UI.dll");

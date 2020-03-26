@@ -33,6 +33,10 @@ namespace Zoo.Auth
             });
         }
 
+        public void SignOut()
+        {
+            FirebaseAuth.DefaultInstance.SignOut();
+        }
 
 #if UNITY_EDITOR
         [MenuItem("Auth/Firebase/Clear")]
