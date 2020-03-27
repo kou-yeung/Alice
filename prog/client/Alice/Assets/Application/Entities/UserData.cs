@@ -135,6 +135,12 @@ namespace Alice
             Modify(modified.unit);
             Modify(modified.skill);
             Modify(modified.chest);
+
+            // ボーナス時間更新？
+            if (modified.nextBonusTime.Length > 0)
+            {
+                cacheHomeRecv.nextBonusTime = modified.nextBonusTime[0];
+            }
             Remove(modified.remove);
 
             Observer.Notify("HomeRecv");

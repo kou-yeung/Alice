@@ -239,6 +239,14 @@ namespace Alice
         public UserChest[] chest;       // 宝箱データ
         public UserChest[] remove;      // 削除した宝箱
         public string appVersion;       // アプリバージョン
+        public int[] nextBonusTime;   // 次のボーナス取得時間
+    }
+
+    [Serializable]
+    public class Bonus
+    {
+        public int alarm;
+        public bool rankup;
     }
 
     /// <summary>
@@ -436,7 +444,8 @@ namespace Alice
     [Serializable]
     class SyncRecv
     {
-        public Modified modified;       // 更新したデータ
+        public Modified modified;   // 更新したデータ
+        public long nextBonusTime;  // 次のボーナス更新時間
     }
 
 }

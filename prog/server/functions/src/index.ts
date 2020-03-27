@@ -273,6 +273,7 @@ class Modified {
     chest: UserChest[] = [];        // 宝箱データ
     remove: UserChest[] = [];       // 削除した宝箱
     appVersion: string = Const.APP_VERSION;
+    nextBonusTime: number[] = [];   // 次のボーナス取得時間
 }
 
 class Message {
@@ -287,6 +288,10 @@ class Message {
     }
 }
 
+class Bonus {
+    alarm: number = 0;
+    rankup: boolean = false;
+}
 /**
  * ログインボーナスチェック
  * return (null)ログインボーナス発生しない 
@@ -306,7 +311,7 @@ function LoginBonus(player: Player) {
 
     // 現在の時刻取得
     var now = new Date();
-    if (next >= now) return null; // まだ更新するタイミングではない
+    if (next >= now) return undefined; // まだ更新するタイミングではない
 
     // タイムスタンプ更新
     // MEMO : 何日ログインされてない対策
@@ -331,7 +336,9 @@ function LoginBonus(player: Player) {
     //========================
     // 広告使用回数を回復
     player.ads = Const.LoginBonusAds;
-    const bonus = { alarm: Const.LoginBonusAlarm, rankup: false };
+
+    const bonus = new Bonus();
+    bonus.alarm = Const.LoginBonusAlarm;
 
     player.alarm = (player.alarm || 0) + bonus.alarm;
     // バトル回数が１０回以上のみチェック
@@ -356,7 +363,7 @@ function LoginBonus(player: Player) {
 class HomeRecv {
     svtime: number = 0;
     player?: Player;
-    bonus: any;
+    bonus?: Bonus;
     deck?: UserDeck;
     units: UserUnit[] = [];
     skills: UserSkill[] = [];
@@ -1341,7 +1348,7 @@ class SyncSend {
 }
 
 class SyncRecv {
-    bonus: any;
+    bonus?: Bonus;
     modified: Modified = new Modified();       // 更新したデータ
 }
 
@@ -1367,10 +1374,15 @@ exports.PlayerSync = functions.https.onCall(async (data, context) => {
 
     // ログインボーナスチェック
     s2c.bonus = LoginBonus(player);
+    if (s2c.bonus) {
+        // 次のボーナスタイム
+        var next = new Date(player.stamp);
+        next.setHours(next.getHours() + Const.LoginBonusPeriod);
+        s2c.modified.nextBonusTime = [parseInt(next.getTime().toString().slice(0, -3))]
+    }
 
     // コミット
     await doc.player().set(player);
-
     s2c.modified.player = [player];
 
     return Proto.stringify(s2c);

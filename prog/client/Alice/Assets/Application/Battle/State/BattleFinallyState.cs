@@ -4,6 +4,8 @@ using UnityEngine;
 using Zoo.StateMachine;
 using System.Linq;
 using Zoo.Sound;
+using Zoo.Time;
+using Zoo.Communication;
 
 namespace Alice
 {
@@ -44,6 +46,17 @@ namespace Alice
 
             // 自動スリープはシステム値に戻す
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
+
+            // ランクの更新時間
+            if (UserData.cacheHomeRecv.nextBonusTime < ServerTime.CurrentUnixTime)
+            {
+                var c2s = new SyncSend { player = UserData.cacheHomeRecv.player };
+                // 同期する
+                CommunicationService.Instance.Request("PlayerSync", JsonUtility.ToJson(c2s), (res) =>
+                {
+                    UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
+                });
+            }
         }
     }
 }

@@ -95,7 +95,7 @@ namespace Alice
         public void OnClickRank()
         {
             var next = UserData.cacheHomeRecv.nextBonusTime;
-            var remain = next - ServerTime.CurrentUnixTime;
+            var remain = (int)Mathf.Max(0, next - ServerTime.CurrentUnixTime);
 
             var hh = remain / 3600;
             var mm = (remain % 3600) / 60;
@@ -112,7 +112,7 @@ namespace Alice
         {
             // 次のランク判定更新をチェックする
             var next = UserData.cacheHomeRecv.nextBonusTime;
-            float remain = next - ServerTime.CurrentUnixTime;
+            float remain = Mathf.Max(0, next - ServerTime.CurrentUnixTime);
             // 4時間毎に更新する
             Remain.fillAmount = 1 - (remain / (4 * 3600));
         }

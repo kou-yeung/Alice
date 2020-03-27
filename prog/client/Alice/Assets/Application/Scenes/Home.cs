@@ -106,7 +106,6 @@ namespace Alice
             {
                 UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
             });
-
         }
     }
 }
