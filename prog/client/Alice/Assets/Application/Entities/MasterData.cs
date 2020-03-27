@@ -89,17 +89,21 @@ namespace Alice.Entities
             return products.FirstOrDefault(v => v.ID == id);
         }
 
-
         /// <summary>
         /// IDからテキストを取得する
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TextData FindTextDataByID(string id)
+        public string FindTextDataByID(string id)
         {
             var res = texts.FirstOrDefault(v => v.ID == id);
-            Assert.IsNotNull(res, $"FindTextDataByID Error:{id}");
-            return res;
+            if (res == null)
+            {
+                Debug.LogWarning($"FindTextDataByID Error:{id}");
+                return id;
+            } else {
+                return res.Text[(int)TextData.CurrentLanguage];
+            }
         }
 
 
