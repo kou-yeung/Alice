@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -127,10 +128,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 62221087}
     m_Modifications:
-    - target: {fileID: 4614314816241735151, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
         type: 3}
-      propertyPath: m_Name
-      value: ScreenBlocker
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4614314816241735144, guid: 05ab935ff9595fe4fb4eda11accedf7e,
         type: 3}
@@ -237,6 +273,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4614314816241735151, guid: 05ab935ff9595fe4fb4eda11accedf7e,
+        type: 3}
+      propertyPath: m_Name
+      value: ScreenBlocker
+      objectReference: {fileID: 0}
     - target: {fileID: 7644589860879582747, guid: 05ab935ff9595fe4fb4eda11accedf7e,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -253,46 +294,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7644589860879582747, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1288525217178400891, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1971075830150552753, guid: 05ab935ff9595fe4fb4eda11accedf7e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -438,7 +439,7 @@ GameObject:
   - component: {fileID: 483231445}
   - component: {fileID: 483231444}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ZooGames
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -681,7 +682,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af20a86250aee0a4cb596328eab435aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 1675707830}
 --- !u!4 &1403933886
 Transform:
   m_ObjectHideFlags: 0
@@ -709,7 +709,7 @@ GameObject:
   - component: {fileID: 1675707830}
   - component: {fileID: 1675707832}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -764,8 +764,8 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "\u3061\u3073\u3063\u30B3\u30ED\u30B7\u30A2\u30E0"
+    m_LineSpacing: 1.2
+  m_Text: "<size=28>Little Colosseum</size>\n\u3061\u3073\u3063\u30B3\u30ED\u30B7\u30A2\u30E0"
 --- !u!222 &1675707831
 CanvasRenderer:
   m_ObjectHideFlags: 0
