@@ -32,7 +32,7 @@ namespace Alice
             }
             else
             {
-                Dialog.Show("明日に使用回数が補充します", Dialog.Type.SubmitOnly);
+                Dialog.Show("明日に使用回数が補充されます", Dialog.Type.SubmitOnly);
             }
         }
 
@@ -45,8 +45,7 @@ namespace Alice
             if (chest.cacheUserChest.NeedAlarmNum() <= player.alarm)
             {
                 // アイテムを使って開きます
-                var c2s = new ChestSend();
-                c2s.chest = chest.cacheUserChest;
+                var c2s = new ChestSend { chest = chest.cacheUserChest };
 
                 // 開く
                 CommunicationService.Instance.Request("Chest", JsonUtility.ToJson(c2s), (res) =>

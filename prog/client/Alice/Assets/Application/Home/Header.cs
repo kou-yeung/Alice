@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zoo;
 using Zoo.Communication;
+using Zoo.Time;
 
 namespace Alice
 {
@@ -13,6 +15,7 @@ namespace Alice
         public InputField Name;
         public Text Rank;
         public Text Rate;
+        public Image Remain;
         public Text Alarm;
         public Text Ads;
 
@@ -91,7 +94,27 @@ namespace Alice
         /// </summary>
         public void OnClickRank()
         {
-            Dialog.Show("RANK_DESC".TextData(), Dialog.Type.SubmitOnly);
+            var next = UserData.cacheHomeRecv.nextBonusTime;
+            var remain = next - ServerTime.CurrentUnixTime;
+
+            var hh = remain / 3600;
+            var mm = (remain % 3600) / 60;
+            var ss = (remain % 60);
+
+            var text = string.Format("RANK_DESC".TextData(), hh, mm, ss);
+            Dialog.Show(text, Dialog.Type.SubmitOnly);
+        }
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        private void Update()
+        {
+            // 次のランク判定更新をチェックする
+            var next = UserData.cacheHomeRecv.nextBonusTime;
+            float remain = next - ServerTime.CurrentUnixTime;
+            // 4時間毎に更新する
+            Remain.fillAmount = 1 - (remain / (4 * 3600));
         }
     }
 }

@@ -67,8 +67,8 @@ namespace Alice
             var remain = Math.Max(0, chest.end - ServerTime.CurrentUnixTime);
             if (remain <= 0)
             {
-                var c2s = new ChestSend();
-                c2s.chest = chest;
+                var c2s = new ChestSend { chest = chest };
+
                 // 開く
                 CommunicationService.Instance.Request("Chest", JsonUtility.ToJson(c2s), (res) =>
                 {

@@ -7,13 +7,13 @@ class Const {
     static PLAYER_RANK_MAX: number = 10;
     static AdsRewardTimeSecond: number = (10 * 60);     // 10分
     static AlarmTimeSecond: number = (15 * 60);         // 15分
-    static LoginBonusAlarm: number = 2;                 // アラーム数
-    static LoginBonusAds: number = 15;                  // 観れる広告回数
+    static LoginBonusAlarm: number = 1;                 // アラーム数
+    static LoginBonusAds: number = 4;                  // 観れる広告回数
     static RoomOfFloot: number = 100;                   // １フロアのルーム数
     static FLOOR_MAX: number = 1000;                   // フロア数数
     static ROOM_MAX: number = Const.RoomOfFloot * Const.FLOOR_MAX;// ルームの最大数
     static APP_VERSION: string = "0.1.2";               // アプリバージョン
-
+    static LoginBonusPeriod: number = 4;                // 4時間毎にログインボーナスをチェックする
     static NPC_NAMES: string[] = ["ハルト", "キリル", "ユーリ", "メクセス", "ヨンソン", "ニッキー", "イムリー"];
 }
 
@@ -218,7 +218,7 @@ class  Player {
     rank: number = 0;        // プレイヤーランキング
     ads: number = 0;         // 残り広告使用回数
     token: string = "";    // 認証トークン
-    stamp: number = 0;      // 最後ログインの日付
+    stamp: number = 0;      // ログインボーナスの日付
     loginCount: number = 0;  // 累計ログイン日数
     totalBattleCount: number = 0;    // 累計バトル回数
     todayBattleCount: number = 0;    // 本日バトルした回数
@@ -295,13 +295,34 @@ class Message {
  */
 function LoginBonus(player: Player) {
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
     const stamp = player.stamp || 0;
-    if (stamp >= today.getTime()) return null;  // 日付同じならまだログインボーナス貰えない
+
+    // 次のログインボーナス取得時間
+    var next = new Date(stamp);
+    next.setHours(next.getHours() + Const.LoginBonusPeriod);
+    next.setMinutes(0);
+    next.setSeconds(0);
+    next.setMilliseconds(0);
+
+    // 現在の時刻取得
+    var now = new Date();
+    if (next >= now) return null; // まだ更新するタイミングではない
 
     // タイムスタンプ更新
-    player.stamp = today.getTime();
+    // MEMO : 何日ログインされてない対策
+    // HACK : 前の日付にする
+    next.setFullYear(now.getFullYear());  // 同じ年
+    next.setMonth(now.getMonth());        // 同じ月
+    next.setDate(now.getDate() - 1);      // 1日前
+
+    // 周期毎に進み、現在より先の時間にする
+    while (next < now) {
+        next.setHours(next.getHours() + Const.LoginBonusPeriod);
+    }
+    // 1周期前に戻す、スタンプ更新
+    next.setHours(next.getHours() - Const.LoginBonusPeriod);
+    player.stamp = next.getTime();
+
     // 累計ログイン数 + 1
     player.loginCount = (player.loginCount || 0) + 1;
 
@@ -313,7 +334,7 @@ function LoginBonus(player: Player) {
     const bonus = { alarm: Const.LoginBonusAlarm, rankup: false };
 
     player.alarm = (player.alarm || 0) + bonus.alarm;
-    // 本日のバトル回数が１０回以上のみチェック
+    // バトル回数が１０回以上のみチェック
     if (player.todayBattleCount >= 10) {
         const count = player.todayBattleCount || 0;
         const win = player.todayWinCount || 0;
@@ -324,7 +345,7 @@ function LoginBonus(player: Player) {
             bonus.rankup = true;
         }
     }
-    // 本日のバトル回数をリセット
+    // バトル回数をリセット
     player.todayBattleCount = 0;
     player.todayWinCount = 0;
 
@@ -342,6 +363,7 @@ class HomeRecv {
     chests: UserChest[] = [];
     appVersion: string = Const.APP_VERSION;
     waitCreate: boolean = false;
+    nextBonusTime: number = 0;
 }
 
 //======================
@@ -579,8 +601,13 @@ exports.Home = functions.https.onCall(async (data, context) => {
 
     s2c.svtime = ServerTime.current;
     // ログインボーナスチェック
-    s2c.bonus = await LoginBonus(player);
+    s2c.bonus = LoginBonus(player);
     if (s2c.bonus) await doc.player().set(player);
+
+    // 次のボーナスタイム
+    var next = new Date(player.stamp);
+    next.setHours(next.getHours() + Const.LoginBonusPeriod);
+    s2c.nextBonusTime = parseInt(next.getTime().toString().slice(0, -3));
 
     s2c.player = player;
     s2c.deck = await Ref.snapshot<UserDeck>(doc.deck());
@@ -1314,6 +1341,7 @@ class SyncSend {
 }
 
 class SyncRecv {
+    bonus: any;
     modified: Modified = new Modified();       // 更新したデータ
 }
 
@@ -1329,23 +1357,20 @@ exports.PlayerSync = functions.https.onCall(async (data, context) => {
     const doc = new Documents(context.auth!.uid);
     const c2s = Proto.parse<SyncSend>(data); // c2s
     const s2c = new SyncRecv();             // s2c
-    const batch = db.batch();
 
     const player = await Ref.snapshot<Player>(doc.player());
 
     // 名前同期
-    if (player.name != c2s.player.name) {
-        player.name = c2s.player.name;
-        batch.update(doc.player(), { name: player.name });
-    }
+    player.name = c2s.player.name;
     // チュートリアルフラグ
-    if (player.tutorialFlag != c2s.player.tutorialFlag) {
-        player.tutorialFlag = c2s.player.tutorialFlag;
-        batch.update(doc.player(), { tutorialFlag: player.tutorialFlag });
-    }
+    player.tutorialFlag = c2s.player.tutorialFlag;
+
+    // ログインボーナスチェック
+    s2c.bonus = LoginBonus(player);
 
     // コミット
-    await batch.commit();
+    await doc.player().set(player);
+
     s2c.modified.player = [player];
 
     return Proto.stringify(s2c);

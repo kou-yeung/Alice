@@ -175,6 +175,14 @@ namespace Alice
         {
             return Mathf.CeilToInt(Remain() / (float)Const.AlarmTimeSecond);
         }
+
+        /// <summary>
+        /// 開く
+        /// </summary>
+        public void Open()
+        {
+
+        }
     }
 
     /// <summary>
@@ -248,6 +256,7 @@ namespace Alice
 
         public string appVersion;   // アプリバージョン
         public bool waitCreate;     // プレイヤーデータ作成待ち
+        public long nextBonusTime;  // 次のボーナス更新時間
     }
 
     [Serializable]
