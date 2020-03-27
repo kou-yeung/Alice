@@ -49,7 +49,7 @@ namespace Alice
             }
             else
             {
-                Rate.text = $"(集計中)";
+                Rate.text = $"({"HomeHeader01".TextData()})";
             }
 
             Alarm.text = $"{player.alarm}";

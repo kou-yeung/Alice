@@ -40,24 +40,24 @@ namespace Alice
                 var diffData = MasterData.Instance.Find(diff);
                 var diffParam = diffData.ParamAtLevel(diff.Level());
 
-                sb.AppendLine($"HP:{param.HP}{Diff(diffParam.HP, param.HP)}");
-                sb.AppendLine($"ATK:{param.Atk}{Diff(diffParam.Atk, param.Atk)}");
-                sb.AppendLine($"DEF:{param.Def}{Diff(diffParam.Def, param.Def)}");
-                sb.AppendLine($"MATK:{param.MAtk}{Diff(diffParam.MAtk, param.MAtk)}");
-                sb.AppendLine($"MDEF:{param.MDef}{Diff(diffParam.MDef, param.MDef)}");
-                sb.AppendLine($"WAIT:{data.Wait}{Diff(diffData.Wait, data.Wait, true)}");
+                sb.AppendLine($"{"CharaParamHP".TextData()}:{param.HP}{Diff(diffParam.HP, param.HP)}");
+                sb.AppendLine($"{"CharaParamATK".TextData()}:{param.Atk}{Diff(diffParam.Atk, param.Atk)}");
+                sb.AppendLine($"{"CharaParamDEF".TextData()}:{param.Def}{Diff(diffParam.Def, param.Def)}");
+                sb.AppendLine($"{"CharaParamMATK".TextData()}:{param.MAtk}{Diff(diffParam.MAtk, param.MAtk)}");
+                sb.AppendLine($"{"CharaParamMDEF".TextData()}:{param.MDef}{Diff(diffParam.MDef, param.MDef)}");
+                sb.AppendLine($"{"CharaParamWAIT".TextData()}:{data.Wait}{Diff(diffData.Wait, data.Wait, true)}");
             }
             else
             {
-                sb.AppendLine($"HP:{param.HP}");
-                sb.AppendLine($"ATK:{param.Atk}");
-                sb.AppendLine($"DEF:{param.Def}");
-                sb.AppendLine($"MATK:{param.MAtk}");
-                sb.AppendLine($"MDEF:{param.MDef}");
-                sb.AppendLine($"WAIT:{data.Wait}");
+                sb.AppendLine($"{"CharaParamHP".TextData()}:{param.HP}");
+                sb.AppendLine($"{"CharaParamATK".TextData()}:{param.Atk}");
+                sb.AppendLine($"{"CharaParamDEF".TextData()}:{param.Def}");
+                sb.AppendLine($"{"CharaParamMATK".TextData()}:{param.MAtk}");
+                sb.AppendLine($"{"CharaParamMDEF".TextData()}:{param.MDef}");
+                sb.AppendLine($"{"CharaParamWAIT".TextData()}:{data.Wait}");
             }
 
-            info.text = sb.ToString();
+            info.text = sb.ToString().Trim();
             gauge.value = unit.Ratio2Levelup();
         }
 

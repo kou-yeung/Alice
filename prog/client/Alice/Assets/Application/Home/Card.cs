@@ -52,12 +52,12 @@ namespace Alice
             var param = data.ParamAtLevel(unit.Level());
 
             var sb = new StringBuilder();
-            sb.AppendLine($"HP: {param.HP}");
-            sb.AppendLine($"ATK: {param.Atk}");
-            sb.AppendLine($"Def: {param.Def}");
-            sb.AppendLine($"MATK: {param.MAtk}");
-            sb.AppendLine($"MDef: {param.MDef}");
-            sb.AppendLine($"WAIT: {data.Wait}");
+            sb.AppendLine($"{"CharaParamHP".TextData()}: {param.HP}");
+            sb.AppendLine($"{"CharaParamATK".TextData()}: {param.Atk}");
+            sb.AppendLine($"{"CharaParamDEF".TextData()}: {param.Def}");
+            sb.AppendLine($"{"CharaParamMATK".TextData()}: {param.MAtk}");
+            sb.AppendLine($"{"CharaParamMDEF".TextData()}: {param.MDef}");
+            sb.AppendLine($"{"CharaParamWAIT".TextData()}: {data.Wait}");
 
             gauge.value = unit.Ratio2Levelup();
 

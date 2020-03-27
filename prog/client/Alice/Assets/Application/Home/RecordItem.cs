@@ -48,10 +48,10 @@ namespace Alice
                     result.text = $"{this.recv.result}";
                     break;
                 case BattleConst.Result.Win:
-                    result.text = $"<color=red>WIN</color>";
+                    result.text = $"<color=red>{"BattleResultWin".TextData()}</color>";
                     break;
                 case BattleConst.Result.Lose:
-                    result.text = $"<color=blue>LOSE</color>";
+                    result.text = $"<color=blue>{"BattleResultLose".TextData()}</color>";
                     break;
             }
 
