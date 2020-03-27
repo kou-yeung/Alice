@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Zoo;
+using Zoo.Communication;
 
 namespace Alice
 {
@@ -23,6 +24,7 @@ namespace Alice
         Button targetButton;
         LayoutGroup group;
         int siblingIndex;
+        TutorialData cacheData;
 
         private void Start()
         {
@@ -50,6 +52,8 @@ namespace Alice
         /// <param name="data"></param>
         void Setup(TutorialData data)
         {
+            cacheData = data;
+
             target = GameObject.Find(data.TargetButton);
             
             group = target.GetComponentInParent<LayoutGroup>();
@@ -81,6 +85,13 @@ namespace Alice
 
         public static void Show(TutorialData data)
         {
+            var player = UserData.cacheHomeRecv.player;
+            if (data.flag != 0 && player.HasTutorialFlag((Const.TutorialFlag)data.flag))
+            {
+                // このフラグが実行済
+                return;
+            }
+
             if (!string.IsNullOrEmpty(data.Desc))
             {
                 Dialog.Show(data.Desc, Dialog.Type.SubmitOnly, () =>
@@ -105,6 +116,22 @@ namespace Alice
         {
             PrefabPool.Release(nameof(TutorialDialog), this.gameObject);
             base.OnClosed();
+
+            if (cacheData.flag != 0)
+            {
+                var flag = (Const.TutorialFlag)cacheData.flag;
+                var player = UserData.cacheHomeRecv.player;
+                if (!player.HasTutorialFlag(flag))
+                {
+                    player.AddTutorialFlag(flag);
+                    var c2s = new SyncSend { player = player };
+                    // 同期する
+                    CommunicationService.Instance.Request("PlayerSync", JsonUtility.ToJson(c2s), (res) =>
+                    {
+                        UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
+                    });
+                }
+            }
         }
     }
 }

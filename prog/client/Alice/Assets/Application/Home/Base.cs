@@ -85,7 +85,7 @@ namespace Alice
                             {
                                 if (!string.IsNullOrEmpty(ids[i])) continue;
                                 var target = $"Base/UnitList/Card{i + 1}";
-                                var tutorialData = new TutorialData { Desc = "キャラが入手しました\nパーティーに入れてみよう", TargetButton = target };
+                                var tutorialData = new TutorialData { Desc = "キャラが入手しました\nパーティーに入れてみよう", TargetButton = target, flag = (int)Const.TutorialFlag.Chara };
                                 TutorialDialog.Show(tutorialData);
                                 break;
                             }
@@ -101,7 +101,7 @@ namespace Alice
                             {
                                 if (string.IsNullOrEmpty(ids[i])) continue;
                                 var target = $"Base/UnitList/Card{i + 1}/Info/Skill0";
-                                var tutorialData = new TutorialData { Desc = "スキルが入手しました\nキャラにスキルを付けましょう", TargetButton = target };
+                                var tutorialData = new TutorialData { Desc = "スキルが入手しました\nキャラにスキルを付けましょう", TargetButton = target, flag = (int)Const.TutorialFlag.Skill };
                                 TutorialDialog.Show(tutorialData);
                                 break;
                             }

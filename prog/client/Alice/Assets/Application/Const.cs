@@ -38,7 +38,8 @@ namespace Alice
             Record = 4,         // 戦歴
             Shadow = 8,         // シャドウ
 
-            //Battle = 16,        // バトル誘導
+            Chara = 16,        // キャラセット
+            Skill = 32,        // スキルセット
         }
     }
 }
