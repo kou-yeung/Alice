@@ -151,13 +151,13 @@ namespace Alice
             {
                 deck = list.self.deck;
                 units = list.self.unit;
-                var active = list.isActive ? "有効" : "無効";
+                var active = list.isActive ? "Vs04".TextData() : "Vs05".TextData();
                 var roomid = string.Format("{0:D5}", list.roomid);
-                roominfo.text = $"シャドウID:<color=red>{roomid}</color> ({active})";
+                roominfo.text = string.Format("Vs03".TextData(), roomid, active);
             }
             else
             {
-                roominfo.text = "このデッキで登録しましょう";
+                roominfo.text = "Vs06".TextData();
             }
 
             // デッキアイコンを設定する

@@ -75,7 +75,7 @@ namespace Alice
                 case Const.TutorialFlag.UserNameInput:
                     NameEditDialog.Show(() =>
                     {
-                        var tutorialData = new TutorialData { Desc = "バトルを実行してみよう", TargetButton = "Base/Battle" };
+                        var tutorialData = new TutorialData { Desc = "BATTLE_DESC".TextData(), TargetButton = "Base/Battle" };
                         TutorialDialog.Show(tutorialData);
                     });
                     break;

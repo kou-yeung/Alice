@@ -32,7 +32,7 @@ namespace Alice
             }
             else
             {
-                Dialog.Show("明日に使用回数が補充されます", Dialog.Type.SubmitOnly);
+                Dialog.Show("ADS_ERROR".TextData(), Dialog.Type.SubmitOnly);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Alice
                             {
                                 if (!string.IsNullOrEmpty(ids[i])) continue;
                                 var target = $"Base/UnitList/Card{i + 1}";
-                                var tutorialData = new TutorialData { Desc = "キャラが入手しました\nパーティーに入れてみよう", TargetButton = target, flag = (int)Const.TutorialFlag.Chara };
+                                var tutorialData = new TutorialData { Desc = "GET_CHARA_DESC".TextData(), TargetButton = target, flag = (int)Const.TutorialFlag.Chara };
                                 TutorialDialog.Show(tutorialData);
                                 break;
                             }
@@ -81,7 +81,7 @@ namespace Alice
                             {
                                 if (string.IsNullOrEmpty(ids[i])) continue;
                                 var target = $"Base/UnitList/Card{i + 1}/Info/Skill0";
-                                var tutorialData = new TutorialData { Desc = "スキルが入手しました\nキャラにスキルを付けましょう", TargetButton = target, flag = (int)Const.TutorialFlag.Skill };
+                                var tutorialData = new TutorialData { Desc = "GET_SKILL_DESC".TextData(), TargetButton = target, flag = (int)Const.TutorialFlag.Skill };
                                 TutorialDialog.Show(tutorialData);
                                 break;
                             }

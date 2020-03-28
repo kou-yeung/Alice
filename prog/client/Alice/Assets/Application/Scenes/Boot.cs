@@ -39,11 +39,11 @@ namespace Alice
             CommunicationService.ConnectionEnd = () => { ScreenBlocker.Instance?.Pop(); };
             CommunicationService.WarningMessage = (message) =>
             {
-                Dialog.Show(message, Dialog.Type.SubmitOnly);
+                Dialog.Show(message.TextData(), Dialog.Type.SubmitOnly);
             };
             CommunicationService.ErrorMessage = (message) =>
             {
-                Dialog.Show(message, Dialog.Type.SubmitOnly, ()=> {
+                Dialog.Show(message.TextData(), Dialog.Type.SubmitOnly, ()=> {
                     SceneManager.LoadSceneAsync(scene.ToString());
                 });
             };

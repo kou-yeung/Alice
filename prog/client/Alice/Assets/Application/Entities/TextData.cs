@@ -18,7 +18,7 @@ namespace Alice.Entities
         public string ID;
         public string[] Text;
 
-        static Language? currentLanguage = Language.ChineseTraditional;
+        static Language? currentLanguage;// = Language.English;
 
         public static Language CurrentLanguage
         {

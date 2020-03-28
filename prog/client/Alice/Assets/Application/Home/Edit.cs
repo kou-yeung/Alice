@@ -180,7 +180,7 @@ namespace Alice
             // 最低１体セットしないとだめのチェック
             if (UserData.cacheHomeRecv.deck.ids.Count(id => !string.IsNullOrEmpty(id)) <= 1 && from.cacheUnit == to.cacheUnit)
             {
-                Dialog.Show("最低１体が必要", Dialog.Type.SubmitOnly);
+                Dialog.Show("DECK_EDIT_ERROR".TextData(), Dialog.Type.SubmitOnly);
                 return;
             }
 

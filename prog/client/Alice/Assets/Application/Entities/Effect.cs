@@ -20,45 +20,7 @@ namespace Alice.Entities
 
         public string Desc()
         {
-            switch(Type)
-            {
-                // 即座効果
-                case BattleConst.Effect.Damage: return "ダメージ";
-                case BattleConst.Effect.DamageRatio: return "割合ダメージ";
-                case BattleConst.Effect.Recovery: return "回復";
-                case BattleConst.Effect.RecoveryRatio: return "割合回復";
-                // バフ
-                case BattleConst.Effect.Buff_Atk:return "物理攻撃アップ";
-                case BattleConst.Effect.Buff_Def:return "物理防御アップ";
-                case BattleConst.Effect.Buff_MAtk:return "魔法攻撃アップ";
-                case BattleConst.Effect.Buff_MDef:return "魔法防御アップ";
-                case BattleConst.Effect.Buff_Wait:return "素早さアップ";
-
-                // デバフ
-                case BattleConst.Effect.Debuff_Atk: return "物理攻撃ダウン";
-                case BattleConst.Effect.Debuff_Def:return "物理防御ダウン";
-                case BattleConst.Effect.Debuff_MAtk:return "魔法攻撃ダウン";
-                case BattleConst.Effect.Debuff_MDef:return "魔法防御ダウン";
-                case BattleConst.Effect.Debuff_Wait:return "素早さダウン";
-
-                // バフ解除
-                case BattleConst.Effect.BuffCancel_Atk: return "物理攻撃アップ効果を解除";
-                case BattleConst.Effect.BuffCancel_Def:return "物理防御アップ効果を解除";
-                case BattleConst.Effect.BuffCancel_MAtk:return "魔法攻撃アップ効果を解除";
-                case BattleConst.Effect.BuffCancel_MDef:return "魔法防御アップ効果を解除";
-                case BattleConst.Effect.BuffCancel_Wait:return "素早さアップ効果を解除";
-                case BattleConst.Effect.BuffCancel_All:return "すべてアップ効果を解除";
-
-                // デバフ解除
-                case BattleConst.Effect.DebuffCancel_Atk: return "物理攻撃ダウン効果を解除";
-                case BattleConst.Effect.DebuffCancel_Def:return "物理防御ダウン効果を解除";
-                case BattleConst.Effect.DebuffCancel_MAtk:return "魔法攻撃ダウン効果を解除";
-                case BattleConst.Effect.DebuffCancel_MDef:return "魔法防御ダウン効果を解除";
-                case BattleConst.Effect.DebuffCancel_Wait:return "素早さダウン効果を解除";
-                case BattleConst.Effect.DebuffCancel_All:return "すべてダウン効果を解除";
-
-                default:return "";
-            }
+            return Type.ToString().TextData();
         }
     }
 

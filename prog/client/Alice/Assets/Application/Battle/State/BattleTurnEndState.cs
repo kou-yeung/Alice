@@ -20,7 +20,7 @@ namespace Alice
             // ユーザ操作によるスキップ
             if(owner.controller.skip)
             {
-                owner.controller.phase.Change("スキップ", () =>
+                owner.controller.phase.Change("BattleSkip".TextData(), () =>
                 {
                     owner.controller.ChangeState(BattleConst.State.Finally);
                 });
@@ -29,7 +29,7 @@ namespace Alice
             {
                 owner.SetBattleResult(BattleConst.Result.Draw);
                 // 引き分け:ダメージ反射による全滅の可能性を考える
-                owner.controller.phase.Change("引き分け", () =>
+                owner.controller.phase.Change("BattleDraw".TextData(), () =>
                 {
                     owner.controller.ChangeState(BattleConst.State.GameSet);
                 });
@@ -38,7 +38,7 @@ namespace Alice
             {
                 // 味方数 0 なら負け
                 owner.SetBattleResult(BattleConst.Result.Lose);
-                owner.controller.phase.Change("敗北", () =>
+                owner.controller.phase.Change("BattleResultLose".TextData(), () =>
                 {
                     owner.controller.ChangeState(BattleConst.State.GameSet);
                 });
@@ -47,7 +47,7 @@ namespace Alice
             {
                 // 相手数 0 なら勝ち
                 owner.SetBattleResult(BattleConst.Result.Win);
-                owner.controller.phase.Change("勝利", () =>
+                owner.controller.phase.Change("BattleResultWin".TextData(), () =>
                 {
                     owner.controller.ChangeState(BattleConst.State.GameSet);
                 });

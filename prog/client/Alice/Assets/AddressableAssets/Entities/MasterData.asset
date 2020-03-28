@@ -916,9 +916,11 @@ MonoBehaviour:
     - "\u61C9\u7528\u7A0B\u5E8F\u7248\u672C\u5DF2\u66F4\u65B0\n\u524D\u5F80\u5546\u5E97"
   - ID: USERNAME_INPUT
     Text:
-    - "\u30E6\u30FC\u30B6\u540D\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044"
-    - Please enter a username
-    - "\u8ACB\u8F38\u5165\u7528\u6236\u540D"
+    - "\u300C<color=red>\u3061\u3073\u30B3\u30ED</color>\u300D\u306B\u3088\u3046\u3053\u305D\n\u3042\u306A\u305F\u306E\u540D\u524D\u3092\u6559\u3048\u3066\u304F\u3060\u3055\u3044"
+    - 'Welcome to <color=red>Little Colosseum</color>
+
+      Please enter your username'
+    - "\u6B61\u8FCE\u4F86\u5230 <color=red>Little Colosseum</color>\n\u8ACB\u8F38\u5165\u540D\u5B57"
   - ID: BATTLE_GET_ALARM
     Text:
     - "\u300C\u30A2\u30E9\u30FC\u30E0\u300D\u767A\u898B\u3057\u307E\u3057\u305F"
@@ -927,20 +929,20 @@ MonoBehaviour:
   - ID: ROOM_TUTORIAL
     Text:
     - "<color=yellow>Room ID</color>\u3092\u5165\u529B\u3057\u3066\n<color=yellow>\u691C\u7D22</color>\u30DC\u30BF\u30F3\u3067\u5BFE\u6226\u3067\u304D\u307E\u3059\n\n\u300C<color=red>\u30DE\u30A4\u30FB\u30EB\u30FC\u30E0</color>\u300D\u306B\u81EA\u5206\u306E\u30EB\u30FC\u30E0\u304C\u4F5C\u308C\u307E\u3059"
-    - "Enter <color=yellow>Room ID</color>and push \n<color=yellow>Search</color>
+    - "Enter <color=yellow>Room ID</color> and push \n<color=yellow>Search</color>
       can play with other user!\n\n<color=red>My Room</color> can create your own
       room."
     - "\u8F38\u5165<color=yellow>Room ID</color>\u5F8C\n\u6309<color=yellow>\u641C\u7D22</color>\u4FBF\u53EF\u5C0D\u6230\n\n\u5728<color=red>\u6211\u7684\u623F\u9593</color>\u53EF\u5275\u5EFA\u81EA\u5DF1\u7684\u623F\u9593"
   - ID: RECORD_TUTORIAL
     Text:
     - "\u4ECA\u307E\u3067\u306E\u30D0\u30C8\u30EB\u3092\u3082\u3046\u4E00\u56DE\u78BA\u8A8D\u3067\u304D\u307E\u3059\u3088"
-    - You can playback the battle record!
+    - Here can playback the battle record!
     - "\u53EF\u4EE5\u64AD\u653E\u6230\u9B25\u8A18\u9304"
   - ID: SHADOW_TUTORIAL
     Text:
     - "\u30C7\u30C3\u30AD\u3092\u767B\u9332\u3057\nRoom ID\u3092\u5171\u6709\u3057\u3088\u3046"
-    - Register the deck and share the room ID
-    - "\u5728\u9019\u88E1\u53EF\u767B\u8A18\u548C\u5206\u4EAB\u623F\u9593ID"
+    - Register the deck and share the Room ID
+    - "\u5728\u9019\u88E1\u53EF\u767B\u8A18\u968A\u5F62\u548C\u5206\u4EABRoom ID"
   - ID: TWITTER_CONFIRM
     Text:
     - "Room ID ( {0} ) \u767A\u884C\u3057\u307E\u3057\u305F\nTwitter \u3067\u5171\u6709\u3057\u307E\u3059\u304B\uFF1F"
@@ -951,6 +953,47 @@ MonoBehaviour:
     - "\u79C1\u3068\u5BFE\u6226\u3057\u3088\u3046\uFF01\uFF01Room ID \u306F\n{0}\n#\u3061\u3073\u3063\u30B3\u30ED\u30B7\u30A2\u30E0\n#\u3061\u3073\u30B3\u30ED\n#LittleColosseum\nhttps://play.google.com/store/apps/details?id=com.zoo.alice"
     - "PLAY with ME\uFF01\uFF01Room ID is\n{0}\n#\u3061\u3073\u3063\u30B3\u30ED\u30B7\u30A2\u30E0\n#\u3061\u3073\u30B3\u30ED\n#LittleColosseum\nhttps://play.google.com/store/apps/details?id=com.zoo.alice"
     - "\u5FEB\u548C\u6211\u5C0D\u6230\uFF01\uFF01Room ID \n{0}\n#\u3061\u3073\u3063\u30B3\u30ED\u30B7\u30A2\u30E0\n#\u3061\u3073\u30B3\u30ED\n#LittleColosseum\nhttps://play.google.com/store/apps/details?id=com.zoo.alice"
+  - ID: BATTLE_DESC
+    Text:
+    - "\u307E\u305A\u300C<color=red>\u95D8\u6280\u5834</color>\u300D\u3092\u5B9F\u884C\u3057\u3066\u307F\u3088\u3046\n\n\u203B\u95D8\u6280\u5834\u3067\u6226\u3063\u3066\u30E9\u30F3\u30AF\u30A2\u30C3\u30D7\u3067\u304D\u307E\u3059"
+    - "Let's <color=red>COLOSSEUM</color>\n\n\u203BHere you can rank up "
+    - "\u8ACB\u6309\u300C<color=red>\u7AF6\u6280\u5834</color>\u300D\n\n\u203B\u5728\u7AF6\u6280\u5834\u52DD\u51FA\u53EF\u4EE5\u5347\u7D1A"
+  - ID: GET_SKILL_DESC
+    Text:
+    - "\u304A\u3081\u3067\u3068\u3046\u3054\u3056\u3044\u307E\u3059\n\n\u30B9\u30AD\u30EB\u304C\u5165\u624B\u3057\u307E\u3057\u305F\n\u30AD\u30E3\u30E9\u306B\u30B9\u30AD\u30EB\u3092\u4ED8\u3051\u307E\u3057\u3087\u3046"
+    - 'Congratulations!!
+
+
+      Found a SKILL
+
+      Please set SKILL to your character'
+    - "\u606D\u559C\n\n\u627E\u5230\u4E86\u6280\u80FD\n\u8ACB\u5617\u8A66\u70BA\u89D2\u8272\u8A2D\u5B9A\u6280\u80FD"
+  - ID: GET_CHARA_DESC
+    Text:
+    - "\u304A\u3081\u3067\u3068\u3046\u3054\u3056\u3044\u307E\u3059\n\n\u30AD\u30E3\u30E9\u304C\u5165\u624B\u3057\u307E\u3057\u305F\n\u30C7\u30C3\u30AD\u306B\u5165\u308C\u3066\u307F\u3088\u3046"
+    - 'Congratulations!!
+
+
+      Found a Character
+
+      Please set character to
+      your deck'
+    - "\u606D\u559C\n\n\u627E\u5230\u4E86\u89D2\u8272\n\u8ACB\u5617\u8A66\u8A2D\u5B9A\u968A\u5F62"
+  - ID: DECK_EDIT_ERROR
+    Text:
+    - "\u6700\u4F4E\uFF11\u4F53\u304C\u5FC5\u8981"
+    - At least one character is required
+    - "\u81F3\u5C11\u9700\u8981\u8A2D\u5B9A\u4E00\u500B\u89D2\u8272"
+  - ID: ADS_ERROR
+    Text:
+    - "\u30E9\u30F3\u30AF\u78BA\u5B9A\u6642\u4F7F\u7528\u56DE\u6570\u304C\u88DC\u5145\u3055\u308C\u307E\u3059"
+    - The time of rank confirmation is replenished
+    - "\u5728\u7B49\u7D1A\u78BA\u8A8D\u6642\u6703\u88AB\u88DC\u5145"
+  - ID: GET_DIALOG
+    Text:
+    - "\u304A\u3081\u3067\u3068\u3046\u3054\u3056\u3044\u307E\u3059"
+    - Congratulations!!
+    - "\u606D\u559C"
   - ID: HomeFooter01
     Text:
     - "\u30DB\u30FC\u30E0"
@@ -991,6 +1034,46 @@ MonoBehaviour:
     - "\u5F8C\u5217"
     - BACK
     - "\u5F8C\u6392"
+  - ID: Deck03
+    Text:
+    - "\u6575"
+    - ENEMY
+    - "\u6575\u4EBA"
+  - ID: Deck04
+    Text:
+    - "\u5473\u65B9"
+    - ALLY
+    - "\u968A\u54E1"
+  - ID: Deck05
+    Text:
+    - "\u81EA\u5206"
+    - SELF
+    - "\u81EA\u5DF1"
+  - ID: Deck06
+    Text:
+    - "\u30C0\u30E1\u30FC\u30B8"
+    - DAMAGE
+    - "\u640D\u5BB3"
+  - ID: Deck07
+    Text:
+    - "\u56DE\u5FA9"
+    - RECOVERY
+    - "\u6062\u5FA9"
+  - ID: Deck08
+    Text:
+    - "\u30D0\u30D5"
+    - UP
+    - "\u5F37\u5316"
+  - ID: Deck09
+    Text:
+    - "\u30C7\u30D0\u30D5"
+    - DOWN
+    - "\u5F31\u5316"
+  - ID: Deck10
+    Text:
+    - "\u52B9\u679C\u53D6\u6D88"
+    - CANCEL
+    - "\u89E3\u9664"
   - ID: CharaParamHP
     Text:
     - HP
@@ -1036,12 +1119,22 @@ MonoBehaviour:
     - VS.
     - VS.
     - VS.
+  - ID: BattleSkip
+    Text:
+    - "\u30B9\u30AD\u30C3\u30D7"
+    - SKIP
+    - "\u7565\u904E"
+  - ID: BattleDraw
+    Text:
+    - "\u5F15\u304D\u5206\u3051"
+    - DRAW
+    - "\u6253\u548C"
   - ID: VsDesc
     Text:
     - "\u2605 \u5BFE\u6226\u3057\u305F\u3044\u30D7\u30EC\u30A4\u30E4\u30FC\u3092\u691C\u7D22
       \u2605\n<size=26>\nRoom ID\u3092\u5165\u529B\u3057\u3066\n\u691C\u7D22\u30DC\u30BF\u30F3\u3067\u5BFE\u6226\u3067\u304D\u307E\u3059</size>"
-    - "\u2605 Search for the player you want to play \u2605\n<size=26>\nEnter the
-      Room ID\nand push Search</size>"
+    - "\u2605 Search player you want to play \u2605\n<size=26>\nEnter the Room ID\nand
+      push Search</size>"
     - "\u2605 \u5C0D\u6230 \u2605\n<size=26>\n\u8F38\u5165Room ID\u5F8C\n\u6309\u641C\u5C0B</size>"
   - ID: Vs01
     Text:
@@ -1053,3 +1146,223 @@ MonoBehaviour:
     - "\u30DE\u30A4\u30FB\u30EB\u30FC\u30E0"
     - My Room
     - "\u6211\u7684\u623F\u9593"
+  - ID: Vs03
+    Text:
+    - Room ID:<color=red>{0}</color> ({1})
+    - Room ID:<color=red>{0}</color> ({1})
+    - Room ID:<color=red>{0}</color> ({1})
+  - ID: Vs04
+    Text:
+    - "\u6709\u52B9"
+    - Valid
+    - "\u6709\u6548"
+  - ID: Vs05
+    Text:
+    - "\u7121\u52B9"
+    - Invalid
+    - "\u7121\u52B9"
+  - ID: Vs06
+    Text:
+    - "\u3053\u306E\u30C7\u30C3\u30AD\u3067\u767B\u9332\u3057\u307E\u3057\u3087\u3046"
+    - Register with this deck
+    - "\u767B\u8A18\u9019\u500B\u968A\u5F62"
+  - ID: Vs07
+    Text:
+    - "\u767B\u9332"
+    - Register
+    - "\u767B\u8A18"
+  - ID: "\u5F37\u6253"
+    Text:
+    - "\u5F37\u6253"
+    - BANG
+    - "\u91CD\u64CA"
+  - ID: "\u9B54\u6CD5"
+    Text:
+    - "\u9B54\u6CD5"
+    - MAGIC
+    - "\u9B54\u6CD5"
+  - ID: "\u56DE\u5FA9"
+    Text:
+    - "\u56DE\u5FA9"
+    - RECOVERY
+    - "\u6062\u5FA9"
+  - ID: "\u7269\u653B\u5F37\u5316"
+    Text:
+    - "ATK\u5F37\u5316"
+    - ATK UP
+    - "\u7269\u653B\u5F37\u5316"
+  - ID: "\u9B54\u653B\u5F37\u5316"
+    Text:
+    - "MATK\u5F37\u5316"
+    - MATK UP
+    - "\u9B54\u653B\u5F37\u5316"
+  - ID: "\u99FF\u8DB3"
+    Text:
+    - "\u99FF\u8DB3"
+    - SPEED UP
+    - "\u99FF\u8DB3"
+  - ID: "\u7269\u9632\u5F37\u5316"
+    Text:
+    - "DEF\u5F37\u5316"
+    - DEF UP
+    - "\u7269\u9632\u5F37\u5316"
+  - ID: "\u9B54\u9632\u5F37\u5316"
+    Text:
+    - "MDEF\u5F37\u5316"
+    - MDEF UP
+    - "\u9B54\u9632\u5F37\u5316"
+  - ID: "\u6CBB\u7642"
+    Text:
+    - "\u6CBB\u7642"
+    - THEAPY
+    - "\u6CBB\u7642"
+  - ID: "\u59A8\u5BB3"
+    Text:
+    - "\u59A8\u5BB3"
+    - JAMMING
+    - "\u59A8\u5BB3"
+  - ID: "\u7269\u9632\u5F31\u5316"
+    Text:
+    - "DEF\u5F31\u5316"
+    - DEF DOWN
+    - "\u7269\u9632\u5F31\u5316"
+  - ID: "\u9B54\u9632\u5F31\u5316"
+    Text:
+    - "MDEF\u5F31\u5316"
+    - MDEF DOWN
+    - "\u9B54\u9632\u5F31\u5316"
+  - ID: Damage
+    Text:
+    - "\u30C0\u30E1\u30FC\u30B8"
+    - Damage
+    - "\u640D\u5BB3"
+  - ID: DamageRatio
+    Text:
+    - "\u5272\u5408\u30C0\u30E1\u30FC\u30B8"
+    - Percentage Damage
+    - "\u767E\u5206\u6BD4\u640D\u5BB3"
+  - ID: Recovery
+    Text:
+    - "\u56DE\u5FA9"
+    - Recovery
+    - "\u6062\u5FA9"
+  - ID: RecoveryRatio
+    Text:
+    - "\u5272\u5408\u56DE\u5FA9"
+    - Percentage Recovery
+    - "\u767E\u5206\u6BD4\u6062\u5FA9"
+  - ID: Buff_Atk
+    Text:
+    - "\u7269\u7406\u653B\u6483\u529B\u30A2\u30C3\u30D7"
+    - ATK UP
+    - "\u7269\u7406\u653B\u6483\u529B\u5F37\u5316"
+  - ID: Buff_Def
+    Text:
+    - "\u7269\u7406\u9632\u5FA1\u529B\u30A2\u30C3\u30D7"
+    - MATK UP
+    - "\u7269\u7406\u9632\u79A6\u529B\u5F37\u5316"
+  - ID: Buff_MAtk
+    Text:
+    - "\u9B54\u6CD5\u653B\u6483\u529B\u30A2\u30C3\u30D7"
+    - DEF UP
+    - "\u9B54\u6CD5\u653B\u6483\u529B\u5F37\u5316"
+  - ID: Buff_MDef
+    Text:
+    - "\u9B54\u6CD5\u9632\u5FA1\u529B\u30A2\u30C3\u30D7"
+    - MDEF UP
+    - "\u9B54\u6CD5\u9632\u79A6\u529B\u5F37\u5316"
+  - ID: Buff_Wait
+    Text:
+    - "\u7D20\u65E9\u3055\u30A2\u30C3\u30D7"
+    - SPEED UP
+    - "\u901F\u5EA6\u589E\u52A0"
+  - ID: Debuff_Atk
+    Text:
+    - "\u7269\u7406\u653B\u6483\u529B\u30C0\u30A6\u30F3"
+    - ATK DOWN
+    - "\u7269\u7406\u653B\u6483\u529B\u5F31\u5316"
+  - ID: Debuff_Def
+    Text:
+    - "\u7269\u7406\u9632\u5FA1\u529B\u30C0\u30A6\u30F3"
+    - MATK DOWN
+    - "\u7269\u7406\u9632\u79A6\u529B\u5F31\u5316"
+  - ID: Debuff_MAtk
+    Text:
+    - "\u9B54\u6CD5\u653B\u6483\u529B\u30C0\u30A6\u30F3"
+    - DEF DOWN
+    - "\u9B54\u6CD5\u653B\u6483\u529B\u5F31\u5316"
+  - ID: Debuff_MDef
+    Text:
+    - "\u9B54\u6CD5\u9632\u5FA1\u529B\u30C0\u30A6\u30F3"
+    - MDEF DOWN
+    - "\u9B54\u6CD5\u9632\u79A6\u529B\u5F31\u5316"
+  - ID: Debuff_Wait
+    Text:
+    - "\u7D20\u65E9\u3055\u30C0\u30A6\u30F3"
+    - SPEED DOWN
+    - "\u901F\u5EA6\u4E0B\u964D"
+  - ID: BuffCancel_Atk
+    Text:
+    - "\u7269\u7406\u653B\u6483\u30A2\u30C3\u30D7\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel ATK UP Effect
+    - "\u89E3\u9664\u7269\u7406\u653B\u6483\u529B\u5F37\u5316"
+  - ID: BuffCancel_Def
+    Text:
+    - "\u7269\u7406\u9632\u5FA1\u30A2\u30C3\u30D7\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel MATK UP Effect
+    - "\u89E3\u9664\u7269\u7406\u9632\u79A6\u529B\u5F37\u5316"
+  - ID: BuffCancel_MAtk
+    Text:
+    - "\u9B54\u6CD5\u653B\u6483\u30A2\u30C3\u30D7\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel DEF UP Effect
+    - "\u89E3\u9664\u9B54\u6CD5\u653B\u6483\u529B\u5F37\u5316"
+  - ID: BuffCancel_MDef
+    Text:
+    - "\u9B54\u6CD5\u9632\u5FA1\u30A2\u30C3\u30D7\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel MDEF UP Effect
+    - "\u89E3\u9664\u9B54\u6CD5\u9632\u79A6\u529B\u5F37\u5316"
+  - ID: BuffCancel_Wait
+    Text:
+    - "\u7D20\u65E9\u3055\u30A2\u30C3\u30D7\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel SPEED UP Effect
+    - "\u89E3\u9664\u901F\u5EA6\u589E\u52A0"
+  - ID: BuffCancel_All
+    Text:
+    - "\u3059\u3079\u3066\u30A2\u30C3\u30D7\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel ALL Positive Effect
+    - "\u89E3\u9664\u5168\u90E8\u5F37\u5316\u52B9\u679C"
+  - ID: DebuffCancel_Atk
+    Text:
+    - "\u7269\u7406\u653B\u6483\u30C0\u30A6\u30F3\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel ATK DOWN Effect
+    - "\u89E3\u9664\u7269\u7406\u653B\u6483\u529B\u5F31\u5316"
+  - ID: DebuffCancel_Def
+    Text:
+    - "\u7269\u7406\u9632\u5FA1\u30C0\u30A6\u30F3\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel MATK DOWN Effect
+    - "\u89E3\u9664\u7269\u7406\u9632\u79A6\u529B\u5F31\u5316"
+  - ID: DebuffCancel_MAtk
+    Text:
+    - "\u9B54\u6CD5\u653B\u6483\u30C0\u30A6\u30F3\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel DEF DOWN Effect
+    - "\u89E3\u9664\u9B54\u6CD5\u653B\u6483\u529B\u5F31\u5316"
+  - ID: DebuffCancel_MDef
+    Text:
+    - "\u9B54\u6CD5\u9632\u5FA1\u30C0\u30A6\u30F3\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel MDEF DOWN Effect
+    - "\u89E3\u9664\u9B54\u6CD5\u9632\u79A6\u529B\u5F31\u5316"
+  - ID: DebuffCancel_Wait
+    Text:
+    - "\u7D20\u65E9\u3055\u30C0\u30A6\u30F3\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel SPEED DOWN Effect
+    - "\u89E3\u9664\u901F\u5EA6\u4E0B\u964D"
+  - ID: DebuffCancel_All
+    Text:
+    - "\u3059\u3079\u3066\u30C0\u30A6\u30F3\u52B9\u679C\u3092\u89E3\u9664"
+    - Cancel ALL Negative Effect
+    - "\u89E3\u9664\u5168\u90E8\u5F31\u5316\u52B9\u679C"
+  - ID: "\u6307\u5B9A\u3055\u308C\u305FID\u304C\u5B58\u5728\u3057\u307E\u305B\u3093"
+    Text:
+    - "\u6307\u5B9A\u3055\u308C\u305FRoom ID\u304C\u5B58\u5728\u3057\u307E\u305B\u3093"
+    - Room ID Not Found
+    - "\u4E0D\u5B58\u5728\u7684Room ID"

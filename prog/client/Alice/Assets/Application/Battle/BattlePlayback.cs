@@ -139,7 +139,7 @@ namespace Alice
             {
                 SoundService.Instance.PlaySE("Sound/SE/se_maoudamashii_se_sound08.mp3");
                 var owner = Battle.Instance.controller;
-                owner.phase.Change($"{action.skill.Name}", cb);
+                owner.phase.Change($"{action.skill.Name.TextData()}", cb);
             }
             else
             {

@@ -57,11 +57,11 @@ namespace Alice.Entities
             {
                 if(Passive)
                 {
-                    return $"[P]{Name} Lv{Rare + 1}";
+                    return $"[P]{Name.TextData()} Lv{Rare + 1}";
                 }
                 else
                 {
-                    return $"{Name} Lv{Rare + 1}";
+                    return $"{Name.TextData()} Lv{Rare + 1}";
                 }
             }
         }
