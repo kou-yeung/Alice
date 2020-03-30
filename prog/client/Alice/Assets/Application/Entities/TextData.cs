@@ -20,6 +20,23 @@ namespace Alice.Entities
 
         static Language? currentLanguage;// = Language.English;
 
+#if UNITY_EDITOR
+        [UnityEditor.MenuItem("デバッグコマンド/言語/日本語")]
+        public static void SetLanguageToJapanese()
+        {
+            currentLanguage = Language.Japanese;
+        }
+        [UnityEditor.MenuItem("デバッグコマンド/言語/英語")]
+        public static void SetLanguageToEnglish()
+        {
+            currentLanguage = Language.English;
+        }
+        [UnityEditor.MenuItem("デバッグコマンド/言語/中国語")]
+        public static void SetLanguageToChineseTraditional()
+        {
+            currentLanguage = Language.ChineseTraditional;
+        }
+#endif
         public static Language CurrentLanguage
         {
             get

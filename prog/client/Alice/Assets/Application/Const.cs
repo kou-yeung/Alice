@@ -40,6 +40,8 @@ namespace Alice
 
             Chara = 16,        // キャラセット
             Skill = 32,        // スキルセット
+
+            HeaderRank = 64,    // ヘッダーが押せるよ
         }
     }
 }

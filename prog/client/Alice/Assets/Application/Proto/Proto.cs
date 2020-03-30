@@ -6,6 +6,7 @@ using System.Linq;
 using Alice.Generic;
 using Zoo.Time;
 using Alice.Logic;
+using Zoo.Communication;
 
 namespace Alice
 {
@@ -214,6 +215,64 @@ namespace Alice
         {
             var flags = (Const.TutorialFlag)this.tutorialFlag;
             this.tutorialFlag = (int)(flags | flag);
+        }
+
+
+        public void ExecTutorial(Const.TutorialFlag flag, Action cb = null)
+        {
+            if (HasTutorialFlag(flag))
+            {
+                cb?.Invoke();
+                return;
+            }
+
+            switch (flag)
+            {
+                case Const.TutorialFlag.UserNameInput:
+                    NameEditDialog.Show(() =>
+                    {
+                        var tutorialData = new TutorialData { Desc = "BATTLE_DESC".TextData(), TargetButton = "Base/Battle" };
+                        TutorialDialog.Show(tutorialData);
+                    });
+                    break;
+                case Const.TutorialFlag.Room:
+                    Dialog.Show("ROOM_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
+                    break;
+                case Const.TutorialFlag.Record:
+                    Dialog.Show("RECORD_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
+                    break;
+                case Const.TutorialFlag.Shadow:
+                    {
+                        var tutorialData = new TutorialData { Desc = "SHADOW_TUTORIAL".TextData(), TargetButton = "VS/Create/Button" };
+                        TutorialDialog.Show(tutorialData);
+                    }
+                    break;
+                case Const.TutorialFlag.HeaderRank:
+                    {
+                        var tutorialData = new TutorialData { Desc = "HEADER_RANK_TUTORIAL".TextData(), TargetButton = "Header/RankIcon" };
+                        TutorialDialog.Show(tutorialData);
+                    }
+                    break;
+            }
+            // フラグ更新
+            AddTutorialFlag(flag);
+            // 同期する
+            Sync(cb);
+        }
+
+        /// <summary>
+        /// 同期する
+        /// </summary>
+        /// <param name="cb"></param>
+        public void Sync(Action cb = null)
+        {
+            var c2s = new SyncSend { player = this };
+            // 同期する
+            CommunicationService.Instance.Request("PlayerSync", JsonUtility.ToJson(c2s), (res) =>
+            {
+                UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
+                cb?.Invoke();
+            });
         }
 
     }

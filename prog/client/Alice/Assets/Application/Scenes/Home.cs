@@ -47,7 +47,7 @@ namespace Alice
             // 実行したバトル履歴を保持する
             UserData.SaveBattleRecord();
             // 同期
-            PlayerSync();
+            UserData.cacheHomeRecv.player.Sync();
         }
         /// <summary>
         /// アプリ終了
@@ -65,47 +65,47 @@ namespace Alice
         /// <param name="flag"></param>
         public void ShowTutorial(int index)
         {
-            var player = UserData.cacheHomeRecv.player;
+            UserData.cacheHomeRecv.player.ExecTutorial((Const.TutorialFlag)index);
 
-            var flag = (Const.TutorialFlag)index;
-            if (player.HasTutorialFlag(flag)) return;
+            //var flag = (Const.TutorialFlag)index;
+            //if (player.HasTutorialFlag(flag)) return;
 
-            switch (flag)
-            {
-                case Const.TutorialFlag.UserNameInput:
-                    NameEditDialog.Show(() =>
-                    {
-                        var tutorialData = new TutorialData { Desc = "BATTLE_DESC".TextData(), TargetButton = "Base/Battle" };
-                        TutorialDialog.Show(tutorialData);
-                    });
-                    break;
-                case Const.TutorialFlag.Room:
-                    Dialog.Show("ROOM_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
-                    break;
-                case Const.TutorialFlag.Record:
-                    Dialog.Show("RECORD_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
-                    break;
-                case Const.TutorialFlag.Shadow:
-                    Dialog.Show("SHADOW_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
-                    break;
-            }
-            // フラグ更新
-            player.AddTutorialFlag(flag);
-            // 同期する
-            PlayerSync();
+            //switch (flag)
+            //{
+            //    case Const.TutorialFlag.UserNameInput:
+            //        NameEditDialog.Show(() =>
+            //        {
+            //            var tutorialData = new TutorialData { Desc = "BATTLE_DESC".TextData(), TargetButton = "Base/Battle" };
+            //            TutorialDialog.Show(tutorialData);
+            //        });
+            //        break;
+            //    case Const.TutorialFlag.Room:
+            //        Dialog.Show("ROOM_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
+            //        break;
+            //    case Const.TutorialFlag.Record:
+            //        Dialog.Show("RECORD_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
+            //        break;
+            //    case Const.TutorialFlag.Shadow:
+            //        Dialog.Show("SHADOW_TUTORIAL".TextData(), Dialog.Type.SubmitOnly);
+            //        break;
+            //}
+            //// フラグ更新
+            //player.AddTutorialFlag(flag);
+            //// 同期する
+            //PlayerSync();
         }
 
-        /// <summary>
-        /// プレイヤーデータ同期する
-        /// </summary>
-        void PlayerSync()
-        {
-            var c2s = new SyncSend { player = UserData.cacheHomeRecv.player };
-            // 同期する
-            CommunicationService.Instance.Request("PlayerSync", JsonUtility.ToJson(c2s), (res) =>
-            {
-                UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
-            });
-        }
+        ///// <summary>
+        ///// プレイヤーデータ同期する
+        ///// </summary>
+        //void PlayerSync()
+        //{
+        //    var c2s = new SyncSend { player = UserData.cacheHomeRecv.player };
+        //    // 同期する
+        //    CommunicationService.Instance.Request("PlayerSync", JsonUtility.ToJson(c2s), (res) =>
+        //    {
+        //        UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
+        //    });
+        //}
     }
 }

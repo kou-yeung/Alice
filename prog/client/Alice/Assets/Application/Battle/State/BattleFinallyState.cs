@@ -47,15 +47,17 @@ namespace Alice
             // 自動スリープはシステム値に戻す
             Screen.sleepTimeout = SleepTimeout.SystemSetting;
 
+            var player = UserData.cacheHomeRecv.player;
             // ランクの更新時間
             if (UserData.cacheHomeRecv.nextBonusTime < ServerTime.CurrentUnixTime)
             {
-                var c2s = new SyncSend { player = UserData.cacheHomeRecv.player };
-                // 同期する
-                CommunicationService.Instance.Request("PlayerSync", JsonUtility.ToJson(c2s), (res) =>
+                player.Sync(() =>
                 {
-                    UserData.Modify(JsonUtility.FromJson<SyncRecv>(res).modified);
+                    player.ExecTutorial(Const.TutorialFlag.HeaderRank);
                 });
+            } else
+            {
+                player.ExecTutorial(Const.TutorialFlag.HeaderRank);
             }
         }
     }

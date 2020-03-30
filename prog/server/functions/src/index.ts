@@ -750,7 +750,7 @@ exports.Battle = functions.https.onCall(async (data, context) => {
     }
 
     // HACK : 初めのバトルはおすすめユニットのみ出現します
-    if (player.totalBattleCount <= 7) {
+    if (player.totalBattleCount <= 12) {
         const recommend = new Colosseum();
         recommend.name = npc_name;
         recommend.unitJson = JSON.stringify(c2s.recommendUnits);

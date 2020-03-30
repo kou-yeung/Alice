@@ -45,11 +45,11 @@ namespace Alice
                 var max = player.todayBattleCount;
                 var win = player.todayWinCount * 100;
                 var rate = Mathf.FloorToInt(win/max);
-                Rate.text = $"({rate}%)";
+                Rate.text = string.Format("HomeHeader03".TextData(), rate);
             }
             else
             {
-                Rate.text = $"({"HomeHeader01".TextData()})";
+                Rate.text = string.Format("HomeHeader01".TextData(), player.todayBattleCount, 10);
             }
 
             Alarm.text = $"{player.alarm}";
