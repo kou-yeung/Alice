@@ -283,6 +283,7 @@ namespace Alice
 
             atk = (atk * 5) * (1 - (atkBuff - atkDebuff) / 100f);
             var recovery = atk * (effect.Value / 100f); // 基本回復量
+            Debug.Log($"基本回復量({recovery})");
             var random = Battle.Instance.random.Next(90, 110) / 100f;
             return Mathf.FloorToInt(recovery * random);
         }

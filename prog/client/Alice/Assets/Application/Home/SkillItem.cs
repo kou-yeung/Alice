@@ -36,17 +36,17 @@ namespace Alice
             var count = skill.count;
             if (remain <= 0)
             {
-                Num.text = $"<color=red>{remain}</color>/{count}";
+                Num.text = $"{"SkillDesc_04".TextData()}<color=red>{remain}</color>/{count}";
             }
             else
             {
-                Num.text = $"{remain}/{count}";
+                Num.text = $"{"SkillDesc_04".TextData()}{remain}/{count}";
             }
 
             Background.color = ColorGen.Rare(data.Rare);
 
             // CT
-            CT.text = $"CT:{data.CoolTime}";
+            CT.text = string.Format("SkillDesc_03".TextData(),data.CoolTime);
             CT.gameObject.SetActive(!data.Passive);
 
             BattleConst.Target? target = null;

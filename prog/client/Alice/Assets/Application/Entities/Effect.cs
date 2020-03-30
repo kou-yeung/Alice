@@ -20,7 +20,9 @@ namespace Alice.Entities
 
         public string Desc()
         {
-            return Type.ToString().TextData();
+            var key = Type.ToString();
+            var format = $"Format_{key}".TextData();
+            return string.Format(format, key.TextData(), Value);
         }
     }
 

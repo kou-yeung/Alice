@@ -57,7 +57,7 @@ namespace Alice.Entities
             {
                 if(Passive)
                 {
-                    return $"[P]{Name.TextData()} Lv{Rare + 1}";
+                    return $"{"SkillDesc_02".TextData()}{Name.TextData()} Lv{Rare + 1}";
                 }
                 else
                 {
