@@ -301,24 +301,21 @@ class Bonus {
 function LoginBonus(player: Player) {
 
     const stamp = player.stamp || 0;
-
-    // 次のログインボーナス取得時間
-    var next = new Date(stamp);
-    next.setHours(next.getHours() + Const.LoginBonusPeriod);
-    next.setMinutes(0);
-    next.setSeconds(0);
-    next.setMilliseconds(0);
+    var next;
+    if (stamp == 0) {
+        next = new Date();
+        next.setHours(next.getHours() - Const.LoginBonusPeriod);
+        next.setMinutes(0);
+        next.setSeconds(0);
+        next.setMilliseconds(0);
+    } else {
+        next = new Date(stamp);
+        next.setHours(next.getHours() + Const.LoginBonusPeriod);
+    }
 
     // 現在の時刻取得
     var now = new Date();
     if (next >= now) return undefined; // まだ更新するタイミングではない
-
-    // タイムスタンプ更新
-    // MEMO : 何日ログインされてない対策
-    // HACK : 前の日付にする
-    next.setFullYear(now.getFullYear());  // 同じ年
-    next.setMonth(now.getMonth());        // 同じ月
-    next.setDate(now.getDate() - 1);      // 1日前
 
     // 周期毎に進み、現在より先の時間にする
     while (next < now) {
